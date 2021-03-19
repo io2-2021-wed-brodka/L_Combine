@@ -4,8 +4,8 @@ using System.Text;
 
 namespace ClassLibrary
 {
-    public class Class1
+    public enum BikeStationState
     {
-        public static int Zero() => 0;
+        Working, Blocked
     }
 }
