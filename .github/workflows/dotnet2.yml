@@ -13,8 +13,8 @@ jobs:
     
     strategy:
       matrix:
-        dotnet-version: [ '2.1.x', '3.0', '3.1.x' ]
-        node-version: ['12.x', '13.x', '14.x']
+        dotnet-version: [ '2.1.x' ]
+        node-version: ['12.x']
 
     steps:
     - uses: actions/checkout@v2
