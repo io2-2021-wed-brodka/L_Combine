@@ -26,7 +26,7 @@ namespace BackendAPI.Repository.Repositories
 
         public bool Insert(T component)
         {
-            return true;//Na potrzeby testów!!!
+            throw new NotImplementedException();
         }
 
         public void SaveChanges()
