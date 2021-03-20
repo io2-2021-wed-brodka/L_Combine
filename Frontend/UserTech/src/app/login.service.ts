@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import LoginData from './interfaces/LoginData';
+import User from './interfaces/User';
 import { MockDataService } from './mock-data.service';
 
 @Injectable({
@@ -8,9 +9,12 @@ import { MockDataService } from './mock-data.service';
 export class LoginService {
 
   constructor(private mockData: MockDataService) { }
-
+  loggedUser?: User = undefined;
   login = (loginData: LoginData)=>{
     //fetch to server
-    return this.mockData.getUserData().find(user=>user.login==loginData.login && user.password == loginData.password)? true: false;
+    const found = this.mockData.userData.find(user=>user.login==loginData.login && user.password == loginData.password);
+    if(found)
+      this.loggedUser = this.mockData.users.find(user=>user.username == loginData.login);
+    return found;
   }
 }
