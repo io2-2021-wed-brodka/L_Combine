@@ -1,0 +1,14 @@
+@import './colors.scss';
+*{
+    margin: 0;
+    padding: 0;
+}
+.main-button{
+    width: 120px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: $button-color;
+    color: $main-font-color;
+    font-size: larger;
+    font-weight: bold;
+}
