@@ -12,6 +12,6 @@ namespace BackendAPI.Models
         public string Name { get; set; }
         public string LastName { get; set; }
 
-        public ICollection<Rental> Rentals { get; set; }
+        public IList<Rental> Rentals { get; set; }
     }
 }

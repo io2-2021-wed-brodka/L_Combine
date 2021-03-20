@@ -13,6 +13,6 @@ namespace BackendAPI.Models
         public BikeStationState State { get; set; }
         public string LocationName { get; set; }
 
-        public ICollection<Bike> Bikes { get; set; }
+        public IList<Bike> Bikes { get; set; }
     }
 }
