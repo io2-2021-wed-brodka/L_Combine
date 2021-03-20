@@ -14,7 +14,7 @@ namespace BackendAPI.Models
         public int? BikeStationID { get; set; }
         public BikeState Bikestate { get; set; }
 
-        public BikeStation BikeStation;
+        public BikeStation BikeStation { get; set; }
         public ICollection<Rental> Rentals { get; set; }
     }
 }
