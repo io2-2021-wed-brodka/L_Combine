@@ -8,9 +8,11 @@ namespace BackendAPI.Models
 {
     public class BikeStation
     {
+        //Klucz główny
         public int ID { get; set; }
         public BikeStationState State { get; set; }
         public string LocationName { get; set; }
-        public List<Bike> Bikes { get; set; }
+
+        public ICollection<Bike> Bikes { get; set; }
     }
 }

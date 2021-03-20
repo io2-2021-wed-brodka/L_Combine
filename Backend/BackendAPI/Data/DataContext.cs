@@ -19,6 +19,14 @@ namespace BackendAPI.Data
         public DbSet<Bike> Bikes { get; set; }
         public DbSet<BikeStation> BikeStations { get; set; }
         public DbSet<Rental> Rentals { get; set; }
-        
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new BikeConfiguration());
+            modelBuilder.ApplyConfiguration(new BikeStationConfiguration());
+            modelBuilder.ApplyConfiguration(new RentalConfiguration());
+        }
     }
 }
