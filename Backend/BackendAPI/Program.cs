@@ -31,6 +31,7 @@ namespace BackendAPI
                 try
                 {
                     var context = services.GetRequiredService<DataContext>();
+                    context.Database.EnsureCreated();
                 }
                 catch (Exception ex)
                 {
