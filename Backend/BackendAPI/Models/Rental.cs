@@ -11,6 +11,6 @@ namespace BackendAPI.Models
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public int BikeID { get; set; }
-        public int UserId { get; set; }
+        public int UserID { get; set; }
     }
 }
