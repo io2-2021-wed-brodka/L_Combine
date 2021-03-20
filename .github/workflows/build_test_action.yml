@@ -30,6 +30,9 @@ jobs:
       matrix:
         node-version: [ '12.x' ]
         build-dir: ['Frontend/Admin', 'Frontend/UserTech']
+    defaults: 
+      run: 
+        working-directory: ./${{ matrix.build-dir }}
 
     steps:
       - uses: actions/checkout@v2
@@ -45,8 +48,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install NPM
-        run: |
-          cd ${{ matrix.build-dir }}
-          npm install
+        run: npm install
       - name: Buid NPM
         run: npm run build
