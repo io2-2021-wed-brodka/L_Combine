@@ -1,16 +1,25 @@
-<div *ngIf="station.stationState === 'active'">
-  {{station.locationName}}
-  <div *ngFor="let bike of station?.bikes">
-    <div [ngSwitch]="bike.state">
-      <span *ngSwitchCase="'free'" class="bike-free">Wolny</span>
-      <span *ngSwitchCase="'reserved'" class="bike-reserved">Zarezerwowany</span>
-      <span *ngSwitchCase="'blocked'" class="bike-blocked">Zablokowany</span>
+<h3>{{station.locationName}}</h3>
 
-      <button [disabled]="bike.state !== 'free'">Wypożycz</button>
+<div *ngIf="station.stationState === 'active'">
+  <a *ngFor="let bike of station.bikes"
+     [class.bike-free]="bike.state === 'free'"
+     [class.bike-reserved]="bike.state === 'reserved'"
+     [class.bike-blocked]="bike.state === 'blocked'"
+     [routerLink]=""
+     class="bike">
+    <div class="bike-id">{{bike.id}}</div>
+    <div [ngSwitch]="bike.state" class="bike-state">
+      <span *ngSwitchCase="'free'">Wolny</span>
+      <span *ngSwitchCase="'reserved'">Zarezerwowany</span>
+      <span *ngSwitchCase="'blocked'">Zablokowany</span>
     </div>
-  </div>
+  </a>
 </div>
 
 <div *ngIf="station.stationState === 'blocked'">
   Stacja zablokowana
 </div>
+
+<button class="button-back" (click)="goBack()">
+  Powrót
+</button>

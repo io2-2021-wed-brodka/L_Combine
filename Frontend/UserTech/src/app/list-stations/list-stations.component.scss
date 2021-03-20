@@ -1,4 +1,4 @@
-.bike{
+.station{
   display: block;
   margin: 5px 0;
   width: 300px;
@@ -6,7 +6,7 @@
   padding: 10px;
 }
 
-.bike-blocked, .bike-reserved{
+.station-blocked{
   opacity: 0.3;
   background-color: gray;
   color: #eff3f6;
@@ -14,21 +14,21 @@
   pointer-events: none;
 }
 
-.bike-free{
-  background-color: limegreen;
+.station-active{
+  background-color: #1976d2;
   color: #eff3f6;
 }
 
-.bike-free:hover{
-  background-color: lightgreen;
-  color: #888888;
+.station-active:hover{
+  background-color: darkblue;
+  color: #eff3f6;
 }
 
-.bike-id{
+.station-name{
   display: inline-block;
 }
 
-.bike-state{
+.station-state{
   display: inline-block;
   float: right;
 }
