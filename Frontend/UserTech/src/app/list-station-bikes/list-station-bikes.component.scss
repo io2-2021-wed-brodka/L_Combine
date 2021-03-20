@@ -1,0 +1,34 @@
+.bike{
+  display: block;
+  margin: 5px 0;
+  width: 300px;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.bike-blocked, .bike-reserved{
+  opacity: 0.3;
+  background-color: gray;
+  color: #eff3f6;
+  cursor: default;
+  pointer-events: none;
+}
+
+.bike-free{
+  background-color: limegreen;
+  color: #eff3f6;
+}
+
+.bike-free:hover{
+  background-color: lightgreen;
+  color: #888888;
+}
+
+.bike-id{
+  display: inline-block;
+}
+
+.bike-state{
+  display: inline-block;
+  float: right;
+}
