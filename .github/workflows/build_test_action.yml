@@ -45,6 +45,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install NPM
-        run: npm install
+        run: |
+          cd ${{ matrix.build-dir }}
+          npm install
       - name: Buid NPM
         run: npm run build
