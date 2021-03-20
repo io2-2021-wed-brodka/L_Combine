@@ -1,0 +1,16 @@
+<div *ngIf="station.stationState === 'active'">
+  {{station.locationName}}
+  <div *ngFor="let bike of station?.bikes">
+    <div [ngSwitch]="bike.state">
+      <span *ngSwitchCase="'free'" class="bike-free">Wolny</span>
+      <span *ngSwitchCase="'reserved'" class="bike-reserved">Zarezerwowany</span>
+      <span *ngSwitchCase="'blocked'" class="bike-blocked">Zablokowany</span>
+
+      <button [disabled]="bike.state !== 'free'">Wypożycz</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="station.stationState === 'blocked'">
+  Stacja zablokowana
+</div>
