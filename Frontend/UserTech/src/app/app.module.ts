@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { LoginViewComponent } from './login-view/login-view.component';
 import { FormsModule } from '@angular/forms';
 import { ListStationBikesComponent } from './list-station-bikes/list-station-bikes.component';
-import { ListStationsComponent } from './list-stations/list-stations.component';S
+import { ListStationsComponent } from './list-stations/list-stations.component';
 
 @NgModule({
   declarations: [
