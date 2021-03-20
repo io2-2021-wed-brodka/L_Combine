@@ -29,6 +29,10 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
     - name: Install NPM
       run: npm install
+    - name: Fix gyp
+      run: |
+        npm install --global node-gyp@latest
+        npm prefix -g | % {npm config set node_gyp "$_\node_modules\node-gyp\bin\node-gyp.js"}
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
