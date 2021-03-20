@@ -13,12 +13,12 @@ namespace BackendAPI.ModelsConfigurations
         public void Configure(EntityTypeBuilder<Bike> builder)
         {
             builder.ToTable("Bikes");
+
             builder.Property(b => b.ID).ValueGeneratedOnAdd();
 
             builder.HasOne(b => b.BikeStation).WithMany(bs =>
                 bs.Bikes).HasForeignKey(b => b.BikeStationID);
-            //builder.HasMany(b => b.Rentals).WithOne(r => r.Bike)
-            //    .HasForeignKey(r => r.BikeID);
+
         }
     }
 }

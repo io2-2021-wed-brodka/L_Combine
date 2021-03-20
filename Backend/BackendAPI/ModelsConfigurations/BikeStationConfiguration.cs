@@ -14,11 +14,11 @@ namespace BackendAPI.ModelsConfigurations
         public void Configure(EntityTypeBuilder<BikeStation> builder)
         {
             builder.ToTable("BikeSations");
+
             builder.Property(bs => bs.LocationName).HasMaxLength(100);
             builder.Property(bs => bs.ID).ValueGeneratedOnAdd();
             builder.Property(bs => bs.LocationName).IsRequired();
-            builder.HasMany(bs => bs.Bikes).WithOne(b => b.BikeStation)
-                .HasForeignKey(b => b.BikeStationID);
+
         }
     }
 }
