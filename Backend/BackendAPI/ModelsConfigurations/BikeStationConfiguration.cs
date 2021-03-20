@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BackendAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BackendAPI.Models
+namespace BackendAPI.ModelsConfigurations
 {
     public class BikeStationConfiguration : 
         IEntityTypeConfiguration<BikeStation>
@@ -14,6 +15,10 @@ namespace BackendAPI.Models
         {
             builder.ToTable("BikeSations");
             builder.Property(bs => bs.LocationName).HasMaxLength(100);
+            builder.Property(bs => bs.ID).ValueGeneratedOnAdd();
+            builder.Property(bs => bs.LocationName).IsRequired();
+            builder.HasMany(bs => bs.Bikes).WithOne(b => b.BikeStation)
+                .HasForeignKey(b => b.BikeStationID);
         }
     }
 }

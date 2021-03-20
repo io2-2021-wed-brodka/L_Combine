@@ -1,4 +1,5 @@
 ﻿using BackendAPI.Models;
+using BackendAPI.ModelsConfigurations;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace BackendAPI.Data
             options)
            : base(options)
         {
+            Database.EnsureCreated();
         }
 
         public DbSet<User> Users { get; set; }
