@@ -1,4 +1,4 @@
-﻿using BackendAPI.Models;
+using BackendAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -15,7 +15,7 @@ namespace BackendAPI.ModelsConfigurations
         {
             builder.ToTable("BikeSations");
 
-            builder.Property(bs => bs.LocationName).HasMaxLength(100);
+            builder.Property(bs => bs.LocationName).HasMaxLength(150);
             builder.Property(bs => bs.ID).ValueGeneratedOnAdd();
             builder.Property(bs => bs.LocationName).IsRequired();
 
