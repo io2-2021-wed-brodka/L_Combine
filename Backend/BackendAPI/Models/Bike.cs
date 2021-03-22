@@ -13,7 +13,7 @@ namespace BackendAPI.Models
         //Klucz obcy
         public int? BikeStationID { get; set; }
         public BikeState Bikestate { get; set; }
-
+        //Właściwości potrzebne do utrzymania relacji między tabelami
         public BikeStation BikeStation { get; set; }
         public IList<Rental> Rentals { get; set; }
     }
