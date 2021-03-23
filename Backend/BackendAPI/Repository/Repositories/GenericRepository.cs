@@ -9,7 +9,10 @@ namespace BackendAPI.Repository.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T>
     {
-        protected DataContext dbContext; 
+        protected DataContext dbContext;
+
+        public GenericRepository()
+        { }
 
         public GenericRepository(DataContext dbContext)
         {

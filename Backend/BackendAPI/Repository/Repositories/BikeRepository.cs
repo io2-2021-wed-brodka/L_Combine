@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BackendAPI.Data;
 using BackendAPI.Models;
 using BackendAPI.Repository.Interfaces;
 
@@ -9,6 +10,9 @@ namespace BackendAPI.Repository.Repositories
 {
     public class BikeRepository : GenericRepository<Bike>, IBikeRepository
     {
+        public BikeRepository(DataContext dbContext) : base(dbContext)
+        { }
+
         public new bool Delete(string ID)
         {
             throw new NotImplementedException();

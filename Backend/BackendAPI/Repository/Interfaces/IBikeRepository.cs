@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.Repository.Interfaces
 {
-    interface IBikeRepository : IGenericRepository<Bike>
+    public interface IBikeRepository : IGenericRepository<Bike>
     {
     }
 }
