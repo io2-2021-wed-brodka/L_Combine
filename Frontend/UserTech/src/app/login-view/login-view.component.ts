@@ -22,16 +22,12 @@ export class LoginViewComponent implements OnInit {
     password: ""
   }
   showErrorMessage = false;
-  showCorrectMessage = false;
   login(){
     this.loginService.login(this.formData).subscribe(value=>{
         if(value)
           this.router.navigate(['/rentedBikes']);
         else
-        {
           this.showErrorMessage = true;
-          this.showCorrectMessage = false;
-        }
       });
     }
 }
