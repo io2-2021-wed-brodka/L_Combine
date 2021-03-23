@@ -20,27 +20,46 @@ namespace BackendAPI.Repository.Repositories
 
         public new IList<Bike> Get()
         {
-            throw new NotImplementedException();
+            return dbContext.Bikes.ToList();
         }
 
         public new Bike GetByID(string ID)
         {
-            throw new NotImplementedException();
+            try
+            {
+                int id = int.Parse(ID);
+
+                return dbContext.Bikes.First(b => b.ID == id);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public new bool Insert(Bike component)
         {
-            throw new NotImplementedException();
+            try
+            {
+                dbContext.Add(component);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public new void SaveChanges()
         {
-            throw new NotImplementedException();
+            base.SaveChanges();
         }
 
         public new Bike Update(Bike component)
         {
-            throw new NotImplementedException();
+            Bike original = GetByID(component.ID.ToString());
+
+            return original.Modify(component);
         }
     }
 }

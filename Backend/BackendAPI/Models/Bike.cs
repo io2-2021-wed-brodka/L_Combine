@@ -16,5 +16,18 @@ namespace BackendAPI.Models
         //Właściwości potrzebne do utrzymania relacji między tabelami
         public BikeStation BikeStation { get; set; }
         public IList<Rental> Rentals { get; set; }
+
+
+        //Tutaj proszę o sprawdzenie, czy dobrze zrozumiałem ideę Update
+        public Bike Modify(Bike other)
+        {
+            ID = other.ID;
+            BikeStationID = other.BikeStationID;
+            State = other.State;
+            BikeStation = other.BikeStation;
+            Rentals = new List<Rental>(other.Rentals);
+
+            return this;
+        }
     }
 }
