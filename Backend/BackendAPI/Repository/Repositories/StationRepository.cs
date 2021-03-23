@@ -22,9 +22,12 @@ namespace BackendAPI.Repository.Repositories
             Instance = repository;
         }
 
-        public bool Delete(string ID)
+        public bool Delete(int ID)
         {
-            throw new NotImplementedException();
+            BikeStation station = GetByID(ID);
+
+            context.Remove(station);
+            return true;//TODO: to sprawdzić!
         }
 
         public IList<BikeStation> Get()
@@ -32,24 +35,26 @@ namespace BackendAPI.Repository.Repositories
             return context.BikeStations.ToList();
         }
 
-        public BikeStation GetByID(string ID)
+        public BikeStation GetByID(int ID)
         {
-            throw new NotImplementedException();
+            return context.BikeStations.First(x => x.ID == ID);
         }
 
         public bool Insert(BikeStation component)
         {
-            throw new NotImplementedException();
+            var res = context.BikeStations.Add(component);
+            return true;//TODO: to sprawdzić!
         }
 
         public void SaveChanges()
         {
-            throw new NotImplementedException();
+            context.SaveChanges();
         }
 
         public BikeStation Update(BikeStation component)
         {
-            throw new NotImplementedException();
+            var res = context.Update(component);
+            return res.Entity;
         }
     }
 }
