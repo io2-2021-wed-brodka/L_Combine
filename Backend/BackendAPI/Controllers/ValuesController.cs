@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BackendAPI.Data;
+using BackendAPI.Repository.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +12,18 @@ namespace BackendAPI.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private DataContext _context;
+        public ValuesController(DataContext context)
+        {
+            _context = context;
+            StationRepository.InitialiseRepository(context);
+        }
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return StationRepository.Instance.Get().Select(x => x.ID.ToString()).ToList();
+            //return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
