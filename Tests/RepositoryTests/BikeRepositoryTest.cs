@@ -3,19 +3,23 @@ using BackendAPI.Models;
 using BackendAPI.Repository.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace RepositoryTests
 {
     [TestClass]
-    class BikeRepositoryTest
+    public class BikeRepositoryTest
     {
         private BikeRepository bikeRepo;
         private DataContext dbContext;
+        private static int bikeId = 1;
 
+        private void ClearData()
+        {
+            dbContext.Bikes.RemoveRange(dbContext.Bikes);
+            dbContext.SaveChanges();
+        }
 
         [TestInitialize]
         public void InitRepository()
@@ -25,39 +29,40 @@ namespace RepositoryTests
             .Options;
 
             dbContext = new DataContext(options);
+            ClearData();
             bikeRepo = new BikeRepository(dbContext);
         }
 
-        private void InsertBike()
+        private int InsertBike()
         {
-            dbContext.Bikes.Add(
-                new Bike()
-                {
-                    BikeStation = new BikeStation(),
-                    BikeStationID = 1,
-                    ID = 2,
-                    Rentals = new List<Rental>(),
-                    State = ClassLibrary.BikeState.Working
-                });
+            Bike test = new Bike()
+            {
+                BikeStationID = 1,
+                State = ClassLibrary.BikeState.Working
+            };
+
+            dbContext.Bikes.Add(test);
+            dbContext.SaveChanges();
+            return test.ID;
         }
 
         [TestMethod]
         public void TestInsert()
         {
+
             bikeRepo.Insert(new Bike()
             {
-                BikeStation = new BikeStation(),
                 BikeStationID = 1,
-                ID = 2,
-                Rentals = new List<Rental>(),
                 State = ClassLibrary.BikeState.Working
             });
+            dbContext.SaveChanges();
 
-            var result = dbContext.Bikes.First(b => b.ID == 2 && b.BikeStationID == 1);
+            var result = dbContext.Bikes.First(b => b.BikeStationID == 1);
 
             Assert.IsNotNull(result);
         }
 
+        [TestMethod]
         public void TestGet()
         {
             InsertBike();
@@ -70,9 +75,9 @@ namespace RepositoryTests
         [TestMethod]
         public void TestGetById()
         {
-            InsertBike();
+            int id = InsertBike();
 
-            var result = bikeRepo.GetByID("2");
+            var result = bikeRepo.GetByID(id.ToString());
 
             Assert.IsNotNull(result);
         }
@@ -80,9 +85,9 @@ namespace RepositoryTests
         [TestMethod]
         public void TestDelete()
         {
-            InsertBike();
+            int id = InsertBike();
 
-            bikeRepo.Delete("2");
+            bikeRepo.Delete(id.ToString());
 
             var result = dbContext.Bikes.Count();
             Assert.AreEqual(result, 0);

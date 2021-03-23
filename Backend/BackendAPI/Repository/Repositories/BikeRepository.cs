@@ -15,7 +15,12 @@ namespace BackendAPI.Repository.Repositories
 
         public new bool Delete(string ID)
         {
-            throw new NotImplementedException();
+            Bike bike = GetByID(ID);
+            if (bike == null)
+                return false;
+            dbContext.Bikes.Remove(bike);
+            return true;
+
         }
 
         public new IList<Bike> Get()
