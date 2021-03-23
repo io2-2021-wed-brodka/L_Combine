@@ -17,6 +17,13 @@ namespace BackendAPI.ModelsConfigurations
             builder.Property(c => c.LastName).HasMaxLength(50).IsRequired();
             builder.Property(c => c.Name).HasMaxLength(50).IsRequired();
             builder.Property(c => c.ID).ValueGeneratedOnAdd();
+
+            builder.HasData(
+                new User { ID=1, Name="ImieTestowe", LastName="NazwiskoTestowe"},
+                new User { ID = 2, Name = "Imie2", LastName = "Nazwisko2" },
+                new User { ID = 3, Name = "Grzegorz", LastName = "Brzęczeszykiewicz" },
+                new User { ID = 4, Name = "Imie3", LastName = "Nazwisko3" }
+                );
         }
     }
 }

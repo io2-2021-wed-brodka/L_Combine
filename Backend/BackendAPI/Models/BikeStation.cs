@@ -12,7 +12,7 @@ namespace BackendAPI.Models
         public int ID { get; set; }
         public BikeStationState State { get; set; }
         public string LocationName { get; set; }
-
+        //Właściwość potrzebna do utrzymania relacji między tabelami
         public IList<Bike> Bikes { get; set; }
     }
 }

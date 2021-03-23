@@ -11,7 +11,7 @@ namespace BackendAPI.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
-
+        //Właściwość potrzebna do utrzymania relacji między tabelami
         public IList<Rental> Rentals { get; set; }
     }
 }

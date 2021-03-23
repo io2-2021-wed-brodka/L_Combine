@@ -7,15 +7,16 @@ namespace BackendAPI.Models
 {
     public class Rental
     {
-        //Klucz podstawowy
+        //Klucz główny
         public int ID { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         //Klucz obcy
         public int BikeID { get; set; }
-        public Bike Bike { get; set; }
         //Klucz obcy
         public int UserID { get; set; }
+        //Właściwości potrzebne do utrzymania relacji między tabelami
+        public Bike Bike { get; set; }
         public User User { get; set; }
     }
 }
