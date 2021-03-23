@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import LoginData from './interfaces/LoginData';
-import User from './interfaces/User';
+import LoginData from './../models/LoginData';
+import User from './../models/User';
 import { MockDataService } from './mock-data.service';
 
 @Injectable({
