@@ -88,6 +88,7 @@ namespace RepositoryTests
             int id = InsertBike();
 
             bikeRepo.Delete(id.ToString());
+            dbContext.SaveChanges();
 
             var result = dbContext.Bikes.Count();
             Assert.AreEqual(result, 0);
