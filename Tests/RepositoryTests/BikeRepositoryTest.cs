@@ -13,8 +13,8 @@ namespace RepositoryTests
     {
         private BikeRepository bikeRepo;
         private DataContext dbContext;
-        private static int bikeId = 1;
 
+        //Czyscimy dane testowanej tabeli
         private void ClearData()
         {
             dbContext.Bikes.RemoveRange(dbContext.Bikes);
@@ -24,6 +24,7 @@ namespace RepositoryTests
         [TestInitialize]
         public void InitRepository()
         {
+            //Tworzyzmy baze danych identyczna jak produkcyjna, tylko ze w pamieci
             var options = new DbContextOptionsBuilder<DataContext>()
             .UseInMemoryDatabase(databaseName: "TestDatabase")
             .Options;
@@ -33,6 +34,7 @@ namespace RepositoryTests
             bikeRepo = new BikeRepository(dbContext);
         }
 
+        //Umieszczenie roweru w tabeli poza repository
         private int InsertBike()
         {
             Bike test = new Bike()
