@@ -3,6 +3,7 @@ import {StationService} from '../services/station.service';
 import {ActivatedRoute} from '@angular/router';
 import {BikeStation} from '../models/bikeStation';
 import {Location} from '@angular/common';
+import {Bike, BikeState} from "../models/bike";
 
 @Component({
   selector: 'app-list-station-bikes',
@@ -10,7 +11,8 @@ import {Location} from '@angular/common';
   styleUrls: ['./list-station-bikes.component.scss']
 })
 export class ListStationBikesComponent implements OnInit {
-  station: BikeStation;
+  station!: BikeStation;
+  selectedBike: Bike | undefined;
 
   constructor(
     private stationService: StationService,
@@ -29,5 +31,21 @@ export class ListStationBikesComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  getBikeStateText(state: BikeState): string {
+    switch (state) {
+      case BikeState.Blocked: return 'Zablokowany';
+      case BikeState.Free: return 'Wolny';
+      case BikeState.Reserved: return 'Zarezerwowany';
+    }
+  }
+
+  selectBike(bike: Bike): void {
+    if(this.selectedBike === bike){
+      this.selectedBike = undefined;
+    } else {
+      this.selectedBike = bike || undefined;
+    }
   }
 }

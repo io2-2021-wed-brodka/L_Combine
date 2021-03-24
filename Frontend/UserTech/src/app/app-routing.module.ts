@@ -8,8 +8,8 @@ import { LoginViewComponent } from './login-view/login-view.component';
 const routes: Routes = [
   {path: 'station/:id', component: ListStationBikesComponent},
   {path: 'stations', component: ListStationsComponent},
-  {path: 'login', component: LoginViewComponent},
   {path: 'rentedBikes', component: ListRentedBikesComponent},
+  {path: 'login', component: LoginViewComponent},
 ];
 
 @NgModule({
