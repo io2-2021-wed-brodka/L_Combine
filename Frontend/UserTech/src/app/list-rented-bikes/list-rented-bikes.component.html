@@ -1,0 +1,12 @@
+<div class="list">
+    <h3 class="list-header">Rented bikes</h3>
+    <div *ngFor="let bike of reservedBikes" class="listItem">
+        <div class="leftSide">
+            {{bike.id}}
+        </div>
+        <div class="rightSide">
+            Data wypożyczenia: <br/>
+            {{bike.rentalTimestamp.toLocaleString()}}
+        </div>
+    </div>
+</div>

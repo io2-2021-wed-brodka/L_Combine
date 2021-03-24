@@ -7,13 +7,15 @@ import { LoginViewComponent } from './login-view/login-view.component';
 import { FormsModule } from '@angular/forms';
 import { ListStationBikesComponent } from './list-station-bikes/list-station-bikes.component';
 import { ListStationsComponent } from './list-stations/list-stations.component';
+import { ListRentedBikesComponent } from './list-rented-bikes/list-rented-bikes.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginViewComponent,
     ListStationBikesComponent,
-    ListStationsComponent
+    ListStationsComponent,
+    ListRentedBikesComponent
   ],
   imports: [
     BrowserModule,
