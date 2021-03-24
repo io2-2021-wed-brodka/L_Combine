@@ -9,9 +9,9 @@ namespace BackendAPI.Repository.Interfaces
     {
         IList<T> Get();
         T Update(T component);
-        T GetByID(string ID);
+        T GetByID(int ID);
         bool Insert(T component);
-        bool Delete(string ID);
+        bool Delete(int ID);
         void SaveChanges();
     }
 }

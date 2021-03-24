@@ -79,7 +79,7 @@ namespace RepositoryTests
         {
             int id = InsertBike();
 
-            var result = bikeRepo.GetByID(id.ToString());
+            var result = bikeRepo.GetByID(id);
 
             Assert.IsNotNull(result);
         }
@@ -89,7 +89,7 @@ namespace RepositoryTests
         {
             int id = InsertBike();
 
-            bikeRepo.Delete(id.ToString());
+            bikeRepo.Delete(id);
             dbContext.SaveChanges();
 
             var result = dbContext.Bikes.Count();

@@ -13,7 +13,7 @@ namespace BackendAPI.Repository.Repositories
         public BikeRepository(DataContext dbContext) : base(dbContext)
         { }
 
-        public new bool Delete(string ID)
+        public new bool Delete(int ID)
         {
             Bike bike = GetByID(ID);
             if (bike == null)
@@ -28,13 +28,11 @@ namespace BackendAPI.Repository.Repositories
             return dbContext.Bikes.ToList();
         }
 
-        public new Bike GetByID(string ID)
+        public new Bike GetByID(int ID)
         {
             try
             {
-                int id = int.Parse(ID);
-
-                return dbContext.Bikes.First(b => b.ID == id);
+                return dbContext.Bikes.First(b => b.ID == ID);
             }
             catch
             {
@@ -62,7 +60,7 @@ namespace BackendAPI.Repository.Repositories
 
         public new Bike Update(Bike component)
         {
-            Bike original = GetByID(component.ID.ToString());
+            Bike original = GetByID(component.ID);
 
             return original.Modify(component);
         }

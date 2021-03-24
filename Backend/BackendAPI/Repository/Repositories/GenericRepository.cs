@@ -19,7 +19,7 @@ namespace BackendAPI.Repository.Repositories
             this.dbContext = dbContext;
         }
 
-        public bool Delete(string ID)
+        public bool Delete(int ID)
         {
             throw new NotImplementedException();
         }
@@ -29,7 +29,7 @@ namespace BackendAPI.Repository.Repositories
             throw new NotImplementedException();
         }
 
-        public T GetByID(string ID)
+        public T GetByID(int ID)
         {
             throw new NotImplementedException();
         }
