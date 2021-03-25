@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {StationService} from '../services/station.service';
 import {ActivatedRoute} from '@angular/router';
-import {BikeStation} from '../models/bikeStation';
+import {BikeStation, StationState} from '../models/bikeStation';
 import {Location} from '@angular/common';
 import {Bike, BikeState} from "../models/bike";
 
@@ -18,7 +18,8 @@ export class ListStationBikesComponent implements OnInit {
     private stationService: StationService,
     private route: ActivatedRoute,
     private location: Location,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.getStation();
@@ -35,17 +36,16 @@ export class ListStationBikesComponent implements OnInit {
 
   getBikeStateText(state: BikeState): string {
     switch (state) {
-      case BikeState.Blocked: return 'Zablokowany';
-      case BikeState.Free: return 'Wolny';
-      case BikeState.Reserved: return 'Zarezerwowany';
+      case BikeState.Blocked:
+        return 'Zablokowany';
+      case BikeState.Free:
+        return 'Wolny';
+      case BikeState.Reserved:
+        return 'Zarezerwowany';
     }
   }
 
   selectBike(bike: Bike): void {
-    if(this.selectedBike === bike){
-      this.selectedBike = undefined;
-    } else {
-      this.selectedBike = bike || undefined;
-    }
+    this.selectedBike = (this.selectedBike === bike || bike?.state !== 'free') ? undefined : bike;
   }
 }

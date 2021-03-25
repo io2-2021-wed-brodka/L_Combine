@@ -1,34 +1,30 @@
-.bike{
+@import "../styles/colors";
+
+.bike {
   display: block;
   margin: 5px;
   border-radius: 10px;
   padding: 10px;
   width: 300px;
+  background-color: $main-box-color;
+  color: #eff3f6;
+
+  .bike-id {
+    display: inline-block;
+  }
+
+  .bike-state {
+    display: inline-block;
+    float: right;
+  }
 }
 
-.bike-blocked, .bike-reserved{
+.bike-free:hover, .bike-selected {
+  background-color: $main-box-hover-color;
+}
+
+.bike-blocked, .bike-reserved {
   opacity: 0.3;
   background-color: gray;
   color: #eff3f6;
-  cursor: default;
-  pointer-events: none;
-}
-
-.bike-free{
-  background-color: limegreen;
-  color: #eff3f6;
-}
-
-.bike-free:hover{
-  background-color: lightgreen;
-  color: #888888;
-}
-
-.bike-id{
-  display: inline-block;
-}
-
-.bike-state{
-  display: inline-block;
-  float: right;
 }

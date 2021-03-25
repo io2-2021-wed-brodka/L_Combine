@@ -5,6 +5,7 @@
        [class.bike-free]="bike.state === 'free'"
        [class.bike-reserved]="bike.state === 'reserved'"
        [class.bike-blocked]="bike.state === 'blocked'"
+       [class.bike-selected]="bike === selectedBike"
        (click)="selectBike(bike)"
        class="bike">
     <div class="bike-id">{{bike.id}}</div>
