@@ -3,7 +3,7 @@
    [class.station-active]="station.stationState === 'active'"
    [class.station-blocked]="station.stationState === 'blocked'"
    class="station"
-   [routerLink]="['../station', station.id]">
+   [routerLink]="['/station', station.id]">
   <div class="station-name">{{station.locationName}}</div>
   <div [ngSwitch]="station.stationState" class="station-state">
     <span *ngSwitchCase="'active'">Aktywna</span>

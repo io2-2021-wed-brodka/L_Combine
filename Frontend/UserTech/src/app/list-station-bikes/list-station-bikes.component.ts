@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {StationService} from '../services/station.service';
 import {ActivatedRoute} from '@angular/router';
-import {BikeStation, StationState} from '../models/bikeStation';
+import {BikeStation} from '../models/bikeStation';
 import {Location} from '@angular/common';
-import {Bike, BikeState} from "../models/bike";
+import {Bike, BikeState} from '../models/bike';
 
 @Component({
   selector: 'app-list-station-bikes',
