@@ -30,27 +30,13 @@ namespace BackendAPI.Repository.Repositories
 
         public new Bike GetByID(int ID)
         {
-            try
-            {
-                return dbContext.Bikes.First(b => b.ID == ID);
-            }
-            catch
-            {
-                return null;
-            }
+            return dbContext.Bikes.FirstOrDefault(b => b.ID == ID);
         }
 
         public new bool Insert(Bike component)
         {
-            try
-            {
-                dbContext.Add(component);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            dbContext.Add(component);
+            return true;
         }
 
         public new void SaveChanges()

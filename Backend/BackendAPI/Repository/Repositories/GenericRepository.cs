@@ -41,7 +41,15 @@ namespace BackendAPI.Repository.Repositories
 
         public void SaveChanges()
         {
-            dbContext.SaveChanges();
+            try
+            {
+                dbContext.SaveChanges();
+            }
+            catch 
+            {
+                //Nie da sie nic zakomunikowac na zewnatrz tutaj
+                //Zaloguj blad
+            }
         }
 
         public T Update(T component)

@@ -12,6 +12,7 @@ namespace BackendAPI.Models
         public int ID { get; set; }
         //Klucz obcy
         public int? BikeStationID { get; set; }
+
         public BikeState State { get; set; }
         //Właściwości potrzebne do utrzymania relacji między tabelami
         public BikeStation BikeStation { get; set; }
@@ -24,8 +25,6 @@ namespace BackendAPI.Models
             ID = other.ID;
             BikeStationID = other.BikeStationID;
             State = other.State;
-            BikeStation = other.BikeStation;
-            Rentals = new List<Rental>(other.Rentals);
 
             return this;
         }

@@ -95,5 +95,23 @@ namespace RepositoryTests
             var result = dbContext.Bikes.Count();
             Assert.AreEqual(result, 0);
         }
+
+        [TestMethod]
+        public void UpdateTest()
+        {
+            int id = InsertBike();
+
+            bikeRepo.Update(new Bike()
+            {
+                ID = id,
+                BikeStationID = 6215671,
+                State = ClassLibrary.BikeState.InService
+            });
+            dbContext.SaveChanges();
+
+            var modified = dbContext.Bikes.First(bike => bike.ID == id);
+            var result = modified.BikeStationID == 6215671 && modified.State == ClassLibrary.BikeState.InService;
+            Assert.IsTrue(result);
+        }
     }
 }
