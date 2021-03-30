@@ -13,17 +13,20 @@ namespace BackendAPI.Controllers
     public class ValuesController : ControllerBase
     {
         private readonly IBikeRepository bikeRepo;
+        private readonly IStationRepository stationRepo;
 
-        public ValuesController(IBikeRepository bikeRepo)
+        public ValuesController(IBikeRepository bikeRepo, IStationRepository stationRepo)
         {
             this.bikeRepo = bikeRepo;
+            this.stationRepo = stationRepo;
         }
 
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return stationRepo.Get().Select(x => x.ID.ToString()).ToList();
+            //return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
