@@ -47,8 +47,8 @@ namespace BackendAPI.Repository.Repositories
             }
             catch 
             {
-                //Nie da sie nic zakomunikowac na zewnatrz tutaj
-                //Zaloguj blad
+                //[LOG]Zaloguj blad
+                throw;
             }
         }
 

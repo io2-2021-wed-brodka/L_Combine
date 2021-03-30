@@ -46,9 +46,8 @@ namespace BackendAPI.Repository.Repositories
 
         public new Bike Update(Bike component)
         {
-            Bike original = GetByID(component.ID);
-
-            return original.Modify(component);
+            dbContext.Entry(GetByID(component.ID)).CurrentValues.SetValues(component);
+            return component;
         }
     }
 }
