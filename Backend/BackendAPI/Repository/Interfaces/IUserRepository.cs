@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.Repository.Interfaces
 {
-    interface IUserRepository: IGenericRepository<User>
+    public interface IUserRepository: IGenericRepository<User>
     {
     }
 }

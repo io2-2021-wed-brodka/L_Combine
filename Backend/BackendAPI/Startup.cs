@@ -24,6 +24,7 @@ namespace BackendAPI
         {
             services.AddScoped<IBikeRepository, BikeRepository>();
             services.AddScoped<IStationRepository, StationRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddDbContextPool<DataContext>(options =>
                 options.UseSqlServer(
