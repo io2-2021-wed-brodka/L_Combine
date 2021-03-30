@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RentedBike} from '../models/rentedBike';
-import { UserService } from '../services/user.service';
+import {UserService} from '../services/user.service';
+
 @Component({
   selector: 'app-list-rented-bikes',
   templateUrl: './list-rented-bikes.component.html',
@@ -8,14 +9,15 @@ import { UserService } from '../services/user.service';
 })
 export class ListRentedBikesComponent implements OnInit {
   reservedBikes: RentedBike[] = [];
-  
-  constructor(private userService: UserService) { }
+
+  constructor(private userService: UserService) {
+  }
 
   ngOnInit(): void {
     this.getBikes();
   }
 
-  getBikes(){
-    this.userService.getRentedBikes().subscribe(bikes=> this.reservedBikes = bikes);
+  getBikes(): void {
+    this.userService.getRentedBikes().subscribe(bikes => this.reservedBikes = bikes);
   }
 }
