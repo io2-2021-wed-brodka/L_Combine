@@ -8,53 +8,45 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.Repository.Repositories
 {
-    public class StationRepository : IStationRepository
+    public class StationRepository : GenericRepository<BikeStation>, IStationRepository
     {
-        public static StationRepository Instance;
-        private DataContext context;
-        private StationRepository(DataContext context)
-        {
-            this.context = context;
-        }
-        public static void InitialiseRepository(DataContext context)
-        {
-            StationRepository repository = new StationRepository(context);
-            Instance = repository;
-        }
+        public StationRepository(DataContext context): base(context)
+        { }
 
-        public bool Delete(int ID)
+        public new bool Delete(int ID)
         {
             BikeStation station = GetByID(ID);
-
-            context.Remove(station);
-            return true;//TODO: to sprawdzić!
+            if (station == null)
+                return false;
+            dbContext.BikeStations.Remove(station);
+            return true;
         }
 
-        public IList<BikeStation> Get()
+        public new IList<BikeStation> Get()
         {
-            return context.BikeStations.ToList();
+            return dbContext.BikeStations.ToList();
         }
 
-        public BikeStation GetByID(int ID)
+        public new BikeStation GetByID(int ID)
         {
-            return context.BikeStations.First(x => x.ID == ID);
+            return dbContext.BikeStations.FirstOrDefault(x => x.ID == ID);
         }
 
-        public bool Insert(BikeStation component)
+        public new bool Insert(BikeStation component)
         {
-            var res = context.BikeStations.Add(component);
-            return true;//TODO: to sprawdzić!
+            var res = dbContext.BikeStations.Add(component);
+            return true;
         }
 
-        public void SaveChanges()
+        public new void SaveChanges()
         {
-            context.SaveChanges();
+            base.SaveChanges();
         }
 
-        public BikeStation Update(BikeStation component)
+        public new BikeStation Update(BikeStation component)
         {
-            var res = context.Update(component);
-            return res.Entity;
+            dbContext.Entry(GetByID(component.ID)).CurrentValues.SetValues(component);
+            return component;
         }
     }
 }

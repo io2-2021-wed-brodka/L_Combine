@@ -1,15 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using BackendAPI.Data;
 using BackendAPI.Repository.Interfaces;
@@ -30,6 +23,7 @@ namespace BackendAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IBikeRepository, BikeRepository>();
+            services.AddScoped<IStationRepository, StationRepository>();
 
             services.AddDbContextPool<DataContext>(options =>
                 options.UseSqlServer(
