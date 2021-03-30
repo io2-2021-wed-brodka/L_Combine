@@ -1,4 +1,5 @@
-﻿using BackendAPI.Repository.Interfaces;
+﻿using BackendAPI.Data;
+using BackendAPI.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,17 @@ namespace BackendAPI.Repository.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T>
     {
-        //TODO: database connection
-        public bool Delete(string ID)
+        protected DataContext dbContext;
+
+        public GenericRepository()
+        { }
+
+        public GenericRepository(DataContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
+
+        public bool Delete(int ID)
         {
             throw new NotImplementedException();
         }
@@ -19,7 +29,7 @@ namespace BackendAPI.Repository.Repositories
             throw new NotImplementedException();
         }
 
-        public T GetByID(string ID)
+        public T GetByID(int ID)
         {
             throw new NotImplementedException();
         }
@@ -31,7 +41,15 @@ namespace BackendAPI.Repository.Repositories
 
         public void SaveChanges()
         {
-            throw new NotImplementedException();
+            try
+            {
+                dbContext.SaveChanges();
+            }
+            catch 
+            {
+                //[LOG]Zaloguj blad
+                throw;
+            }
         }
 
         public T Update(T component)

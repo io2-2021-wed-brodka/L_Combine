@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BackendAPI.Data;
+using BackendAPI.Repository.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,13 @@ namespace BackendAPI.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly IBikeRepository bikeRepo;
+
+        public ValuesController(IBikeRepository bikeRepo)
+        {
+            this.bikeRepo = bikeRepo;
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
