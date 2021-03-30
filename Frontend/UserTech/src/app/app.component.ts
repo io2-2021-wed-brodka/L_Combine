@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {LoginService} from './services/login.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,7 +12,11 @@ export class AppComponent {
   constructor(private loginService: LoginService) {
   }
 
-  logout(): void{
+  logout(): void {
     this.loginService.logout();
+  }
+
+  isLoggedIn(): boolean {
+    return this.loginService.isLoggedIn();
   }
 }

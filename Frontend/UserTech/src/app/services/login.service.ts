@@ -20,6 +20,10 @@ export class LoginService {
     return this.user;
   }
 
+  isLoggedIn(): boolean {
+    return this.user !== null && this.user !== undefined;
+  }
+
   login(loginData: LoginData): Observable<User | undefined> {
     // fetch to server
     const found = this.mockData.userData.find(user => user.login === loginData.login && user.password === loginData.password);
@@ -33,6 +37,7 @@ export class LoginService {
 
   logout(): void {
     localStorage.removeItem('user');
+    this.user = undefined;
     this.router.navigate(['login']);
   }
 }
