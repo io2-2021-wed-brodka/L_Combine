@@ -11,7 +11,7 @@ export class UserService {
 
   constructor(private mockService: MockDataService,
     private loginService: LoginService) { }
-  
+
   getRentedBikes(): Observable<RentedBike[]>{
     if(!this.loginService.loggedUser)
       return of();

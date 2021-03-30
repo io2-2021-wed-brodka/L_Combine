@@ -1,21 +1,35 @@
 @import './colors.scss';
-.list{
-    color: $main-font-color;
-    background-color: $main-background-color;
-    width: 600px;
-    height: 500px;
-    overflow: auto;
-    .list-header{
-        text-align: center;
+
+.list {
+  color: $main-font-color;
+  background-color: $main-background-color;
+  overflow: auto;
+  font-size: 20px;
+
+  &-header {
+    text-align: center;
+  }
+
+  &-item {
+    background-color: $main-box-color;
+    display: flex;
+    justify-content: space-between;
+    margin: 5px;
+
+    &-active:hover {
+      background-color: $main-box-hover-color;
     }
-    .listItem{
-        background-color: $main-box-color;
-        display: flex;
-        justify-content: space-between;
-        .leftSide, .rightSide{
-            font-size: 20px;
-            padding: 10px;
-        }
-        margin: 5px;
+
+    &-blocked {
+      cursor: default;
+      pointer-events: none;
+      background-color: $main-box-blocked-color;
+      opacity: 0.5;
     }
+
+    &-side-left, &-side-right {
+      font-size: 20px;
+      padding: 10px;
+    }
+  }
 }

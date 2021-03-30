@@ -19,7 +19,7 @@ const routes: Routes = [
   {
     path: 'station/:id',
     component: ListStationBikesComponent,
-    canActivate: [StationActiveGuard]
+    canActivate: [StationActiveGuard, UserLoggedGuard]
   },
   {
     path: '**',

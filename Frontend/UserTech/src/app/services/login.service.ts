@@ -3,6 +3,7 @@ import {Observable, of} from 'rxjs';
 import LoginData from '../models/loginData';
 import User from '../models/user';
 import {MockDataService} from './mock-data.service';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import {MockDataService} from './mock-data.service';
 export class LoginService {
   private user: User | undefined;
 
-  constructor(private mockData: MockDataService) {
+  constructor(private router: Router, private mockData: MockDataService) {
     const userStr = localStorage.getItem('user');
     this.user = userStr ? JSON.parse(userStr) : userStr;
   }
@@ -28,5 +29,10 @@ export class LoginService {
       return of(this.user);
     }
     return of(undefined);
+  }
+
+  logout(): void {
+    localStorage.removeItem('user');
+    this.router.navigate(['login']);
   }
 }
