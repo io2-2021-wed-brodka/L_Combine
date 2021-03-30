@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../services/login.service';
-import LoginData from '../models/LoginData'
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {LoginService} from '../services/login.service';
+import LoginData from '../models/loginData';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login-view',
@@ -11,23 +11,27 @@ import { Router } from '@angular/router';
 export class LoginViewComponent implements OnInit {
 
   constructor(
-    private router: Router, 
-    private loginService: LoginService) { }
+    private router: Router,
+    private loginService: LoginService) {
+  }
+  showErrorMessage = false;
+
+  formData: LoginData = {
+    login: '',
+    password: ''
+  };
 
   ngOnInit(): void {
   }
 
-  formData: LoginData = {
-    login: "",
-    password: ""
+  login() {
+    this.loginService.login(this.formData).subscribe(value => {
+      if (value) {
+        this.router.navigate(['/rentedBikes']);
+      }
+      else {
+        this.showErrorMessage = true;
+      }
+    });
   }
-  showErrorMessage = false;
-  login(){
-    this.loginService.login(this.formData).subscribe(value=>{
-        if(value)
-          this.router.navigate(['/rentedBikes']);
-        else
-          this.showErrorMessage = true;
-      });
-    }
 }

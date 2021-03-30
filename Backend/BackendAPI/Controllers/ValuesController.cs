@@ -1,5 +1,5 @@
 ﻿using BackendAPI.Data;
-using BackendAPI.Repository.Repositories;
+using BackendAPI.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,12 +12,13 @@ namespace BackendAPI.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private DataContext _context;
-        public ValuesController(DataContext context)
+        private readonly IBikeRepository bikeRepo;
+
+        public ValuesController(IBikeRepository bikeRepo)
         {
-            _context = context;
-            StationRepository.InitialiseRepository(context);
+            this.bikeRepo = bikeRepo;
         }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
