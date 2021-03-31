@@ -10,10 +10,19 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.Controllers
 {
+    /// <summary>
+    /// Kontroler do obsługi wyjątków.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ErrorController : ControllerBase
     {
+        /// <summary>
+        /// Obsługa błędów przy pracy deweloperskiej.
+        /// Dodatkowo do wersji produkcyjne dołaczany jest stos.
+        /// </summary>
+        /// <param name="webHostEnvironment"></param>
+        /// <returns></returns>
         [Route("/error-local-development")]
         public IActionResult ErrorLocalDevelopment(
         [FromServices] IHostingEnvironment webHostEnvironment)
@@ -38,6 +47,11 @@ namespace BackendAPI.Controllers
             return StatusCode(problemDetails.Status.Value, problemDetails);
         }
 
+        /// <summary>
+        /// Obsługa błędów przy pracy na produkcji.
+        /// </summary>
+        /// <param name="webHostEnvironment"></param>
+        /// <returns></returns>
         [Route("/error")]
         public ActionResult Error([FromServices] IHostingEnvironment webHostEnvironment)
         {
