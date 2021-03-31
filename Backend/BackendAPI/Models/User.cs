@@ -16,12 +16,8 @@ namespace BackendAPI.Models
         //Właściwość potrzebna do utrzymania relacji między tabelami
         public IList<Rental> Rentals { get; set; }
 
-        [Required(AllowEmptyStrings = false),
-            MinLength(5),MaxLength(20)]
         public string Login { get; set; }
-        [JsonIgnore, //żeby przy serializacji do jsona się nie serializowało
-            Required(AllowEmptyStrings =false), 
-            MinLength(5),MaxLength(40)]  
+        [JsonIgnore] //żeby przy serializacji do jsona się nie serializowało]  
         public string Password { get; set; }
     }
 }

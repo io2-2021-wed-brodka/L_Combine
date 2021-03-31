@@ -17,6 +17,8 @@ namespace BackendAPI.ModelsConfigurations
             builder.Property(c => c.LastName).HasMaxLength(50).IsRequired();
             builder.Property(c => c.Name).HasMaxLength(50).IsRequired();
             builder.Property(c => c.ID).ValueGeneratedOnAdd();
+            builder.Property(c => c.Login).HasMaxLength(20).IsRequired();
+            builder.Property(c => c.Password).HasMaxLength(40).IsRequired();
             builder.HasIndex(c => c.Login).IsUnique();
 
             builder.HasData(
