@@ -23,6 +23,8 @@ namespace BackendAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
             services.AddScoped<IBikeRepository, BikeRepository>();
             services.AddScoped<IStationRepository, StationRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
@@ -41,6 +43,8 @@ namespace BackendAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            //Porządek wywołania metod tutaj poniżej jest bardzo ważny!!!
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -51,7 +55,6 @@ namespace BackendAPI
             }
 
             app.UseHttpsRedirection();
-            app.UseMvc();
 
             // global cors policy
             app.UseCors(x => x
@@ -61,6 +64,10 @@ namespace BackendAPI
 
             // custom jwt auth middleware
             app.UseMiddleware<JwtMiddleware>();
+
+            app.UseMvc();
+
+
         }
     }
 }
