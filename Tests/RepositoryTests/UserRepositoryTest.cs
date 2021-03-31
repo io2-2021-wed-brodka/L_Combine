@@ -33,7 +33,7 @@ namespace RepositoryTests
 
             dbContext = new DataContext(options);
             ClearData();
-            userRepo = new UserRepository(dbContext);
+            userRepo = new UserRepository(dbContext, null);
         }
 
         //Umieszczenie użytkownika w tabeli poza repository

@@ -8,5 +8,6 @@ namespace BackendAPI.Repository.Interfaces
 {
     public interface IUserRepository: IGenericRepository<User>
     {
+        AuthenticateResponse Authenticate(AuthenticateRequest model);
     }
 }

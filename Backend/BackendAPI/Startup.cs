@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using BackendAPI.Data;
 using BackendAPI.Repository.Interfaces;
 using BackendAPI.Repository.Repositories;
+using BackendAPI.Helpers;
+using BackendAPI.Helpers;
 
 namespace BackendAPI
 {
@@ -30,8 +32,9 @@ namespace BackendAPI
                 options.UseSqlServer(
                     Configuration.GetConnectionString(
                         "DefaultConnection")));
-           
 
+            // configure strongly typed settings object
+            services.Configure<JwtSettings>(Configuration.GetSection("JwtSettings"));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -50,6 +53,15 @@ namespace BackendAPI
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
+            // custom jwt auth middleware
+            app.UseMiddleware<JwtMiddleware>();
         }
     }
 }
