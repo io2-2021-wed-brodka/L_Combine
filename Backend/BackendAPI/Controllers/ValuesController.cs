@@ -14,11 +14,13 @@ namespace BackendAPI.Controllers
     {
         private readonly IBikeRepository bikeRepo;
         private readonly IStationRepository stationRepo;
+        private readonly IUserRepository userRepo;
 
-        public ValuesController(IBikeRepository bikeRepo, IStationRepository stationRepo)
+        public ValuesController(IBikeRepository bikeRepo, IStationRepository stationRepo, IUserRepository userRepo)
         {
             this.bikeRepo = bikeRepo;
             this.stationRepo = stationRepo;
+            this.userRepo = userRepo;
         }
 
         // GET api/values
