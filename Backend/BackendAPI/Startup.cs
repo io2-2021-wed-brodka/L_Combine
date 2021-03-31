@@ -8,7 +8,6 @@ using BackendAPI.Data;
 using BackendAPI.Repository.Interfaces;
 using BackendAPI.Repository.Repositories;
 using BackendAPI.Helpers;
-using BackendAPI.Helpers;
 
 namespace BackendAPI
 {
