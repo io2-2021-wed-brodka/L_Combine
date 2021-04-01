@@ -46,7 +46,9 @@ namespace RepositoryTests
             User test = new User()
             {
                 Name = "Jan",
-                LastName = "Dzban"
+                LastName = "Dzban",
+                Login = "password",
+                Password = "login"
             };
 
             dbContext.Users.Add(test);
@@ -117,6 +119,36 @@ namespace RepositoryTests
             var modified = dbContext.Users.First(s => s.ID == id);
             var result = modified.Name == "Maria" && modified.LastName == "Różalska";
             Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void TestAuthenticateValidCredentials()
+        {
+            int id = InsertUser();
+            dbContext.SaveChanges();
+
+            var response = userRepo.Authenticate(
+                new AuthenticateRequest()
+                {
+                    Login = "password",
+                    Password = "login"
+                });
+            Assert.IsNotNull(response);
+        }
+
+        [TestMethod]
+        public void TestAuthenticateInvalidCredentials()
+        {
+            int id = InsertUser();
+            userRepo.SaveChanges();
+
+            var response = userRepo.Authenticate(
+                new AuthenticateRequest()
+                {
+                    Login = "password",
+                    Password = "logi"
+                });
+            Assert.IsNull(response);
         }
     }
 }
