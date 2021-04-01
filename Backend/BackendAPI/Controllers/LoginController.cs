@@ -25,7 +25,7 @@ namespace BackendAPI.Controllers
             var response = userRepository.Authenticate(model);
 
             if (response == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
+                return BadRequest(new { message = "Login lub hasło jest niepoprawne" });
 
             return Ok(response);
         }

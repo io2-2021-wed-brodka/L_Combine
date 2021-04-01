@@ -8,6 +8,9 @@ using BackendAPI.Data;
 using BackendAPI.Repository.Interfaces;
 using BackendAPI.Repository.Repositories;
 using BackendAPI.Helpers;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BackendAPI
 {
@@ -34,8 +37,30 @@ namespace BackendAPI
                     Configuration.GetConnectionString(
                         "DefaultConnection")));
 
-            // configure strongly typed settings object
-            services.Configure<JwtSettings>(Configuration.GetSection("JwtSettings"));
+            // configure strongly typed settings objects
+            var jwtSettingsSection = Configuration.GetSection("JwtSettings");
+            services.Configure<JwtSettings>(jwtSettingsSection);
+
+            // configure jwt authentication
+            var jwtSettings = jwtSettingsSection.Get<JwtSettings>();
+            var key = Encoding.ASCII.GetBytes(jwtSettings.Secret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -62,8 +87,7 @@ namespace BackendAPI
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
-            // custom jwt auth middleware
-            app.UseMiddleware<JwtMiddleware>();
+            app.UseAuthentication();
 
             app.UseMvc();
 
