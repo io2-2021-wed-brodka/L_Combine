@@ -13,7 +13,7 @@ namespace BackendAPI.Repository.Repositories
         public BikeRepository(DataContext dbContext) : base(dbContext)
         { }
 
-        public new bool Delete(int ID)
+        public override bool Delete(int ID)
         {
             Bike bike = GetByID(ID);
             if (bike == null)
@@ -23,28 +23,23 @@ namespace BackendAPI.Repository.Repositories
 
         }
 
-        public new IList<Bike> Get()
+        public override IList<Bike> Get()
         {
             return dbContext.Bikes.ToList();
         }
 
-        public new Bike GetByID(int ID)
+        public override Bike GetByID(int ID)
         {
             return dbContext.Bikes.FirstOrDefault(b => b.ID == ID);
         }
 
-        public new bool Insert(Bike component)
+        public override bool Insert(Bike component)
         {
             dbContext.Add(component);
             return true;
         }
 
-        public new void SaveChanges()
-        {
-            base.SaveChanges();
-        }
-
-        public new Bike Update(Bike component)
+        public override Bike Update(Bike component)
         {
             dbContext.Entry(GetByID(component.ID)).CurrentValues.SetValues(component);
             return component;

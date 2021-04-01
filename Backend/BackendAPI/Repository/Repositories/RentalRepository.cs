@@ -13,7 +13,7 @@ namespace BackendAPI.Repository.Repositories
         public RentalRepository(DataContext dbContext) : base(dbContext)
         { }
 
-        public new bool Delete(int ID)
+        public override bool Delete(int ID)
         {
             Rental rent = GetByID(ID);
             if (rent == null)
@@ -23,28 +23,23 @@ namespace BackendAPI.Repository.Repositories
 
         }
 
-        public new IList<Rental> Get()
+        public override IList<Rental> Get()
         {
             return dbContext.Rentals.ToList();
         }
 
-        public new Rental GetByID(int ID)
+        public override Rental GetByID(int ID)
         {
             return dbContext.Rentals.FirstOrDefault(b => b.ID == ID);
         }
 
-        public new bool Insert(Rental component)
+        public override bool Insert(Rental component)
         {
             dbContext.Add(component);
             return true;
         }
 
-        public new void SaveChanges()
-        {
-            base.SaveChanges();
-        }
-
-        public new Rental Update(Rental component)
+        public override Rental Update(Rental component)
         {
             dbContext.Entry(GetByID(component.ID)).CurrentValues.SetValues(component);
             return component;
