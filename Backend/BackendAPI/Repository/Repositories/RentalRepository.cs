@@ -8,38 +8,38 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.Repository.Repositories
 {
-    public class UserRepository: GenericRepository<User>, IUserRepository
+    public class RentalRepository: GenericRepository<Rental>, IRentalRepository
     {
-        public UserRepository(DataContext dbContext) : base(dbContext)
+        public RentalRepository(DataContext dbContext) : base(dbContext)
         { }
 
         public override bool Delete(int ID)
         {
-            User user = GetByID(ID);
-            if (user == null)
+            Rental rent = GetByID(ID);
+            if (rent == null)
                 return false;
-            dbContext.Users.Remove(user);
+            dbContext.Rentals.Remove(rent);
             return true;
 
         }
 
-        public override IList<User> Get()
+        public override IList<Rental> Get()
         {
-            return dbContext.Users.ToList();
+            return dbContext.Rentals.ToList();
         }
 
-        public override User GetByID(int ID)
+        public override Rental GetByID(int ID)
         {
-            return dbContext.Users.FirstOrDefault(b => b.ID == ID);
+            return dbContext.Rentals.FirstOrDefault(b => b.ID == ID);
         }
 
-        public override bool Insert(User component)
+        public override bool Insert(Rental component)
         {
             dbContext.Add(component);
             return true;
         }
 
-        public override User Update(User component)
+        public override Rental Update(Rental component)
         {
             dbContext.Entry(GetByID(component.ID)).CurrentValues.SetValues(component);
             return component;
