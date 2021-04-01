@@ -1,7 +1,9 @@
 ﻿using BackendAPI.Data;
+using BackendAPI.Helpers;
 using BackendAPI.Models;
 using BackendAPI.Repository.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -27,13 +29,15 @@ namespace RepositoryTests
         public void InitRepository()
         {
             //Tworzyzmy baze danych identyczna jak produkcyjna, tylko ze w pamieci
-            var options = new DbContextOptionsBuilder<DataContext>()
+            var dbOptions = new DbContextOptionsBuilder<DataContext>()
             .UseInMemoryDatabase(databaseName: "TestDatabase")
             .Options;
 
-            dbContext = new DataContext(options);
+            dbContext = new DataContext(dbOptions);
             ClearData();
-            userRepo = new UserRepository(dbContext, null);
+
+            var jwtOptions = Options.Create(new JwtSettings() { Secret = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" });
+            userRepo = new UserRepository(dbContext, jwtOptions);
         }
 
         //Umieszczenie użytkownika w tabeli poza repository
