@@ -63,7 +63,10 @@ namespace BackendAPI
                 };
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+           
+            services
+                .AddMvc(options => options.Filters.Add(new HttpResponseExceptionFilter()))
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,10 +76,11 @@ namespace BackendAPI
 
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseExceptionHandler("/error-local-development");
             }
             else
             {
+                app.UseExceptionHandler("/error");
                 app.UseHsts();
             }
 

@@ -1,6 +1,7 @@
 ﻿using BackendAPI.Data;
 using BackendAPI.Repository.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using ClassLibrary.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,12 @@ namespace BackendAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
+            if (id > 10)
+                throw new HttpResponseException()
+                {
+                    Status = 409,
+                    Value = "Za duze id"
+                };
             return "value";
         }
 
@@ -44,6 +51,7 @@ namespace BackendAPI.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
+            
         }
 
         // PUT api/values/5

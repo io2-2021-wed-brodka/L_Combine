@@ -7,37 +7,22 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.Repository.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T>
+    public abstract class GenericRepository<T> : IGenericRepository<T>
     {
         protected DataContext dbContext;
-
-        public GenericRepository()
-        { }
 
         public GenericRepository(DataContext dbContext)
         {
             this.dbContext = dbContext;
         }
 
-        public bool Delete(int ID)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract bool Delete(int ID);
 
-        public IList<T> Get()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract IList<T> Get();
 
-        public T GetByID(int ID)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract T GetByID(int ID);
 
-        public bool Insert(T component)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract bool Insert(T component);
 
         public void SaveChanges()
         {
@@ -52,9 +37,6 @@ namespace BackendAPI.Repository.Repositories
             }
         }
 
-        public T Update(T component)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract T Update(T component);
     }
 }
