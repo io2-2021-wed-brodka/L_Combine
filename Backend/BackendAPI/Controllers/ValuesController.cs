@@ -1,5 +1,6 @@
 ﻿using BackendAPI.Data;
 using BackendAPI.Repository.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using ClassLibrary.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +12,7 @@ namespace BackendAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ValuesController : ControllerBase
     {
         private readonly IBikeRepository bikeRepo;

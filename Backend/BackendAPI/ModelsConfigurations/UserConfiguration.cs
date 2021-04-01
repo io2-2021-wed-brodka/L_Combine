@@ -17,12 +17,15 @@ namespace BackendAPI.ModelsConfigurations
             builder.Property(c => c.LastName).HasMaxLength(50).IsRequired();
             builder.Property(c => c.Name).HasMaxLength(50).IsRequired();
             builder.Property(c => c.ID).ValueGeneratedOnAdd();
+            builder.Property(c => c.Login).HasMaxLength(20).IsRequired();
+            builder.Property(c => c.Password).HasMaxLength(40).IsRequired();
+            builder.HasIndex(c => c.Login).IsUnique();
 
             builder.HasData(
-                new User { ID=1, Name="ImieTestowe", LastName="NazwiskoTestowe"},
-                new User { ID = 2, Name = "Imie2", LastName = "Nazwisko2" },
-                new User { ID = 3, Name = "Grzegorz", LastName = "Brzęczeszykiewicz" },
-                new User { ID = 4, Name = "Imie3", LastName = "Nazwisko3" }
+                new User { ID=1, Name="ImieTestowe", LastName="NazwiskoTestowe", Login="login1", Password="pass1"},
+                new User { ID = 2, Name = "Imie2", LastName = "Nazwisko2", Login="login2", Password="pass2"},
+                new User { ID = 3, Name = "Grzegorz", LastName = "Brzęczeszykiewicz", Login = "login3", Password = "pass3" },
+                new User { ID = 4, Name = "Imie3", LastName = "Nazwisko3", Login = "login4", Password = "pass4" }
                 );
         }
     }

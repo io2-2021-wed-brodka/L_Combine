@@ -1,17 +1,57 @@
 ﻿using BackendAPI.Data;
+using BackendAPI.Helpers;
 using BackendAPI.Models;
 using BackendAPI.Repository.Interfaces;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace BackendAPI.Repository.Repositories
 {
     public class UserRepository: GenericRepository<User>, IUserRepository
     {
-        public UserRepository(DataContext dbContext) : base(dbContext)
-        { }
+        private readonly JwtSettings jwtSettings;
+
+        public UserRepository(DataContext dbContext, IOptions<JwtSettings> jwtSettings) : base(dbContext)
+        {
+            this.jwtSettings = jwtSettings.Value;
+        }
+
+        public AuthenticateResponse Authenticate(AuthenticateRequest model)
+        {
+            var user = dbContext.Users.FirstOrDefault(x => x.Login == model.Login && x.Password == model.Password);
+
+            // return null if user not found
+            if (user == null) return null;
+
+            // authentication successful so generate jwt token
+            var token = generateJwtToken(user);
+
+            return new AuthenticateResponse(user, token);
+        }
+
+        private string generateJwtToken(User user)
+        {
+            // generate token that is valid for 7 days
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(jwtSettings.Secret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                //Do ról wystarczy potem tutaj dopisać w Claimach rolę
+                //https://jasonwatmore.com/post/2019/10/16/aspnet-core-3-role-based-authorization-tutorial-with-example-api
+                Subject = new ClaimsIdentity(new[] { new Claim("id", user.ID.ToString()) }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
 
         public override bool Delete(int ID)
         {

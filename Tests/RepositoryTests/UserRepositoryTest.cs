@@ -1,7 +1,9 @@
 ﻿using BackendAPI.Data;
+using BackendAPI.Helpers;
 using BackendAPI.Models;
 using BackendAPI.Repository.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -27,13 +29,15 @@ namespace RepositoryTests
         public void InitRepository()
         {
             //Tworzyzmy baze danych identyczna jak produkcyjna, tylko ze w pamieci
-            var options = new DbContextOptionsBuilder<DataContext>()
+            var dbOptions = new DbContextOptionsBuilder<DataContext>()
             .UseInMemoryDatabase(databaseName: "TestDatabase")
             .Options;
 
-            dbContext = new DataContext(options);
+            dbContext = new DataContext(dbOptions);
             ClearData();
-            userRepo = new UserRepository(dbContext);
+
+            var jwtOptions = Options.Create(new JwtSettings() { Secret = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" });
+            userRepo = new UserRepository(dbContext, jwtOptions);
         }
 
         //Umieszczenie użytkownika w tabeli poza repository
@@ -42,7 +46,9 @@ namespace RepositoryTests
             User test = new User()
             {
                 Name = "Jan",
-                LastName = "Dzban"
+                LastName = "Dzban",
+                Login = "password",
+                Password = "login"
             };
 
             dbContext.Users.Add(test);
@@ -113,6 +119,36 @@ namespace RepositoryTests
             var modified = dbContext.Users.First(s => s.ID == id);
             var result = modified.Name == "Maria" && modified.LastName == "Różalska";
             Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void TestAuthenticateValidCredentials()
+        {
+            int id = InsertUser();
+            dbContext.SaveChanges();
+
+            var response = userRepo.Authenticate(
+                new AuthenticateRequest()
+                {
+                    Login = "password",
+                    Password = "login"
+                });
+            Assert.IsNotNull(response);
+        }
+
+        [TestMethod]
+        public void TestAuthenticateInvalidCredentials()
+        {
+            int id = InsertUser();
+            userRepo.SaveChanges();
+
+            var response = userRepo.Authenticate(
+                new AuthenticateRequest()
+                {
+                    Login = "password",
+                    Password = "logi"
+                });
+            Assert.IsNull(response);
         }
     }
 }
