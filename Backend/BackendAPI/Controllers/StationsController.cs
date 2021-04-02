@@ -24,9 +24,9 @@ namespace BackendAPI.Controllers
 
         // GET: api/Stations
         [HttpGet]
-        public StationList Get()
+        public ActionResult<StationList> Get()
         {
-            return new StationList() { Stations = stationRepository.Get() };
+            return Ok(new StationList() { Stations = stationRepository.Get() });
         }
 
         // GET: api/Stations/5
@@ -36,12 +36,12 @@ namespace BackendAPI.Controllers
             var station = stationRepository.GetByID(id);
             if (station == null)
                 return new NotFoundObjectResult(new { message = "Station not found" });
-            return station ;
+            return Ok(station) ;
         }
 
         // POST: api/Stations
         [HttpPost]
-        public IActionResult Post([FromBody] NewStation newStation)
+        public ActionResult<BikeStation> Post([FromBody] NewStation newStation)
         {
             BikeStation station = new BikeStation()
             {
@@ -55,16 +55,26 @@ namespace BackendAPI.Controllers
             return new CreatedResult(station.ID.ToString(), station);
         }
 
-        // PUT: api/Stations/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+        //// PUT: api/Stations/5
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] string value)
+        //{
+        //}
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var station = stationRepository.GetByID(id);
+            if (station == null)
+                return new NotFoundObjectResult(
+                    new Error() { Message = "Station not found" });
+            //Tu spodziewam się problemów, że Bikes będzie nullem, trzeba będzie pewnie poprawic reposytoria
+            if (station.Bikes.Count == 0)
+                return new UnprocessableEntityObjectResult(
+                    new Error() { Message = "Station has bikes" });
+            stationRepository.Delete(id);
+            return Ok(station);
         }
     }
 }
