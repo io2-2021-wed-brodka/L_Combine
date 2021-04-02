@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BackendAPI.Models;
-using BackendAPI.Repository.Repositories;
+using BackendAPI.Repository.Interfaces;
 using ClassLibrary.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,11 +16,11 @@ namespace BackendAPI.Controllers
     [ApiController]
     public class StationsController : ControllerBase
     {
-        private StationRepository stationRepository;
-        private BikeRepository bikeRepository;
+        private IStationRepository stationRepository;
+        private IBikeRepository bikeRepository;
 
-        public StationsController(StationRepository stationRepository,
-            BikeRepository bikeRepository)
+        public StationsController(IStationRepository stationRepository,
+            IBikeRepository bikeRepository)
         {
             this.stationRepository = stationRepository;
             this.bikeRepository = bikeRepository;
