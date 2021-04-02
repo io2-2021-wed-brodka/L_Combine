@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BackendAPI.Models
+namespace ClassLibrary.DTO
 {
-    public class Error
+    public class NewStationDTO
     {
-        public string Message { get; set; }
+        public string Name { get; set; }
     }
 }

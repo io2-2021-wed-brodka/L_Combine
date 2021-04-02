@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BackendAPI.Models
+namespace ClassLibrary.DTO
 {
-    public class AuthenticateResponse
+    public class AuthenticateResponseDTO
     {
         public string Token { get; set; }
     }

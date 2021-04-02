@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BackendAPI.Models;
 using BackendAPI.Repository.Repositories;
+using ClassLibrary.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,65 +17,58 @@ namespace BackendAPI.Controllers
     public class StationsController : ControllerBase
     {
         private StationRepository stationRepository;
+        private BikeRepository bikeRepository;
 
-        public StationsController(StationRepository stationRepository)
+        public StationsController(StationRepository stationRepository,
+            BikeRepository bikeRepository)
         {
             this.stationRepository = stationRepository;
+            this.bikeRepository = bikeRepository;
         }
 
         // GET: api/Stations
         [HttpGet]
-        public ActionResult<StationList> Get()
+        public IActionResult Get()
         {
-            return Ok(new StationList() { Stations = stationRepository.Get() });
+            return Ok(new { Stations = stationRepository.Get() });
         }
 
         // GET: api/Stations/5
         [HttpGet("{id}", Name = "Get")]
-        public ActionResult<BikeStation> Get(int id)
+        public ActionResult<StationDTO> Get(int id)
         {
             var station = stationRepository.GetByID(id);
             if (station == null)
-                return new NotFoundObjectResult(new { message = "Station not found" });
+                return new NotFoundObjectResult(new ErrorDTO("Station not found"));
             return Ok(station) ;
         }
 
-        // POST: api/Stations
-        [HttpPost]
-        public ActionResult<BikeStation> Post([FromBody] NewStation newStation)
-        {
-            BikeStation station = new BikeStation()
-            {
-                LocationName = newStation.Name,
-                State = ClassLibrary.BikeStationState.Working
-            };
-            stationRepository.Insert(station);
-            //Tutaj według specyfikacji powinienem zwracać 201 i tylko w body station,
-            //ale tutaj zwracam też lokalizację w nagłówku, bo CreatedResult
-            //ma taki konstruktor
-            return new CreatedResult(station.ID.ToString(), station);
-        }
 
-        //// PUT: api/Stations/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpGet("bikes/{id}")]
+        public IActionResult GetBikes(int id)
         {
             var station = stationRepository.GetByID(id);
-            if (station == null)
-                return new NotFoundObjectResult(
-                    new Error() { Message = "Station not found" });
-            //Tu spodziewam się problemów, że Bikes będzie nullem, trzeba będzie pewnie poprawic reposytoria
-            if (station.Bikes.Count == 0)
-                return new UnprocessableEntityObjectResult(
-                    new Error() { Message = "Station has bikes" });
-            stationRepository.Delete(id);
-            return Ok(station);
+            //Według dokumentacji zwracamy zawsze response 200,
+            //czyli zakładamy że id stacji jest poprawne
+            return Ok(new { Bikes = station.Bikes } );
         }
+
+        [HttpPost("bikes/{id}")]
+        public ActionResult<BikeDTO> PostBike(int id, [FromBody] IdDTO bikeId)
+        {
+            var bike = bikeRepository.GetByID(bikeId.Id);
+            if (bike == null)
+                return new NotFoundObjectResult(new ErrorDTO("Bike not found"));
+            var station = stationRepository.GetByID(id);
+            if (station.State == ClassLibrary.BikeStationState.Blocked)
+                return new UnprocessableEntityObjectResult(
+                    new ErrorDTO("Cannot associate specified bike with specified station"));
+            bike.BikeStationID = id;
+            bikeRepository.Update(bike);
+            bikeRepository.SaveChanges();
+            return new CreatedResult(bike.ID.ToString(), bike);
+        }
+
+ 
     }
 }
