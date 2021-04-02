@@ -88,12 +88,17 @@ namespace BackendAPI.Controllers
                 .Working)
             {
                 User user = bikeRepository.GetUser(bike);
-                bikeUser = new UserDTO()
+                if (user != null)
                 {
-                    Id = user.ID,
-                    Name = user.Name
-                };
-                status = bikeUser == null ? BikeStatusDTO.Available : BikeStatusDTO.Rented;
+                    bikeUser = new UserDTO()
+                    {
+                        Id = user.ID,
+                        Name = user.Name
+                    };
+                    status = BikeStatusDTO.Rented;
+                }
+                else
+                    status = BikeStatusDTO.Available;
             }
             else
             {

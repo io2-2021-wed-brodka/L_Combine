@@ -26,13 +26,13 @@ namespace BackendAPI.Repository.Repositories
         public override IList<BikeStation> Get()
         {
             return dbContext.BikeStations
-                .Include(bs => bs.Bikes)
                 .ToList();
         }
 
         public override BikeStation GetByID(int ID)
         {
-            return dbContext.BikeStations.FirstOrDefault(x => x.ID == ID);
+            return dbContext.BikeStations
+                .Include(bs => bs.Bikes).FirstOrDefault(x => x.ID == ID);
         }
 
         public override bool Insert(BikeStation component)
