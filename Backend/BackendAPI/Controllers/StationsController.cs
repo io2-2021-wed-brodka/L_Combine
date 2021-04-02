@@ -30,7 +30,11 @@ namespace BackendAPI.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(new { Stations = stationRepository.Get() });
+            var stations = stationRepository.Get()
+                .Select(s => new StationDTO()
+                { Id = s.ID, Name = s.LocationName });
+            
+            return Ok(new { Stations = stations });
         }
 
         // GET: api/Stations/5
@@ -40,7 +44,11 @@ namespace BackendAPI.Controllers
             var station = stationRepository.GetByID(id);
             if (station == null)
                 return new NotFoundObjectResult(new ErrorDTO("Station not found"));
-            return Ok(station) ;
+            return Ok(new StationDTO()
+            {
+                Id = station.ID,
+                Name = station.LocationName
+            }) ;
         }
 
 
@@ -48,6 +56,8 @@ namespace BackendAPI.Controllers
         public IActionResult GetBikes(int id)
         {
             var station = stationRepository.GetByID(id);
+            var bikes = station.Bikes.Select(b => 
+                CreateBikeDTO(b));
             //Według dokumentacji zwracamy zawsze response 200,
             //czyli zakładamy że id stacji jest poprawne
             return Ok(new { Bikes = station.Bikes } );
@@ -66,7 +76,43 @@ namespace BackendAPI.Controllers
             bike.BikeStationID = id;
             bikeRepository.Update(bike);
             bikeRepository.SaveChanges();
-            return new CreatedResult(bike.ID.ToString(), bike);
+            return new CreatedResult(bike.ID.ToString(), 
+                CreateBikeDTO(bike));
+        }
+        
+        private BikeDTO CreateBikeDTO(Bike bike)
+        {
+            BikeStatusDTO status;
+            UserDTO bikeUser = null;
+            if (bike.State == ClassLibrary.BikeState
+                .Working)
+            {
+                User user = bikeRepository.GetUser(bike);
+                bikeUser = new UserDTO()
+                {
+                    Id = user.ID,
+                    Name = user.Name
+                };
+                status = bikeUser == null ? BikeStatusDTO.Available : BikeStatusDTO.Rented;
+            }
+            else
+            {
+                status = BikeStatusDTO.Blocked;
+            }
+            StationDTO station = 
+                bike.BikeStationID == null ? null : new StationDTO()
+            {
+                Id = bike.BikeStationID.Value,
+                Name = bike.BikeStation.LocationName
+            };
+
+            return new BikeDTO()
+            {
+                Id = bike.ID,
+                BikeStatus = status,
+                Station = station,
+                User = bikeUser
+            };
         }
 
  
