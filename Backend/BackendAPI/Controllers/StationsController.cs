@@ -60,7 +60,7 @@ namespace BackendAPI.Controllers
                 CreateBikeDTO(b));
             //Według dokumentacji zwracamy zawsze response 200,
             //czyli zakładamy że id stacji jest poprawne
-            return Ok(new { Bikes = station.Bikes } );
+            return Ok(new { Bikes = bikes } );
         }
 
         [HttpPost("bikes/{id}")]
