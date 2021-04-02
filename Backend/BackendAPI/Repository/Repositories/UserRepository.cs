@@ -33,7 +33,7 @@ namespace BackendAPI.Repository.Repositories
             // authentication successful so generate jwt token
             var token = generateJwtToken(user);
 
-            return new AuthenticateResponse(user, token);
+            return new AuthenticateResponse() { Token = token };
         }
 
         private string generateJwtToken(User user)
