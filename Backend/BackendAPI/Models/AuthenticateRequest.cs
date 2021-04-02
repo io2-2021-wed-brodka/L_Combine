@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ClassLibrary.DTO
+namespace BackendAPI.Models
 {
-    public class AuthenticateRequestDTO
+    public class AuthenticateRequest
     {
         [Required]
         public string Login { get; set; }
