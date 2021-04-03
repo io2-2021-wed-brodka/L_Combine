@@ -79,7 +79,7 @@ namespace BackendLogicTests
 
             var result = BikeDTOFactory.CreateBikeDTO(bike, user);
 
-            bool check = result.Id == bike.ID &&
+            bool check = result.Id == bike.ID.ToString() &&
                                result.Station == null &&
                                result.User != null &&
                                result.BikeStatus == ClassLibrary.DTO.BikeStatusDTO.Rented;
@@ -93,7 +93,7 @@ namespace BackendLogicTests
 
             var result = BikeDTOFactory.CreateBikeDTO(bike, null);
 
-            bool check = result.Id == bike.ID &&
+            bool check = result.Id == bike.ID.ToString() &&
                                result.Station != null &&
                                result.User == null &&
                                result.BikeStatus == ClassLibrary.DTO.BikeStatusDTO.Available;
@@ -107,7 +107,7 @@ namespace BackendLogicTests
 
             var result = BikeDTOFactory.CreateBikeDTO(bike, null);
 
-            bool check = result.Id == bike.ID &&
+            bool check = result.Id == bike.ID.ToString() &&
                                result.Station != null &&
                                result.User == null &&
                                result.BikeStatus == ClassLibrary.DTO.BikeStatusDTO.Blocked;
@@ -121,7 +121,7 @@ namespace BackendLogicTests
 
             var result = BikeDTOFactory.CreateBikeDTO(bike, null);
 
-            bool check = result.Id == bike.ID &&
+            bool check = result.Id == bike.ID.ToString() &&
                                result.Station == null &&
                                result.User == null &&
                                result.BikeStatus == ClassLibrary.DTO.BikeStatusDTO.Blocked;

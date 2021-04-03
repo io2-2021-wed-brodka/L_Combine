@@ -87,16 +87,7 @@ namespace BackendAPI.Controllers
                     new ErrorDTO("Cannot associate specified bike with specified station"));
 
             bike.BikeStationID = id;
-            //Pytanie, czy jeśli wyżej ustawiam id ręcznie,
-            //to czy poniższe update jest konieczne?
-            //jeżeli bike jest referencją do obiektu bezpośrednio
-            //w bazie to wydaje się, że update jest zbędne
-            //(i to znacznie przyspieszy działanie)
-            //Przetestuję po endpoincie do pożyczania rowerów
-            bikeRepository.Update(bike);
             rental.EndDate = DateTime.Now;
-            //Tu taka sama uwaga jak wyżej
-            rentalRepository.Update(rental);
 
             //Wystarczy saveChanges na jednym z repo
             bikeRepository.SaveChanges();
