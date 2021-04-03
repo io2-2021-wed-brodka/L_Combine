@@ -15,9 +15,9 @@ namespace BackendAPI.Repository.Repositories
         public RentalRepository(DataContext dbContext) : base(dbContext)
         { }
 
-        private IIncludableQueryable<Rental, Bike> GetAllRentals()
+        private DbSet<Rental> GetAllRentals()
         {
-            return dbContext.Rentals.Include(r => r.User).Include(r => r.Bike);
+            return dbContext.Rentals;
         }
 
         public override bool Delete(int ID)
@@ -60,6 +60,16 @@ namespace BackendAPI.Repository.Repositories
         {
             dbContext.Entry(GetByID(component.ID)).CurrentValues.SetValues(component);
             return component;
+        }
+
+        public IEnumerable<Rental> FindActiveRentals(int userId)
+        {
+            return dbContext.Rentals
+                .Include(r => r.Bike)
+                .Include(r => r.Bike.BikeStation)
+                .Include(r => r.User)
+                .Where(r => r.UserID == userId && r.EndDate == null)
+                .ToList();
         }
     }
 }

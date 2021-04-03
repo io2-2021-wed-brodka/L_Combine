@@ -1,4 +1,5 @@
-﻿using BackendAPI.Models.DTOFactories;
+﻿using BackendAPI.Models;
+using BackendAPI.Models.DTOFactories;
 using BackendAPI.Repository.Interfaces;
 using ClassLibrary.DTO;
 using Microsoft.AspNetCore.Authorization;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 namespace BackendAPI.Controllers
 {
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     [ApiController]
     public class BikesController : ControllerBase
     {
@@ -21,10 +22,14 @@ namespace BackendAPI.Controllers
                 User.FindFirstValue(ClaimTypes.NameIdentifier));
 
         private IRentalRepository rentalRepository;
+        private IBikeRepository bikeRepository;
+        private IUserRepository userRepository;
 
-        public BikesController(IRentalRepository rentalRepo)
+        public BikesController(IRentalRepository rentalRepo, IBikeRepository bikeRepo, IUserRepository userRepo)
         {
             rentalRepository = rentalRepo;
+            bikeRepository = bikeRepo;
+            userRepository = userRepo;
         }
 
         /// <summary>
@@ -35,10 +40,8 @@ namespace BackendAPI.Controllers
         {
             int userId = GetRequestingUserID;
 
-            BikeDTO[] rentedBikes = rentalRepository.Get()
-                .Where(r => r.UserID == userId && r.EndDate == null)
+            BikeDTO[] rentedBikes = rentalRepository.FindActiveRentals(userId)
                 .Select(r => BikeDTOFactory.CreateBikeDTO(r.Bike, r.User)).ToArray();
-
 
             return Ok(new { Bikes = rentedBikes });
         }
@@ -47,9 +50,28 @@ namespace BackendAPI.Controllers
         /// 
         /// </summary>
         [HttpPost("rented")]
-        public ActionResult<string> RentedPost()
+        public ActionResult<BikeDTO> RentedPost([FromBody] RentBikeDTO rent)
         {
-            return BadRequest();
+            if (!int.TryParse(rent.Id, out int bikeId))
+                return BadRequest(new ErrorDTO("Wrong bike id" ));
+
+            Bike bike = bikeRepository.GetByID(bikeId);
+
+            if (bike.State != ClassLibrary.BikeState.Working
+                || bike.BikeStation?.State != ClassLibrary.BikeStationState.Working)
+                return new UnprocessableEntityObjectResult(new ErrorDTO("Bike is already rented, blocked or reserved by another user or station is blocked"));
+
+            //Rower gotowy do wypożyczenia -> dopisanie wypożyczenia
+            rentalRepository.Insert(new Rental()
+            {
+                BikeID = bike.ID,
+                StartDate = DateTime.Now,
+                UserID = GetRequestingUserID,
+            });
+            bike.BikeStation = null;
+            bikeRepository.SaveChanges();
+
+            return Ok(BikeDTOFactory.CreateBikeDTO(bike, userRepository.GetByID(GetRequestingUserID)));
         }
 
         /// <summary>

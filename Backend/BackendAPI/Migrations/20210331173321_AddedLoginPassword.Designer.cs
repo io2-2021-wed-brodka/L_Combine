@@ -62,7 +62,7 @@ namespace BackendAPI.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("BikeSations");
+                    b.ToTable("BikeStations");
 
                     b.HasData(
                         new { ID = 1, LocationName = "Warszawa Targowa", State = 0 },
