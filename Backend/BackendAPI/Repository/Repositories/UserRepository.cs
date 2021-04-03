@@ -45,7 +45,7 @@ namespace BackendAPI.Repository.Repositories
             {
                 //Do ról wystarczy potem tutaj dopisać w Claimach rolę
                 //https://jasonwatmore.com/post/2019/10/16/aspnet-core-3-role-based-authorization-tutorial-with-example-api
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user.ID.ToString()) }),
+                Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()) }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };

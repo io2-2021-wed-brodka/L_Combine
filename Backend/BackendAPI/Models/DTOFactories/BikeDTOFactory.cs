@@ -7,7 +7,7 @@ namespace BackendAPI.Models.DTOFactories
 {
     public static class BikeDTOFactory
     {
-        public static BikeDTO CreateBikeDTO(Bike bike, User user = null)
+        public static BikeDTO CreateBikeDTO(Bike bike, User user)
         {
             BikeStatusDTO status;
             UserDTO bikeUser = null;
@@ -18,7 +18,7 @@ namespace BackendAPI.Models.DTOFactories
                 {
                     bikeUser = new UserDTO()
                     {
-                        Id = user.ID,
+                        Id = user.ID.ToString(),
                         Name = user.Name
                     };
                     status = BikeStatusDTO.Rented;
@@ -33,13 +33,13 @@ namespace BackendAPI.Models.DTOFactories
             StationDTO station =
                 bike.BikeStationID == null ? null : new StationDTO()
                 {
-                    Id = bike.BikeStationID.Value,
+                    Id = bike.BikeStationID.Value.ToString(),
                     Name = bike.BikeStation.LocationName
                 };
 
             return new BikeDTO()
             {
-                Id = bike.ID,
+                Id = bike.ID.ToString(),
                 BikeStatus = status,
                 Station = station,
                 User = bikeUser

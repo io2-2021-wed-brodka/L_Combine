@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Security.Claims;
 using BackendAPI.Models.DTOFactories;
 using BackendAPI.Repository.Interfaces;
 using ClassLibrary.DTO;
@@ -14,12 +16,16 @@ namespace BackendAPI.Controllers
     {
         private IStationRepository stationRepository;
         private IBikeRepository bikeRepository;
+        private IRentalRepository rentalRepository;
 
-        public StationsController(IStationRepository stationRepository,
-            IBikeRepository bikeRepository)
+        public StationsController(
+            IStationRepository stationRepository,
+            IBikeRepository bikeRepository,
+            IRentalRepository rentalRepository)
         {
             this.stationRepository = stationRepository;
             this.bikeRepository = bikeRepository;
+            this.rentalRepository = rentalRepository;
         }
 
         // GET: api/Stations
@@ -28,7 +34,7 @@ namespace BackendAPI.Controllers
         {
             var stations = stationRepository.Get()
                 .Select(s => new StationDTO()
-                { Id = s.ID, Name = s.LocationName });
+                { Id = s.ID.ToString(), Name = s.LocationName });
             
             return Ok(new { Stations = stations });
         }
@@ -42,7 +48,7 @@ namespace BackendAPI.Controllers
                 return new NotFoundObjectResult(new ErrorDTO("Station not found"));
             return Ok(new StationDTO()
             {
-                Id = station.ID,
+                Id = station.ID.ToString(),
                 Name = station.LocationName
             }) ;
         }
@@ -53,7 +59,8 @@ namespace BackendAPI.Controllers
         {
             var station = stationRepository.GetByID(id);
             var bikes = station.Bikes.Select(b => 
-                BikeDTOFactory.CreateBikeDTO(b));
+                BikeDTOFactory.CreateBikeDTO(b, 
+                bikeRepository.GetUser(b)));
             //Według dokumentacji zwracamy zawsze response 200,
             //czyli zakładamy że id stacji jest poprawne
             return Ok(new { Bikes = bikes } );
@@ -62,18 +69,40 @@ namespace BackendAPI.Controllers
         [HttpPost("bikes/{id}")]
         public ActionResult<BikeDTO> PostBike(int id, [FromBody] IdDTO bikeId)
         {
-            var bike = bikeRepository.GetByID(bikeId.Id);
+            var bike = bikeRepository.GetByID(int.Parse(bikeId.Id));
             if (bike == null)
                 return new NotFoundObjectResult(new ErrorDTO("Bike not found"));
             var station = stationRepository.GetByID(id);
             if (station.State == ClassLibrary.BikeStationState.Blocked)
                 return new UnprocessableEntityObjectResult(
                     new ErrorDTO("Cannot associate specified bike with specified station"));
+
+            var userId = int.Parse(
+                User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var rental = rentalRepository
+                .FindActiveRental(bike.ID, userId);
+            //Tego poniżej specyfikacja nie precyzuje jbc
+            if (rental == null)
+                return new UnprocessableEntityObjectResult(
+                    new ErrorDTO("Cannot associate specified bike with specified station"));
+
             bike.BikeStationID = id;
+            //Pytanie, czy jeśli wyżej ustawiam id ręcznie,
+            //to czy poniższe update jest konieczne?
+            //jeżeli bike jest referencją do obiektu bezpośrednio
+            //w bazie to wydaje się, że update jest zbędne
+            //(i to znacznie przyspieszy działanie)
+            //Przetestuję po endpoincie do pożyczania rowerów
             bikeRepository.Update(bike);
+            rental.EndDate = DateTime.Now;
+            //Tu taka sama uwaga jak wyżej
+            rentalRepository.Update(rental);
+
+            //Wystarczy saveChanges na jednym z repo
             bikeRepository.SaveChanges();
             return new CreatedResult(bike.ID.ToString(),
-                BikeDTOFactory.CreateBikeDTO(bike));
+                BikeDTOFactory.CreateBikeDTO(bike,
+                bikeRepository.GetUser(bike)));
         }
     }
 }

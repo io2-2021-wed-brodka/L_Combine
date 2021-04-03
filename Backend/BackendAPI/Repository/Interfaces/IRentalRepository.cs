@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.Repository.Interfaces
 {
-    interface IRentalRepository: IGenericRepository<Rental>
+    public interface IRentalRepository: IGenericRepository<Rental>
     {
+        Rental FindActiveRental(int bikeId, int userId);
     }
 }
