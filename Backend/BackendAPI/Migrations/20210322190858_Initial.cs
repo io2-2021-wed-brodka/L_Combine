@@ -9,7 +9,7 @@ namespace BackendAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "BikeSations",
+                name: "BikeStations",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -19,7 +19,7 @@ namespace BackendAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BikeSations", x => x.ID);
+                    table.PrimaryKey("PK_BikeStations", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -49,9 +49,9 @@ namespace BackendAPI.Migrations
                 {
                     table.PrimaryKey("PK_Bikes", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Bikes_BikeSations_BikeStationID",
+                        name: "FK_Bikes_BikeStations_BikeStationID",
                         column: x => x.BikeStationID,
-                        principalTable: "BikeSations",
+                        principalTable: "BikeStations",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -85,7 +85,7 @@ namespace BackendAPI.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "BikeSations",
+                table: "BikeStations",
                 columns: new[] { "ID", "LocationName", "State" },
                 values: new object[,]
                 {
@@ -160,7 +160,7 @@ namespace BackendAPI.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "BikeSations");
+                name: "BikeStations");
         }
     }
 }
