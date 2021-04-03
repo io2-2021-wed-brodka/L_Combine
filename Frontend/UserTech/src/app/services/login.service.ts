@@ -11,8 +11,8 @@ import {catchError, map} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class LoginService {
+  private baseUrl = env.apiUrl + '/login';
   private token: string | null;
-  private suffix = '/api/login';
 
   constructor(private router: Router, private http: HttpClient) {
     this.token = localStorage.getItem('token');
@@ -29,7 +29,7 @@ export class LoginService {
     };
 
     // TODO: change way to show different message when error different than 400
-    return this.http.post<AuthenticateResponseDTO>(env.apiUrl + this.suffix, authenticateRequest).pipe(
+    return this.http.post<AuthenticateResponseDTO>(this.baseUrl, authenticateRequest).pipe(
       catchError(_ => of(null)),
       map(response => {
           if (response?.token) {
