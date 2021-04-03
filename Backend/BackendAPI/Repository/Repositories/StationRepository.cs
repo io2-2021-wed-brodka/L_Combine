@@ -32,7 +32,7 @@ namespace BackendAPI.Repository.Repositories
         public IList<BikeStation> Get(Func<BikeStation, bool> filter)
         {
             return dbContext.BikeStations
-                .Where(bs => filter(bs)).ToList();
+                .Where(filter).ToList();
         }
 
         public override BikeStation GetByID(int ID)
