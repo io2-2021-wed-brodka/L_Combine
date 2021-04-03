@@ -1,11 +1,11 @@
-﻿using BackendAPI.Models;
+﻿using ClassLibrary.DTO;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ClassLibrary.DTO.Factories
+namespace BackendAPI.Models.DTOFactories
 {
-    static class BikeDTOFactory
+    public static class BikeDTOFactory
     {
         public static BikeDTO CreateBikeDTO(Bike bike, User user = null)
         {

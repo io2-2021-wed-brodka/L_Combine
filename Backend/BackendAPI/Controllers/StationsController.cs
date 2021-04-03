@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BackendAPI.Models;
+﻿using System.Linq;
+using BackendAPI.Models.DTOFactories;
 using BackendAPI.Repository.Interfaces;
 using ClassLibrary.DTO;
-using ClassLibrary.DTO.Factories;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackendAPI.Controllers
