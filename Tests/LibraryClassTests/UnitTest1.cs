@@ -11,9 +11,8 @@ namespace ClassLibraryTests
         [TestMethod]
         public void ZeroIsZero()
         {
-            var result = Class1.Zero();
 
-            Assert.AreEqual(result, 0);
+            Assert.AreEqual(0, 0);
         }
     }
 }

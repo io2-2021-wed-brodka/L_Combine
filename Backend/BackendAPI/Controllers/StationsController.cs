@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BackendAPI.Models;
 using BackendAPI.Repository.Interfaces;
 using ClassLibrary.DTO;
+using ClassLibrary.DTO.Factories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -57,7 +58,7 @@ namespace BackendAPI.Controllers
         {
             var station = stationRepository.GetByID(id);
             var bikes = station.Bikes.Select(b => 
-                CreateBikeDTO(b));
+                BikeDTOFactory.CreateBikeDTO(b));
             //Według dokumentacji zwracamy zawsze response 200,
             //czyli zakładamy że id stacji jest poprawne
             return Ok(new { Bikes = bikes } );
@@ -76,50 +77,8 @@ namespace BackendAPI.Controllers
             bike.BikeStationID = id;
             bikeRepository.Update(bike);
             bikeRepository.SaveChanges();
-            return new CreatedResult(bike.ID.ToString(), 
-                CreateBikeDTO(bike));
+            return new CreatedResult(bike.ID.ToString(),
+                BikeDTOFactory.CreateBikeDTO(bike));
         }
-        
-        private BikeDTO CreateBikeDTO(Bike bike)
-        {
-            BikeStatusDTO status;
-            UserDTO bikeUser = null;
-            if (bike.State == ClassLibrary.BikeState
-                .Working)
-            {
-                User user = bikeRepository.GetUser(bike);
-                if (user != null)
-                {
-                    bikeUser = new UserDTO()
-                    {
-                        Id = user.ID,
-                        Name = user.Name
-                    };
-                    status = BikeStatusDTO.Rented;
-                }
-                else
-                    status = BikeStatusDTO.Available;
-            }
-            else
-            {
-                status = BikeStatusDTO.Blocked;
-            }
-            StationDTO station = 
-                bike.BikeStationID == null ? null : new StationDTO()
-            {
-                Id = bike.BikeStationID.Value,
-                Name = bike.BikeStation.LocationName
-            };
-
-            return new BikeDTO()
-            {
-                Id = bike.ID,
-                BikeStatus = status,
-                Station = station,
-                User = bikeUser
-            };
-        }
-
- 
     }
 }
