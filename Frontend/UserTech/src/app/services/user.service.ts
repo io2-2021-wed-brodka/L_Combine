@@ -10,12 +10,13 @@ import { MockDataService } from './mock-data.service';
 export class UserService {
 
   constructor(private mockService: MockDataService,
-    private loginService: LoginService) { }
+              private loginService: LoginService) { }
 
   getRentedBikes(): Observable<RentedBike[]>{
-    if(!this.loginService.loggedUser)
+    if (!this.loginService.isLoggedIn()) {
       return of();
-    //get bikes from server
+    }
+    // get bikes from server
     return of(this.mockService.rentedBikes);
   }
 }

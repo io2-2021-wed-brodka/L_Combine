@@ -1,43 +1,60 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import LoginData from '../models/loginData';
-import User from '../models/user';
-import {MockDataService} from './mock-data.service';
 import {Router} from '@angular/router';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {environment as env} from '../../environments/environment';
+import {AuthenticateResponseDTO} from '../dto/authenticate-response-dto';
+import {catchError, map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  private user: User | undefined;
+  private token: string | null;
+  private suffix = '/api/login';
 
-  constructor(private router: Router, private mockData: MockDataService) {
-    const userStr = localStorage.getItem('user');
-    this.user = userStr ? JSON.parse(userStr) : userStr;
-  }
-
-  get loggedUser(): User | undefined {
-    return this.user;
+  constructor(private router: Router, private http: HttpClient) {
+    this.token = localStorage.getItem('token');
   }
 
   isLoggedIn(): boolean {
-    return this.user !== null && this.user !== undefined;
+    return this.token !== null;
   }
 
-  login(loginData: LoginData): Observable<User | undefined> {
-    // fetch to server
-    const found = this.mockData.userData.find(user => user.login === loginData.login && user.password === loginData.password);
-    if (found) {
-      this.user = this.mockData.users.find(user => user.username === loginData.login);
-      localStorage.setItem('user', JSON.stringify(this.user));
-      return of(this.user);
-    }
-    return of(undefined);
+  login(loginData: LoginData): Observable<boolean> {
+    const authenticateRequest = {
+      login: loginData.login,
+      password: loginData.password
+    };
+
+    // TODO: change way to show different message when error different than 400
+    return this.http.post<AuthenticateResponseDTO>(env.apiUrl + this.suffix, authenticateRequest).pipe(
+      catchError(_ => of(null)),
+      map(response => {
+          if (response?.token) {
+            this.setToken(response.token);
+            return true;
+          } else {
+            return false;
+          }
+        }
+      )
+    );
   }
 
   logout(): void {
-    localStorage.removeItem('user');
-    this.user = undefined;
+    localStorage.removeItem('token');
+    this.token = null;
     this.router.navigate(['login']);
+  }
+
+  setAuthenticateHeader(headers = new HttpHeaders()): HttpHeaders{
+    return headers.set('Authorization', 'Bearer ' + this.token);
+  }
+
+  private setToken(token: string): void {
+    this.token = token;
+    localStorage.setItem('token', token);
   }
 }
