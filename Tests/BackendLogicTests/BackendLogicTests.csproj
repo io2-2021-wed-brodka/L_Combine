@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Backend\BackendAPI\BackendAPI.csproj" />
-    <ProjectReference Include="..\Libraries\ClassLibrary\ClassLibrary.csproj" />
+    <ProjectReference Include="..\..\Backend\BackendAPI\BackendAPI.csproj" />
+    <ProjectReference Include="..\..\Libraries\ClassLibrary\ClassLibrary.csproj" />
   </ItemGroup>
 
 </Project>

@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassLibraryTests", "Tests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepositoryTests", "Tests\RepositoryTests\RepositoryTests.csproj", "{F0CB7EF6-F54F-4856-A633-C98742075127}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendLogicTests", "BackendLogicTests\BackendLogicTests.csproj", "{AD67E9F0-91CB-4232-A7D5-A64F3BE8F247}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendLogicTests", "Tests\BackendLogicTests\BackendLogicTests.csproj", "{AD67E9F0-91CB-4232-A7D5-A64F3BE8F247}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,5 @@
-﻿using BackendAPI.Repository.Interfaces;
+﻿using BackendAPI.Models.DTOFactories;
+using BackendAPI.Repository.Interfaces;
 using ClassLibrary.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 namespace BackendAPI.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     [ApiController]
     public class BikesController : ControllerBase
     {
@@ -30,11 +31,16 @@ namespace BackendAPI.Controllers
         /// 
         /// </summary>
         [HttpGet("rented")]
-        public ActionResult<string> RentedGet()
+        public ActionResult RentedGet()
         {
-            
+            int userId = GetRequestingUserID;
 
-            return Ok();
+            BikeDTO[] rentedBikes = rentalRepository.Get()
+                .Where(r => r.UserID == userId && r.EndDate == null)
+                .Select(r => BikeDTOFactory.CreateBikeDTO(r.Bike, r.User)).ToArray();
+
+
+            return Ok(new { Bikes = rentedBikes });
         }
 
         /// <summary>
