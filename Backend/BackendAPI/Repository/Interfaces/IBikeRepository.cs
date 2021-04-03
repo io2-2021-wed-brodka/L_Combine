@@ -8,5 +8,6 @@ namespace BackendAPI.Repository.Interfaces
 {
     public interface IBikeRepository : IGenericRepository<Bike>
     {
+        User GetUser(Bike component);
     }
 }

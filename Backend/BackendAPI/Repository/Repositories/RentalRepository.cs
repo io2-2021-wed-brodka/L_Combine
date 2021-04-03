@@ -1,6 +1,7 @@
 ﻿using BackendAPI.Data;
 using BackendAPI.Models;
 using BackendAPI.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,16 @@ namespace BackendAPI.Repository.Repositories
             dbContext.Rentals.Remove(rent);
             return true;
 
+        }
+
+        public Rental FindActiveRental(int bikeId, int userId)
+        {
+            //Może zwrócić nulla
+            return 
+                (from r in dbContext.Rentals
+                where r.BikeID == bikeId && r.UserID == userId &&
+                    r.EndDate == null
+                select r).FirstOrDefault();
         }
 
         public override IList<Rental> Get()

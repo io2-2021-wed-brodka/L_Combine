@@ -1,6 +1,7 @@
 ﻿using BackendAPI.Data;
 using BackendAPI.Models;
 using BackendAPI.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,12 +25,14 @@ namespace BackendAPI.Repository.Repositories
 
         public override IList<BikeStation> Get()
         {
-            return dbContext.BikeStations.ToList();
+            return dbContext.BikeStations
+                .ToList();
         }
 
         public override BikeStation GetByID(int ID)
         {
-            return dbContext.BikeStations.FirstOrDefault(x => x.ID == ID);
+            return dbContext.BikeStations
+                .Include(bs => bs.Bikes).FirstOrDefault(x => x.ID == ID);
         }
 
         public override bool Insert(BikeStation component)
