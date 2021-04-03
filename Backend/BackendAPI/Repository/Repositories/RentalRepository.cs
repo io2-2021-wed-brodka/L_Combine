@@ -2,6 +2,7 @@
 using BackendAPI.Models;
 using BackendAPI.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,15 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.Repository.Repositories
 {
-    public class RentalRepository: GenericRepository<Rental>, IRentalRepository
+    public class RentalRepository : GenericRepository<Rental>, IRentalRepository
     {
         public RentalRepository(DataContext dbContext) : base(dbContext)
         { }
+
+        private IIncludableQueryable<Rental, Bike> GetAllRentals()
+        {
+            return dbContext.Rentals.Include(r => r.User).Include(r => r.Bike);
+        }
 
         public override bool Delete(int ID)
         {
@@ -36,12 +42,12 @@ namespace BackendAPI.Repository.Repositories
 
         public override IList<Rental> Get()
         {
-            return dbContext.Rentals.ToList();
+            return GetAllRentals().ToList();
         }
 
         public override Rental GetByID(int ID)
         {
-            return dbContext.Rentals.FirstOrDefault(b => b.ID == ID);
+            return GetAllRentals().FirstOrDefault(b => b.ID == ID);
         }
 
         public override bool Insert(Rental component)
