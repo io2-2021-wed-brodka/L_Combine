@@ -32,7 +32,8 @@ namespace BackendAPI.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var stations = stationRepository.Get()
+            var stations = stationRepository
+                .Get(bs => bs.State == ClassLibrary.BikeStationState.Working)
                 .Select(s => new StationDTO()
                 { Id = s.ID.ToString(), Name = s.LocationName });
             
