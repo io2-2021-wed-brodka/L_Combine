@@ -10,13 +10,13 @@ import {BikesDTO} from '../dto/bikes-dto';
   providedIn: 'root'
 })
 export class StationService {
-  private baseUrl = env.apiUrl + '/stations';
+  private baseUrl = `${env.apiUrl}/stations`;
 
   constructor(private http: HttpClient) {
   }
 
   getStation(stationId: number): Observable<StationDTO> {
-    const url = '${baseUrl}/${stationId}';
+    const url = `${this.baseUrl}/${stationId}`;
     return this.http.get<StationDTO>(url);
   }
 
@@ -25,7 +25,7 @@ export class StationService {
   }
 
   getStationBikes(stationId: number): Observable<BikesDTO> {
-    const url = '${baseUrl}/bikes/${stationId}';
+    const url = `${this.baseUrl}/bikes/${stationId}`;
     return this.http.get<BikesDTO>(url);
   }
 }

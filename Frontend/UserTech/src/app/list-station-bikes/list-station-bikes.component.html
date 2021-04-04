@@ -1,23 +1,17 @@
-<h3>{{station.locationName}}</h3>
+<h3>{{station?.locationName}}</h3>
 
-<ng-container *ngIf="station.stationState === 'active'">
-  <div *ngFor="let bike of station.bikes"
-       [class.bike-available]="bike.state === 'available'"
-       [class.bike-reserved]="bike.state === 'reserved'"
-       [class.bike-blocked]="bike.state === 'blocked'"
-       [class.bike-rented]="bike.state === 'rented'"
-       [class.bike-selected]="bike === selectedBike"
-       (click)="selectBike(bike)"
-       class="bike">
-    <div class="bike-id">{{bike.id}}</div>
-    <div [textContent]="getBikeStateText(bike.state)" class="bike-state"></div>
-    <app-rent-bike [bike]="bike" *ngIf="bike === selectedBike"></app-rent-bike>
-  </div>
-</ng-container>
-
-<ng-container *ngIf="station.stationState === 'blocked'">
-  Stacja zablokowana
-</ng-container>
+<div *ngFor="let bike of bikes"
+     [class.bike-available]="bike.state === 'available'"
+     [class.bike-reserved]="bike.state === 'reserved'"
+     [class.bike-blocked]="bike.state === 'blocked'"
+     [class.bike-rented]="bike.state === 'rented'"
+     [class.bike-selected]="bike === selectedBike"
+     (click)="selectBike(bike)"
+     class="bike">
+  <div class="bike-id">{{bike.id}}</div>
+  <div [textContent]="getBikeStateText(bike.state)" class="bike-state"></div>
+  <app-rent-bike [bike]="bike" *ngIf="bike === selectedBike"></app-rent-bike>
+</div>
 
 <button class="button-back" (click)="goBack()">
   Powrót

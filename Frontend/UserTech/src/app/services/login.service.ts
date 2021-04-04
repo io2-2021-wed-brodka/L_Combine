@@ -11,7 +11,7 @@ import {map} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class LoginService {
-  private baseUrl = env.apiUrl + '/login';
+  private baseUrl = `${env.apiUrl}/login`;
   private token: string | null;
 
   constructor(private router: Router, private http: HttpClient) {
@@ -28,7 +28,6 @@ export class LoginService {
       password: loginData.password
     };
 
-    // TODO: change way to show different message when error different than 400
     return this.http.post<AuthenticateResponseDTO>(this.baseUrl, authenticateRequest).pipe(
       map(response => {
           if (response?.token) {

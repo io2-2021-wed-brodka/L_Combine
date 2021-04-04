@@ -12,7 +12,8 @@ import {bikeFromDTO, stationFromDTO} from '../utils/dto-utils';
   styleUrls: ['./list-station-bikes.component.scss']
 })
 export class ListStationBikesComponent implements OnInit {
-  station: BikeStation;
+  station: BikeStation | undefined;
+  bikes: Bike[] = [];
   selectedBike: Bike | undefined;
 
   constructor(
@@ -28,9 +29,9 @@ export class ListStationBikesComponent implements OnInit {
 
   getStation(): void {
     const stationId = +(this.route.snapshot.paramMap.get('id') || '-1');
-    this.stationService.getStation(stationId).subscribe(stationFromDTO);
+    this.stationService.getStation(stationId).subscribe(station => this.station = stationFromDTO(station));
     this.stationService.getStationBikes(stationId).subscribe(bikes =>
-      this.station.bikes = bikes.bikes.map<Bike>(bikeFromDTO)
+      this.bikes = bikes.bikes.map<Bike>(bikeFromDTO)
     );
   }
 
