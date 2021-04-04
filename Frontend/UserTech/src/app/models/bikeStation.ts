@@ -7,7 +7,7 @@ export interface BikeStation {
   bikes: Bike[];
 }
 
-export enum StationState{
+export enum StationState {
   Active = 'active',
   Blocked = 'blocked'
 }

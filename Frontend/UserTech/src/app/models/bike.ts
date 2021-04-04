@@ -5,7 +5,8 @@ export interface Bike {
 }
 
 export enum BikeState {
-  Free= 'free',
+  Available = 'available',
+  Rented = 'rented',
   Reserved = 'reserved',
   Blocked = 'blocked',
 }

@@ -3,7 +3,6 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTre
 import {Observable} from 'rxjs';
 import {StationService} from '../services/station.service';
 import {map} from 'rxjs/operators';
-import {StationState} from '../models/bikeStation';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +18,7 @@ export class StationActiveGuard implements CanActivate {
     const stationId = +(route.paramMap.get('id') || '-1');
     return this.stationService.getStation(stationId).pipe(
       map(station => {
-        if (station?.stationState === StationState.Active) {
+        if (station?.id) {
           return true;
         }
         else {

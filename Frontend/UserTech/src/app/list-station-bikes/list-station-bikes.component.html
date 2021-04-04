@@ -2,9 +2,10 @@
 
 <ng-container *ngIf="station.stationState === 'active'">
   <div *ngFor="let bike of station.bikes"
-       [class.bike-free]="bike.state === 'free'"
+       [class.bike-available]="bike.state === 'available'"
        [class.bike-reserved]="bike.state === 'reserved'"
        [class.bike-blocked]="bike.state === 'blocked'"
+       [class.bike-rented]="bike.state === 'rented'"
        [class.bike-selected]="bike === selectedBike"
        (click)="selectBike(bike)"
        class="bike">
