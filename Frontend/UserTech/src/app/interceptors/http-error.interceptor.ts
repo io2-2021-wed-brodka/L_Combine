@@ -3,11 +3,12 @@ import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest}
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {LoginService} from '../services/login.service';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
-  constructor(private loginService: LoginService) {
+  constructor(private loginService: LoginService, private router: Router) {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -25,9 +26,13 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
             returnedError = error;
 
-            // logout user if response is 401
-            if (error.status === 401) {
-              this.loginService.logout();
+            switch (error.status){
+              // logout user if response is 401
+              case 401:
+                this.loginService.logout();
+                break;
+              case 404:
+                this.router.navigate(['home']);
             }
           }
           console.error(errorMessage);
