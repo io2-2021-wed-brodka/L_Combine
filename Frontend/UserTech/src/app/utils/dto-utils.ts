@@ -15,7 +15,6 @@ export function stationFromDTO(station: StationDTO): BikeStation {
   return {
     id: parseInt(station.id, 10),
     locationName: station.name,
-    stationState: StationState.Active,
-    bikes: []
+    stationState: StationState.Active
   };
 }
