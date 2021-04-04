@@ -4,7 +4,7 @@
      [class.list-item-active]="station.stationState === 'active'"
      [class.list-item-blocked]="station.stationState === 'blocked'"
      class="list-item"
-     [routerLink]="['/station', station.id]">
+     [routerLink]="['../station', station.id]">
     <div class="list-item-side-left">
       {{station.locationName}}
     </div>
