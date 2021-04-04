@@ -38,7 +38,7 @@ export class ListStationBikesComponent implements OnInit {
     switch (state) {
       case BikeState.Blocked:
         return 'Zablokowany';
-      case BikeState.Free:
+      case BikeState.Available:
         return 'Wolny';
       case BikeState.Reserved:
         return 'Zarezerwowany';
@@ -46,6 +46,6 @@ export class ListStationBikesComponent implements OnInit {
   }
 
   selectBike(bike: Bike): void {
-    this.selectedBike = (this.selectedBike === bike || bike?.state !== 'free') ? undefined : bike;
+    this.selectedBike = (this.selectedBike === bike || bike?.state !== 'available') ? undefined : bike;
   }
 }

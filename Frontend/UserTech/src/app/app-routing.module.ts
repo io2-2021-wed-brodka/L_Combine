@@ -5,6 +5,7 @@ import {LoginViewComponent} from './login-view/login-view.component';
 import {StationActiveGuard} from './guards/station-active.guard';
 import {MainComponent} from './main/main.component';
 import {UserLoggedGuard} from './guards/user-logged.guard';
+import {HomeComponent} from './components/home/home.component';
 
 const routes: Routes = [
   {
@@ -12,18 +13,24 @@ const routes: Routes = [
     component: LoginViewComponent
   },
   {
-    path: 'home',
+    path: 'rental',
     component: MainComponent,
-    canActivate: [UserLoggedGuard]
-  },
-  {
-    path: 'station/:id',
-    component: ListStationBikesComponent,
-    canActivate: [StationActiveGuard, UserLoggedGuard]
+    canActivate: [UserLoggedGuard],
+    children: [
+      {
+        path: 'home',
+        component: HomeComponent,
+      },
+      {
+        path: 'station/:id',
+        component: ListStationBikesComponent,
+        canActivate: [StationActiveGuard]
+      }
+    ]
   },
   {
     path: '**',
-    redirectTo: 'home',
+    redirectTo: 'rental/home',
     pathMatch: 'full'
   }
 ];
