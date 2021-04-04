@@ -1,5 +1,11 @@
 @import "../styles/colors";
 
-.bike-details{
+.bike-details {
+  display: flex;
+  justify-content: space-between;
   padding: 5px;
+
+  .button-rent {
+    margin: auto;
+  }
 }
