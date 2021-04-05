@@ -13,7 +13,7 @@ namespace BackendAPI.ModelsConfigurations
     {
         public void Configure(EntityTypeBuilder<BikeStation> builder)
         {
-            builder.ToTable("BikeStations");
+            builder.ToTable("BikeSations");
 
             builder.Property(bs => bs.LocationName).HasMaxLength(150);
             builder.Property(bs => bs.ID).ValueGeneratedOnAdd();

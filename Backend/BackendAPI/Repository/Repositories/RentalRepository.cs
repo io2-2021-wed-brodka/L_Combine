@@ -2,7 +2,6 @@
 using BackendAPI.Models;
 using BackendAPI.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +9,10 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.Repository.Repositories
 {
-    public class RentalRepository : GenericRepository<Rental>, IRentalRepository
+    public class RentalRepository: GenericRepository<Rental>, IRentalRepository
     {
         public RentalRepository(DataContext dbContext) : base(dbContext)
         { }
-
-        private DbSet<Rental> GetAllRentals()
-        {
-            return dbContext.Rentals;
-        }
 
         public override bool Delete(int ID)
         {
@@ -42,12 +36,12 @@ namespace BackendAPI.Repository.Repositories
 
         public override IList<Rental> Get()
         {
-            return GetAllRentals().ToList();
+            return dbContext.Rentals.ToList();
         }
 
         public override Rental GetByID(int ID)
         {
-            return GetAllRentals().FirstOrDefault(b => b.ID == ID);
+            return dbContext.Rentals.FirstOrDefault(b => b.ID == ID);
         }
 
         public override bool Insert(Rental component)
@@ -60,16 +54,6 @@ namespace BackendAPI.Repository.Repositories
         {
             dbContext.Entry(GetByID(component.ID)).CurrentValues.SetValues(component);
             return component;
-        }
-
-        public IEnumerable<Rental> FindActiveRentals(int userId)
-        {
-            return dbContext.Rentals
-                .Include(r => r.Bike)
-                .Include(r => r.Bike.BikeStation)
-                .Include(r => r.User)
-                .Where(r => r.UserID == userId && r.EndDate == null)
-                .ToList();
         }
     }
 }
