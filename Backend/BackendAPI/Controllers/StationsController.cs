@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
-using BackendAPI.Models.DTOFactories;
+using BackendAPI.Helpers.DTOFactories;
 using BackendAPI.Repository.Interfaces;
 using ClassLibrary.DTO;
 using Microsoft.AspNetCore.Authorization;
@@ -45,7 +45,7 @@ namespace BackendAPI.Controllers
         public ActionResult<StationDTO> Get(int id)
         {
             var station = stationRepository.GetByID(id);
-            if (station == null)
+            if (station == null || station.State == ClassLibrary.BikeStationState.Blocked)
                 return new NotFoundObjectResult(new ErrorDTO("Station not found"));
             return Ok(new StationDTO()
             {
