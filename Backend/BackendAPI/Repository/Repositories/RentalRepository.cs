@@ -62,9 +62,9 @@ namespace BackendAPI.Repository.Repositories
             return component;
         }
 
-        public IEnumerable<Rental> FindActiveRentals(int userId)
+        public IList<Rental> FindActiveRentals(int userId)
         {
-            return dbContext.Rentals
+            return GetAllRentals()
                 .Include(r => r.Bike)
                 .Include(r => r.Bike.BikeStation)
                 .Include(r => r.User)

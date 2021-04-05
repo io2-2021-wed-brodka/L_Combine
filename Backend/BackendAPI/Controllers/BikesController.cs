@@ -2,6 +2,7 @@
 using BackendAPI.Models.DTOFactories;
 using BackendAPI.Repository.Interfaces;
 using ClassLibrary.DTO;
+using ClassLibrary.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -40,8 +41,8 @@ namespace BackendAPI.Controllers
         {
             int userId = GetRequestingUserID;
 
-            BikeDTO[] rentedBikes = rentalRepository.FindActiveRentals(userId)
-                .Select(r => BikeDTOFactory.CreateBikeDTO(r.Bike, r.User)).ToArray();
+            var rentedBikes = rentalRepository.FindActiveRentals(userId)
+                .Select(r => BikeDTOFactory.CreateBikeDTO(r.Bike, r.User));
 
             return Ok(new { Bikes = rentedBikes });
         }
@@ -50,12 +51,16 @@ namespace BackendAPI.Controllers
         /// 
         /// </summary>
         [HttpPost("rented")]
-        public ActionResult<BikeDTO> RentedPost([FromBody] RentBikeDTO rent)
+        public ActionResult<BikeDTO> RentedPost([FromBody] IdDTO rent)
         {
+            //[BLOCKED] dopisac check na zablokowanego uzytkownika
+
             if (!int.TryParse(rent.Id, out int bikeId))
-                return BadRequest(new ErrorDTO("Wrong bike id" ));
+                throw new HttpResponseException("Wrong Bike Id", 404);
 
             Bike bike = bikeRepository.GetByID(bikeId);
+            if (bike == null)
+                throw new HttpResponseException("Wrong Bike Id", 404);
 
             if (bike.State != ClassLibrary.BikeState.Working
                 || bike.BikeStation?.State != ClassLibrary.BikeStationState.Working)
@@ -71,7 +76,7 @@ namespace BackendAPI.Controllers
             bike.BikeStation = null;
             bikeRepository.SaveChanges();
 
-            return Ok(BikeDTOFactory.CreateBikeDTO(bike, userRepository.GetByID(GetRequestingUserID)));
+            return new CreatedResult("/api/bikes/rented", BikeDTOFactory.CreateBikeDTO(bike, userRepository.GetByID(GetRequestingUserID)));
         }
 
         /// <summary>
