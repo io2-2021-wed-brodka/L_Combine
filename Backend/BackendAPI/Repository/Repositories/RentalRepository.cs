@@ -14,6 +14,11 @@ namespace BackendAPI.Repository.Repositories
         public RentalRepository(DataContext dbContext) : base(dbContext)
         { }
 
+        private DbSet<Rental> GetAllRentals()
+        {
+            return dbContext.Rentals;
+        }
+
         public override bool Delete(int ID)
         {
             Rental rent = GetByID(ID);
@@ -28,7 +33,7 @@ namespace BackendAPI.Repository.Repositories
         {
             //Może zwrócić nulla
             return 
-                (from r in dbContext.Rentals
+                (from r in GetAllRentals()
                 where r.BikeID == bikeId && r.UserID == userId &&
                     r.EndDate == null
                 select r).FirstOrDefault();
@@ -36,12 +41,12 @@ namespace BackendAPI.Repository.Repositories
 
         public override IList<Rental> Get()
         {
-            return dbContext.Rentals.ToList();
+            return GetAllRentals().ToList();
         }
 
         public override Rental GetByID(int ID)
         {
-            return dbContext.Rentals.FirstOrDefault(b => b.ID == ID);
+            return GetAllRentals().FirstOrDefault(b => b.ID == ID);
         }
 
         public override bool Insert(Rental component)
