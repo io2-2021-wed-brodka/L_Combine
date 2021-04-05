@@ -1,5 +1,5 @@
+using BackendAPI.Helpers.DTOFactories;
 using BackendAPI.Models;
-using BackendAPI.Models.DTOFactories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 

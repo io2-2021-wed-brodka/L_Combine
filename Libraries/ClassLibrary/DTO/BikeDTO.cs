@@ -9,6 +9,6 @@ namespace ClassLibrary.DTO
         public string Id { get; set; }
         public StationDTO Station { get; set; }
         public UserDTO User { get; set; }
-        public BikeStatusDTO BikeStatus { get; set; }
+        public string BikeStatus { get; set; }
     }
 }

@@ -29,6 +29,12 @@ namespace BackendAPI.Repository.Repositories
                 .ToList();
         }
 
+        public IList<BikeStation> Get(Func<BikeStation, bool> filter)
+        {
+            return dbContext.BikeStations
+                .Where(filter).ToList();
+        }
+
         public override BikeStation GetByID(int ID)
         {
             return dbContext.BikeStations
