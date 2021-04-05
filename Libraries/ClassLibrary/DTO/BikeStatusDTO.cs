@@ -4,8 +4,11 @@ using System.Text;
 
 namespace ClassLibrary.DTO
 {
-    public enum BikeStatusDTO
+    public static class BikeStatusDTO
     {
-        Available, Rented, Reserved, Blocked
+        public const string Available = "available";
+        public const string Rented = "rented";
+        public const string Reserved = "reserved";
+        public const string Blocked = "blocked";
     }
 }

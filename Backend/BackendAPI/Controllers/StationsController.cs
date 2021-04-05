@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
-using BackendAPI.Models.DTOFactories;
+using BackendAPI.Helpers.DTOFactories;
 using BackendAPI.Repository.Interfaces;
 using ClassLibrary.DTO;
 using Microsoft.AspNetCore.Authorization;

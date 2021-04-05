@@ -1,15 +1,16 @@
-﻿using ClassLibrary.DTO;
+﻿using BackendAPI.Models;
+using ClassLibrary.DTO;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BackendAPI.Models.DTOFactories
+namespace BackendAPI.Helpers.DTOFactories
 {
     public static class BikeDTOFactory
     {
         public static BikeDTO CreateBikeDTO(Bike bike, User user)
         {
-            BikeStatusDTO status;
+            string status;
             UserDTO bikeUser = null;
             if (bike.State == ClassLibrary.BikeState
                 .Working)
