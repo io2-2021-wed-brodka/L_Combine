@@ -45,7 +45,7 @@ namespace BackendAPI.Controllers
         public ActionResult<StationDTO> Get(int id)
         {
             var station = stationRepository.GetByID(id);
-            if (station == null)
+            if (station == null || station.State == ClassLibrary.BikeStationState.Blocked)
                 return new NotFoundObjectResult(new ErrorDTO("Station not found"));
             return Ok(new StationDTO()
             {

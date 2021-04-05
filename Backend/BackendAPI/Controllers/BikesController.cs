@@ -1,5 +1,5 @@
-﻿using BackendAPI.Models;
-using BackendAPI.Models.DTOFactories;
+﻿using BackendAPI.Helpers.DTOFactories;
+using BackendAPI.Models;
 using BackendAPI.Repository.Interfaces;
 using ClassLibrary.DTO;
 using Microsoft.AspNetCore.Authorization;
