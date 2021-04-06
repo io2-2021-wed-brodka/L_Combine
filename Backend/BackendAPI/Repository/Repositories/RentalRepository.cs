@@ -14,11 +14,6 @@ namespace BackendAPI.Repository.Repositories
         public RentalRepository(DataContext dbContext) : base(dbContext)
         { }
 
-        private DbSet<Rental> GetAllRentals()
-        {
-            return dbContext.Rentals;
-        }
-
         public override bool Delete(int ID)
         {
             Rental rent = GetByID(ID);
@@ -33,7 +28,7 @@ namespace BackendAPI.Repository.Repositories
         {
             //Może zwrócić nulla
             return 
-                (from r in GetAllRentals()
+                (from r in dbContext.Rentals
                 where r.BikeID == bikeId && r.UserID == userId &&
                     r.EndDate == null
                 select r).FirstOrDefault();
@@ -41,12 +36,12 @@ namespace BackendAPI.Repository.Repositories
 
         public override IList<Rental> Get()
         {
-            return GetAllRentals().ToList();
+            return dbContext.Rentals.ToList();
         }
 
         public override Rental GetByID(int ID)
         {
-            return GetAllRentals().FirstOrDefault(b => b.ID == ID);
+            return dbContext.Rentals.FirstOrDefault(b => b.ID == ID);
         }
 
         public override bool Insert(Rental component)
@@ -59,16 +54,6 @@ namespace BackendAPI.Repository.Repositories
         {
             dbContext.Entry(GetByID(component.ID)).CurrentValues.SetValues(component);
             return component;
-        }
-        
-        public IList<Rental> FindActiveRentals(int userId)
-        {
-            return GetAllRentals()
-                .Include(r => r.Bike)
-                .Include(r => r.Bike.BikeStation)
-                .Include(r => r.User)
-                .Where(r => r.UserID == userId && r.EndDate == null)
-                .ToList();
         }
     }
 }

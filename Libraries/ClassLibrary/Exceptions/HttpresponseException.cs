@@ -11,18 +11,12 @@ namespace ClassLibrary.Exceptions
     /// </summary>
     public class HttpResponseException : Exception
     {
-        public HttpResponseException(string message, int status = 500)
-        {
-            Status = status;
-            Value = message;
-        }
-
         public int Status { get; set; } = 500;
 
         private object val;
         public object Value
         {
-            get => $"{{\n   Error: {val} \n}}";
+            get => $"Error {Status}: " + val;
             set => val = value;
         }
     }
