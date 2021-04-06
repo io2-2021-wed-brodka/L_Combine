@@ -1,7 +1,7 @@
 <div class="wrapper">
   <div class="list">
-    <h3 class="list-header">{{station.locationName}}</h3>
-    <div *ngFor="let bike of station.bikes"
+    <h3 class="list-header">{{station?.locationName}}</h3>
+    <div *ngFor="let bike of bikes"
          [class.list-item-active]="bike.state === 'available'"
          [class.list-item-blocked]="bike.state !== 'available'"
          [class.bike-selected]="bike === selectedBike"
