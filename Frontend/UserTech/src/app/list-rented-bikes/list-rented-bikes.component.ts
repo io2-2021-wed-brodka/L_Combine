@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {RentedBike} from '../../models/rentedBike';
-import {UserService} from '../../services/user.service';
+import {RentedBike} from '../models/rentedBike';
+import {UserService} from '../services/user.service';
 
 @Component({
   selector: 'app-list-rented-bikes',
