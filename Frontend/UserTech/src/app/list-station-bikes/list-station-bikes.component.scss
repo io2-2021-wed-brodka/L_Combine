@@ -1,30 +1,14 @@
-@import "../styles/colors";
+@import "../styles/list";
 
-.bike {
-  display: block;
-  margin: 5px;
-  border-radius: 10px;
-  padding: 10px;
-  width: 300px;
-  background-color: $main-box-color;
-  color: #eff3f6;
+.wrapper {
+  width: 500px;
+  margin: auto;
 
-  .bike-id {
-    display: inline-block;
+  .list {
+    margin-bottom: 10px;
+
+    .rent-bike {
+      flex-basis: 100%;
+    }
   }
-
-  .bike-state {
-    display: inline-block;
-    float: right;
-  }
-}
-
-.bike-available:hover, .bike-selected {
-  background-color: $main-box-hover-color;
-}
-
-.bike-blocked, .bike-reserved, .bike-rented {
-  opacity: 0.3;
-  background-color: gray;
-  color: #eff3f6;
 }

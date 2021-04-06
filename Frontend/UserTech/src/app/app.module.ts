@@ -12,6 +12,7 @@ import { ListRentedBikesComponent } from './list-rented-bikes/list-rented-bikes.
 import { MainComponent } from './main/main.component';
 import { RentBikeComponent } from './rent-bike/rent-bike.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     ListStationsComponent,
     ListRentedBikesComponent,
     RentBikeComponent,
-    MainComponent
+    MainComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

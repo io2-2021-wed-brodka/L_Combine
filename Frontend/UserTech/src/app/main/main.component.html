@@ -1,11 +1,5 @@
+<button class="logout" (click)="logout()">Wyloguj</button>
+
 <h1>Bike Rentup</h1>
 
-<div class="flex-container">
-  <div class="bikes-rented flex-item">
-    <app-list-rented-bikes></app-list-rented-bikes>
-  </div>
-
-  <div class="rent-bike flex-item">
-    <app-list-stations></app-list-stations>
-  </div>
-</div>
+<router-outlet></router-outlet>
