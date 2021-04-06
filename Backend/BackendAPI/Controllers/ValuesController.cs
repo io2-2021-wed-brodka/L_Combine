@@ -39,11 +39,7 @@ namespace BackendAPI.Controllers
         public ActionResult<string> Get(int id)
         {
             if (id > 10)
-                throw new HttpResponseException()
-                {
-                    Status = 409,
-                    Value = "Za duze id"
-                };
+                throw new HttpResponseException("Za duze id", 409);
             return "value";
         }
 
