@@ -8,7 +8,8 @@ import {UserService} from '../../services/user.service';
   styleUrls: ['./list-rented-bikes.component.scss']
 })
 export class ListRentedBikesComponent implements OnInit {
-  reservedBikes: RentedBike[] = [];
+  rentedBikes: RentedBike[] = [];
+  selectedBike: RentedBike | undefined;
 
   constructor(private userService: UserService) {
   }
@@ -18,6 +19,10 @@ export class ListRentedBikesComponent implements OnInit {
   }
 
   getBikes(): void {
-    this.userService.getRentedBikes().subscribe(bikes => this.reservedBikes = bikes);
+    this.userService.getRentedBikes().subscribe(bikes => this.rentedBikes = bikes);
+  }
+
+  selectBike(bike: RentedBike): void {
+    this.selectedBike = this.selectedBike === bike ? undefined : bike;
   }
 }

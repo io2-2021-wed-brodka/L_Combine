@@ -1,8 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Bike} from '../models/bike';
-import {RentBikeService} from '../services/rent-bike.service';
-import {Router} from '@angular/router';
-import {RentResult} from '../models/rentResult';
+import {RentedBike} from '../models/rentedBike';
 
 @Component({
   selector: 'app-return-bike',
@@ -10,11 +7,16 @@ import {RentResult} from '../models/rentResult';
   styleUrls: ['./return-bike.component.scss']
 })
 export class ReturnBikeComponent implements OnInit {
-  @Input() bike!: Bike;
+  @Input() bike!: RentedBike;
 
   constructor() {
   }
 
   ngOnInit(): void {
+  }
+
+  // TODO: podpiąć rentBikeService z metodą return
+  return(): void {
+
   }
 }
