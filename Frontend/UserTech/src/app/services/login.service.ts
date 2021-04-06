@@ -1,18 +1,18 @@
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import LoginData from '../models/loginData';
 import {Router} from '@angular/router';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment as env} from '../../environments/environment';
 import {AuthenticateResponseDTO} from '../dto/authenticate-response-dto';
-import {catchError, map} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
+  private baseUrl = `${env.apiUrl}/login`;
   private token: string | null;
-  private suffix = '/api/login';
 
   constructor(private router: Router, private http: HttpClient) {
     this.token = localStorage.getItem('token');
@@ -28,9 +28,7 @@ export class LoginService {
       password: loginData.password
     };
 
-    // TODO: change way to show different message when error different than 400
-    return this.http.post<AuthenticateResponseDTO>(env.apiUrl + this.suffix, authenticateRequest).pipe(
-      catchError(_ => of(null)),
+    return this.http.post<AuthenticateResponseDTO>(this.baseUrl, authenticateRequest).pipe(
       map(response => {
           if (response?.token) {
             this.setToken(response.token);
@@ -49,7 +47,7 @@ export class LoginService {
     this.router.navigate(['login']);
   }
 
-  setAuthenticateHeader(headers = new HttpHeaders()): HttpHeaders{
+  setAuthenticateHeader(headers = new HttpHeaders()): HttpHeaders {
     return headers.set('Authorization', 'Bearer ' + this.token);
   }
 

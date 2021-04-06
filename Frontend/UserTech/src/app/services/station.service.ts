@@ -1,22 +1,31 @@
-import { Injectable } from '@angular/core';
-import {Observable, of} from 'rxjs';
-import {BikeStation} from '../models/bikeStation';
-import {STATIONS} from '../mocks/stationsMock';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {environment as env} from '../../environments/environment';
+import {StationDTO} from '../dto/station-dto';
+import {StationsDTO} from '../dto/stations-dto';
+import {BikesDTO} from '../dto/bikes-dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StationService {
+  private baseUrl = `${env.apiUrl}/stations`;
 
-  constructor() { }
-
-  // TODO: make HTTPS request for those
-  getStation(stationId: number): Observable<BikeStation> {
-    return of(STATIONS[stationId - 1]);
+  constructor(private http: HttpClient) {
   }
 
-  getStations(): Observable<BikeStation[]> {
-    return of(STATIONS);
+  getStation(stationId: number): Observable<StationDTO> {
+    const url = `${this.baseUrl}/${stationId}`;
+    return this.http.get<StationDTO>(url);
   }
 
+  getStations(): Observable<StationsDTO> {
+    return this.http.get<StationsDTO>(this.baseUrl);
+  }
+
+  getStationBikes(stationId: number): Observable<BikesDTO> {
+    const url = `${this.baseUrl}/bikes/${stationId}`;
+    return this.http.get<BikesDTO>(url);
+  }
 }

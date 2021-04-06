@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {BikeStation} from '../models/bikeStation';
 import {Location} from '@angular/common';
 import {Bike, BikeState} from '../models/bike';
+import {bikeFromDTO, stationFromDTO} from '../utils/dto-utils';
 
 @Component({
   selector: 'app-list-station-bikes',
@@ -11,7 +12,8 @@ import {Bike, BikeState} from '../models/bike';
   styleUrls: ['./list-station-bikes.component.scss']
 })
 export class ListStationBikesComponent implements OnInit {
-  station!: BikeStation;
+  station: BikeStation | undefined;
+  bikes: Bike[] = [];
   selectedBike: Bike | undefined;
 
   constructor(
@@ -27,7 +29,10 @@ export class ListStationBikesComponent implements OnInit {
 
   getStation(): void {
     const stationId = +(this.route.snapshot.paramMap.get('id') || '-1');
-    this.stationService.getStation(stationId).subscribe(station => this.station = station);
+    this.stationService.getStation(stationId).subscribe(station => this.station = stationFromDTO(station));
+    this.stationService.getStationBikes(stationId).subscribe(bikes =>
+      this.bikes = bikes.bikes.map<Bike>(bikeFromDTO)
+    );
   }
 
   goBack(): void {
@@ -38,14 +43,16 @@ export class ListStationBikesComponent implements OnInit {
     switch (state) {
       case BikeState.Blocked:
         return 'Zablokowany';
-      case BikeState.Free:
+      case BikeState.Available:
         return 'Wolny';
       case BikeState.Reserved:
         return 'Zarezerwowany';
+      case BikeState.Rented:
+        return 'Wypożyczony';
     }
   }
 
   selectBike(bike: Bike): void {
-    this.selectedBike = (this.selectedBike === bike || bike?.state !== 'free') ? undefined : bike;
+    this.selectedBike = (this.selectedBike === bike || bike?.state !== 'available') ? undefined : bike;
   }
 }

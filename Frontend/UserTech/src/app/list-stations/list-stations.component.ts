@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {BikeStation} from '../models/bikeStation';
 import {StationService} from '../services/station.service';
+import {stationFromDTO} from '../utils/dto-utils';
 
 @Component({
   selector: 'app-list-stations',
@@ -20,7 +21,8 @@ export class ListStationsComponent implements OnInit {
   }
 
   getStations(): void {
-    this.stationService.getStations()
-      .subscribe(stations => this.stations = stations);
+    this.stationService.getStations().subscribe(stations =>
+      this.stations = stations.stations.map<BikeStation>(stationFromDTO)
+    );
   }
 }

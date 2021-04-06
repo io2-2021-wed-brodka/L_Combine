@@ -19,11 +19,11 @@
   }
 }
 
-.bike-free:hover, .bike-selected {
+.bike-available:hover, .bike-selected {
   background-color: $main-box-hover-color;
 }
 
-.bike-blocked, .bike-reserved {
+.bike-blocked, .bike-reserved, .bike-rented {
   opacity: 0.3;
   background-color: gray;
   color: #eff3f6;
