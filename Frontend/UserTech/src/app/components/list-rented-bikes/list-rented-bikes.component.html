@@ -1,7 +1,8 @@
 <div class="list">
   <h3 class="list-header">Rented bikes</h3>
   <div *ngFor="let bike of reservedBikes"
-       class="list-item list-item-active">
+       class="list-item"
+       (click)="selectBike(bike)">
     <div class="list-item-side-left">
       {{bike.id}}
     </div>
@@ -13,5 +14,6 @@
         {{bike.rentalTimestamp.toLocaleString()}}
       </div>
     </div>
+    <app-return-bike class="return-bike" [bike]="bike" *ngIf="bike === selectedBike"></app-return-bike>
   </div>
 </div>
