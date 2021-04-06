@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Bike} from '../models/bike';
+import {Bike} from '../../models/bike';
 import {Router} from '@angular/router';
-import {RentResult} from '../models/rentResult';
-import {RentBikeService} from '../services/rent-bike.service';
+import {RentResult} from '../../models/rentResult';
+import {RentBikeService} from '../../services/rent-bike.service';
 
 @Component({
   selector: 'app-rent-bike',

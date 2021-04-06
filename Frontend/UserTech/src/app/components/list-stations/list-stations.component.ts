@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {BikeStation} from '../models/bikeStation';
-import {StationService} from '../services/station.service';
-import {stationFromDTO} from '../utils/dto-utils';
+import {BikeStation} from '../../models/bikeStation';
+import {StationService} from '../../services/station.service';
+import {stationFromDTO} from '../../utils/dto-utils';
 
 @Component({
   selector: 'app-list-stations',

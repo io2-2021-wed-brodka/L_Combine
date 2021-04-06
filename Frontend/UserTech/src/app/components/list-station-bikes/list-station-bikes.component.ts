@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {StationService} from '../services/station.service';
+import {StationService} from '../../services/station.service';
 import {ActivatedRoute} from '@angular/router';
-import {BikeStation} from '../models/bikeStation';
+import {BikeStation} from '../../models/bikeStation';
 import {Location} from '@angular/common';
-import {Bike, BikeState} from '../models/bike';
-import {bikeFromDTO, stationFromDTO} from '../utils/dto-utils';
+import {Bike, BikeState} from '../../models/bike';
+import {bikeFromDTO, stationFromDTO} from '../../utils/dto-utils';
 
 @Component({
   selector: 'app-list-station-bikes',
