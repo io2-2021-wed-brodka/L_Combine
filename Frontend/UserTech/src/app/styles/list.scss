@@ -17,8 +17,12 @@
     flex-wrap: wrap;
     margin: 5px;
 
-    &-active:hover {
-      background-color: $main-box-hover-color;
+    &-active {
+      cursor: pointer;
+
+      &:hover {
+        background-color: $main-box-hover-color;
+      }
     }
 
     &-blocked {
