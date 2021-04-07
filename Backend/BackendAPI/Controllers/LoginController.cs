@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BackendAPI.Models;
 using BackendAPI.Repository.Interfaces;
+using ClassLibrary.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +26,7 @@ namespace BackendAPI.Controllers
             var response = userRepository.Authenticate(model);
 
             if (response == null)
-                return BadRequest(new { message = "Login lub hasło jest niepoprawne" });
+                throw new HttpResponseException("Bad credentials", 401);
 
             return Ok(response);
         }

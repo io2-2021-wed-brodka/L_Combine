@@ -4,6 +4,7 @@ using System.Security.Claims;
 using BackendAPI.Helpers.DTOFactories;
 using BackendAPI.Repository.Interfaces;
 using ClassLibrary.DTO;
+using ClassLibrary.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,7 +47,7 @@ namespace BackendAPI.Controllers
         {
             var station = stationRepository.GetByID(id);
             if (station == null || station.State == ClassLibrary.BikeStationState.Blocked)
-                return new NotFoundObjectResult(new ErrorDTO("Station not found"));
+                throw new HttpResponseException("Station not found", 404);
             return Ok(new StationDTO()
             {
                 Id = station.ID.ToString(),
@@ -72,11 +73,10 @@ namespace BackendAPI.Controllers
         {
             var bike = bikeRepository.GetByID(int.Parse(bikeId.Id));
             if (bike == null)
-                return new NotFoundObjectResult(new ErrorDTO("Bike not found"));
+                throw new HttpResponseException("Bike not found", 404);
             var station = stationRepository.GetByID(id);
             if (station.State == ClassLibrary.BikeStationState.Blocked)
-                return new UnprocessableEntityObjectResult(
-                    new ErrorDTO("Cannot associate specified bike with specified station"));
+                throw new HttpResponseException("Cannot associate specified bike with specified station", 422);
 
             var userId = int.Parse(
                 User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -84,8 +84,7 @@ namespace BackendAPI.Controllers
                 .FindActiveRental(bike.ID, userId);
             //Tego poniżej specyfikacja nie precyzuje jbc
             if (rental == null)
-                return new UnprocessableEntityObjectResult(
-                    new ErrorDTO("Cannot associate specified bike with specified station"));
+                throw new HttpResponseException("Cannot associate specified bike with specified station", 422);
 
             bike.BikeStationID = id;
             rental.EndDate = DateTime.Now;

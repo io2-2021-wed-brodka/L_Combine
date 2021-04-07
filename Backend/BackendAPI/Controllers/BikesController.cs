@@ -56,15 +56,15 @@ namespace BackendAPI.Controllers
             //[BLOCKED] dopisac check na zablokowanego uzytkownika
 
             if (!int.TryParse(rent.Id, out int bikeId))
-                throw new HttpResponseException("Wrong Bike Id", 404);
+                throw new HttpResponseException("Bike not found", 404);
 
             Bike bike = bikeRepository.GetByID(bikeId);
             if (bike == null)
-                throw new HttpResponseException("Wrong Bike Id", 404);
+                throw new HttpResponseException("Bike not found", 404);
 
             if (bike.State != ClassLibrary.BikeState.Working
                 || bike.BikeStation?.State != ClassLibrary.BikeStationState.Working)
-                return new UnprocessableEntityObjectResult(new ErrorDTO("Bike is already rented, blocked or reserved by another user or station is blocked"));
+                throw new HttpResponseException("Bike is already rented, blocked or reserved by another user or station is blocked", 422);
 
             //Rower gotowy do wypożyczenia -> dopisanie wypożyczenia
             rentalRepository.Insert(new Rental()
