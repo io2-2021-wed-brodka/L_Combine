@@ -43,9 +43,12 @@ namespace BackendAPI.Controllers
 
         // GET: api/Stations/5
         [HttpGet("{id}", Name = "Get")]
-        public ActionResult<StationDTO> Get(int id)
+        public ActionResult<StationDTO> Get(string id)
         {
-            var station = stationRepository.GetByID(id);
+            if (!int.TryParse(id, out int stationId))
+                throw new HttpResponseException("Station not found", 404);
+
+            var station = stationRepository.GetByID(stationId);
             if (station == null || station.State == ClassLibrary.BikeStationState.Blocked)
                 throw new HttpResponseException("Station not found", 404);
             return Ok(new StationDTO()
@@ -57,9 +60,12 @@ namespace BackendAPI.Controllers
 
 
         [HttpGet("bikes/{id}")]
-        public IActionResult GetBikes(int id)
+        public IActionResult GetBikes(string id)
         {
-            var station = stationRepository.GetByID(id);
+            if (!int.TryParse(id, out int stationId))
+                throw new HttpResponseException("Station not found", 404);
+
+            var station = stationRepository.GetByID(stationId);
             var bikes = station.Bikes.Select(b => 
                 BikeDTOFactory.CreateBikeDTO(b, 
                 bikeRepository.GetUser(b)));
@@ -69,12 +75,22 @@ namespace BackendAPI.Controllers
         }
 
         [HttpPost("bikes/{id}")]
-        public ActionResult<BikeDTO> PostBike(int id, [FromBody] IdDTO bikeId)
+        public ActionResult<BikeDTO> PostBike(string id, [FromBody] IdDTO bikeIdObj)
         {
-            var bike = bikeRepository.GetByID(int.Parse(bikeId.Id));
+            if (!int.TryParse(id, out int stationId))
+                throw new HttpResponseException("Station not found", 404);
+
+            if (!int.TryParse(bikeIdObj.Id, out int bikeId))
+                throw new HttpResponseException("Bike not found", 404);
+
+            var station = stationRepository.GetByID(stationId);
+            if (station == null)
+                throw new HttpResponseException("Station not found", 404);
+
+            var bike = bikeRepository.GetByID(bikeId);
             if (bike == null)
                 throw new HttpResponseException("Bike not found", 404);
-            var station = stationRepository.GetByID(id);
+
             if (station.State == ClassLibrary.BikeStationState.Blocked)
                 throw new HttpResponseException("Cannot associate specified bike with specified station", 422);
 
@@ -86,7 +102,7 @@ namespace BackendAPI.Controllers
             if (rental == null)
                 throw new HttpResponseException("Cannot associate specified bike with specified station", 422);
 
-            bike.BikeStationID = id;
+            bike.BikeStationID = stationId;
             rental.EndDate = DateTime.Now;
 
             //Wystarczy saveChanges na jednym z repo
