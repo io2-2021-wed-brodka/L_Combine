@@ -2,12 +2,14 @@
 using BackendAPI.Helpers;
 using BackendAPI.Models;
 using BackendAPI.Repository.Repositories;
+using ClassLibrary;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace RepositoryTests
@@ -43,13 +45,17 @@ namespace RepositoryTests
         //Umieszczenie użytkownika w tabeli poza repository
         private int InsertUser()
         {
-            User test = new User()
+            User test;
+            using (var sha256Hash = SHA256.Create())
             {
-                Name = "Jan",
-                LastName = "Dzban",
-                Login = "password",
-                Password = "login"
-            };
+                test = new User()
+                {
+                    Name = "Jan",
+                    LastName = "Dzban",
+                    Login = "password",
+                    PasswordHash = StringHash.GetHash(sha256Hash, "login")
+                };
+            }
 
             dbContext.Users.Add(test);
             dbContext.SaveChanges();
