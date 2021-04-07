@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,10 +27,10 @@ namespace BackendAPI.Repository.Repositories
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
             User user;
-            using (SHA256 sha256Hash = SHA256.Create())
+            using (var stringHash = new StringHash())
             {
-                var passwordHash = StringHash.GetHash(sha256Hash, model.Password);
-                user = dbContext.Users.FirstOrDefault(x => x.Login == model.Login && StringHash.CompareHashes(sha256Hash, passwordHash, x.PasswordHash));
+                var passwordHash = stringHash.GetHash(model.Password);
+                user = dbContext.Users.FirstOrDefault(x => x.Login == model.Login && stringHash.CompareHashes(passwordHash, x.PasswordHash));
             }
             // return null if user not found
             if (user == null) return null;

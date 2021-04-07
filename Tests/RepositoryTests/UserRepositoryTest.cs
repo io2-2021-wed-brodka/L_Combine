@@ -46,14 +46,14 @@ namespace RepositoryTests
         private int InsertUser()
         {
             User test;
-            using (var sha256Hash = SHA256.Create())
+            using (var stringHash = new StringHash())
             {
                 test = new User()
                 {
                     Name = "Jan",
                     LastName = "Dzban",
                     Login = "password",
-                    PasswordHash = StringHash.GetHash(sha256Hash, "login")
+                    PasswordHash = stringHash.GetHash("login")
                 };
             }
 

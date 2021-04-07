@@ -2,7 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace ClassLibraryTests
@@ -15,8 +14,8 @@ namespace ClassLibraryTests
         {
             string input = "Hello world!";
             string result;
-            using (var sha256Hash = SHA256.Create())
-                result = StringHash.GetHash(sha256Hash, input);
+            using (var stringHash = new StringHash() )
+                result = stringHash.GetHash(input);
 
             Assert.IsTrue(result.Length == 64);
         }
@@ -26,12 +25,12 @@ namespace ClassLibraryTests
         {
             string input = "Hello world!";
             string result1, result2;
-            using (var sha256Hash = SHA256.Create())
+            using (var stringHash = new StringHash())
             {
-                result1 = StringHash.GetHash(sha256Hash, input);
-                result2 = StringHash.GetHash(sha256Hash, input);
+                result1 = stringHash.GetHash(input);
+                result2 = stringHash.GetHash(input);
 
-                Assert.IsTrue(StringHash.CompareHashes(sha256Hash, result1, result2));
+                Assert.IsTrue(stringHash.CompareHashes(result1, result2));
             }
         }
 
@@ -40,12 +39,12 @@ namespace ClassLibraryTests
         {
             string input1 = "Hello world!", input2="Hello world1";
             string result1, result2;
-            using (var sha256Hash = SHA256.Create())
+            using (var stringHash = new StringHash())
             {
-                result1 = StringHash.GetHash(sha256Hash, input1);
-                result2 = StringHash.GetHash(sha256Hash, input2);
+                result1 = stringHash.GetHash(input1);
+                result2 = stringHash.GetHash(input2);
 
-                Assert.IsFalse(StringHash.CompareHashes(sha256Hash, result1, result2));
+                Assert.IsFalse(stringHash.CompareHashes(result1, result2));
             }
         }
     }

@@ -7,9 +7,12 @@ using System.Text;
 
 namespace ClassLibrary
 {
-    public static class StringHash
+    public class StringHash : IDisposable
     {
-        public static string GetHash(HashAlgorithm hashAlgorithm, string input)
+        private readonly HashAlgorithm hashAlgorithm = SHA256.Create();
+        private bool disposed = false;
+
+        public string GetHash(string input)
         {
 
             // Convert the input string to a byte array and compute the hash.
@@ -30,11 +33,18 @@ namespace ClassLibrary
             return sBuilder.ToString();
         }
 
-        public static bool CompareHashes(HashAlgorithm hashAlgorithm, string hash1, string hash2)
+        public bool CompareHashes(string hash1, string hash2)
         {
             StringComparer comparer = StringComparer.OrdinalIgnoreCase;
 
             return comparer.Compare(hash1, hash2) == 0;
+        }
+
+        public void Dispose()
+        {
+            if (!disposed)
+                hashAlgorithm.Dispose();
+            disposed = true;
         }
     }
 }
