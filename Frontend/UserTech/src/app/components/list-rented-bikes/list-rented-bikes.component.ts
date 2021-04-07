@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {RentedBike} from '../../models/rentedBike';
-import {UserService} from '../../services/user.service';
+import { Bike } from 'src/app/models/bike';
+import { bikeFromDTO } from 'src/app/utils/dto-utils';
+import {BikeService} from '../../services/bike.service';
 
 @Component({
   selector: 'app-list-rented-bikes',
@@ -8,9 +9,9 @@ import {UserService} from '../../services/user.service';
   styleUrls: ['./list-rented-bikes.component.scss']
 })
 export class ListRentedBikesComponent implements OnInit {
-  reservedBikes: RentedBike[] = [];
+  reservedBikes: Bike[] = [];
 
-  constructor(private userService: UserService) {
+  constructor(private userService: BikeService) {
   }
 
   ngOnInit(): void {
@@ -18,6 +19,8 @@ export class ListRentedBikesComponent implements OnInit {
   }
 
   getBikes(): void {
-    this.userService.getRentedBikes().subscribe(bikes => this.reservedBikes = bikes);
+    this.userService.getRentedBikes().subscribe(bikes =>
+      this.reservedBikes = bikes.bikes.map(bikeFromDTO)
+      );
   }
 }
