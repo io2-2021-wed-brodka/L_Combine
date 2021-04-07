@@ -97,7 +97,7 @@ namespace RepositoryTests
             rentalRepo.Delete(id);
             dbContext.SaveChanges();
 
-            var result = dbContext.BikeStations.Count();
+            var result = dbContext.Rentals.Count();
             Assert.AreEqual(result, 0);
         }
 
