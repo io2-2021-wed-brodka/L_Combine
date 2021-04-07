@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -14,6 +14,7 @@ import {RentBikeComponent} from './components/rent-bike/rent-bike.component';
 import {TokenInterceptor} from './interceptors/token.interceptor';
 import {HttpErrorInterceptor} from './interceptors/http-error.interceptor';
 import {HomeComponent} from './components/home/home.component';
+import {RentedBikeDetailsComponent} from './components/rented-bike-details/rented-bike-details.component';
 import {ReturnBikeComponent} from './components/return-bike/return-bike.component';
 
 @NgModule({
@@ -26,6 +27,7 @@ import {ReturnBikeComponent} from './components/return-bike/return-bike.componen
     RentBikeComponent,
     MainComponent,
     HomeComponent,
+    RentedBikeDetailsComponent,
     ReturnBikeComponent,
   ],
   imports: [

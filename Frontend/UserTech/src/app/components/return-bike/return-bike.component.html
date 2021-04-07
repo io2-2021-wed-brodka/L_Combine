@@ -1,3 +1,20 @@
-<div class="bike-details">
-  <button class="button-return" (click)="return()">Oddaj</button>
+<div class="wrapper">
+  <div class="list">
+    <h3 class="list-header">Wybierz stację oddania</h3>
+    <div *ngFor="let station of stations"
+         (click)="returnBike(station)"
+         class="list-item list-item-active">
+      <div class="list-item-side-left">
+        {{station.locationName}}
+      </div>
+      <div [ngSwitch]="station.stationState" class="list-item-side-right">
+        <span *ngSwitchCase="'active'">Aktywna</span>
+        <span *ngSwitchCase="'blocked'">Zablokowana</span>
+      </div>
+    </div>
+  </div>
+
+  <button class="button-back" (click)="goBack()">
+    Powrót
+  </button>
 </div>

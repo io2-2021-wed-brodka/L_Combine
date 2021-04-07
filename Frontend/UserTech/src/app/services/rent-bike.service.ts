@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import {Bike} from "../models/bike";
-import {Observable, of} from "rxjs";
-import {RentResult} from "../models/rentResult";
+import {Injectable} from '@angular/core';
+import {Bike} from '../models/bike';
+import {Observable, of} from 'rxjs';
+import {RentResult} from '../models/rentResult';
 
 @Injectable({
   providedIn: 'root'
@@ -12,5 +12,9 @@ export class RentBikeService {
 
   rent(bike: Bike): Observable<RentResult>{
     return of({result: 'Ok'});
+  }
+
+  return(bikeId: number, stationId: number): Observable<any> {
+    return of('a');
   }
 }

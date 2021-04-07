@@ -14,6 +14,6 @@
         {{bike.rentalTimestamp.toLocaleString()}}
       </div>
     </div>
-    <app-return-bike class="return-bike" [bike]="bike" *ngIf="bike === selectedBike"></app-return-bike>
+    <app-rented-bike-details class="return-bike" [bike]="bike" *ngIf="bike === selectedBike"></app-rented-bike-details>
   </div>
 </div>
