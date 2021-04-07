@@ -9,7 +9,7 @@ import {BikeService} from '../../services/bike.service';
   styleUrls: ['./list-rented-bikes.component.scss']
 })
 export class ListRentedBikesComponent implements OnInit {
-  reservedBikes: Bike[] = [];
+  rentedBikes: Bike[] = [];
 
   constructor(private userService: BikeService) {
   }
@@ -20,7 +20,7 @@ export class ListRentedBikesComponent implements OnInit {
 
   getBikes(): void {
     this.userService.getRentedBikes().subscribe(bikes =>
-      this.reservedBikes = bikes.bikes.map(bikeFromDTO)
+      this.rentedBikes = bikes.bikes.map(bikeFromDTO)
       );
   }
 }

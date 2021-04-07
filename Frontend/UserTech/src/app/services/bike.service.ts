@@ -15,9 +15,6 @@ export class BikeService {
               private http: HttpClient) { }
 
   getRentedBikes(): Observable<BikesDTO>{
-    if (!this.loginService.isLoggedIn()) {
-      return of();
-    }
     return this.http.get<BikesDTO>(`${this.baseUrl}/rented`);
   }
 }
