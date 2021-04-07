@@ -55,11 +55,9 @@ namespace BackendAPI.Controllers
         {
             //[BLOCKED] dopisac check na zablokowanego uzytkownika
 
-            if (!int.TryParse(rent.Id, out int bikeId))
-                throw new HttpResponseException("Bike not found", 404);
-
-            Bike bike = bikeRepository.GetByID(bikeId);
-            if (bike == null)
+            Bike bike;
+            if (!int.TryParse(rent.Id, out int bikeId) || 
+                (bike = bikeRepository.GetByID(bikeId)) == null)
                 throw new HttpResponseException("Bike not found", 404);
 
             if (bike.State != ClassLibrary.BikeState.Working
