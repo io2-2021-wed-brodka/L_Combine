@@ -14,7 +14,7 @@ import {RentBikeComponent} from './components/rent-bike/rent-bike.component';
 import {TokenInterceptor} from './interceptors/token.interceptor';
 import {HttpErrorInterceptor} from './interceptors/http-error.interceptor';
 import {HomeComponent} from './components/home/home.component';
-import {ReturnBikeComponent} from './components/return-bike/return-bike.component'
+import {ReturnBikeComponent} from './components/return-bike/return-bike.component';
 
 @NgModule({
   declarations: [

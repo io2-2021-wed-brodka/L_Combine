@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {RentedBike} from '../models/rentedBike';
+import {RentedBike} from '../../models/rentedBike';
 
 @Component({
   selector: 'app-return-bike',
