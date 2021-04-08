@@ -1,9 +1,11 @@
 <div class="list">
   <h3 class="list-header">Rented bikes</h3>
   <div *ngFor="let bike of rentedBikes"
-       class="list-item list-item-active">
+       class="list-item list-item-active"
+       (click)="selectBike(bike)">
     <div class="list-item-side-left">
       {{bike.id}}
     </div>
+    <app-rented-bike-details class="return-bike" [bike]="bike" *ngIf="bike === selectedBike"></app-rented-bike-details>
   </div>
 </div>

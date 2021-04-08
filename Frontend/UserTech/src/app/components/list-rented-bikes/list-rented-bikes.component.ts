@@ -10,6 +10,7 @@ import {BikeService} from '../../services/bike.service';
 })
 export class ListRentedBikesComponent implements OnInit {
   rentedBikes: Bike[] = [];
+  selectedBike: Bike | undefined;
 
   constructor(private userService: BikeService) {
   }
@@ -22,5 +23,9 @@ export class ListRentedBikesComponent implements OnInit {
     this.userService.getRentedBikes().subscribe(bikes =>
       this.rentedBikes = bikes.bikes.map(bikeFromDTO)
       );
+  }
+
+  selectBike(bike: Bike): void {
+    this.selectedBike = this.selectedBike === bike ? undefined : bike;
   }
 }
