@@ -1,0 +1,11 @@
+@import "src/app/styles/colors";
+
+.bike-details {
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+
+  .button-return {
+    margin: auto;
+  }
+}
