@@ -40,6 +40,6 @@ export class ReturnBikeComponent implements OnInit {
   }
 
   returnBike(station: BikeStation): void {
-    this.rentBikeService.return(this.bikeId, station.id).subscribe(_ => this.router.navigate(['']));
+    this.rentBikeService.returnBike(this.bikeId, station.id).subscribe(_ => this.router.navigate(['']));
   }
 }

@@ -20,7 +20,7 @@ export class RentBikeComponent implements OnInit {
   }
 
   rent(): void {
-    this.rentBikeService.rent(this.bike).subscribe((res: RentResult) => {
+    this.rentBikeService.rentBike(this.bike).subscribe((res: RentResult) => {
       res.result === 'Ok' ? this.router.navigate(['']) : console.log(res.result);
     });
   }

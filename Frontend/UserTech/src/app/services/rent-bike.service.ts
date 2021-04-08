@@ -10,11 +10,11 @@ export class RentBikeService {
 
   constructor() { }
 
-  rent(bike: Bike): Observable<RentResult>{
+  rentBike(bike: Bike): Observable<RentResult>{
     return of({result: 'Ok'});
   }
 
-  return(bikeId: number, stationId: number): Observable<any> {
+  returnBike(bikeId: number, stationId: number): Observable<any> {
     return of('a');
   }
 }
