@@ -2,6 +2,7 @@
 using BackendAPI.Helpers;
 using BackendAPI.Models;
 using BackendAPI.Repository.Interfaces;
+using ClassLibrary;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -25,8 +26,12 @@ namespace BackendAPI.Repository.Repositories
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
-            var user = dbContext.Users.FirstOrDefault(x => x.Login == model.Login && x.Password == model.Password);
-
+            User user;
+            using (var stringHash = new StringHash())
+            {
+                var passwordHash = stringHash.GetHash(model.Password);
+                user = dbContext.Users.FirstOrDefault(x => x.Login == model.Login && stringHash.CompareHashes(passwordHash, x.PasswordHash));
+            }
             // return null if user not found
             if (user == null) return null;
 
