@@ -15,7 +15,7 @@ export class StationActiveGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    const stationId = +(route.paramMap.get('id') || '-1');
+    const stationId = route.paramMap.get('id') || '';
     return this.stationService.getStation(stationId).pipe(
       map(station => {
         if (station?.id) {

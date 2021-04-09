@@ -5,7 +5,7 @@ import {BikeStation, StationState} from '../models/bikeStation';
 
 export function bikeFromDTO(bike: BikeDTO): Bike {
   return {
-    id: +bike.id,
+    id: bike.id,
     state: bike.bikeStatus,
     stationId: parseInt(bike.station.id, 10)
   };
@@ -13,7 +13,7 @@ export function bikeFromDTO(bike: BikeDTO): Bike {
 
 export function stationFromDTO(station: StationDTO): BikeStation {
   return {
-    id: +station.id,
+    id: station.id,
     locationName: station.name,
     stationState: StationState.Active
   };

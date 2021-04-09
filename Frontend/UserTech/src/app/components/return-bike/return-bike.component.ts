@@ -12,7 +12,7 @@ import {RentBikeService} from '../../services/rent-bike.service';
   styleUrls: ['./return-bike.component.scss']
 })
 export class ReturnBikeComponent implements OnInit {
-  bikeId: number;
+  bikeId: string;
   stations: BikeStation[] = [];
 
   constructor(
@@ -22,7 +22,7 @@ export class ReturnBikeComponent implements OnInit {
     private router: Router,
     private location: Location
   ) {
-    this.bikeId = +(this.route.snapshot.paramMap.get('id') || '-1');
+    this.bikeId = this.route.snapshot.paramMap.get('id') || '';
   }
 
   ngOnInit(): void {
