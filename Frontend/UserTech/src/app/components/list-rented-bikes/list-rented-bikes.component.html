@@ -6,14 +6,6 @@
     <div class="list-item-side-left">
       {{bike.id}}
     </div>
-    <div class="list-item-side-right">
-      <div>
-        Data wypożyczenia:
-      </div>
-      <div>
-        {{bike.rentalTimestamp.toLocaleString()}}
-      </div>
-    </div>
     <app-rented-bike-details class="return-bike" [bike]="bike" *ngIf="bike === selectedBike"></app-rented-bike-details>
   </div>
 </div>
