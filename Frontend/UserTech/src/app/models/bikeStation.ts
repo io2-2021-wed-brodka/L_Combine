@@ -1,5 +1,5 @@
 export interface BikeStation {
-  id: number;
+  id: string;
   locationName: string;
   stationState: StationState;
 }

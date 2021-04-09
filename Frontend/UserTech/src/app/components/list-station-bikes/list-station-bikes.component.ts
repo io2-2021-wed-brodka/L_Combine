@@ -28,7 +28,7 @@ export class ListStationBikesComponent implements OnInit {
   }
 
   getStation(): void {
-    const stationId = +(this.route.snapshot.paramMap.get('id') || '-1');
+    const stationId = this.route.snapshot.paramMap.get('id') || '';
     this.stationService.getStation(stationId).subscribe(station => this.station = stationFromDTO(station));
     this.stationService.getStationBikes(stationId).subscribe(bikes =>
       this.bikes = bikes.bikes.map<Bike>(bikeFromDTO)

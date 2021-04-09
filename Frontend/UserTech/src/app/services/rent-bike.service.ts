@@ -14,7 +14,7 @@ export class RentBikeService {
     return of({result: 'Ok'});
   }
 
-  returnBike(bikeId: number, stationId: number): Observable<any> {
+  returnBike(bikeId: string, stationId: string): Observable<any> {
     return of('a');
   }
 }
