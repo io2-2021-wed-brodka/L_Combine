@@ -22,8 +22,8 @@ namespace ClassLibrary.Exceptions
         private object val;
         public object Value
         {
-            get => $"{{\n   Error: {val} \n}}";
-            set => val = value;
+            get => val;
+            set => val = new { Message = value };
         }
     }
 }

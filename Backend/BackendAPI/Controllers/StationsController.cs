@@ -2,8 +2,10 @@
 using System.Linq;
 using System.Security.Claims;
 using BackendAPI.Helpers.DTOFactories;
+using BackendAPI.Models;
 using BackendAPI.Repository.Interfaces;
 using ClassLibrary.DTO;
+using ClassLibrary.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,11 +44,14 @@ namespace BackendAPI.Controllers
 
         // GET: api/Stations/5
         [HttpGet("{id}", Name = "Get")]
-        public ActionResult<StationDTO> Get(int id)
+        public ActionResult<StationDTO> Get(string id)
         {
-            var station = stationRepository.GetByID(id);
-            if (station == null || station.State == ClassLibrary.BikeStationState.Blocked)
-                return new NotFoundObjectResult(new ErrorDTO("Station not found"));
+            BikeStation station;
+
+            if (!int.TryParse(id, out int stationId) || 
+                (station = stationRepository.GetByID(stationId)) == null)
+                throw new HttpResponseException("Station not found", 404);
+
             return Ok(new StationDTO()
             {
                 Id = station.ID.ToString(),
@@ -56,9 +61,14 @@ namespace BackendAPI.Controllers
 
 
         [HttpGet("bikes/{id}")]
-        public IActionResult GetBikes(int id)
+        public IActionResult GetBikes(string id)
         {
-            var station = stationRepository.GetByID(id);
+            BikeStation station;
+
+            if (!int.TryParse(id, out int stationId) || 
+                (station = stationRepository.GetByID(stationId)) == null)
+                throw new HttpResponseException("Station not found", 404);
+
             var bikes = station.Bikes.Select(b => 
                 BikeDTOFactory.CreateBikeDTO(b, 
                 bikeRepository.GetUser(b)));
@@ -68,15 +78,21 @@ namespace BackendAPI.Controllers
         }
 
         [HttpPost("bikes/{id}")]
-        public ActionResult<BikeDTO> PostBike(int id, [FromBody] IdDTO bikeId)
+        public ActionResult<BikeDTO> PostBike(string id, [FromBody] IdDTO bikeIdObj)
         {
-            var bike = bikeRepository.GetByID(int.Parse(bikeId.Id));
-            if (bike == null)
-                return new NotFoundObjectResult(new ErrorDTO("Bike not found"));
-            var station = stationRepository.GetByID(id);
+            BikeStation station;
+            Bike bike;
+
+            if (!int.TryParse(id, out int stationId) || 
+                (station = stationRepository.GetByID(stationId)) == null)
+                throw new HttpResponseException("Station not found", 404);
+
+            if (!int.TryParse(bikeIdObj.Id, out int bikeId) || 
+                (bike = bikeRepository.GetByID(bikeId)) == null)
+                throw new HttpResponseException("Bike not found", 404);
+
             if (station.State == ClassLibrary.BikeStationState.Blocked)
-                return new UnprocessableEntityObjectResult(
-                    new ErrorDTO("Cannot associate specified bike with specified station"));
+                throw new HttpResponseException("Cannot associate specified bike with specified station", 422);
 
             var userId = int.Parse(
                 User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -84,10 +100,9 @@ namespace BackendAPI.Controllers
                 .FindActiveRental(bike.ID, userId);
             //Tego poniżej specyfikacja nie precyzuje jbc
             if (rental == null)
-                return new UnprocessableEntityObjectResult(
-                    new ErrorDTO("Cannot associate specified bike with specified station"));
+                throw new HttpResponseException("Cannot associate specified bike with specified station", 422);
 
-            bike.BikeStationID = id;
+            bike.BikeStationID = stationId;
             rental.EndDate = DateTime.Now;
 
             //Wystarczy saveChanges na jednym z repo

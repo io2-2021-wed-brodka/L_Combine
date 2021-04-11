@@ -14,7 +14,7 @@ namespace BackendAPI
         {
             if (context.Exception is HttpResponseException exception)
             {
-                context.Result = new ObjectResult(exception.Value)
+                context.Result = new JsonResult(exception.Value)
                 {
                     StatusCode = exception.Status,
                 };
