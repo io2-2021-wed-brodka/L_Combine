@@ -32,6 +32,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                 this.loginService.logout();
                 break;
               case 404:
+              case 422:
                 this.router.navigate(['home']);
             }
           }

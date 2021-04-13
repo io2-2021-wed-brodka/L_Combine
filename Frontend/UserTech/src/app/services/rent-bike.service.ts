@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Bike} from '../models/bike';
 import {Observable, of} from 'rxjs';
-import {RentResult} from '../models/rentResult';
 import {environment as env} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
@@ -14,12 +13,12 @@ export class RentBikeService {
 
   constructor(private http: HttpClient) { }
 
-  rentBike(bike: Bike): Observable<RentResult>{
+  rentBike(bike: Bike): Observable<boolean>{
     const rentRequest = {
       id: bike.id
     };
-    return this.http.post<RentResult>(`${this.bikeUrl}/rented`, rentRequest).pipe(
-      map(()=>({result: 'Ok'}))
+    return this.http.post<boolean>(`${this.bikeUrl}/rented`, rentRequest).pipe(
+      map(()=>true)
     );
   }
 
@@ -27,7 +26,7 @@ export class RentBikeService {
     const returnRequest = {
       id: bikeId
     };
-    return this.http.post<RentResult>(`${this.stationBikeUrl}/${stationId}`, returnRequest).pipe(
+    return this.http.post<boolean>(`${this.stationBikeUrl}/${stationId}`, returnRequest).pipe(
       map(()=>true)
     );
   }
