@@ -7,6 +7,26 @@
 	"item": [
 		{
 			"name": "StationsGet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\",function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Correct IDs\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.stations[0].id).to.eql(\"1\");\r",
+							"    pm.expect(jsonData.stations[1].id).to.eql(\"2\");\r",
+							"    pm.expect(jsonData.stations[2].id).to.eql(\"3\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -27,6 +47,24 @@
 		},
 		{
 			"name": "StationsGetId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\",function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Correct station name\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(\"Warszawa Targowa\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -48,6 +86,26 @@
 		},
 		{
 			"name": "StationsBikesGetId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\",function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Correct bikes at station 1\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.bikes[0].id).to.eql(\"4\");\r",
+							"    pm.expect(jsonData.bikes[1].id).to.eql(\"5\");\r",
+							"    pm.expect(jsonData.bikes[2].id).to.eql(\"7\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -70,6 +128,24 @@
 		},
 		{
 			"name": "StationsBikesPost",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 422\",function(){\r",
+							"    pm.response.to.have.status(422);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Correct error message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"     pm.expect(jsonData.message).to.eql(\"Cannot associate specified bike with specified station\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -105,7 +181,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1IiwibmJmIjoxNjE4MzM0MjIzLCJleHAiOjE2MTg5MzkwMjIsImlhdCI6MTYxODMzNDIyM30.KBFIWq67tSgET5ow57b1vl3UhFXaC-sFlIa6GNJE170",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1IiwibmJmIjoxNjE4MzM4Mzk4LCJleHAiOjE2MTg5NDMxOTgsImlhdCI6MTYxODMzODM5OH0.EZOKNLPHuVKUuA79TGXBR8IMb_YYNGUUbdTSlAYX-yU",
 				"type": "string"
 			}
 		]
