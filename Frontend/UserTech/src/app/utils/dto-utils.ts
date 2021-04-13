@@ -7,7 +7,7 @@ export function bikeFromDTO(bike: BikeDTO): Bike {
   return {
     id: bike.id,
     state: bike.bikeStatus,
-    stationId: parseInt(bike.station?.id, 10)
+    stationId: bike.station?.id
   };
 }
 

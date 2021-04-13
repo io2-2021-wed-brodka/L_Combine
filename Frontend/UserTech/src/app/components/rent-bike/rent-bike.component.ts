@@ -19,9 +19,6 @@ export class RentBikeComponent implements OnInit {
   }
 
   rent(): void {
-    this.rentBikeService.rentBike(this.bike).subscribe((res: boolean) => {
-      if(res) 
-        this.router.navigate(['']);
-    });
+    this.rentBikeService.rentBike(this.bike).subscribe(()=>this.router.navigate(['']));
   }
 }

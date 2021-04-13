@@ -3,7 +3,7 @@ import {Bike} from '../models/bike';
 import {Observable, of} from 'rxjs';
 import {environment as env} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {map} from 'rxjs/operators';
+import { BikeDTO } from '../dto/bike-dto';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,21 +13,17 @@ export class RentBikeService {
 
   constructor(private http: HttpClient) { }
 
-  rentBike(bike: Bike): Observable<boolean>{
+  rentBike(bike: Bike): Observable<BikeDTO>{
     const rentRequest = {
       id: bike.id
     };
-    return this.http.post<boolean>(`${this.bikeUrl}/rented`, rentRequest).pipe(
-      map(()=>true)
-    );
+    return this.http.post<BikeDTO>(`${this.bikeUrl}/rented`, rentRequest);
   }
 
-  returnBike(bikeId: string, stationId: string): Observable<boolean> {
+  returnBike(bikeId: string, stationId: string): Observable<BikeDTO> {
     const returnRequest = {
       id: bikeId
     };
-    return this.http.post<boolean>(`${this.stationBikeUrl}/${stationId}`, returnRequest).pipe(
-      map(()=>true)
-    );
+    return this.http.post<BikeDTO>(`${this.stationBikeUrl}/${stationId}`, returnRequest);
   }
 }
