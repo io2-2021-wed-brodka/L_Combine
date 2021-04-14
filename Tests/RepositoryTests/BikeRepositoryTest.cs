@@ -161,6 +161,7 @@ namespace RepositoryTests
             Assert.IsNull(result);
         }
 
+        [TestMethod]
         public void GetUserTest_RentalAssociatedOutdated()
         {
             int id = InsertBike();
@@ -173,12 +174,13 @@ namespace RepositoryTests
                     StartDate = DateTime.Now.Subtract(new TimeSpan(0, 20, 0)),
                     UserID = userId
                 });
-            //dbContext.SaveChanges();
+            dbContext.SaveChanges();
             var bike = bikeRepo.GetByID(id);
             var result = bikeRepo.GetUser(bike);
             Assert.IsNull(result);
         }
 
+        [TestMethod]
         public void GetUserTest_RentalAssociatedActive()
         {
             int id = InsertBike();
@@ -191,7 +193,7 @@ namespace RepositoryTests
                     StartDate = DateTime.Now.Subtract(new TimeSpan(0, 20, 0)),
                     UserID = userId
                 });
-            //dbContext.SaveChanges();
+            dbContext.SaveChanges();
             var bike = bikeRepo.GetByID(id);
             var result = bikeRepo.GetUser(bike);
             Assert.IsNotNull(result);
