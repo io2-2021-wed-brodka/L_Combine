@@ -111,5 +111,32 @@ namespace RepositoryTests
             var result = modified.LocationName == "Sydni";
             Assert.IsTrue(result);
         }
+
+        [TestMethod]
+        public void GetActiveStationsTest()
+        {
+            stationRepo.Insert(
+                new BikeStation()
+                {
+                    LocationName = "Ala ma kota",
+                    State = ClassLibrary.BikeStationState.Working
+                });
+            stationRepo.Insert(
+                new BikeStation()
+                {
+                    LocationName = "Ala ma kota2",
+                    State = ClassLibrary.BikeStationState.Blocked
+                });
+            stationRepo.Insert(
+                new BikeStation()
+                {
+                    LocationName = "Ala ma kota3",
+                    State = ClassLibrary.BikeStationState.Working
+                });
+            var result = stationRepo.Get(station => station.State == ClassLibrary.BikeStationState.Working);
+
+            foreach (var r in result)
+                Assert.IsTrue(r.State == ClassLibrary.BikeStationState.Working);
+        }
     }
 }
