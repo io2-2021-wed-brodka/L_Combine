@@ -21,7 +21,7 @@ namespace BackendAPI.Controllers
     {
         private int GetRequestingUserID => int.Parse(
                 User.FindFirstValue(ClaimTypes.NameIdentifier));
-        private const int perUserBikesLimit = 4;
+        private const int PerUserBikesLimit = 4;
 
         private IRentalRepository rentalRepository;
         private IBikeRepository bikeRepository;
@@ -66,8 +66,8 @@ namespace BackendAPI.Controllers
                 throw new HttpResponseException("Bike is already rented, blocked or reserved by another user or station is blocked", 422);
 
             //Tutaj wg mnie należy dodać rodzaj odpowiedzi do specki. Na razie 406 wydaje się spełniać wymogi.
-            if (rentalRepository.FindActiveRentals(GetRequestingUserID).Count() >= perUserBikesLimit)
-                throw new HttpResponseException($"CAnnot rent a bike. You've already rented {perUserBikesLimit} bikes.", 406);
+            if (rentalRepository.FindActiveRentals(GetRequestingUserID).Count() >= PerUserBikesLimit)
+                throw new HttpResponseException($"Cannot rent a bike. You've already rented {PerUserBikesLimit} bikes.", 406);
 
             //Rower gotowy do wypożyczenia -> dopisanie wypożyczenia
             rentalRepository.Insert(new Rental()
