@@ -1,0 +1,49 @@
+@import './colors.scss';
+
+.list {
+  color: $main-font-color;
+  background-color: $main-background-color;
+  overflow: auto;
+  font-size: 20px;
+
+  &-header {
+    text-align: center;
+  }
+
+  &-item {
+    background-color: $main-box-color;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 5px;
+
+    &-active {
+      cursor: pointer;
+
+      &:hover {
+        background-color: $main-box-hover-color;
+      }
+    }
+
+    &-blocked {
+      cursor: default;
+      pointer-events: none;
+      background-color: $main-box-blocked-color;
+      opacity: 0.5;
+    }
+
+    &-side-left, &-side-right {
+      font-size: 20px;
+      padding: 10px;
+    }
+
+    &-side-right {
+      text-align: right;
+    }
+  }
+}
+
+a {
+  text-decoration: none;
+  color: $main-font-color;
+}

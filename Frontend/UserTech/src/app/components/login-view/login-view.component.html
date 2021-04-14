@@ -1,0 +1,18 @@
+<div class="container">
+  <form class="form">
+    <header class="form-header">Login</header>
+    <div class="form-group">
+      <label for="loginInput">Login</label>
+      <input type="text" id="loginInput" name="loginInput" [(ngModel)]="formData.login" #loginInput="ngModel" required/>
+    </div>
+    <div class="form-group">
+      <label for="passwordInput">Password</label>
+      <input type="password" id="passwordInput" name="passwordInput" [(ngModel)]="formData.password"
+             #passwordInput="ngModel" required/>
+    </div>
+    <button [disabled]="!loginInput.valid || !passwordInput.valid" class="main-button" (click)="login()">Login</button>
+    <div *ngIf="showErrorMessage" class="message">
+      wrong password
+    </div>
+  </form>
+</div>

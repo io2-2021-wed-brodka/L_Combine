@@ -1,0 +1,11 @@
+@import "src/app/styles/colors";
+
+.bike-details {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+
+  .button-rent {
+    margin: auto;
+  }
+}
