@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Bike} from '../../models/bike';
 import {Router} from '@angular/router';
-import {RentResult} from '../../models/rentResult';
 import {RentBikeService} from '../../services/rent-bike.service';
 
 @Component({
@@ -20,8 +19,6 @@ export class RentBikeComponent implements OnInit {
   }
 
   rent(): void {
-    this.rentBikeService.rentBike(this.bike).subscribe((res: RentResult) => {
-      res.result === 'Ok' ? this.router.navigate(['']) : console.log(res.result);
-    });
+    this.rentBikeService.rentBike(this.bike).subscribe(()=>this.router.navigate(['']));
   }
 }

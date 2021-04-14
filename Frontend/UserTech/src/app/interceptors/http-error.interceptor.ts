@@ -33,6 +33,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                 break;
               case 404:
               case 406:
+              case 422:
                 this.router.navigate(['home']);
             }
           }

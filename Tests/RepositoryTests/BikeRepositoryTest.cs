@@ -1,8 +1,12 @@
 ﻿using BackendAPI.Data;
+using BackendAPI.Helpers;
 using BackendAPI.Models;
 using BackendAPI.Repository.Repositories;
+using ClassLibrary;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,6 +16,8 @@ namespace RepositoryTests
     public class BikeRepositoryTest
     {
         private BikeRepository bikeRepo;
+        private RentalRepository rentalRepo;
+        private UserRepository userRepo;
         private DataContext dbContext;
 
         //Czyscimy dane testowanej tabeli
@@ -32,6 +38,9 @@ namespace RepositoryTests
             dbContext = new DataContext(options);
             ClearData();
             bikeRepo = new BikeRepository(dbContext);
+            rentalRepo = new RentalRepository(dbContext);
+            var jwtOptions = Options.Create(new JwtSettings() { Secret = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" });
+            userRepo = new UserRepository(dbContext, jwtOptions);
         }
 
         //Umieszczenie roweru w tabeli poza repository
@@ -112,6 +121,82 @@ namespace RepositoryTests
             var modified = dbContext.Bikes.First(bike => bike.ID == id);
             var result = modified.BikeStationID == 6215671 && modified.State == ClassLibrary.BikeState.InService;
             Assert.IsTrue(result);
+        }
+
+        private int InsertUser()
+        {
+            User test;
+            using (var stringHash = new StringHash())
+            {
+                test = new User()
+                {
+                    Name = "Jan",
+                    LastName = "Dzban",
+                    Login = "password",
+                    PasswordHash = stringHash.GetHash("login")
+                };
+            }
+
+            dbContext.Users.Add(test);
+            dbContext.SaveChanges();
+            return test.ID;
+        }
+
+        [TestMethod]
+        public void GetUserTest_NoRentalAssociated()
+        {
+            int id = InsertBike();
+            int userId = InsertUser();
+            rentalRepo.Insert(
+                new Rental()
+                {
+                    BikeID = 2,
+                    EndDate = DateTime.Now,
+                    StartDate = DateTime.Now.Subtract(new TimeSpan(0, 20, 0)),
+                    UserID = userId
+                });
+            //dbContext.SaveChanges();
+            var bike = bikeRepo.GetByID(id);
+            var result = bikeRepo.GetUser(bike);
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void GetUserTest_RentalAssociatedOutdated()
+        {
+            int id = InsertBike();
+            int userId = InsertUser();
+            rentalRepo.Insert(
+                new Rental()
+                {
+                    BikeID = id,
+                    EndDate = DateTime.Now,
+                    StartDate = DateTime.Now.Subtract(new TimeSpan(0, 20, 0)),
+                    UserID = userId
+                });
+            dbContext.SaveChanges();
+            var bike = bikeRepo.GetByID(id);
+            var result = bikeRepo.GetUser(bike);
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void GetUserTest_RentalAssociatedActive()
+        {
+            int id = InsertBike();
+            int userId = InsertUser();
+            rentalRepo.Insert(
+                new Rental()
+                {
+                    BikeID = id,
+                    EndDate = null,
+                    StartDate = DateTime.Now.Subtract(new TimeSpan(0, 20, 0)),
+                    UserID = userId
+                });
+            dbContext.SaveChanges();
+            var bike = bikeRepo.GetByID(id);
+            var result = bikeRepo.GetUser(bike);
+            Assert.IsNotNull(result);
         }
     }
 }

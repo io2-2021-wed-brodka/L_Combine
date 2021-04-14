@@ -120,5 +120,36 @@ namespace RepositoryTests
             var result = modified.BikeID == 2 && modified.UserID == 0 && modified.EndDate == date && modified.StartDate == new DateTime();
             Assert.IsTrue(result);
         }
+
+        [TestMethod]
+        public void FindActiveRentalTest_ExpectedNull()
+        {
+            rentalRepo.Insert(new Rental()
+            {
+                BikeID = 1,
+                UserID = 2,
+                EndDate = DateTime.Now,
+                StartDate = DateTime.Now.Subtract(new TimeSpan(0, 5, 0))
+            });
+            dbContext.SaveChanges();
+            var result = rentalRepo.FindActiveRental(1, 2);
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void FindActiveRentalTest_ExpectedNotNull()
+        {
+            rentalRepo.Insert(new Rental()
+            {
+                BikeID = 1,
+                UserID = 2,
+                EndDate = null,
+                StartDate = DateTime.Now.Subtract(new TimeSpan(0, 5, 0))
+            });
+            dbContext.SaveChanges();
+            var result = rentalRepo.FindActiveRental(1, 2);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.BikeID == 1 && result.UserID == 2 && result.EndDate == null);
+        }
     }
 }
