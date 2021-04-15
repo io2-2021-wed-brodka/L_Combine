@@ -6,6 +6,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment as env} from '../../environments/environment';
 import {AuthenticateResponseDTO} from '../dto/authenticate-response-dto';
 import {map} from 'rxjs/operators';
+import {RedirectService} from './redirect.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class LoginService {
   private baseUrl = `${env.apiUrl}/login`;
   private token: string | null;
 
-  constructor(private router: Router, private http: HttpClient) {
+  constructor(private router: Router, private http: HttpClient,
+              private redirectService: RedirectService) {
     this.token = localStorage.getItem('token');
   }
 
@@ -44,7 +46,7 @@ export class LoginService {
   logout(): void {
     localStorage.removeItem('token');
     this.token = null;
-    this.router.navigate(['login']);
+    this.redirectService.redirectToLogin();
   }
 
   setAuthenticateHeader(headers = new HttpHeaders()): HttpHeaders {

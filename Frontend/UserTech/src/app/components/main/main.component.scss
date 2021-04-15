@@ -2,11 +2,18 @@
   display: flex;
   justify-content: space-between;
   align-items: start;
+  position: relative;
 
   .logo {
     font-size: 40px;
     font-weight: bold;
     padding-left: 1em;
+  }
+
+  .notifications {
+    position: absolute;
+    right: 2em;
+    top: 70%;
   }
 }
 
