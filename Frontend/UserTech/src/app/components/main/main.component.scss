@@ -1,8 +1,9 @@
 .header {
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: flex-start;
   position: relative;
+  margin-bottom: 100px;
 
   .logo {
     font-size: 40px;

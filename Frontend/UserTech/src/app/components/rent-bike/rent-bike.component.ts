@@ -22,6 +22,7 @@ export class RentBikeComponent implements OnInit {
 
   rent(): void {
     this.rentBikeService.rentBike(this.bike).subscribe(_ => {
+      this.notificationService.success(`Rower został wypożyczony ze stacji ${this.bike.station?.locationName}`);
       this.redirectService.redirectToHome();
     });
   }
