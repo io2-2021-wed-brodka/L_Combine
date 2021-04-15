@@ -5,8 +5,9 @@ import {Router} from '@angular/router';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment as env} from '../../environments/environment';
 import {AuthenticateResponseDTO} from '../dto/authenticate-response-dto';
-import {map} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 import {RedirectService} from './redirect.service';
+import {IGNORE_ERROR_INTERCEPT} from '../constants/headers';
 
 @Injectable({
   providedIn: 'root'
@@ -24,23 +25,18 @@ export class LoginService {
     return this.token !== null;
   }
 
-  login(loginData: LoginData): Observable<boolean> {
+  login(loginData: LoginData): Observable<AuthenticateResponseDTO> {
     const authenticateRequest = {
       login: loginData.login,
       password: loginData.password
     };
 
-    return this.http.post<AuthenticateResponseDTO>(this.baseUrl, authenticateRequest).pipe(
-      map(response => {
-          if (response?.token) {
-            this.setToken(response.token);
-            return true;
-          } else {
-            return false;
-          }
-        }
-      )
-    );
+    return this.http.post<AuthenticateResponseDTO>(this.baseUrl, authenticateRequest,
+      {headers: new HttpHeaders(IGNORE_ERROR_INTERCEPT)}).pipe(
+        tap(response => {
+          this.setToken(response.token);
+        })
+      );
   }
 
   logout(): void {

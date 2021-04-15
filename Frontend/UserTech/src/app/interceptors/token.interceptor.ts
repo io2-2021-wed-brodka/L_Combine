@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {LoginService} from '../services/login.service';
-import {HEADER_FREE_REQUESTS} from '../constants/header-free-requests';
+import {HEADER_FREE_REQUESTS} from '../constants/headers';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {

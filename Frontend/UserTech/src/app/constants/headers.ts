@@ -4,3 +4,5 @@ export const HEADER_FREE_REQUESTS = [
     method: 'POST'
   }
 ];
+
+export const IGNORE_ERROR_INTERCEPT = 'ignore-error-intercept';

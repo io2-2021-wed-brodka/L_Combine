@@ -4,6 +4,7 @@ import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {NotificationService} from '../services/notification.service';
 import {RedirectService} from '../services/redirect.service';
+import {IGNORE_ERROR_INTERCEPT} from '../constants/headers';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
@@ -13,6 +14,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    if (request.headers.has(IGNORE_ERROR_INTERCEPT)) {
+      return next.handle(request.clone({headers: request.headers.delete(IGNORE_ERROR_INTERCEPT)}));
+    }
+
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         this.handleError(error);
@@ -25,7 +30,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     switch (error.status) {
       case 401:
         this.redirectService.redirectToLogin();
-        return;
+        break;
       case 404:
         this.redirectService.redirectToHome();
         break;
