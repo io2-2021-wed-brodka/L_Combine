@@ -1,7 +1,9 @@
+import {BikeStation} from './bikeStation';
+
 export interface Bike {
   id: string;
   state: BikeState;
-  stationId: string;
+  station?: BikeStation;
 }
 
 export enum BikeState {

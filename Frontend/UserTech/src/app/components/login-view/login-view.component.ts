@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {LoginService} from '../../services/login.service';
 import LoginData from '../../models/loginData';
-import {Router} from '@angular/router';
+import {RedirectService} from '../../services/redirect.service';
 
 @Component({
   selector: 'app-login-view',
@@ -16,7 +16,7 @@ export class LoginViewComponent implements OnInit {
   showErrorMessage = false;
 
   constructor(
-    private router: Router,
+    private redirectService: RedirectService,
     private loginService: LoginService) {
   }
 
@@ -24,13 +24,10 @@ export class LoginViewComponent implements OnInit {
   }
 
   login(): void {
-    this.loginService.login(this.formData).subscribe(value => {
-      if (value) {
-        this.router.navigate(['']);
-      }
-      else {
-        this.showErrorMessage = true;
-      }
+    this.loginService.login(this.formData).subscribe(_ => {
+      this.redirectService.redirectToHome();
+    }, _ => {
+      this.showErrorMessage = true;
     });
   }
 }

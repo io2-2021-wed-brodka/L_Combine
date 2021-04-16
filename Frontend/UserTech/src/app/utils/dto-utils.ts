@@ -7,7 +7,7 @@ export function bikeFromDTO(bike: BikeDTO): Bike {
   return {
     id: bike.id,
     state: bike.bikeStatus,
-    stationId: bike.station?.id
+    station: bike.station ? stationFromDTO(bike.station) : undefined,
   };
 }
 

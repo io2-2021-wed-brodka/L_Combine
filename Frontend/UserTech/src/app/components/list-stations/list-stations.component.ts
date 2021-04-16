@@ -11,9 +11,7 @@ import {stationFromDTO} from '../../utils/dto-utils';
 export class ListStationsComponent implements OnInit {
   stations: BikeStation[] = [];
 
-  constructor(
-    private stationService: StationService
-  ) {
+  constructor(private stationService: StationService) {
   }
 
   ngOnInit(): void {
