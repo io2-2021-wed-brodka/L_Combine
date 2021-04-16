@@ -8,7 +8,7 @@ namespace BackendAPI.Repository.Interfaces
 {
     public interface IRentalRepository: IGenericRepository<Rental>
     {
-        Rental FindActiveRental(int bikeId, int userId);
-        IList<Rental> FindActiveRentals(int userId);
+        Rental FindActiveRental(int bikeId, int userId, IncludeData<Rental> includeFilter = null);
+        IList<Rental> FindActiveRentals(int userId, IncludeData<Rental> includeFilter = null);
     }
 }

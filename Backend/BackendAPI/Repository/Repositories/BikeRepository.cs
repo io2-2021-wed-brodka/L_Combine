@@ -24,36 +24,22 @@ namespace BackendAPI.Repository.Repositories
 
         }
 
-        public override IList<Bike> Get()
-        {
-            return dbContext.Bikes.ToList();
-        }
-
-        public override Bike GetByID(int ID)
-        {
-            return dbContext.Bikes.Include(b => b.BikeStation).FirstOrDefault(b => b.ID == ID);
-        }
-
         public override bool Insert(Bike component)
         {
             dbContext.Add(component);
             return true;
         }
 
-        public override Bike Update(Bike component)
+        public override IList<Bike> Get(IncludeData<Bike> includeFilter = null)
         {
-            dbContext.Entry(GetByID(component.ID)).CurrentValues.SetValues(component);
-            return component;
+            if (includeFilter != null)
+                return includeFilter(dbContext.Bikes);
+            return dbContext.Bikes.ToList();
         }
 
-        public User GetUser(Bike bike)
+        public override Bike GetByID(int ID, IncludeData<Bike> includeFilter = null)
         {
-            var user=
-                (from r in dbContext.Rentals.Include(r => r.User)
-                where r.BikeID == bike.ID && r.EndDate == null
-                select r.User).FirstOrDefault();
-            //user może być nullem
-            return user;
+            return Get(includeFilter).Where(b => b.ID == ID).FirstOrDefault();
         }
     }
 }

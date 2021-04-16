@@ -14,11 +14,6 @@ namespace BackendAPI.Repository.Repositories
         public RentalRepository(DataContext dbContext) : base(dbContext)
         { }
 
-        private DbSet<Rental> GetAllRentals()
-        {
-            return dbContext.Rentals;
-        }
-
         public override bool Delete(int ID)
         {
             Rental rent = GetByID(ID);
@@ -29,44 +24,36 @@ namespace BackendAPI.Repository.Repositories
 
         }
 
-        public Rental FindActiveRental(int bikeId, int userId)
-        {
-            //Może zwrócić nulla
-            return 
-                (from r in GetAllRentals()
-                where r.BikeID == bikeId && r.UserID == userId &&
-                    r.EndDate == null
-                select r).FirstOrDefault();
-        }
-
-        public override IList<Rental> Get()
-        {
-            return GetAllRentals().ToList();
-        }
-
-        public override Rental GetByID(int ID)
-        {
-            return GetAllRentals().FirstOrDefault(b => b.ID == ID);
-        }
-
         public override bool Insert(Rental component)
         {
             dbContext.Add(component);
             return true;
         }
 
-        public override Rental Update(Rental component)
+        public override IList<Rental> Get(IncludeData<Rental> includeFilter = null)
         {
-            dbContext.Entry(GetByID(component.ID)).CurrentValues.SetValues(component);
-            return component;
+            if (includeFilter == null)
+                return dbContext.Rentals.ToList();
+            return includeFilter(dbContext.Rentals);
         }
-        
-        public IList<Rental> FindActiveRentals(int userId)
+
+        public override Rental GetByID(int ID, IncludeData<Rental> includeFilter = null)
         {
-            return GetAllRentals()
-                .Include(r => r.Bike)
-                .Include(r => r.Bike.BikeStation)
-                .Include(r => r.User)
+            return Get(includeFilter).Where(r => r.ID == ID).FirstOrDefault();
+        }
+
+        public Rental FindActiveRental(int bikeId, int userId, IncludeData<Rental> includeFilter = null)
+        {
+            return
+                (from r in Get(includeFilter)
+                 where r.BikeID == bikeId && r.UserID == userId &&
+                     r.EndDate == null
+                 select r).FirstOrDefault();
+        }
+
+        public IList<Rental> FindActiveRentals(int userId, IncludeData<Rental> includeFilter = null)
+        {
+            return Get(includeFilter)
                 .Where(r => r.UserID == userId && r.EndDate == null)
                 .ToList();
         }

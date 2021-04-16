@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace BackendAPI.Repository.Repositories
 {
     public abstract class GenericRepository<T> : IGenericRepository<T>
+        where T : class
     {
         protected DataContext dbContext;
 
@@ -18,9 +19,9 @@ namespace BackendAPI.Repository.Repositories
 
         public abstract bool Delete(int ID);
 
-        public abstract IList<T> Get();
+        public abstract IList<T> Get(IncludeData<T> includeFilter = null);
 
-        public abstract T GetByID(int ID);
+        public abstract T GetByID(int ID, IncludeData<T> includeFilter = null)
 
         public abstract bool Insert(T component);
 
@@ -36,7 +37,5 @@ namespace BackendAPI.Repository.Repositories
                 throw;
             }
         }
-
-        public abstract T Update(T component);
     }
 }

@@ -3,6 +3,7 @@ using BackendAPI.Helpers;
 using BackendAPI.Models;
 using BackendAPI.Repository.Interfaces;
 using ClassLibrary;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -68,26 +69,32 @@ namespace BackendAPI.Repository.Repositories
 
         }
 
-        public override IList<User> Get()
+        public override IList<User> Get(IncludeData<User> includeFilter = null)
         {
-            return dbContext.Users.ToList();
+            if (includeFilter == null)
+                return dbContext.Users.ToList();
+            return includeFilter(dbContext.Users);
         }
 
-        public override User GetByID(int ID)
+        public override User GetByID(int ID, IncludeData<User> includeFilter = null)
         {
-            return dbContext.Users.FirstOrDefault(b => b.ID == ID);
+            return Get(includeFilter).FirstOrDefault(b => b.ID == ID);
+        }
+
+        public User GetUser(Bike component)
+        {
+            var user =
+               (from r in dbContext.Rentals.Include(r => r.User)
+                where r.BikeID == component.ID && r.EndDate == null
+                select r.User).FirstOrDefault();
+            //user może być nullem
+            return user;
         }
 
         public override bool Insert(User component)
         {
             dbContext.Add(component);
             return true;
-        }
-
-        public override User Update(User component)
-        {
-            dbContext.Entry(GetByID(component.ID)).CurrentValues.SetValues(component);
-            return component;
         }
     }
 }
