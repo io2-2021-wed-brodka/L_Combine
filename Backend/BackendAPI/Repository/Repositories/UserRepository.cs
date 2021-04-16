@@ -20,7 +20,7 @@ namespace BackendAPI.Repository.Repositories
     {
         private readonly JwtSettings jwtSettings;
 
-        public UserRepository(DataContext dbContext, IOptions<JwtSettings> jwtSettings) : base(dbContext)
+        public UserRepository(CommonDataContext dbContext, IOptions<JwtSettings> jwtSettings) : base(dbContext)
         {
             this.jwtSettings = jwtSettings.Value;
         }

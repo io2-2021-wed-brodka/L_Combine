@@ -18,7 +18,7 @@ namespace RepositoryTests
         private BikeRepository bikeRepo;
         private RentalRepository rentalRepo;
         private UserRepository userRepo;
-        private DataContext dbContext;
+        private TestDataContext dbContext;
 
         //Czyscimy dane testowanej tabeli
         private void ClearData()
@@ -31,11 +31,11 @@ namespace RepositoryTests
         public void InitRepository()
         {
             //Tworzyzmy baze danych identyczna jak produkcyjna, tylko ze w pamieci
-            var options = new DbContextOptionsBuilder<DataContext>()
+            var options = new DbContextOptionsBuilder<CommonDataContext>()
             .UseInMemoryDatabase(databaseName: "TestDatabase")
             .Options;
 
-            dbContext = new DataContext(options);
+            dbContext = new TestDataContext(options);
             ClearData();
             bikeRepo = new BikeRepository(dbContext);
             rentalRepo = new RentalRepository(dbContext);
@@ -105,24 +105,6 @@ namespace RepositoryTests
             Assert.AreEqual(result, 0);
         }
 
-        [TestMethod]
-        public void UpdateTest()
-        {
-            int id = InsertBike();
-
-            bikeRepo.Update(new Bike()
-            {
-                ID = id,
-                BikeStationID = 6215671,
-                State = ClassLibrary.BikeState.InService
-            });
-            dbContext.SaveChanges();
-
-            var modified = dbContext.Bikes.First(bike => bike.ID == id);
-            var result = modified.BikeStationID == 6215671 && modified.State == ClassLibrary.BikeState.InService;
-            Assert.IsTrue(result);
-        }
-
         private int InsertUser()
         {
             User test;
@@ -157,7 +139,7 @@ namespace RepositoryTests
                 });
             //dbContext.SaveChanges();
             var bike = bikeRepo.GetByID(id);
-            var result = bikeRepo.GetUser(bike);
+            var result = userRepo.GetUser(bike);
             Assert.IsNull(result);
         }
 
@@ -176,7 +158,7 @@ namespace RepositoryTests
                 });
             dbContext.SaveChanges();
             var bike = bikeRepo.GetByID(id);
-            var result = bikeRepo.GetUser(bike);
+            var result = userRepo.GetUser(bike);
             Assert.IsNull(result);
         }
 
@@ -195,7 +177,7 @@ namespace RepositoryTests
                 });
             dbContext.SaveChanges();
             var bike = bikeRepo.GetByID(id);
-            var result = bikeRepo.GetUser(bike);
+            var result = userRepo.GetUser(bike);
             Assert.IsNotNull(result);
         }
     }

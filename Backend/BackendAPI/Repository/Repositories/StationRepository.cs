@@ -11,7 +11,7 @@ namespace BackendAPI.Repository.Repositories
 {
     public class StationRepository : GenericRepository<BikeStation>, IStationRepository
     {
-        public StationRepository(DataContext context): base(context)
+        public StationRepository(CommonDataContext context): base(context)
         { }
 
         public override bool Delete(int ID)

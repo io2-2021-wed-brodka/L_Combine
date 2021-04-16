@@ -18,7 +18,7 @@ namespace RepositoryTests
     public class UserRepositoryTest
     {
         private UserRepository userRepo;
-        private DataContext dbContext;
+        private TestDataContext dbContext;
 
         //Czyscimy dane testowanej tabeli
         private void ClearData()
@@ -31,11 +31,11 @@ namespace RepositoryTests
         public void InitRepository()
         {
             //Tworzyzmy baze danych identyczna jak produkcyjna, tylko ze w pamieci
-            var dbOptions = new DbContextOptionsBuilder<DataContext>()
+            var dbOptions = new DbContextOptionsBuilder<CommonDataContext>()
             .UseInMemoryDatabase(databaseName: "TestDatabase")
             .Options;
 
-            dbContext = new DataContext(dbOptions);
+            dbContext = new TestDataContext(dbOptions);
             ClearData();
 
             var jwtOptions = Options.Create(new JwtSettings() { Secret = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" });
@@ -107,24 +107,6 @@ namespace RepositoryTests
 
             var result = dbContext.Users.Count();
             Assert.AreEqual(result, 0);
-        }
-
-        [TestMethod]
-        public void UpdateTest()
-        {
-            int id = InsertUser();
-
-            userRepo.Update(new User()
-            {
-                ID = id,
-                Name = "Maria",
-                LastName = "Różalska"
-            });
-            dbContext.SaveChanges();
-
-            var modified = dbContext.Users.First(s => s.ID == id);
-            var result = modified.Name == "Maria" && modified.LastName == "Różalska";
-            Assert.IsTrue(result);
         }
 
         [TestMethod]

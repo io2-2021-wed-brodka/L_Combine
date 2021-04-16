@@ -1,4 +1,5 @@
 ﻿using BackendAPI.Models;
+using BackendAPI.ModelsConfigurations.CommonConfiguration;
 using ClassLibrary;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -7,21 +8,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BackendAPI.ModelsConfigurations
+namespace BackendAPI.ModelsConfigurations.ProductionConfiguration
 {
-    public class UserConfiguration : IEntityTypeConfiguration<User>
+    //Konfiguracja i dane poczatkowe do tabeli produkcyjnej
+    public class UserProductionConfiguration : UserCommonConfiguration, IEntityTypeConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public new void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("Users");
+            base.Configure(builder);
 
-            builder.Property(c => c.LastName).HasMaxLength(50).IsRequired();
-            builder.Property(c => c.Name).HasMaxLength(50).IsRequired();
-            builder.Property(c => c.ID).ValueGeneratedOnAdd();
-            builder.Property(c => c.Login).HasMaxLength(20).IsRequired();
-            builder.Property(c => c.PasswordHash).HasMaxLength(64).IsRequired();
-            builder.HasIndex(c => c.Login).IsUnique();
-
+            //Tutaj definicja danych zaladowanych do bazy produkcjynej
+            //albo dodatkowe zaleznosci na tabeli
             using (StringHash stringHash = new StringHash())
             {
                 builder.HasData(
@@ -34,4 +31,6 @@ namespace BackendAPI.ModelsConfigurations
             }
         }
     }
+
+    
 }
