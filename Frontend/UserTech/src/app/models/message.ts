@@ -1,7 +1,7 @@
 export interface Message {
   message: string;
   type: MessageType;
-  id: number;
+  date: Date;
 }
 
 export enum MessageType {

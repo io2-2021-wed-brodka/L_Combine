@@ -1,4 +1,4 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {NotificationsComponent} from './notifications.component';
 import {NotificationService} from '../../services/notification.service';
 import {of} from 'rxjs';
@@ -13,7 +13,7 @@ describe('NotificationComponent', () => {
   let notificationService: jasmine.SpyObj<NotificationService>;
   let fixture: ComponentFixture<NotificationsComponent>;
 
-  const message = {type: MessageType.Success, message: 'aaa', id: 0};
+  const message = {type: MessageType.Success, message: 'aaa', date: new Date()};
 
   beforeEach(async () => {
     const notificationServiceSpy = jasmine.createSpyObj('NotificationService', ['notify']);
@@ -43,6 +43,11 @@ describe('NotificationComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should call #notify on init', () => {
+    fixture.detectChanges();
+    expect(notificationService.notify).toHaveBeenCalledOnceWith();
+  });
+
   it('should add messages to array on notification', () => {
     expect(component.messages.length).toEqual(0);
 
@@ -50,12 +55,15 @@ describe('NotificationComponent', () => {
     expect(component.messages.length).toEqual(1);
   });
 
-  it('should delete message after NOTIFICATION_TIMEOUT ms', () => {
+  it('should delete message after NOTIFICATION_TIMEOUT ms', fakeAsync(() => {
     fixture.detectChanges();
     expect(component.messages.length).toEqual(1);
 
-    setTimeout(() => expect(component.messages.length).toEqual(0), NOTIFICATION_TIMEOUT + 10);
-  });
+    tick(NOTIFICATION_TIMEOUT);
+
+    fixture.detectChanges();
+    expect(component.messages.length).toEqual(0);
+  }));
 
   it('#remove should remove message from array', () => {
     component.messages.push(message);
@@ -67,10 +75,9 @@ describe('NotificationComponent', () => {
 
   it('#remove should skip message that is not in array', () => {
     component.messages.push(message);
-    component.messages.push();
     expect(component.messages.length).toEqual(1);
 
-    component.remove({...message, id: 1});
+    component.remove({...message, type: MessageType.Error});
     expect(component.messages.length).toEqual(1);
   });
 
@@ -91,5 +98,21 @@ describe('NotificationComponent', () => {
     fixture.detectChanges();
     debugElement.query(By.css('.message-close')).triggerEventHandler('click', null);
     expect(component.messages.length).toEqual(0);
+  });
+
+  it('should display success message with correct class', () => {
+    notificationService.notify.and.returnValue(of());
+    component.messages.push(message);
+
+    fixture.detectChanges();
+    expect(debugElement.query(By.css('.message')).classes['message-success']).toBeTrue();
+  });
+
+  it('should display error message with correct class', () => {
+    notificationService.notify.and.returnValue(of());
+    component.messages.push({...message, type: MessageType.Error});
+
+    fixture.detectChanges();
+    expect(debugElement.query(By.css('.message')).classes['message-error']).toBeTrue();
   });
 });

@@ -6,7 +6,6 @@ import {Message, MessageType} from '../models/message';
   providedIn: 'root'
 })
 export class NotificationService {
-  private count = 0;
   private subject = new Subject<Message>();
 
   constructor() {
@@ -17,10 +16,10 @@ export class NotificationService {
   }
 
   error(message: string): void {
-    this.subject.next({message, type: MessageType.Error, id: this.count++});
+    this.subject.next({message, type: MessageType.Error, date: new Date()});
   }
 
   success(message: string): void {
-    this.subject.next({message, type: MessageType.Success, id: this.count++});
+    this.subject.next({message, type: MessageType.Success, date: new Date()});
   }
 }

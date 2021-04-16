@@ -2,7 +2,6 @@ import {TestBed} from '@angular/core/testing';
 
 import {NotificationService} from './notification.service';
 import {MessageType} from '../models/message';
-import {skip} from 'rxjs/operators';
 
 describe('NotificationService', () => {
   let service: NotificationService;
@@ -36,7 +35,7 @@ describe('NotificationService', () => {
     service.error(messageText);
   });
 
-  it('#success should create error message', () => {
+  it('#success should create success message', () => {
     service.notify().subscribe(message =>
       expect(message.type).toEqual(MessageType.Success)
     );
@@ -52,12 +51,19 @@ describe('NotificationService', () => {
     service.error('');
   });
 
-  it('id should increase', () => {
-    service.notify().pipe(skip(1)).subscribe(message => {
-      expect(message.id).toEqual(1);
+  it('#success should create message with current time', () => {
+    service.notify().subscribe(message => {
+      expect(message.date).toEqual(new Date());
     });
 
-    service.error('');
+    service.success('');
+  });
+
+  it('#error should create message with current time', () => {
+    service.notify().subscribe(message => {
+      expect(message.date).toEqual(new Date());
+    });
+
     service.error('');
   });
 });
