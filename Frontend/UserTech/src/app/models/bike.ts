@@ -1,7 +1,7 @@
 export interface Bike {
   id: string;
   state: BikeState;
-  stationId: string;
+  stationId: string | undefined;
 }
 
 export enum BikeState {

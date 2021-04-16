@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { StationService } from 'src/app/services/station.service';
+import mockStationService from 'src/app/testing/mock-services/mockStationService';
 
 import { ListStationsComponent } from './list-stations.component';
 
@@ -8,7 +10,10 @@ describe('ListStationsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ListStationsComponent ]
+      declarations: [ ListStationsComponent ],
+      providers: [
+          {provide: StationService, useValue: mockStationService}
+      ]
     })
     .compileComponents();
   });
@@ -22,4 +27,9 @@ describe('ListStationsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('#stations defined on init', ()=>{
+      expect(component.stations.length).toBeTruthy();
+  })
+  //TODO: testy id w routerLinkach
 });
