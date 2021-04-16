@@ -1,0 +1,58 @@
+<div class="container">
+  <form class="form">
+    <header class="form-header">Register</header>
+
+    <div class="form-group">
+      <label for="loginInput">Login</label>
+      <input type="text"
+             id="loginInput"
+             name="loginInput"
+             [(ngModel)]="formData.login"
+             (ngModelChange)="loginChange()"
+             #loginInput="ngModel"
+             required/>
+      <div class="form-error" *ngIf="!loginInput.valid && loginInput.touched">
+        Login required!
+      </div>
+      <div class="form-error" *ngIf="loginInput.valid && showAccountNameTaken">
+        Cannot register with this login!
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="passwordInput">Password</label>
+      <input type="password"
+             id="passwordInput"
+             name="passwordInput"
+             [(ngModel)]="formData.password"
+             #passwordInput="ngModel"
+             required/>
+      <div class="form-error" *ngIf="!passwordInput.valid && passwordInput.touched">
+        Password required!
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="repeatPasswordInput">Repeat Password</label>
+      <input type="password"
+             id="repeatPasswordInput"
+             name="repeatPasswordInput"
+             [(ngModel)]="formData.repeatPassword"
+             (ngModelChange)="repeatPasswordChange()"
+             #repeatPasswordInput="ngModel"
+             required/>
+      <div class="form-error" *ngIf="!repeatPasswordInput.valid && repeatPasswordInput.touched">
+        Repeat password required!
+      </div>
+      <div class="form-error" *ngIf="repeatPasswordInput.valid && showPasswordsNotMatch">
+        Passwords do not match!
+      </div>
+    </div>
+
+    <button [disabled]="(!loginInput.valid || !passwordInput.valid || !repeatPasswordInput.valid)"
+            class="main-button"
+            (click)="register()">
+      Register
+    </button>
+  </form>
+</div>

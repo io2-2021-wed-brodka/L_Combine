@@ -17,6 +17,7 @@ import {HomeComponent} from './components/home/home.component';
 import {RentedBikeDetailsComponent} from './components/rented-bike-details/rented-bike-details.component';
 import {ReturnBikeComponent} from './components/return-bike/return-bike.component';
 import {NotificationsComponent} from './components/notification/notifications.component';
+import {RegisterComponent} from './components/register/register.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {NotificationsComponent} from './components/notification/notifications.co
     RentedBikeDetailsComponent,
     ReturnBikeComponent,
     NotificationsComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
