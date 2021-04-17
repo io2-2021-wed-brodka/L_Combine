@@ -34,7 +34,7 @@ namespace BackendAPI.Repository.Repositories
         {
             if (includeFilter == null)
                 return dbContext.Rentals.ToList();
-            return includeFilter(dbContext.Rentals);
+            return includeFilter(dbContext.Rentals).ToList();
         }
 
         public override Rental GetByID(int ID, IncludeData<Rental> includeFilter = null)

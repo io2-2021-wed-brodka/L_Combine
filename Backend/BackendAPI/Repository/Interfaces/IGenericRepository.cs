@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.Repository.Interfaces
 {
-    public delegate IList<T> IncludeData<T>(DbSet<T> data) where T : class;
+    public delegate IQueryable<T> IncludeData<T>(DbSet<T> data) where T : class;
 
     public interface IGenericRepository<T> where T : class
     {
