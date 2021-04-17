@@ -8,6 +8,7 @@ import {NotificationService} from '../../services/notification.service';
 import {RedirectService} from '../../services/redirect.service';
 import {FormsModule} from '@angular/forms';
 import {HttpErrorResponse} from '@angular/common/http';
+import {By} from '@angular/platform-browser';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -106,5 +107,30 @@ describe('RegisterComponent', () => {
     component.loginChange();
 
     expect(component.showAccountNameTaken).toBeFalse();
+  });
+
+  it('clicking button should call register', () => {
+    fixture.detectChanges();
+
+    debugElement.query(By.css('.main-button')).triggerEventHandler('click', null);
+    expect(registerService.register).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show loginTaken when login valid and flag set', () => {
+    component.showAccountNameTaken = true;
+    fixture.detectChanges();
+
+    fixture.detectChanges();
+    expect(debugElement.query(By.css('.form-error')).nativeElement.textContent.trim())
+      .toEqual('Cannot register with this login!');
+  });
+
+  it('should show passwordsMismatch when repeatPassword valid and flag set', () => {
+    component.showPasswordsNotMatch = true;
+    fixture.detectChanges();
+
+    fixture.detectChanges();
+    expect(debugElement.query(By.css('.form-error')).nativeElement.textContent.trim())
+      .toEqual('Passwords do not match!');
   });
 });
