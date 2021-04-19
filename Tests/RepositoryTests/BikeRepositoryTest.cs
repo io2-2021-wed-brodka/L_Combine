@@ -105,24 +105,6 @@ namespace RepositoryTests
             Assert.AreEqual(result, 0);
         }
 
-        [TestMethod]
-        public void UpdateTest()
-        {
-            int id = InsertBike();
-
-            bikeRepo.Update(new Bike()
-            {
-                ID = id,
-                BikeStationID = 6215671,
-                State = ClassLibrary.BikeState.InService
-            });
-            dbContext.SaveChanges();
-
-            var modified = dbContext.Bikes.First(bike => bike.ID == id);
-            var result = modified.BikeStationID == 6215671 && modified.State == ClassLibrary.BikeState.InService;
-            Assert.IsTrue(result);
-        }
-
         private int InsertUser()
         {
             User test;
@@ -157,7 +139,7 @@ namespace RepositoryTests
                 });
             //dbContext.SaveChanges();
             var bike = bikeRepo.GetByID(id);
-            var result = bikeRepo.GetUser(bike);
+            var result = userRepo.GetUser(bike);
             Assert.IsNull(result);
         }
 
@@ -176,7 +158,7 @@ namespace RepositoryTests
                 });
             dbContext.SaveChanges();
             var bike = bikeRepo.GetByID(id);
-            var result = bikeRepo.GetUser(bike);
+            var result = userRepo.GetUser(bike);
             Assert.IsNull(result);
         }
 
@@ -195,7 +177,7 @@ namespace RepositoryTests
                 });
             dbContext.SaveChanges();
             var bike = bikeRepo.GetByID(id);
-            var result = bikeRepo.GetUser(bike);
+            var result = userRepo.GetUser(bike);
             Assert.IsNotNull(result);
         }
     }

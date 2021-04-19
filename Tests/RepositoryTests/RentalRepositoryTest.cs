@@ -102,26 +102,6 @@ namespace RepositoryTests
         }
 
         [TestMethod]
-        public void UpdateTest()
-        {
-            int id = InsertStation();
-            DateTime date = DateTime.Now;
-
-            rentalRepo.Update(new Rental()
-            {
-                ID = id,
-                EndDate = date,
-                BikeID = 2,
-            });
-            dbContext.SaveChanges();
-
-            var modified = dbContext.Rentals.First(r => r.ID == id);
-            //Uwaga, Update bez ustawionego pola ustawia mu domyslną wartość! (tutaj UserID i StartDate)
-            var result = modified.BikeID == 2 && modified.UserID == 0 && modified.EndDate == date && modified.StartDate == new DateTime();
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod]
         public void FindActiveRentalTest_ExpectedNull()
         {
             rentalRepo.Insert(new Rental()

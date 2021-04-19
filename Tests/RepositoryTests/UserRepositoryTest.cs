@@ -31,15 +31,17 @@ namespace RepositoryTests
         public void InitRepository()
         {
             //Tworzyzmy baze danych identyczna jak produkcyjna, tylko ze w pamieci
-            var dbOptions = new DbContextOptionsBuilder<DataContext>()
-            .UseInMemoryDatabase(databaseName: "TestDatabase")
-            .Options;
+            dbContext = TestDataContextFactory.TestData();
 
-            dbContext = new DataContext(dbOptions);
             ClearData();
-
             var jwtOptions = Options.Create(new JwtSettings() { Secret = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" });
             userRepo = new UserRepository(dbContext, jwtOptions);
+        }
+
+        [TestCleanup]
+        public void CleanRepository()
+        {
+            dbContext.Dispose();
         }
 
         //Umieszczenie użytkownika w tabeli poza repository
@@ -107,24 +109,6 @@ namespace RepositoryTests
 
             var result = dbContext.Users.Count();
             Assert.AreEqual(result, 0);
-        }
-
-        [TestMethod]
-        public void UpdateTest()
-        {
-            int id = InsertUser();
-
-            userRepo.Update(new User()
-            {
-                ID = id,
-                Name = "Maria",
-                LastName = "Różalska"
-            });
-            dbContext.SaveChanges();
-
-            var modified = dbContext.Users.First(s => s.ID == id);
-            var result = modified.Name == "Maria" && modified.LastName == "Różalska";
-            Assert.IsTrue(result);
         }
 
         [TestMethod]

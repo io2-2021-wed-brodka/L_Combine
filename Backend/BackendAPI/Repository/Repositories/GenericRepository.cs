@@ -21,7 +21,7 @@ namespace BackendAPI.Repository.Repositories
 
         public abstract IList<T> Get(IncludeData<T> includeFilter = null);
 
-        public abstract T GetByID(int ID, IncludeData<T> includeFilter = null)
+        public abstract T GetByID(int ID, IncludeData<T> includeFilter = null);
 
         public abstract bool Insert(T component);
 

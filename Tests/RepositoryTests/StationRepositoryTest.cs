@@ -96,23 +96,6 @@ namespace RepositoryTests
         }
 
         [TestMethod]
-        public void UpdateTest()
-        {
-            int id = InsertStation();
-
-            stationRepo.Update(new BikeStation()
-            {
-                ID = id,
-                LocationName = "Sydni"
-            });
-            dbContext.SaveChanges();
-
-            var modified = dbContext.BikeStations.First(s => s.ID == id);
-            var result = modified.LocationName == "Sydni";
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod]
         public void GetActiveStationsTest()
         {
             stationRepo.Insert(
