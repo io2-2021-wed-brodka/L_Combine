@@ -67,7 +67,7 @@ namespace BackendAPI.Controllers
 
             //Tutaj wg mnie należy dodać rodzaj odpowiedzi do specki. Na razie 406 wydaje się spełniać wymogi.
             if (rentalRepository.FindActiveRentals(GetRequestingUserID).Count() >= PerUserBikesLimit)
-                throw new HttpResponseException($"Cannot rent a bike. You've already rented {PerUserBikesLimit} bikes.", 406);
+                throw new HttpResponseException($"Cannot rent a bike. You've already rented {PerUserBikesLimit} bikes.", 422);
 
             //Rower gotowy do wypożyczenia -> dopisanie wypożyczenia
             rentalRepository.Insert(new Rental()
