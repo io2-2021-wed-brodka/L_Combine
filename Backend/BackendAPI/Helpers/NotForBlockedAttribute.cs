@@ -1,6 +1,7 @@
 ﻿using BackendAPI.Models;
 using BackendAPI.Repository.Interfaces;
 using ClassLibrary.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ public class NotForBlockedAttribute: Attribute, IAuthorizationFilter
     {
         var blocked = context.HttpContext.User?.FindFirstValue("Blocked");
         if (blocked == bool.TrueString)
-            throw new HttpResponseException("User has been blocked", 403);
+            context.Result = new JsonResult(new { Message = "User has been blocked" }) { StatusCode = 403 };
     }
 }
 

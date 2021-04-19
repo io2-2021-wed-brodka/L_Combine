@@ -33,7 +33,6 @@ namespace BackendAPI.Controllers
 
         // GET: api/Stations
         [HttpGet]
-        [NotForBlocked]
         public IActionResult Get()
         {
             var stations = stationRepository
