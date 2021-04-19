@@ -12,7 +12,7 @@ namespace BackendAPI.Data
     //Klasa opisująca konfigurację tabel oraz dane początkowe dla bazy w środowisku produkcyjnym.
     public class ProductionDataContext : CommonDataContext
     {
-        public ProductionDataContext(DbContextOptions<ProductionDataContext> 
+        public ProductionDataContext(DbContextOptions<CommonDataContext> 
             options)
            : base(options)
         {

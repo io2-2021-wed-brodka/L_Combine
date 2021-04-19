@@ -31,7 +31,7 @@ namespace RepositoryTests
         public void InitRepository()
         {
             //Tworzyzmy baze danych identyczna jak produkcyjna, tylko ze w pamieci
-            var options = new DbContextOptionsBuilder<TestDataContext>()
+            var options = new DbContextOptionsBuilder<CommonDataContext>()
             .UseInMemoryDatabase(databaseName: "TestDatabase")
             .Options;
 

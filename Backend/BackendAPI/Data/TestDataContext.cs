@@ -11,7 +11,7 @@ namespace BackendAPI.Data
     //Klasa opisująca konfigurację tabel oraz dane początkowe dla bazy w środowisku testowym.
     public class TestDataContext: CommonDataContext
     {
-        public TestDataContext(DbContextOptions<TestDataContext>
+        public TestDataContext(DbContextOptions<CommonDataContext>
             options)
            : base(options)
         {
