@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ClassLibrary
 {
-    public static class Roles
+    public static class Role
     {
         public const string User = "User";
         public const string Tech = "Tech";
