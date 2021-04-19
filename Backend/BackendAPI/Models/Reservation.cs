@@ -17,5 +17,13 @@ namespace BackendAPI.Models
 
         public int BikeID { get; set; }
         public Bike Bike { get; set; }
+
+        public Reservation(User user, Bike bike, int expireMinutes = 30)
+        {
+            ReservationDate = DateTime.Now;
+            ExpireDate = DateTime.Now.AddMinutes(expireMinutes);
+            UserID = user.ID;
+            BikeID = bike.ID;
+        }
     }
 }
