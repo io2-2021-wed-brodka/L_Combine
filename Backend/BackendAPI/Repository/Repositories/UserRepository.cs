@@ -54,7 +54,8 @@ namespace BackendAPI.Repository.Repositories
                     new[] 
                     {
                         new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
-                        new Claim(ClaimTypes.Role, user.Role),
+                        new Claim(ClaimTypes.Role, user.Role)
+                        //new Claim("Blocked", user.Role == user && user.Blocked)
                     }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
