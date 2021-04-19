@@ -36,7 +36,8 @@ namespace BackendAPI.Controllers
                     Login = model.Login,
                     PasswordHash = stringHash.GetHash(model.Password),
                     Name = "ROZSZERZYC_REJESTRACJE",
-                    LastName = "ROZSZERZYC_REJESTRACJE"
+                    LastName = "ROZSZERZYC_REJESTRACJE",
+                    Role = Role.User
                 });
             }
             userRepository.SaveChanges();
