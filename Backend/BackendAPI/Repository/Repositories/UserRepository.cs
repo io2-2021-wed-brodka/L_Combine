@@ -73,7 +73,7 @@ namespace BackendAPI.Repository.Repositories
         {
             if (includeFilter == null)
                 return dbContext.Users.ToList();
-            return includeFilter(dbContext.Users).ToList();
+            return includeFilter(dbContext.Users);
         }
 
         public override User GetByID(int ID, IncludeData<User> includeFilter = null)
@@ -81,7 +81,7 @@ namespace BackendAPI.Repository.Repositories
             return Get(includeFilter).FirstOrDefault(b => b.ID == ID);
         }
 
-        public User Get(Bike component)
+        public User GetUser(Bike component)
         {
             var user =
                (from r in dbContext.Rentals.Include(r => r.User)

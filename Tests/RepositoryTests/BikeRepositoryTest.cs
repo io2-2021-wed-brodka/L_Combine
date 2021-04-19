@@ -139,7 +139,7 @@ namespace RepositoryTests
                 });
             //dbContext.SaveChanges();
             var bike = bikeRepo.GetByID(id);
-            var result = userRepo.Get(bike);
+            var result = userRepo.GetUser(bike);
             Assert.IsNull(result);
         }
 
@@ -158,7 +158,7 @@ namespace RepositoryTests
                 });
             dbContext.SaveChanges();
             var bike = bikeRepo.GetByID(id);
-            var result = userRepo.Get(bike);
+            var result = userRepo.GetUser(bike);
             Assert.IsNull(result);
         }
 
@@ -177,7 +177,7 @@ namespace RepositoryTests
                 });
             dbContext.SaveChanges();
             var bike = bikeRepo.GetByID(id);
-            var result = userRepo.Get(bike);
+            var result = userRepo.GetUser(bike);
             Assert.IsNotNull(result);
         }
     }

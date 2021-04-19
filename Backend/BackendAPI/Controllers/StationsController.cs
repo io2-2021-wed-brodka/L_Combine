@@ -74,7 +74,7 @@ namespace BackendAPI.Controllers
 
             var bikes = station.Bikes.Select(b => 
                 BikeDTOFactory.CreateBikeDTO(b, 
-                userRepository.Get(b)));
+                userRepository.GetUser(b)));
             //Według dokumentacji zwracamy zawsze response 200,
             //czyli zakładamy że id stacji jest poprawne
             return Ok(new { Bikes = bikes } );
@@ -112,7 +112,7 @@ namespace BackendAPI.Controllers
             bikeRepository.SaveChanges();
             return new CreatedResult(bike.ID.ToString(),
                 BikeDTOFactory.CreateBikeDTO(bike,
-                userRepository.Get(bike)));
+                userRepository.GetUser(bike)));
         }
     }
 }

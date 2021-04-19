@@ -27,7 +27,7 @@ namespace BackendAPI.Repository.Repositories
         {
             if (includeFilter == null)
                 return dbContext.BikeStations.ToList();
-            return includeFilter(dbContext.BikeStations).ToList();
+            return includeFilter(dbContext.BikeStations);
         }
 
         public IList<BikeStation> Get(Func<BikeStation, bool> filter, IncludeData<BikeStation> includeFilter = null)

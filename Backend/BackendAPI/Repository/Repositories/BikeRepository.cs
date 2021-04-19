@@ -33,7 +33,7 @@ namespace BackendAPI.Repository.Repositories
         public override IList<Bike> Get(IncludeData<Bike> includeFilter = null)
         {
             if (includeFilter != null)
-                return includeFilter(dbContext.Bikes).ToList();
+                return includeFilter(dbContext.Bikes);
             return dbContext.Bikes.ToList();
         }
 
