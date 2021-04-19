@@ -26,12 +26,14 @@ namespace BackendAPI.Controllers
         private IRentalRepository rentalRepository;
         private IBikeRepository bikeRepository;
         private IUserRepository userRepository;
+        private IReservationRepository reservationRepository;
 
-        public BikesController(IRentalRepository rentalRepo, IBikeRepository bikeRepo, IUserRepository userRepo)
+        public BikesController(IRentalRepository rentalRepo, IBikeRepository bikeRepo, IUserRepository userRepo, IReservationRepository reservationRepo)
         {
             rentalRepository = rentalRepo;
             bikeRepository = bikeRepo;
             userRepository = userRepo;
+            reservationRepository = reservationRepo;
         }
 
         /// <summary>
@@ -65,6 +67,10 @@ namespace BackendAPI.Controllers
                 || bike.BikeStation?.State != ClassLibrary.BikeStationState.Working)
                 throw new HttpResponseException("Bike is already rented, blocked or reserved by another user or station is blocked", 422);
 
+            var reservations = reservationRepository.GetActiveReservationsByBike(bike);
+            if ((reservations.Count() == 1 && reservations.First().UserID != GetRequestingUserID) || reservations.Count() > 0)
+                throw new HttpResponseException("Bike is reserved", 422);
+
             //Tutaj wg mnie należy dodać rodzaj odpowiedzi do specki. Na razie 406 wydaje się spełniać wymogi.
             if (rentalRepository.FindActiveRentals(GetRequestingUserID).Count() >= PerUserBikesLimit)
                 throw new HttpResponseException($"Cannot rent a bike. You've already rented {PerUserBikesLimit} bikes.", 422);
@@ -80,34 +86,6 @@ namespace BackendAPI.Controllers
             bikeRepository.SaveChanges();
 
             return new CreatedResult("/api/bikes/rented", BikeDTOFactory.CreateBikeDTO(bike, userRepository.GetByID(GetRequestingUserID)));
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [HttpGet("reserved")]
-        public ActionResult<string> ReservedGet()
-        {
-            return BadRequest();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [HttpPost("reserved")]
-        public ActionResult<string> ReservedPost()
-        {
-            return BadRequest();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id">Identyfikator usuwanej rezerwacji. </param>
-        [HttpDelete("reserved/{id}")]
-        public ActionResult<string> ReservedDelete([FromRoute]string id)
-        {
-            return BadRequest();
         }
     }
 }
