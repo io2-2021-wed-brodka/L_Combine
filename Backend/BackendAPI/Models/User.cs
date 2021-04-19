@@ -19,5 +19,7 @@ namespace BackendAPI.Models
         public string Login { get; set; }
         [JsonIgnore] //żeby przy serializacji do jsona się nie serializowało]  
         public string PasswordHash { get; set; }
+
+        public IList<Reservation> Reservations { get; set; }
     }
 }

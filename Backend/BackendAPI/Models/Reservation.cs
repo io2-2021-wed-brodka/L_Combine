@@ -12,10 +12,10 @@ namespace BackendAPI.Models
         public DateTime ReservationDate { get; set; }
         public DateTime ExpireDate { get; set; }
 
-        public int UserId { get; set; }
+        public int UserID { get; set; }
         public User User { get; set; }
 
-        public int BikeId { get; set; }
+        public int BikeID { get; set; }
         public Bike Bike { get; set; }
     }
 }
