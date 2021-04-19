@@ -36,7 +36,6 @@ namespace RepositoryTests
             .Options;
 
             dbContext = new TestDataContext(dbOptions);
-            ClearData();
 
             var jwtOptions = Options.Create(new JwtSettings() { Secret = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" });
             userRepo = new UserRepository(dbContext, jwtOptions);
@@ -65,15 +64,22 @@ namespace RepositoryTests
         [TestMethod]
         public void TestInsert()
         {
-            userRepo.Insert(new User()
+            
+            using (var stringHash = new StringHash())
             {
-                Name = "Jan",
-                LastName = "Dzban"
-            });
+                userRepo.Insert(new User()
+                {
+                    Name = "Jan",
+                    LastName = "Dzban",
+                    Login = "dzbanj",
+                    PasswordHash = stringHash.GetHash("p4ssw0rd")
+                });
+            }
             dbContext.SaveChanges();
 
             var result = dbContext.Users.First(u => u.Name == "Jan" && u.LastName == "Dzban");
 
+            
             Assert.IsNotNull(result);
         }
 
@@ -84,7 +90,7 @@ namespace RepositoryTests
 
             var result = userRepo.Get();
 
-            Assert.AreEqual(result.Count(), 1);
+            Assert.AreEqual(result.Count(), 5);
         }
 
         [TestMethod]
@@ -106,7 +112,7 @@ namespace RepositoryTests
             dbContext.SaveChanges();
 
             var result = dbContext.Users.Count();
-            Assert.AreEqual(result, 0);
+            Assert.AreEqual(result, 5);
         }
 
         [TestMethod]
