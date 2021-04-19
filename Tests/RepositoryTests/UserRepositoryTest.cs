@@ -53,7 +53,8 @@ namespace RepositoryTests
                     Name = "Jan",
                     LastName = "Dzban",
                     Login = "password",
-                    PasswordHash = stringHash.GetHash("login")
+                    PasswordHash = stringHash.GetHash("login"),
+                    Role = Role.User
                 };
             }
 

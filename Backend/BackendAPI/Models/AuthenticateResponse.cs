@@ -8,5 +8,6 @@ namespace BackendAPI.Models
     public class AuthenticateResponse
     {
         public string Token { get; set; }
+        public string Role { get; set; }
     }
 }
