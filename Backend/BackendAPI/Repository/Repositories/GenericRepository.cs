@@ -1,16 +1,18 @@
 ﻿using BackendAPI.Data;
 using BackendAPI.Repository.Interfaces;
-using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BackendAPI.Repository.Repositories
 {
     public abstract class GenericRepository<T> : IGenericRepository<T>
         where T : class
     {
-        protected CommonDataContext dbContext;
+        protected DataContext dbContext;
 
-        public GenericRepository(CommonDataContext dbContext)
+        public GenericRepository(DataContext dbContext)
         {
             this.dbContext = dbContext;
         }
@@ -19,7 +21,7 @@ namespace BackendAPI.Repository.Repositories
 
         public abstract IList<T> Get(IncludeData<T> includeFilter = null);
 
-        public abstract T GetByID(int ID, IncludeData<T> includeFilter = null);
+        public abstract T GetByID(int ID, IncludeData<T> includeFilter = null)
 
         public abstract bool Insert(T component);
 

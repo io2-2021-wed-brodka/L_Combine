@@ -14,7 +14,7 @@ namespace RepositoryTests
     public class StationRepositoryTest
     {
         private StationRepository stationRepo;
-        private TestDataContext dbContext;
+        private DataContext dbContext;
 
         //Czyscimy dane testowanej tabeli
         private void ClearData()
@@ -27,11 +27,11 @@ namespace RepositoryTests
         public void InitRepository()
         {
             //Tworzyzmy baze danych identyczna jak produkcyjna, tylko ze w pamieci
-            var options = new DbContextOptionsBuilder<CommonDataContext>()
+            var options = new DbContextOptionsBuilder<DataContext>()
             .UseInMemoryDatabase(databaseName: "TestDatabase")
             .Options;
 
-            dbContext = new TestDataContext(options);
+            dbContext = new DataContext(options);
             ClearData();
             stationRepo = new StationRepository(dbContext);
         }
@@ -93,6 +93,23 @@ namespace RepositoryTests
 
             var result = dbContext.BikeStations.Count();
             Assert.AreEqual(result, 0);
+        }
+
+        [TestMethod]
+        public void UpdateTest()
+        {
+            int id = InsertStation();
+
+            stationRepo.Update(new BikeStation()
+            {
+                ID = id,
+                LocationName = "Sydni"
+            });
+            dbContext.SaveChanges();
+
+            var modified = dbContext.BikeStations.First(s => s.ID == id);
+            var result = modified.LocationName == "Sydni";
+            Assert.IsTrue(result);
         }
 
         [TestMethod]

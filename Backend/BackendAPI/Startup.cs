@@ -34,7 +34,7 @@ namespace BackendAPI
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRentalRepository, RentalRepository>();
 
-            services.AddDbContextPool<ProductionDataContext>(options =>
+            services.AddDbContextPool<DataContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString(
                         "DefaultConnection")));

@@ -30,7 +30,7 @@ namespace BackendAPI
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<ProductionDataContext>();
+                    var context = services.GetRequiredService<DataContext>();
                 }
                 catch (Exception ex)
                 {

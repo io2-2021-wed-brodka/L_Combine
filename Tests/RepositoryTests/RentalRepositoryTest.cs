@@ -14,7 +14,7 @@ namespace RepositoryTests
     public class RentalRepositoryTest
     {
         private RentalRepository rentalRepo;
-        private TestDataContext dbContext;
+        private DataContext dbContext;
 
         //Czyscimy dane testowanej tabeli
         private void ClearData()
@@ -27,11 +27,11 @@ namespace RepositoryTests
         public void InitRepository()
         {
             //Tworzyzmy baze danych identyczna jak produkcyjna, tylko ze w pamieci
-            var options = new DbContextOptionsBuilder<CommonDataContext>()
+            var options = new DbContextOptionsBuilder<DataContext>()
             .UseInMemoryDatabase(databaseName: "TestDatabase")
             .Options;
 
-            dbContext = new TestDataContext(options);
+            dbContext = new DataContext(options);
             ClearData();
             rentalRepo = new RentalRepository(dbContext);
         }
@@ -99,6 +99,26 @@ namespace RepositoryTests
 
             var result = dbContext.Rentals.Count();
             Assert.AreEqual(result, 0);
+        }
+
+        [TestMethod]
+        public void UpdateTest()
+        {
+            int id = InsertStation();
+            DateTime date = DateTime.Now;
+
+            rentalRepo.Update(new Rental()
+            {
+                ID = id,
+                EndDate = date,
+                BikeID = 2,
+            });
+            dbContext.SaveChanges();
+
+            var modified = dbContext.Rentals.First(r => r.ID == id);
+            //Uwaga, Update bez ustawionego pola ustawia mu domyslną wartość! (tutaj UserID i StartDate)
+            var result = modified.BikeID == 2 && modified.UserID == 0 && modified.EndDate == date && modified.StartDate == new DateTime();
+            Assert.IsTrue(result);
         }
 
         [TestMethod]

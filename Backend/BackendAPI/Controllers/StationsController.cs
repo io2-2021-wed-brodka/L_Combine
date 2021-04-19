@@ -19,18 +19,15 @@ namespace BackendAPI.Controllers
         private IStationRepository stationRepository;
         private IBikeRepository bikeRepository;
         private IRentalRepository rentalRepository;
-        private IUserRepository userRepository;
 
         public StationsController(
             IStationRepository stationRepository,
             IBikeRepository bikeRepository,
-            IRentalRepository rentalRepository,
-            IUserRepository userRepository)
+            IRentalRepository rentalRepository)
         {
             this.stationRepository = stationRepository;
             this.bikeRepository = bikeRepository;
             this.rentalRepository = rentalRepository;
-            this.userRepository = userRepository;
         }
 
         // GET: api/Stations
@@ -74,7 +71,7 @@ namespace BackendAPI.Controllers
 
             var bikes = station.Bikes.Select(b => 
                 BikeDTOFactory.CreateBikeDTO(b, 
-                userRepository.GetUser(b)));
+                bikeRepository.GetUser(b)));
             //Według dokumentacji zwracamy zawsze response 200,
             //czyli zakładamy że id stacji jest poprawne
             return Ok(new { Bikes = bikes } );
@@ -112,7 +109,7 @@ namespace BackendAPI.Controllers
             bikeRepository.SaveChanges();
             return new CreatedResult(bike.ID.ToString(),
                 BikeDTOFactory.CreateBikeDTO(bike,
-                userRepository.GetUser(bike)));
+                bikeRepository.GetUser(bike)));
         }
     }
 }

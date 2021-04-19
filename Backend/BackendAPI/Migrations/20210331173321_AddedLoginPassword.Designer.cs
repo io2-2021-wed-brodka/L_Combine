@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BackendAPI.Migrations
 {
-    [DbContext(typeof(ProductionDataContext))]
+    [DbContext(typeof(DataContext))]
     [Migration("20210331173321_AddedLoginPassword")]
     partial class AddedLoginPassword
     {

@@ -11,7 +11,7 @@ namespace BackendAPI.Repository.Repositories
 {
     public class RentalRepository: GenericRepository<Rental>, IRentalRepository
     {
-        public RentalRepository(CommonDataContext dbContext) : base(dbContext)
+        public RentalRepository(DataContext dbContext) : base(dbContext)
         { }
 
         public override bool Delete(int ID)
