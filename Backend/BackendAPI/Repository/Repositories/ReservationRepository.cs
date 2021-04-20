@@ -65,9 +65,10 @@ namespace BackendAPI.Repository.Repositories
             return GetAllActiveReservations().ToList();
         }
 
-        public IList<Reservation> GetActiveReservationsByBike(int bikeId)
+        public Reservation GetActiveReservationByBike(int bikeId)
         {
-            return GetAllActiveReservations().Where(r => r.BikeID == bikeId).ToList();
+            return GetAllActiveReservations().Where(r => r.BikeID == bikeId)
+                .FirstOrDefault();
         }
 
         public IList<Reservation> GetActiveReservationsByUser(int userId)

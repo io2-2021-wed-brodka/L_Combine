@@ -14,62 +14,64 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.Controllers
 {
-    [Authorize]
     [Route("api/bikes/reserved")]
+    [Authorize]
     [ApiController]
-    public class ReservationController : ControllerBase
+    public class ReservedBikesController : ControllerBase
     {
         private IReservationRepository reservationRepository;
-        private IRentalRepository rentalRepository;
+        //private IRentalRepository rentalRepository;
         private IUserRepository userRepository;
         private IBikeRepository bikeRepository;
 
-        private int GetRequestingUserID => int.Parse(
+        private int RequestingUserID => int.Parse(
             User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-        public ReservationController(IUserRepository userRepo, IReservationRepository reservationRepo, IBikeRepository bikeRepo, IRentalRepository rentalRepo)
+        public ReservedBikesController(IUserRepository userRepo, 
+            IReservationRepository reservationRepo, 
+            IBikeRepository bikeRepo)
         {
             this.reservationRepository = reservationRepo;
             this.userRepository = userRepo;
             this.bikeRepository = bikeRepo;
-            this.rentalRepository = rentalRepo;
         }
 
         [HttpGet]
         public ActionResult GetReservations()
         {
-            User user = userRepository.GetByID(GetRequestingUserID);
-            return Ok(reservationRepository.GetActiveReservationsByUser(user));
+            var reservedBikes = reservationRepository
+                .GetActiveReservationsByUser(RequestingUserID)
+                .Select(r => ReservedBikeDTOFactory.Create(r));
+            return Ok(new { Bikes = reservedBikes });
         }
 
         [HttpPost]
-        public ActionResult AddReservation([FromBody] IdDTO bikeId)
+        public ActionResult<ReservedBikeDTO> AddReservation([FromBody] IdDTO bikeId)
         {
             //[BLOCKED] dodać blokowanie uzytkownikow
-            User user = userRepository.GetByID(GetRequestingUserID);
 
+            Bike reservedBike;
             //To jest dramat - trzeba dodac chaina aby wywalic sciane ifow
-            if (int.TryParse(bikeId.Id, out int bikeID))
-                throw new HttpResponseException("Bike not found", 404);
-
-            Bike reservedBike = bikeRepository.GetByID(bikeID);
-            if (reservedBike == null)
+            if (!int.TryParse(bikeId.Id, out int bikeID) || 
+                (reservedBike = bikeRepository.GetByID(bikeID)) == null)
                 throw new HttpResponseException("Bike not found", 404);
 
             if (reservedBike.State != ClassLibrary.BikeState.Working)
                 throw new HttpResponseException("Bike is blocked", 422);
 
-            if (rentalRepository.FindActiveRental(reservedBike.ID, user.ID) != null)
+            //Tu poprawiłem bardzo ważną rzecz
+            if (reservedBike.BikeStation == null)
                 throw new HttpResponseException("Bike already rented", 422);
 
-            if (reservationRepository.GetActiveReservationsByBike(reservedBike).Count() > 0)
+            if (reservationRepository.GetActiveReservationByBike(reservedBike.ID) != null)
                 throw new HttpResponseException("Bike already reserved", 422);
 
+            User user = userRepository.GetByID(RequestingUserID);
             Reservation reservation = new Reservation(user, reservedBike);
             reservationRepository.Insert(reservation);
             reservationRepository.SaveChanges();
 
-            ReservationDTO result = ReservationDTOFactory.CreateReservation(reservation, reservedBike.BikeStation);
+            ReservedBikeDTO result = ReservedBikeDTOFactory.Create(reservation);
 
             return new CreatedResult(reservation.ID.ToString(), result);
         }
@@ -78,36 +80,39 @@ namespace BackendAPI.Controllers
         public ActionResult RemoveReservation([FromRoute] string bikeId)
         {
             //[BLOCKED] dodać blokowanie uzytkownikow
-            User user = userRepository.GetByID(GetRequestingUserID);
+            User user = userRepository.GetByID(RequestingUserID);
+
+            Bike reservedBike;
 
             //To jest dramat - trzeba dodac chaina aby wywalic sciane ifow
-            if (int.TryParse(bikeId, out int bikeID))
+            if (int.TryParse(bikeId, out int bikeID) || 
+                (reservedBike = bikeRepository.GetByID(bikeID)) == null)
                 throw new HttpResponseException("Bike not found", 404);
 
-            Bike reservedBike = bikeRepository.GetByID(bikeID);
-            if (reservedBike == null)
-                throw new HttpResponseException("Bike not found", 404);
+            //Tego niżej specka nie precyzuje, poza tym nie wiem w czym
+            //to miałoby przeszkadzać żeby anulować rezerwację czy coś,
+            //w zasadzie jeśli np. zrobimy rezerwację, ale admin zablokuje rower
+            //po naszej rzerwacji to powinniśmy móc ją anulować chyba chociaż
+            //proszę o review.
+            //Drugi if: jeśli bike jest wypożyczony, tzn. że nie ma aktywnej
+            //rezerwacji, czyli też nie powinno się to zdarzyć
 
-            if (reservedBike.State != ClassLibrary.BikeState.Working)
+            /*if (reservedBike.State != ClassLibrary.BikeState.Working)
                 throw new HttpResponseException("Bike is blocked", 422);
 
             if (rentalRepository.FindActiveRental(reservedBike.ID, user.ID) != null)
-                throw new HttpResponseException("Bike already rented", 422);
+                throw new HttpResponseException("Bike already rented", 422);*/
 
-            IList<Reservation> activeReservations = reservationRepository.GetActiveReservationsByBike(reservedBike);
-            if (activeReservations.Count() == 0)
+            var activeReservation = reservationRepository.GetActiveReservationByBike(bikeID);
+            if (activeReservation == null)
                 throw new HttpResponseException("Bike is not reserved", 422);
 
-            if (!activeReservations.All(r => r.UserID == user.ID))
+            if (activeReservation.UserID != user.ID)
                 throw new HttpResponseException("Bike is reserved by another user", 422);
 
-            if (activeReservations.Count() != 1)
-                throw new InvalidOperationException("Bike is reserved one than once.");
-
-            Reservation res = activeReservations.First();
-            reservationRepository.Delete(res.ID);
+            reservationRepository.Delete(activeReservation.ID);
             reservationRepository.SaveChanges();
-            return Ok(res);
+            return NoContent();
         }
 
     }

@@ -10,7 +10,7 @@ namespace BackendAPI.Repository.Interfaces
     {
         IList<Reservation> GetReservationsByBike(int bikeId);
         IList<Reservation> GetActiveReservations();
-        IList<Reservation> GetActiveReservationsByBike(int bikeId);
+        Reservation GetActiveReservationByBike(int bikeId);
         IList<Reservation> GetActiveReservationsByUser(int UserId);
     }
 }
