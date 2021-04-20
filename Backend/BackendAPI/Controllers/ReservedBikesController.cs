@@ -56,15 +56,19 @@ namespace BackendAPI.Controllers
                 (reservedBike = bikeRepository.GetByID(bikeID)) == null)
                 throw new HttpResponseException("Bike not found", 404);
 
-            if (reservedBike.State != ClassLibrary.BikeState.Working)
-                throw new HttpResponseException("Bike is blocked", 422);
-
             //Tu poprawiłem bardzo ważną rzecz
             if (reservedBike.BikeStation == null)
                 throw new HttpResponseException("Bike already rented", 422);
 
+            if (reservedBike.State != ClassLibrary.BikeState.Working)
+                throw new HttpResponseException("Bike is blocked", 422);
+
             if (reservationRepository.GetActiveReservationByBike(reservedBike.ID) != null)
                 throw new HttpResponseException("Bike already reserved", 422);
+
+            //Dodałem warunek niżej bardzo ważny! Czytajmy speckę uważnie!
+            if (reservedBike.BikeStation.State != ClassLibrary.BikeStationState.Working)
+                throw new HttpResponseException("Bike station is blocked", 422);
 
             User user = userRepository.GetByID(RequestingUserID);
             Reservation reservation = new Reservation(user, reservedBike);
@@ -80,8 +84,6 @@ namespace BackendAPI.Controllers
         public ActionResult RemoveReservation([FromRoute] string bikeId)
         {
             //[BLOCKED] dodać blokowanie uzytkownikow
-            User user = userRepository.GetByID(RequestingUserID);
-
             Bike reservedBike;
 
             //To jest dramat - trzeba dodac chaina aby wywalic sciane ifow
@@ -107,7 +109,7 @@ namespace BackendAPI.Controllers
             if (activeReservation == null)
                 throw new HttpResponseException("Bike is not reserved", 422);
 
-            if (activeReservation.UserID != user.ID)
+            if (activeReservation.UserID != RequestingUserID)
                 throw new HttpResponseException("Bike is reserved by another user", 422);
 
             reservationRepository.Delete(activeReservation.ID);
