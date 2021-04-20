@@ -19,7 +19,7 @@ namespace BackendAPI.Controllers
     [ApiController]
     public class BikesController : ControllerBase
     {
-        private int GetRequestingUserID => int.Parse(
+        private int RequestingUserID => int.Parse(
                 User.FindFirstValue(ClaimTypes.NameIdentifier));
         private const int PerUserBikesLimit = 4;
 
@@ -42,7 +42,7 @@ namespace BackendAPI.Controllers
         [HttpGet("rented")]
         public ActionResult RentedGet()
         {
-            int userId = GetRequestingUserID;
+            int userId = RequestingUserID;
 
             var rentedBikes = rentalRepository.FindActiveRentals(userId)
                 .Select(r => BikeDTOFactory.CreateBikeDTO(r.Bike, r.User));
@@ -68,11 +68,11 @@ namespace BackendAPI.Controllers
                 throw new HttpResponseException("Bike is already rented, blocked or reserved by another user or station is blocked", 422);
 
             var reservations = reservationRepository.GetActiveReservationsByBike(bike);
-            if ((reservations.Count() == 1 && reservations.First().UserID != GetRequestingUserID) || reservations.Count() > 0)
+            if ((reservations.Count() == 1 && reservations.First().UserID != RequestingUserID) || reservations.Count() > 0)
                 throw new HttpResponseException("Bike is reserved", 422);
 
             //Tutaj wg mnie należy dodać rodzaj odpowiedzi do specki. Na razie 406 wydaje się spełniać wymogi.
-            if (rentalRepository.FindActiveRentals(GetRequestingUserID).Count() >= PerUserBikesLimit)
+            if (rentalRepository.FindActiveRentals(RequestingUserID).Count() >= PerUserBikesLimit)
                 throw new HttpResponseException($"Cannot rent a bike. You've already rented {PerUserBikesLimit} bikes.", 422);
 
             //Rower gotowy do wypożyczenia -> dopisanie wypożyczenia
@@ -80,12 +80,12 @@ namespace BackendAPI.Controllers
             {
                 BikeID = bike.ID,
                 StartDate = DateTime.Now,
-                UserID = GetRequestingUserID,
+                UserID = RequestingUserID,
             });
             bike.BikeStation = null;
             bikeRepository.SaveChanges();
 
-            return new CreatedResult("/api/bikes/rented", BikeDTOFactory.CreateBikeDTO(bike, userRepository.GetByID(GetRequestingUserID)));
+            return new CreatedResult("/api/bikes/rented", BikeDTOFactory.CreateBikeDTO(bike, userRepository.GetByID(RequestingUserID)));
         }
     }
 }
