@@ -8,9 +8,9 @@ namespace BackendAPI.Repository.Interfaces
 {
     public interface IReservationRepository: IGenericRepository<Reservation>
     {
-        IList<Reservation> GetReservationsByBike(Bike bike);
+        IList<Reservation> GetReservationsByBike(int bikeId);
         IList<Reservation> GetActiveReservations();
-        IList<Reservation> GetActiveReservationsByBike(Bike bike);
-        IList<Reservation> GetActiveReservationsByUser(User user);
+        IList<Reservation> GetActiveReservationsByBike(int bikeId);
+        IList<Reservation> GetActiveReservationsByUser(int UserId);
     }
 }

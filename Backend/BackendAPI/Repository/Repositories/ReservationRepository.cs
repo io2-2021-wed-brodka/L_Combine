@@ -21,7 +21,10 @@ namespace BackendAPI.Repository.Repositories
 
         private IQueryable<Reservation> GetAllActiveReservations()
         {
-            return dbContext.Reservations.Where(r => r.ExpireDate.CompareTo(DateTime.Now) > 0);
+            //Poniżej mamy aktywne rezerwacje, czyli nie powinno
+            //być sytuacji, że BikeStation jest nullem ogólnie
+            return dbContext.Reservations.Where(r => r.ExpireDate > DateTime.Now)
+                .Include(r => r.Bike).ThenInclude(b => b.BikeStation);
         }
 
         public override bool Delete(int ID)
@@ -54,9 +57,9 @@ namespace BackendAPI.Repository.Repositories
             throw new NotImplementedException();
         }
 
-        public IList<Reservation> GetReservationsByBike(Bike bike)
+        public IList<Reservation> GetReservationsByBike(int bikeId)
         {
-            return GetAllReservations().Where(r => r.BikeID == bike.ID).ToList();
+            return GetAllReservations().Where(r => r.BikeID == bikeId).ToList();
         }
 
         public IList<Reservation> GetActiveReservations()
@@ -64,14 +67,14 @@ namespace BackendAPI.Repository.Repositories
             return GetAllActiveReservations().ToList();
         }
 
-        public IList<Reservation> GetActiveReservationsByBike(Bike bike)
+        public IList<Reservation> GetActiveReservationsByBike(int bikeId)
         {
-            return GetAllActiveReservations().Where(r => r.BikeID == bike.ID).ToList();
+            return GetAllActiveReservations().Where(r => r.BikeID == bikeId).ToList();
         }
 
-        public IList<Reservation> GetActiveReservationsByUser(User user)
+        public IList<Reservation> GetActiveReservationsByUser(int userId)
         {
-            return GetAllActiveReservations().Where(r => r.UserID == user.ID).ToList();
+            return GetAllActiveReservations().Where(r => r.UserID == userId).ToList();
         }
     }
 }
