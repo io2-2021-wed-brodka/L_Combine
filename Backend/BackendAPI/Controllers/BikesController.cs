@@ -59,17 +59,22 @@ namespace BackendAPI.Controllers
             //[BLOCKED] dopisac check na zablokowanego uzytkownika
 
             Bike bike;
-            if (!int.TryParse(rent.Id, out int bikeId) || 
+            if (!int.TryParse(rent.Id, out int bikeId) ||
                 (bike = bikeRepository.GetByID(bikeId)) == null)
                 throw new HttpResponseException("Bike not found", 404);
 
-            if (bike.State != ClassLibrary.BikeState.Working
-                || bike.BikeStation?.State != ClassLibrary.BikeStationState.Working)
-                throw new HttpResponseException("Bike is already rented, blocked or reserved by another user or station is blocked", 422);
+            if (bike.State != ClassLibrary.BikeState.Working)
+                throw new HttpResponseException("Bike is blocked");
 
-            var reservations = reservationRepository.GetActiveReservationsByBike(bike);
-            if ((reservations.Count() == 1 && reservations.First().UserID != RequestingUserID) || reservations.Count() > 0)
-                throw new HttpResponseException("Bike is reserved", 422);
+            if (bike.BikeStation == null)
+                throw new HttpResponseException("Bike already rented");
+
+            var reservation = reservationRepository.GetActiveReservationByBike(bike.ID);
+            if ((reservation != null && reservation.UserID != RequestingUserID))
+                throw new HttpResponseException("Bike already reserved", 422);
+
+            if (bike.BikeStation?.State != ClassLibrary.BikeStationState.Working)
+                throw new HttpResponseException("Bike station is blocked", 422);
 
             //Tutaj wg mnie należy dodać rodzaj odpowiedzi do specki. Na razie 406 wydaje się spełniać wymogi.
             if (rentalRepository.FindActiveRentals(RequestingUserID).Count() >= PerUserBikesLimit)
@@ -83,6 +88,9 @@ namespace BackendAPI.Controllers
                 UserID = RequestingUserID,
             });
             bike.BikeStation = null;
+            //Jeśli rower był zarezerwowany to usuwamy rezerwację
+            if (reservation != null)
+                reservationRepository.Delete(reservation.ID);
             bikeRepository.SaveChanges();
 
             return new CreatedResult("/api/bikes/rented", BikeDTOFactory.Create(bike, userRepository.GetByID(RequestingUserID)));
