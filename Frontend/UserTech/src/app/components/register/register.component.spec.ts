@@ -122,7 +122,7 @@ describe('RegisterComponent', () => {
 
     fixture.detectChanges();
     expect(debugElement.query(By.css('.form-error')).nativeElement.textContent.trim())
-      .toEqual('Cannot register with this login!');
+      .toEqual('Login taken!');
   });
 
   it('should show passwordsMismatch when repeatPassword valid and flag set', () => {
