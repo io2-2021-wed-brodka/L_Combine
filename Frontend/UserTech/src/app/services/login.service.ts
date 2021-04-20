@@ -16,7 +16,7 @@ export class LoginService {
   private baseUrl = `${env.apiUrl}/login`;
   private token: string | null;
 
-  constructor(private router: Router, private http: HttpClient,
+  constructor( private http: HttpClient,
               private redirectService: RedirectService) {
     this.token = localStorage.getItem('token');
   }

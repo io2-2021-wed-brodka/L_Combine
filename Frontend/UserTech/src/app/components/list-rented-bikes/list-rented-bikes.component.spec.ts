@@ -36,17 +36,22 @@ describe('ListRentedBikesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('no bike selected on start', ()=>{
+  it('should display all bikes',()=>{
+    const listItems = fixture.debugElement.queryAll(By.css('.list-item'));
+    expect(listItems.length).toEqual(mockBikeService.bikes.length);
+  });
+
+  it('no bike should be selected on start', ()=>{
     expect(component.selectedBike).toBe(undefined);
     const list = fixture.debugElement;
     expect(list.query(By.css('.return-bike'))).toBeFalsy();
   });
   
-  it('bike list fetched on start', ()=>{
+  it('#rentedBikes should be defined on init', ()=>{
     expect(component.rentedBikes.length).toBeTruthy()
   });
 
-  it('show bike details after selecting bike', ()=>{
+  it('should show bike details after selecting a bike', ()=>{
     const bike = component.rentedBikes[0];
     component.selectBike(bike);
     fixture.detectChanges();
@@ -57,7 +62,7 @@ describe('ListRentedBikesComponent', () => {
     expect(detailedBikeId).toContain(bike.id)
   });
   
-  it('hide bike details after selecting other', ()=>{
+  it('should hide bike details after selecting other', ()=>{
     const bike1 = component.rentedBikes[0];
     const bike2 = component.rentedBikes[1];
     component.selectBike(bike1);
@@ -68,5 +73,15 @@ describe('ListRentedBikesComponent', () => {
     expect(detailed.length).toBe(1);
     const detailedBikeId = detailed[0].parent?.childNodes[0]?.nativeNode.textContent;
     expect(detailedBikeId).toContain(bike2.id)
+  });
+
+  it('should show bike id', ()=>{
+    const container = fixture.debugElement.query(By.css('.list-item-side-left'));
+    expect(container.nativeElement.textContent).toContain(component.rentedBikes[0].id);  
+  })
+
+  it('should show all bikes', ()=>{
+    const list = fixture.debugElement.queryAll(By.css('.list-item'));
+    expect(list.length).toEqual(component.rentedBikes.length);
   });
 });
