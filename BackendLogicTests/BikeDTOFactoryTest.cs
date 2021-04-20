@@ -77,7 +77,7 @@ namespace BackendLogicTests
             var bike = GenerateWorkingRentedBike();
             var user = GenerateUser();
 
-            var result = BikeDTOFactory.CreateBikeDTO(bike, user);
+            var result = BikeDTOFactory.Create(bike, user);
 
             bool check = result.Id == bike.ID.ToString() &&
                                result.Station == null &&
@@ -91,7 +91,7 @@ namespace BackendLogicTests
         {
             var bike = GenerateWorkingDockedBike();
 
-            var result = BikeDTOFactory.CreateBikeDTO(bike, null);
+            var result = BikeDTOFactory.Create(bike, null);
 
             bool check = result.Id == bike.ID.ToString() &&
                                result.Station != null &&
@@ -105,7 +105,7 @@ namespace BackendLogicTests
         {
             var bike = GenerateBlockedDockedBike();
 
-            var result = BikeDTOFactory.CreateBikeDTO(bike, null);
+            var result = BikeDTOFactory.Create(bike, null);
 
             bool check = result.Id == bike.ID.ToString() &&
                                result.Station != null &&
@@ -119,7 +119,7 @@ namespace BackendLogicTests
         {
             var bike = GenerateInServiceBike();
 
-            var result = BikeDTOFactory.CreateBikeDTO(bike, null);
+            var result = BikeDTOFactory.Create(bike, null);
 
             bool check = result.Id == bike.ID.ToString() &&
                                result.Station == null &&

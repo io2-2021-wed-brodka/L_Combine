@@ -8,7 +8,7 @@ namespace BackendAPI.Helpers.DTOFactories
 {
     public static class BikeDTOFactory
     {
-        public static BikeDTO CreateBikeDTO(Bike bike, User user)
+        public static BikeDTO Create(Bike bike, User user)
         {
             string status;
             UserDTO bikeUser = null;

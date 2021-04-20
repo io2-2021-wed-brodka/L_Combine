@@ -70,7 +70,7 @@ namespace BackendAPI.Controllers
                 throw new HttpResponseException("Station not found", 404);
 
             var bikes = station.Bikes.Select(b => 
-                BikeDTOFactory.CreateBikeDTO(b, 
+                BikeDTOFactory.Create(b, 
                 bikeRepository.GetUser(b)));
             //Według dokumentacji zwracamy zawsze response 200,
             //czyli zakładamy że id stacji jest poprawne
@@ -108,7 +108,7 @@ namespace BackendAPI.Controllers
             //Wystarczy saveChanges na jednym z repo
             bikeRepository.SaveChanges();
             return new CreatedResult(bike.ID.ToString(),
-                BikeDTOFactory.CreateBikeDTO(bike,
+                BikeDTOFactory.Create(bike,
                 bikeRepository.GetUser(bike)));
         }
     }

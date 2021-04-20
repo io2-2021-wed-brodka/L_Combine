@@ -7,17 +7,17 @@ using ClassLibrary.DTO;
 
 namespace BackendAPI.Helpers.DTOFactories
 {
-    public class ReservationDTOFactory
+    public class ReservedBikeDTOFactory
     {
-        public static ReservationDTO CreateReservation(Reservation reservation, BikeStation onStation)
+        public static ReservedBikeDTO Create(Reservation reservation)
         {
-            return new ReservationDTO()
+            return new ReservedBikeDTO()
             {
                 BikeID = reservation.BikeID.ToString(),
                 Station = new StationDTO()
                 {
-                    Id = onStation.ID.ToString(),
-                    Name = onStation.LocationName
+                    Id = reservation.Bike.BikeStationID.ToString(),
+                    Name = reservation.Bike.BikeStation.LocationName
                 },
                 ReservedAt = reservation.ReservationDate,
                 ReservedTill = reservation.ExpireDate
