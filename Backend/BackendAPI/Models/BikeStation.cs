@@ -14,5 +14,6 @@ namespace BackendAPI.Models
         public string LocationName { get; set; }
         //Właściwość potrzebna do utrzymania relacji między tabelami
         public IList<Bike> Bikes { get; set; }
+        public IList<Reservation> Reservations { get; set; }
     }
 }

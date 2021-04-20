@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ClassLibrary.DTO
 {
-    public class ReservationDTO
+    public class ReservedBikeDTO
     {
         public string BikeID { get; set; }
         public StationDTO Station { get; set; }

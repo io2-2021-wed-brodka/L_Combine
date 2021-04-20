@@ -18,6 +18,9 @@ namespace BackendAPI.Models
         public int BikeID { get; set; }
         public Bike Bike { get; set; }
 
+        public int BikeStationID { get; set; }
+        public BikeStation BikeStation { get; set; }
+
         public Reservation()
         { }
 
@@ -27,6 +30,8 @@ namespace BackendAPI.Models
             ExpireDate = DateTime.Now.AddMinutes(expireMinutes);
             UserID = user.ID;
             BikeID = bike.ID;
+            //Ponizej bike stoi na stacji, czyli można sobie pozwolic na Value
+            BikeStationID = bike.BikeStationID.Value;
         }
     }
 }

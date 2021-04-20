@@ -20,6 +20,8 @@ namespace BackendAPI.ModelsConfigurations
                 .HasForeignKey(r => r.BikeID);
             builder.HasOne(r => r.User).WithMany(u => u.Reservations)
                 .HasForeignKey(r => r.UserID);
+            builder.HasOne(r => r.BikeStation).WithMany(bs => bs.Reservations)
+                .HasForeignKey(r => r.BikeStationID);
 
         }
     }

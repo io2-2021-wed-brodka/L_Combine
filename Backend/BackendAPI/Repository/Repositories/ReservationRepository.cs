@@ -21,10 +21,8 @@ namespace BackendAPI.Repository.Repositories
 
         private IQueryable<Reservation> GetAllActiveReservations()
         {
-            //Poniżej mamy aktywne rezerwacje, czyli nie powinno
-            //być sytuacji, że BikeStation jest nullem ogólnie
             return dbContext.Reservations.Where(r => r.ExpireDate > DateTime.Now)
-                .Include(r => r.Bike).ThenInclude(b => b.BikeStation);
+                .Include(r => r.BikeStation);
         }
 
         public override bool Delete(int ID)

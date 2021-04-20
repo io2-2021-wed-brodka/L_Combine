@@ -16,8 +16,8 @@ namespace BackendAPI.Helpers.DTOFactories
                 BikeID = reservation.BikeID.ToString(),
                 Station = new StationDTO()
                 {
-                    Id = reservation.Bike.BikeStationID.ToString(),
-                    Name = reservation.Bike.BikeStation.LocationName
+                    Id = reservation.BikeStationID.ToString(),
+                    Name = reservation.BikeStation.LocationName
                 },
                 ReservedAt = reservation.ReservationDate,
                 ReservedTill = reservation.ExpireDate
