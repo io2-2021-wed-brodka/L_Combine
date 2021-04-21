@@ -25,8 +25,8 @@ describe('ReservationListComponent', () => {
     bikes: [
       {
         id: '1',
-        reservedAt: new Date(),
-        reservedTill: new Date(Date.now() + 10000000000)
+        reservedAt: new Date().toLocaleString(),
+        reservedTill: new Date(Date.now() + 10000000000).toLocaleString()
       }
     ]
   };
@@ -110,8 +110,6 @@ describe('ReservationListComponent', () => {
     component.reservedBikes = [reservedBike];
     component.selectedBike = reservedBike;
     fixture.detectChanges();
-
-    console.log(component.selectedBike);
 
     expect(debugElement.query(By.css('.reserved-bike-details'))).toBeTruthy();
   });
