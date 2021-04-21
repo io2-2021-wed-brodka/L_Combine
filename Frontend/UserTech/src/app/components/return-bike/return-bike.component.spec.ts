@@ -41,7 +41,7 @@ describe('ReturnBikeComponent', () => {
     redirect = TestBed.inject(RedirectService) as jasmine.SpyObj<RedirectService>;
     rentBike = TestBed.inject(RentBikeService) as jasmine.SpyObj<RentBikeService>;
 
-    rentBike.returnBike.and.returnValue(of({id: 'id', bikeStatus: BikeState.Available, user: null, station: null}));
+    rentBike.returnBike.and.returnValue(of({id: 'id', bikeStatus: BikeState.Available}));
 
   });
 

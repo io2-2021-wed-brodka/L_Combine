@@ -4,7 +4,7 @@ import {BikeState} from '../models/bike';
 
 export interface BikeDTO {
   id: string;
-  station: StationDTO | null;
-  user: UserDTO | null;
+  station?: StationDTO;
+  user?: UserDTO;
   bikeStatus: BikeState;
 }

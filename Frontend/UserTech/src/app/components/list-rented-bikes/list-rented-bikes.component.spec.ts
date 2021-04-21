@@ -79,9 +79,4 @@ describe('ListRentedBikesComponent', () => {
     const container = fixture.debugElement.query(By.css('.list-item-side-left'));
     expect(container.nativeElement.textContent).toContain(component.rentedBikes[0].id);  
   })
-
-  it('should show all bikes', ()=>{
-    const list = fixture.debugElement.queryAll(By.css('.list-item'));
-    expect(list.length).toEqual(component.rentedBikes.length);
-  });
 });

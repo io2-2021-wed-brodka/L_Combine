@@ -5,14 +5,10 @@ import { BikeState } from "src/app/models/bike";
 export default {
     bikes: [{ 
         id: 'id1',
-        bikeStatus: BikeState.Rented,
-        user: null,
-        station: null
+        bikeStatus: BikeState.Rented
         },{ 
         id: 'id2',
-        bikeStatus: BikeState.Rented,
-        user: null,
-        station: null
+        bikeStatus: BikeState.Rented
     }],
     getRentedBikes(): Observable<BikesDTO>{
         return of({ bikes: this.bikes});
