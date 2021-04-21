@@ -64,10 +64,10 @@ namespace BackendAPI.Repository.Repositories
         public IList<Rental> FindActiveRentals(int userId)
         {
             return GetAllRentals()
-                .Include(r => r.Bike)
-                .Include(r => r.Bike.BikeStation)
-                .Include(r => r.User)
                 .Where(r => r.UserID == userId && r.EndDate == null)
+                .Include(r => r.Bike)
+                .ThenInclude(b => b.BikeStation)
+                .Include(r => r.User)
                 .ToList();
         }
     }

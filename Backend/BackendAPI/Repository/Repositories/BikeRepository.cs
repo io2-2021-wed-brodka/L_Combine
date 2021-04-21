@@ -55,5 +55,17 @@ namespace BackendAPI.Repository.Repositories
             //user może być nullem
             return user;
         }
+
+        public int GetActiveBikesCount(int stationId)
+        {
+            return (from b in dbContext.Bikes
+                    where b.BikeStationID == stationId //rower stoi na stacji (w szczególności nie jest wypożyczony)
+                    && b.State == ClassLibrary.BikeState.Working //stan roweru to working
+                    && !(from r in dbContext.Reservations
+                         where r.BikeID == b.ID
+                        && r.ExpireDate >= DateTime.Now
+                         select r).Any()  //nie ma aktywnych rezerwacji
+                    select b).Count();
+        }
     }
 }

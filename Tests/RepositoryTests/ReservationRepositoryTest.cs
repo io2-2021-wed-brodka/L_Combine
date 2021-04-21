@@ -16,8 +16,6 @@ namespace RepositoryTests
     public class ReservationRepositoryTest
     {
         private BikeRepository bikeRepo;
-        /*private RentalRepository rentalRepo;
-        private UserRepository userRepo;*/
         private ReservationRepository reservationRepo;
         private DataContext dbContext;
 
@@ -40,9 +38,6 @@ namespace RepositoryTests
             dbContext = new DataContext(options);
             ClearData();
             bikeRepo = new BikeRepository(dbContext);
-            /*rentalRepo = new RentalRepository(dbContext);
-            var jwtOptions = Options.Create(new JwtSettings() { Secret = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" });
-            userRepo = new UserRepository(dbContext, jwtOptions);*/
             reservationRepo = new ReservationRepository(dbContext);
         }
 
@@ -106,7 +101,7 @@ namespace RepositoryTests
             var result = dbContext.Reservations.FirstOrDefault(r => r.ID == id);
             Assert.IsNull(result);
         }
-
+        /*
         [TestMethod]
         public void TestMapToReservedList()
         {
@@ -130,7 +125,7 @@ namespace RepositoryTests
 
             var result = reservationRepo.MapBikesToReservedList(bikes).ToList();
             CollectionAssert.AreEqual(result, new List<bool> { true, false, true, false });
-        }
+        }*/
 
     }
 }

@@ -17,21 +17,27 @@ namespace BackendAPI.Controllers
     [ApiController]
     public class StationsController : ControllerBase
     {
-        private IStationRepository stationRepository;
-        private IBikeRepository bikeRepository;
-        private IRentalRepository rentalRepository;
-        private IReservationRepository reservationRepository;
+        readonly IStationRepository stationRepository;
+        readonly IBikeRepository bikeRepository;
+        readonly IRentalRepository rentalRepository;
+        readonly IReservationRepository reservationRepository;
+        readonly IBikeDTOFactory bikeDTOFactory;
+        readonly IStationDTOFactory stationDTOFactory;
 
         public StationsController(
             IStationRepository stationRepository,
             IBikeRepository bikeRepository,
             IRentalRepository rentalRepository,
-            IReservationRepository reservationRepository)
+            IReservationRepository reservationRepository,
+            IBikeDTOFactory bikeDTOFactory,
+            IStationDTOFactory stationDTOFactory)
         {
             this.stationRepository = stationRepository;
             this.bikeRepository = bikeRepository;
             this.rentalRepository = rentalRepository;
             this.reservationRepository = reservationRepository;
+            this.bikeDTOFactory = bikeDTOFactory;
+            this.stationDTOFactory = stationDTOFactory;
         }
 
         // GET: api/Stations
@@ -40,8 +46,7 @@ namespace BackendAPI.Controllers
         {
             var stations = stationRepository
                 .Get(bs => bs.State == ClassLibrary.BikeStationState.Working)
-                .Select(s => new StationDTO()
-                { Id = s.ID.ToString(), Name = s.LocationName });
+                .Select(s => stationDTOFactory.Create(s));
             
             return Ok(new { Stations = stations });
         }
@@ -56,11 +61,7 @@ namespace BackendAPI.Controllers
                 (station = stationRepository.GetByID(stationId)) == null)
                 throw new HttpResponseException("Station not found", 404);
 
-            return Ok(new StationDTO()
-            {
-                Id = station.ID.ToString(),
-                Name = station.LocationName
-            }) ;
+            return Ok(stationDTOFactory.Create(station)) ;
         }
 
 
@@ -72,12 +73,8 @@ namespace BackendAPI.Controllers
             if (!int.TryParse(id, out int stationId) || 
                 (station = stationRepository.GetByID(stationId)) == null)
                 throw new HttpResponseException("Station not found", 404);
-          
-            //Poniżej dla każdego bika i odpowiadającego mu elementu bool, czy
-            //jest zarezerwowany tworzę BikeDTO
-            var bikes = Enumerable.Zip(station.Bikes,
-                reservationRepository.MapBikesToReservedList(station.Bikes),
-                (b, reserved) => BikeDTOFactory.Create(b, bikeRepository.GetUser(b), reserved));
+
+            var bikes = station.Bikes.Select(b => bikeDTOFactory.Create(b, bikeRepository.GetUser(b)));
             //Według dokumentacji zwracamy zawsze response 200,
             //czyli zakładamy że id stacji jest poprawne
             return Ok(new { Bikes = bikes } );
@@ -115,7 +112,7 @@ namespace BackendAPI.Controllers
             bikeRepository.SaveChanges();
             //Poniżej false bo bike nie jest zarezerowwany
             return new CreatedResult(bike.ID.ToString(),
-                BikeDTOFactory.Create(bike,
+                bikeDTOFactory.Create(bike,
                 bikeRepository.GetUser(bike), false));
         }
     }

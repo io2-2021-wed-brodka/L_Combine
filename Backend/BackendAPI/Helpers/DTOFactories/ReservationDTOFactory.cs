@@ -7,18 +7,28 @@ using ClassLibrary.DTO;
 
 namespace BackendAPI.Helpers.DTOFactories
 {
-    public class ReservationDTOFactory
+    public interface IReservationDTOFactory
     {
-        public static ReservationDTO Create(Reservation reservation)
+        ReservationDTO Create(Reservation reservation);
+    }
+
+    public class ReservationDTOFactory: IReservationDTOFactory
+    {
+        readonly IStationDTOFactory stationDTOFactory;
+
+        public ReservationDTOFactory(IStationDTOFactory stationDTOFactory)
+        {
+            this.stationDTOFactory = stationDTOFactory;
+        }
+
+        //Poniżej reservation powinna być różna od nulla
+        public ReservationDTO Create(Reservation reservation)
         {
             return new ReservationDTO()
             {
                 Id = reservation.BikeID.ToString(),
-                Station = new StationDTO()
-                {
-                    Id = reservation.BikeStationID.ToString(),
-                    Name = reservation.BikeStation.LocationName
-                },
+                //Skoro jest rezerwacja, to reservation.BikeStation != null
+                Station = stationDTOFactory.Create(reservation.BikeStation),
                 ReservedAt = reservation.ReservationDate,
                 ReservedTill = reservation.ExpireDate
             };

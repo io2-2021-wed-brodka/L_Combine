@@ -12,6 +12,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Http;
+using BackendAPI.Helpers.DTOFactories;
 
 namespace BackendAPI
 {
@@ -34,6 +35,10 @@ namespace BackendAPI
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRentalRepository, RentalRepository>();
             services.AddScoped<IReservationRepository, ReservationRepository>();
+
+            services.AddScoped<IStationDTOFactory, StationDTOFactory>();
+            services.AddScoped<IReservationDTOFactory, ReservationDTOFactory>();
+            services.AddScoped<IBikeDTOFactory, BikeDTOFactory>();
 
             services.AddDbContextPool<DataContext>(options =>
                 options.UseSqlServer(

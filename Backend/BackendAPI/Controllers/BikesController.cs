@@ -23,17 +23,20 @@ namespace BackendAPI.Controllers
                 User.FindFirstValue(ClaimTypes.NameIdentifier));
         private const int PerUserBikesLimit = 4;
 
-        private IRentalRepository rentalRepository;
-        private IBikeRepository bikeRepository;
-        private IUserRepository userRepository;
-        private IReservationRepository reservationRepository;
+        private readonly IRentalRepository rentalRepository;
+        private readonly IBikeRepository bikeRepository;
+        private readonly IUserRepository userRepository;
+        private readonly IReservationRepository reservationRepository;
+        private readonly IBikeDTOFactory bikeDTOFactory;
 
-        public BikesController(IRentalRepository rentalRepo, IBikeRepository bikeRepo, IUserRepository userRepo, IReservationRepository reservationRepo)
+
+        public BikesController(IRentalRepository rentalRepo, IBikeRepository bikeRepo, IUserRepository userRepo, IReservationRepository reservationRepo, IBikeDTOFactory bikeDTOFactory)
         {
             rentalRepository = rentalRepo;
             bikeRepository = bikeRepo;
             userRepository = userRepo;
             reservationRepository = reservationRepo;
+            this.bikeDTOFactory = bikeDTOFactory;
         }
 
         /// <summary>
@@ -46,7 +49,7 @@ namespace BackendAPI.Controllers
 
             //Poniżej są wypożyczone, czyli niezarezerwowane
             var rentedBikes = rentalRepository.FindActiveRentals(userId)
-                .Select(r => BikeDTOFactory.Create(r.Bike, r.User, false));
+                .Select(r => bikeDTOFactory.Create(r.Bike, r.User, false));
 
             return Ok(new { Bikes = rentedBikes });
         }
@@ -87,13 +90,13 @@ namespace BackendAPI.Controllers
                 StartDate = DateTime.Now,
                 UserID = RequestingUserID,
             });
-            bike.BikeStation = null;
-            //Jeśli rower był zarezerwowany to usuwamy rezerwację
+            bike.BikeStationID = null;
+            //Jeśli rower był zarezerwowany to usuwsamy rezerwację
             if (reservation != null)
                 reservationRepository.Delete(reservation.ID);
             bikeRepository.SaveChanges();
 
-            return new CreatedResult("/api/bikes/rented", BikeDTOFactory.Create(bike, userRepository.GetByID(RequestingUserID), false));
+            return new CreatedResult("/api/bikes/rented", bikeDTOFactory.Create(bike, userRepository.GetByID(RequestingUserID), false));
         }
     }
 }
