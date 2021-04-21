@@ -20,7 +20,6 @@ namespace BackendAPI.Controllers
     public class ReservedBikesController : ControllerBase
     {
         private IReservationRepository reservationRepository;
-        //private IRentalRepository rentalRepository;
         private IUserRepository userRepository;
         private IBikeRepository bikeRepository;
 
@@ -46,10 +45,9 @@ namespace BackendAPI.Controllers
         }
 
         [HttpPost]
+        [NotForBlocked]
         public ActionResult<ReservedBikeDTO> AddReservation([FromBody] IdDTO bikeId)
         {
-            //[BLOCKED] dodać blokowanie uzytkownikow
-
             Bike reservedBike;
             //To jest dramat - trzeba dodac chaina aby wywalic sciane ifow
             if (!int.TryParse(bikeId.Id, out int bikeID) || 
@@ -80,10 +78,10 @@ namespace BackendAPI.Controllers
             return new CreatedResult(reservation.ID.ToString(), result);
         }
 
+        //Na to poniżej wg specki nie ma [NotForBlocked]!!!!
         [HttpDelete("{id}")]
         public ActionResult RemoveReservation(string id)
         {
-            //[BLOCKED] dodać blokowanie uzytkownikow
             Bike reservedBike;
 
             //To jest dramat - trzeba dodac chaina aby wywalic sciane ifow
