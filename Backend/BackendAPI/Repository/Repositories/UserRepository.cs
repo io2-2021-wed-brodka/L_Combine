@@ -38,7 +38,7 @@ namespace BackendAPI.Repository.Repositories
             // authentication successful so generate jwt token
             var token = generateJwtToken(user);
 
-            return new AuthenticateResponse() { Token = token };
+            return new AuthenticateResponse() { Token = token, Role = user.Role.ToLower() };
         }
 
         private string generateJwtToken(User user)
@@ -50,8 +50,15 @@ namespace BackendAPI.Repository.Repositories
             {
                 //Do ról wystarczy potem tutaj dopisać w Claimach rolę
                 //https://jasonwatmore.com/post/2019/10/16/aspnet-core-3-role-based-authorization-tutorial-with-example-api
-                Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()) }),
-                Expires = DateTime.UtcNow.AddDays(7),
+                Subject = new ClaimsIdentity(
+                    new[] 
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
+                        new Claim(ClaimTypes.Role, user.Role),
+                        //Jeśli user jest userem zwykłym i jest zablokowany
+                        new Claim("Blocked", (user.Role == Role.User && user.Blocked).ToString())
+                    }),
+                Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

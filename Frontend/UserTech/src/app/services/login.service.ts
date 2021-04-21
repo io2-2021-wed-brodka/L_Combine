@@ -30,13 +30,13 @@ export class LoginService {
       login: loginData.login,
       password: loginData.password
     };
+    const headers = new HttpHeaders().set(IGNORE_ERROR_INTERCEPT, 'true');
 
-    return this.http.post<AuthenticateResponseDTO>(this.baseUrl, authenticateRequest,
-      {headers: new HttpHeaders(IGNORE_ERROR_INTERCEPT)}).pipe(
-        tap(response => {
-          this.setToken(response.token);
-        })
-      );
+    return this.http.post<AuthenticateResponseDTO>(this.baseUrl, authenticateRequest, {headers}).pipe(
+      tap(response => {
+        this.setToken(response.token);
+      })
+    );
   }
 
   logout(): void {

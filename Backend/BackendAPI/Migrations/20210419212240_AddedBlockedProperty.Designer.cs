@@ -4,14 +4,16 @@ using BackendAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BackendAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210419212240_AddedBlockedProperty")]
+    partial class AddedBlockedProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,33 +103,6 @@ namespace BackendAPI.Migrations
                     );
                 });
 
-            modelBuilder.Entity("BackendAPI.Models.Reservation", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BikeID");
-
-                    b.Property<int>("BikeStationID");
-
-                    b.Property<DateTime>("ExpireDate");
-
-                    b.Property<DateTime>("ReservationDate");
-
-                    b.Property<int>("UserID");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("BikeID");
-
-                    b.HasIndex("BikeStationID");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("Reservations");
-                });
-
             modelBuilder.Entity("BackendAPI.Models.User", b =>
                 {
                     b.Property<int>("ID")
@@ -191,24 +166,6 @@ namespace BackendAPI.Migrations
 
                     b.HasOne("BackendAPI.Models.User", "User")
                         .WithMany("Rentals")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("BackendAPI.Models.Reservation", b =>
-                {
-                    b.HasOne("BackendAPI.Models.Bike", "Bike")
-                        .WithMany("Reservations")
-                        .HasForeignKey("BikeID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("BackendAPI.Models.BikeStation", "BikeStation")
-                        .WithMany("Reservations")
-                        .HasForeignKey("BikeStationID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("BackendAPI.Models.User", "User")
-                        .WithMany("Reservations")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

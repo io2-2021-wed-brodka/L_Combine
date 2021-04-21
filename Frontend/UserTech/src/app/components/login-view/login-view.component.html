@@ -11,7 +11,8 @@
              #passwordInput="ngModel" required/>
     </div>
     <button [disabled]="!loginInput.valid || !passwordInput.valid" class="main-button" (click)="login()">Login</button>
-    <div *ngIf="showErrorMessage" class="message">
+    <div><a class="register" routerLink="/register">Register</a></div>
+    <div *ngIf="showErrorMessage" class="form-error">
       wrong password
     </div>
   </form>

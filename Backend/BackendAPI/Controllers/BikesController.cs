@@ -55,10 +55,9 @@ namespace BackendAPI.Controllers
         /// 
         /// </summary>
         [HttpPost("rented")]
+        [NotForBlocked]
         public ActionResult<BikeDTO> RentedPost([FromBody] IdDTO rent)
         {
-            //[BLOCKED] dopisac check na zablokowanego uzytkownika
-
             Bike bike;
             if (!int.TryParse(rent.Id, out int bikeId) ||
                 (bike = bikeRepository.GetByID(bikeId)) == null)

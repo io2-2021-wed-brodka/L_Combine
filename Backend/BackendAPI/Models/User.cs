@@ -16,9 +16,13 @@ namespace BackendAPI.Models
         //Właściwość potrzebna do utrzymania relacji między tabelami
         public IList<Rental> Rentals { get; set; }
 
+        public string Role {get; set;}
+
         public string Login { get; set; }
         [JsonIgnore] //żeby przy serializacji do jsona się nie serializowało]  
         public string PasswordHash { get; set; }
+
+        public bool Blocked { get; set; }
 
         public IList<Reservation> Reservations { get; set; }
     }

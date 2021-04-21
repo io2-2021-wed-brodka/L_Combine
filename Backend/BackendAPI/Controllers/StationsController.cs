@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
+using BackendAPI.Helpers;
 using BackendAPI.Helpers.DTOFactories;
 using BackendAPI.Models;
 using BackendAPI.Repository.Interfaces;
@@ -63,7 +64,7 @@ namespace BackendAPI.Controllers
         }
 
 
-        [HttpGet("bikes/{id}")]
+        [HttpGet("{id}/bikes")]
         public IActionResult GetBikes(string id)
         {
             BikeStation station;
@@ -82,7 +83,7 @@ namespace BackendAPI.Controllers
             return Ok(new { Bikes = bikes } );
         }
 
-        [HttpPost("bikes/{id}")]
+        [HttpPost("{id}/bikes")]
         public ActionResult<BikeDTO> PostBike(string id, [FromBody] IdDTO bikeIdObj)
         {
             BikeStation station;
