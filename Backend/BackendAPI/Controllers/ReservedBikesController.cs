@@ -22,15 +22,13 @@ namespace BackendAPI.Controllers
         private IReservationRepository reservationRepository;
         private IUserRepository userRepository;
         private IBikeRepository bikeRepository;
-        private IRentalRepository rentalRepository;
 
         private int RequestingUserID => int.Parse(
             User.FindFirstValue(ClaimTypes.NameIdentifier));
 
         public ReservedBikesController(IUserRepository userRepo, 
             IReservationRepository reservationRepo, 
-            IBikeRepository bikeRepo,
-            IRentalRepository rentalRepo)
+            IBikeRepository bikeRepo)
         {
             this.reservationRepository = reservationRepo;
             this.userRepository = userRepo;
@@ -42,7 +40,7 @@ namespace BackendAPI.Controllers
         {
             var reservedBikes = reservationRepository
                 .GetActiveReservationsByUser(RequestingUserID)
-                .Select(r => ReservedBikeDTOFactory.Create(r));
+                .Select(r => ReservationDTOFactory.Create(r));
             return Ok(new { Bikes = reservedBikes });
         }
 
@@ -75,7 +73,7 @@ namespace BackendAPI.Controllers
             reservationRepository.Insert(reservation);
             reservationRepository.SaveChanges();
 
-            ReservationDTO result = ReservedBikeDTOFactory.Create(reservation);
+            ReservationDTO result = ReservationDTOFactory.Create(reservation);
 
             return new CreatedResult(reservation.ID.ToString(), result);
         }
