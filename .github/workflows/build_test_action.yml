@@ -53,7 +53,7 @@ jobs:
         run: npm run build
 
   test-api: 
-    ruins-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps: 
      - uses: actions/checkout@v2
      - name: Install Node
