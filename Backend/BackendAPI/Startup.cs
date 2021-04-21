@@ -33,6 +33,7 @@ namespace BackendAPI
             services.AddScoped<IStationRepository, StationRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRentalRepository, RentalRepository>();
+            services.AddScoped<IReservationRepository, ReservationRepository>();
 
             services.AddDbContextPool<DataContext>(options =>
                 options.UseSqlServer(

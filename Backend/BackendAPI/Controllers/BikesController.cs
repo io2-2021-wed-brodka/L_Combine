@@ -19,19 +19,21 @@ namespace BackendAPI.Controllers
     [ApiController]
     public class BikesController : ControllerBase
     {
-        private int GetRequestingUserID => int.Parse(
+        private int RequestingUserID => int.Parse(
                 User.FindFirstValue(ClaimTypes.NameIdentifier));
         private const int PerUserBikesLimit = 4;
 
         private IRentalRepository rentalRepository;
         private IBikeRepository bikeRepository;
         private IUserRepository userRepository;
+        private IReservationRepository reservationRepository;
 
-        public BikesController(IRentalRepository rentalRepo, IBikeRepository bikeRepo, IUserRepository userRepo)
+        public BikesController(IRentalRepository rentalRepo, IBikeRepository bikeRepo, IUserRepository userRepo, IReservationRepository reservationRepo)
         {
             rentalRepository = rentalRepo;
             bikeRepository = bikeRepo;
             userRepository = userRepo;
+            reservationRepository = reservationRepo;
         }
 
         /// <summary>
@@ -40,10 +42,11 @@ namespace BackendAPI.Controllers
         [HttpGet("rented")]
         public ActionResult RentedGet()
         {
-            int userId = GetRequestingUserID;
+            int userId = RequestingUserID;
 
+            //Poniżej są wypożyczone, czyli niezarezerwowane
             var rentedBikes = rentalRepository.FindActiveRentals(userId)
-                .Select(r => BikeDTOFactory.CreateBikeDTO(r.Bike, r.User));
+                .Select(r => BikeDTOFactory.Create(r.Bike, r.User, false));
 
             return Ok(new { Bikes = rentedBikes });
         }
@@ -56,57 +59,41 @@ namespace BackendAPI.Controllers
         public ActionResult<BikeDTO> RentedPost([FromBody] IdDTO rent)
         {
             Bike bike;
-            if (!int.TryParse(rent.Id, out int bikeId) || 
+            if (!int.TryParse(rent.Id, out int bikeId) ||
                 (bike = bikeRepository.GetByID(bikeId)) == null)
                 throw new HttpResponseException("Bike not found", 404);
 
-            if (bike.State != ClassLibrary.BikeState.Working
-                || bike.BikeStation?.State != ClassLibrary.BikeStationState.Working)
-                throw new HttpResponseException("Bike is already rented, blocked or reserved by another user or station is blocked", 422);
+            if (bike.State != ClassLibrary.BikeState.Working)
+                throw new HttpResponseException("Bike is blocked");
+
+            if (bike.BikeStation == null)
+                throw new HttpResponseException("Bike already rented");
+
+            var reservation = reservationRepository.GetActiveReservationByBike(bike.ID);
+            if ((reservation != null && reservation.UserID != RequestingUserID))
+                throw new HttpResponseException("Bike already reserved", 422);
+
+            if (bike.BikeStation?.State != ClassLibrary.BikeStationState.Working)
+                throw new HttpResponseException("Bike station is blocked", 422);
 
             //Tutaj wg mnie należy dodać rodzaj odpowiedzi do specki. Na razie 406 wydaje się spełniać wymogi.
-            if (rentalRepository.FindActiveRentals(GetRequestingUserID).Count() >= PerUserBikesLimit)
-                throw new HttpResponseException($"Cannot rent a bike. You've already rented {PerUserBikesLimit} bikes.", 406);
+            if (rentalRepository.FindActiveRentals(RequestingUserID).Count() >= PerUserBikesLimit)
+                throw new HttpResponseException($"Cannot rent a bike. You've already rented {PerUserBikesLimit} bikes.", 422);
 
             //Rower gotowy do wypożyczenia -> dopisanie wypożyczenia
             rentalRepository.Insert(new Rental()
             {
                 BikeID = bike.ID,
                 StartDate = DateTime.Now,
-                UserID = GetRequestingUserID,
+                UserID = RequestingUserID,
             });
             bike.BikeStation = null;
+            //Jeśli rower był zarezerwowany to usuwamy rezerwację
+            if (reservation != null)
+                reservationRepository.Delete(reservation.ID);
             bikeRepository.SaveChanges();
 
-            return new CreatedResult("/api/bikes/rented", BikeDTOFactory.CreateBikeDTO(bike, userRepository.GetByID(GetRequestingUserID)));
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [HttpGet("reserved")]
-        public ActionResult<string> ReservedGet()
-        {
-            return BadRequest();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [HttpPost("reserved")]
-        public ActionResult<string> ReservedPost()
-        {
-            return BadRequest();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id">Identyfikator usuwanej rezerwacji. </param>
-        [HttpDelete("reserved/{id}")]
-        public ActionResult<string> ReservedDelete([FromRoute]string id)
-        {
-            return BadRequest();
+            return new CreatedResult("/api/bikes/rented", BikeDTOFactory.Create(bike, userRepository.GetByID(RequestingUserID), false));
         }
     }
 }

@@ -20,6 +20,7 @@ namespace BackendAPI.Data
         public DbSet<Bike> Bikes { get; set; }
         public DbSet<BikeStation> BikeStations { get; set; }
         public DbSet<Rental> Rentals { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +29,7 @@ namespace BackendAPI.Data
             modelBuilder.ApplyConfiguration(new BikeConfiguration());
             modelBuilder.ApplyConfiguration(new BikeStationConfiguration());
             modelBuilder.ApplyConfiguration(new RentalConfiguration());
+            modelBuilder.ApplyConfiguration(new ReservationConfiguration());
         }
     }
 }

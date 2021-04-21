@@ -23,5 +23,7 @@ namespace BackendAPI.Models
         public string PasswordHash { get; set; }
 
         public bool Blocked { get; set; }
+
+        public IList<Reservation> Reservations { get; set; }
     }
 }

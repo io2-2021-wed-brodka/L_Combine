@@ -4,14 +4,16 @@ using BackendAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BackendAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210420121953_AddedStationFieldToReservation")]
+    partial class AddedStationFieldToReservation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -134,8 +136,6 @@ namespace BackendAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Blocked");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50);
@@ -152,9 +152,6 @@ namespace BackendAPI.Migrations
                         .IsRequired()
                         .HasMaxLength(64);
 
-                    b.Property<string>("Role")
-                        .HasMaxLength(10);
-
                     b.HasKey("ID");
 
                     b.HasIndex("Login")
@@ -163,15 +160,11 @@ namespace BackendAPI.Migrations
                     b.ToTable("Users");
 
                     b.HasData(
-                        new { ID = 1, Blocked = false, LastName = "NazwiskoTestowe", Login = "login1", Name = "ImieTestowe", PasswordHash = "e6c3da5b206634d7f3f3586d747ffdb36b5c675757b380c6a5fe5c570c714349", Role = "User" },
-                        new { ID = 2, Blocked = false, LastName = "Nazwisko2", Login = "login2", Name = "Imie2", PasswordHash = "1ba3d16e9881959f8c9a9762854f72c6e6321cdd44358a10a4e939033117eab9", Role = "User" },
-                        new { ID = 3, Blocked = false, LastName = "Brzęczeszykiewicz", Login = "login3", Name = "Grzegorz", PasswordHash = "3acb59306ef6e660cf832d1d34c4fba3d88d616f0bb5c2a9e0f82d18ef6fc167", Role = "User" },
-                        new { ID = 4, Blocked = true, LastName = "Nazwisko3", Login = "login4", Name = "Imie3", PasswordHash = "a417b5dc3d06d15d91c6687e27fc1705ebc56b3b2d813abe03066e5643fe4e74", Role = "User" },
-                        new { ID = 5, Blocked = false, LastName = "PostmanUserLastName", Login = "PostmanUser", Name = "PostmanUserName", PasswordHash = "b1acfbe7c73da3f39089a6d184981e65d746f6f3c66a271c371921e3ee0872ba", Role = "User" },
-                        new { ID = 6, Blocked = false, LastName = "PostmanAdminLastName", Login = "PostmanAdmin", Name = "PostmanAdminName", PasswordHash = "acd1b21d80c9c5cc1d13dfd449a37283a0b5451eb87134fc1d26af237a2a1a5a", Role = "Admin" },
-                        new { ID = 7, Blocked = false, LastName = "PostmanTechLastName", Login = "PostmanTech", Name = "PostmanTechName", PasswordHash = "8dd6a6084b509a081aed96e004d4a7dcb378a97a6bfcb39bd197be368fa4569a", Role = "Tech" },
-                        new { ID = 8, Blocked = false, LastName = "NazwiskoAdmina", Login = "admin", Name = "ImieAdmina", PasswordHash = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918", Role = "Admin" },
-                        new { ID = 9, Blocked = false, LastName = "NazwiskoTecha", Login = "tech", Name = "ImieTecha", PasswordHash = "fe9bbd400bb6cb314531e3462507661401959afc69aae96bc6aec2c213b83bc1", Role = "Tech" }
+                        new { ID = 1, LastName = "NazwiskoTestowe", Login = "login1", Name = "ImieTestowe", PasswordHash = "e6c3da5b206634d7f3f3586d747ffdb36b5c675757b380c6a5fe5c570c714349" },
+                        new { ID = 2, LastName = "Nazwisko2", Login = "login2", Name = "Imie2", PasswordHash = "1ba3d16e9881959f8c9a9762854f72c6e6321cdd44358a10a4e939033117eab9" },
+                        new { ID = 3, LastName = "Brzęczeszykiewicz", Login = "login3", Name = "Grzegorz", PasswordHash = "3acb59306ef6e660cf832d1d34c4fba3d88d616f0bb5c2a9e0f82d18ef6fc167" },
+                        new { ID = 4, LastName = "Nazwisko3", Login = "login4", Name = "Imie3", PasswordHash = "a417b5dc3d06d15d91c6687e27fc1705ebc56b3b2d813abe03066e5643fe4e74" },
+                        new { ID = 5, LastName = "PostmanUserLastName", Login = "PostmanUser", Name = "PostmanUserName", PasswordHash = "b1acfbe7c73da3f39089a6d184981e65d746f6f3c66a271c371921e3ee0872ba" }
                     );
                 });
 
