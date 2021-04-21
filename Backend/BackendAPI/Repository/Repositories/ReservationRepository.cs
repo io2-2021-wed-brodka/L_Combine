@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.Repository.Repositories
 {
-    class ReservationRepository : GenericRepository<Reservation>, IReservationRepository
+    public class ReservationRepository : GenericRepository<Reservation>, IReservationRepository
     {
         public ReservationRepository(DataContext dbContext) : base(dbContext)
         { }
