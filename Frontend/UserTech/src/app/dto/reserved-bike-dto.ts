@@ -3,8 +3,8 @@ import {StationDTO} from './station-dto';
 export interface ReservedBikeDTO {
   id: string;
   station?: StationDTO;
-  reservedAt?: Date;
-  reservedTill?: Date;
+  reservedAt?: string;
+  reservedTill?: string;
 }
 
 export interface ReservedBikesDTO {

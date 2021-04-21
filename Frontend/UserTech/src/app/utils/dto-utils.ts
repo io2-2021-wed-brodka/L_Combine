@@ -26,7 +26,7 @@ export function reservedBikeFromDTO(bike: ReservedBikeDTO): ReservedBike {
     id: bike.id,
     station: bike.station ? stationFromDTO(bike.station) : undefined,
     state: BikeState.Reserved,
-    reservedAt: bike.reservedAt,
-    reservedTill: bike.reservedTill,
+    reservedAt: new Date(bike.reservedAt || ''),
+    reservedTill: new Date(bike.reservedTill || ''),
   };
 }

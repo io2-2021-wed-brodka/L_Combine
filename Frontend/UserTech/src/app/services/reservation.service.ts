@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {environment as env} from '../../environments/environment';
 import {ReservedBikeDTO, ReservedBikesDTO} from '../dto/reserved-bike-dto';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 
 @Injectable({
@@ -13,16 +13,7 @@ export class ReservationService {
   constructor(private http: HttpClient) { }
 
   getReservedBikes(): Observable<ReservedBikesDTO> {
-    // TODO: return this.http.get<ReservedBikesDTO>(this.baseUrl);
-    return of({
-      bikes: [
-        {
-          id: '1',
-          reservedAt: new Date(),
-          reservedTill: new Date(Date.now() + 10000000000)
-        }
-      ]
-    });
+    return this.http.get<ReservedBikesDTO>(this.baseUrl);
   }
 
   reserveBike(bikeId: string): Observable<ReservedBikeDTO> {

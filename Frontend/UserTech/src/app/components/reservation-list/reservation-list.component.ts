@@ -20,8 +20,10 @@ export class ReservationListComponent implements OnInit {
   }
 
   getReservedBikes(): void {
-    this.reservationService.getReservedBikes().subscribe(bikes =>
-      this.reservedBikes = bikes.bikes.map(reservedBikeFromDTO)
+    this.reservationService.getReservedBikes().subscribe(bikes => {
+        this.reservedBikes = bikes.bikes.map(reservedBikeFromDTO);
+        console.log(this.reservedBikes);
+      }
     );
   }
 
