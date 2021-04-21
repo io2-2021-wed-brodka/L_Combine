@@ -19,15 +19,18 @@ namespace BackendAPI.Controllers
         private IStationRepository stationRepository;
         private IBikeRepository bikeRepository;
         private IRentalRepository rentalRepository;
+        private IReservationRepository reservationRepository;
 
         public StationsController(
             IStationRepository stationRepository,
             IBikeRepository bikeRepository,
-            IRentalRepository rentalRepository)
+            IRentalRepository rentalRepository,
+            IReservationRepository reservationRepository)
         {
             this.stationRepository = stationRepository;
             this.bikeRepository = bikeRepository;
             this.rentalRepository = rentalRepository;
+            this.reservationRepository = reservationRepository;
         }
 
         // GET: api/Stations
@@ -68,10 +71,12 @@ namespace BackendAPI.Controllers
             if (!int.TryParse(id, out int stationId) || 
                 (station = stationRepository.GetByID(stationId)) == null)
                 throw new HttpResponseException("Station not found", 404);
-
-            var bikes = station.Bikes.Select(b => 
-                BikeDTOFactory.Create(b, 
-                bikeRepository.GetUser(b)));
+          
+            //Poniżej dla każdego bika i odpowiadającego mu elementu bool, czy
+            //jest zarezerwowany tworzę BikeDTO
+            var bikes = Enumerable.Zip(station.Bikes,
+                reservationRepository.MapBikesToReservedList(station.Bikes),
+                (b, reserved) => BikeDTOFactory.Create(b, bikeRepository.GetUser(b), reserved));
             //Według dokumentacji zwracamy zawsze response 200,
             //czyli zakładamy że id stacji jest poprawne
             return Ok(new { Bikes = bikes } );
@@ -92,7 +97,7 @@ namespace BackendAPI.Controllers
                 throw new HttpResponseException("Bike not found", 404);
 
             if (station.State == ClassLibrary.BikeStationState.Blocked)
-                throw new HttpResponseException("Cannot associate specified bike with specified station", 422);
+                throw new HttpResponseException("Bike station is blocked", 422);
 
             var userId = int.Parse(
                 User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -100,16 +105,17 @@ namespace BackendAPI.Controllers
                 .FindActiveRental(bike.ID, userId);
             //Tego poniżej specyfikacja nie precyzuje jbc
             if (rental == null)
-                throw new HttpResponseException("Cannot associate specified bike with specified station", 422);
+                throw new HttpResponseException("Bike is not rented by specific user", 422);
 
             bike.BikeStationID = stationId;
             rental.EndDate = DateTime.Now;
 
             //Wystarczy saveChanges na jednym z repo
             bikeRepository.SaveChanges();
+            //Poniżej false bo bike nie jest zarezerowwany
             return new CreatedResult(bike.ID.ToString(),
                 BikeDTOFactory.Create(bike,
-                bikeRepository.GetUser(bike)));
+                bikeRepository.GetUser(bike), false));
         }
     }
 }

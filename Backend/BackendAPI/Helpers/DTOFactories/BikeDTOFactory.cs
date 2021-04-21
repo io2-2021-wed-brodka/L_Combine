@@ -8,14 +8,16 @@ namespace BackendAPI.Helpers.DTOFactories
 {
     public static class BikeDTOFactory
     {
-        public static BikeDTO Create(Bike bike, User user)
+        public static BikeDTO Create(Bike bike, User user, bool reserved)
         {
             string status;
             UserDTO bikeUser = null;
             if (bike.State == ClassLibrary.BikeState
                 .Working)
             {
-                if (user != null)
+                if (reserved)
+                    status = BikeStatusDTO.Reserved;
+                else if (user != null)
                 {
                     bikeUser = new UserDTO()
                     {

@@ -81,13 +81,13 @@ namespace BackendAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult RemoveReservation([FromRoute] string bikeId)
+        public ActionResult RemoveReservation(string id)
         {
             //[BLOCKED] dodać blokowanie uzytkownikow
             Bike reservedBike;
 
             //To jest dramat - trzeba dodac chaina aby wywalic sciane ifow
-            if (int.TryParse(bikeId, out int bikeID) || 
+            if (!int.TryParse(id, out int bikeID) || 
                 (reservedBike = bikeRepository.GetByID(bikeID)) == null)
                 throw new HttpResponseException("Bike not found", 404);
 

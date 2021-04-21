@@ -44,8 +44,9 @@ namespace BackendAPI.Controllers
         {
             int userId = RequestingUserID;
 
+            //Poniżej są wypożyczone, czyli niezarezerwowane
             var rentedBikes = rentalRepository.FindActiveRentals(userId)
-                .Select(r => BikeDTOFactory.Create(r.Bike, r.User));
+                .Select(r => BikeDTOFactory.Create(r.Bike, r.User, false));
 
             return Ok(new { Bikes = rentedBikes });
         }
@@ -93,7 +94,7 @@ namespace BackendAPI.Controllers
                 reservationRepository.Delete(reservation.ID);
             bikeRepository.SaveChanges();
 
-            return new CreatedResult("/api/bikes/rented", BikeDTOFactory.Create(bike, userRepository.GetByID(RequestingUserID)));
+            return new CreatedResult("/api/bikes/rented", BikeDTOFactory.Create(bike, userRepository.GetByID(RequestingUserID), false));
         }
     }
 }
