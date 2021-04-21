@@ -51,3 +51,30 @@ jobs:
         run: npm install
       - name: Buid NPM
         run: npm run build
+
+  test-api: 
+    ruins-on: ubuntu-latest
+    steps: 
+     - uses: actions/checkout@v2
+     - name: Install Node
+       uses: actions/setup-node@v1
+       with: 
+        node-version: '12.x'
+
+    - name: Install newman
+      run: |
+       npm install -g newman
+       npm install -g newman-reporter-htmlextra
+
+    - name: Make Directory for results
+      run: mkdir -p testResults
+
+    - name: Run POSTMAN collection
+      run: |
+       newman run ./PostmanTests/Bikes.postman_collection.json -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/runreport1.html
+
+    - name: Output the run Details
+      uses: actions/upload-artifact@v2
+      with: 
+       name: RunReports
+       path: testResults
