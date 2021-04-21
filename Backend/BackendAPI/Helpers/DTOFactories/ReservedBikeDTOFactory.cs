@@ -7,7 +7,7 @@ using ClassLibrary.DTO;
 
 namespace BackendAPI.Helpers.DTOFactories
 {
-    public class ReservedBikeDTOFactory
+    public class ReservationDTOFactory
     {
         public static ReservationDTO Create(Reservation reservation)
         {
