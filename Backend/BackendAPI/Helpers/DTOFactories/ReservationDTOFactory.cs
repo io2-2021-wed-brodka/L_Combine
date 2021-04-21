@@ -13,7 +13,7 @@ namespace BackendAPI.Helpers.DTOFactories
         {
             return new ReservationDTO()
             {
-                BikeID = reservation.BikeID.ToString(),
+                Id = reservation.BikeID.ToString(),
                 Station = new StationDTO()
                 {
                     Id = reservation.BikeStationID.ToString(),

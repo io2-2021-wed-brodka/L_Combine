@@ -11,7 +11,7 @@ namespace ClassLibrary.DTO
     /// </summary>
     public class ReservationDTO
     {
-        public string BikeID { get; set; }
+        public string Id { get; set; }
         public StationDTO Station { get; set; }
 
         public DateTime ReservedAt { get; set; }
