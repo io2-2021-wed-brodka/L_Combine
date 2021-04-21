@@ -19,6 +19,7 @@ import {ReturnBikeComponent} from './components/return-bike/return-bike.componen
 import {NotificationsComponent} from './components/notification/notifications.component';
 import {ReservationListComponent} from './components/reservation-list/reservation-list.component';
 import {ReservedBikeDetailsComponent} from './components/reserved-bike-details/reserved-bike-details.component';
+import {RegisterComponent} from './components/register/register.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import {ReservedBikeDetailsComponent} from './components/reserved-bike-details/r
     NotificationsComponent,
     ReservationListComponent,
     ReservedBikeDetailsComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
