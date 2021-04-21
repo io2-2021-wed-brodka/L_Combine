@@ -53,7 +53,7 @@ describe('NotificationService', () => {
 
   it('#success should create message with current time', () => {
     service.notify().subscribe(message => {
-      expect(message.date).toEqual(new Date());
+      expect(message.date.getTime()).toBeCloseTo(new Date().getTime(), -3);
     });
 
     service.success('');
@@ -61,7 +61,7 @@ describe('NotificationService', () => {
 
   it('#error should create message with current time', () => {
     service.notify().subscribe(message => {
-      expect(message.date).toEqual(new Date());
+      expect(message.date.getTime()).toBeCloseTo(new Date().getTime(), -3);
     });
 
     service.error('');
