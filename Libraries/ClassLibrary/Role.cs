@@ -9,7 +9,10 @@ namespace ClassLibrary
         public const string User = "User";
         public const string Tech = "Tech";
         public const string Admin = "Admin";
-        //Pomocnicze pole dla Authorize w przypadku kilku ról
-        public const string AdminTech = Admin + "," + Tech;
+        
+        public static string JoinRoles(params string[] roles)
+        {
+            return string.Join(",", roles);
+        }
     }
 }

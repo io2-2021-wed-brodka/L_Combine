@@ -93,6 +93,15 @@ namespace BackendAPI
                     context.HttpContext.Response.ContentType = "application/json";
                     await context.HttpContext.Response.WriteAsync("{\"message\":\"Unauthorized\"}");
                 }
+                //Poniżej odpowiednie przerobienie pustych responsów 403
+                //(pochodzących z atrybutu Authorize), by było zgodnie
+                //ze specyfikacją
+                else if (context.HttpContext.Response.StatusCode == 403
+                && context.HttpContext.Response.ContentType == null)
+                {
+                    context.HttpContext.Response.ContentType = "application/json";
+                    await context.HttpContext.Response.WriteAsync("{\"message\":\"Forbidden\"}");
+                }
             });
 
             app.UseHttpsRedirection();
