@@ -9,9 +9,9 @@ namespace BackendAPI.Helpers.DTOFactories
 {
     public class ReservedBikeDTOFactory
     {
-        public static ReservedBikeDTO Create(Reservation reservation)
+        public static ReservationDTO Create(Reservation reservation)
         {
-            return new ReservedBikeDTO()
+            return new ReservationDTO()
             {
                 BikeID = reservation.BikeID.ToString(),
                 Station = new StationDTO()

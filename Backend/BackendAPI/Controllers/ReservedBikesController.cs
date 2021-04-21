@@ -22,13 +22,15 @@ namespace BackendAPI.Controllers
         private IReservationRepository reservationRepository;
         private IUserRepository userRepository;
         private IBikeRepository bikeRepository;
+        private IRentalRepository rentalRepository;
 
         private int RequestingUserID => int.Parse(
             User.FindFirstValue(ClaimTypes.NameIdentifier));
 
         public ReservedBikesController(IUserRepository userRepo, 
             IReservationRepository reservationRepo, 
-            IBikeRepository bikeRepo)
+            IBikeRepository bikeRepo,
+            IRentalRepository rentalRepo)
         {
             this.reservationRepository = reservationRepo;
             this.userRepository = userRepo;
@@ -46,7 +48,7 @@ namespace BackendAPI.Controllers
 
         [HttpPost]
         [NotForBlocked]
-        public ActionResult<ReservedBikeDTO> AddReservation([FromBody] IdDTO bikeId)
+        public ActionResult<ReservationDTO> AddReservation([FromBody] IdDTO bikeId)
         {
             Bike reservedBike;
             //To jest dramat - trzeba dodac chaina aby wywalic sciane ifow
@@ -73,7 +75,7 @@ namespace BackendAPI.Controllers
             reservationRepository.Insert(reservation);
             reservationRepository.SaveChanges();
 
-            ReservedBikeDTO result = ReservedBikeDTOFactory.Create(reservation);
+            ReservationDTO result = ReservedBikeDTOFactory.Create(reservation);
 
             return new CreatedResult(reservation.ID.ToString(), result);
         }
@@ -83,25 +85,9 @@ namespace BackendAPI.Controllers
         public ActionResult RemoveReservation(string id)
         {
             Bike reservedBike;
-
-            //To jest dramat - trzeba dodac chaina aby wywalic sciane ifow
             if (!int.TryParse(id, out int bikeID) || 
                 (reservedBike = bikeRepository.GetByID(bikeID)) == null)
                 throw new HttpResponseException("Bike not found", 404);
-
-            //Tego niżej specka nie precyzuje, poza tym nie wiem w czym
-            //to miałoby przeszkadzać żeby anulować rezerwację czy coś,
-            //w zasadzie jeśli np. zrobimy rezerwację, ale admin zablokuje rower
-            //po naszej rzerwacji to powinniśmy móc ją anulować chyba chociaż
-            //proszę o review.
-            //Drugi if: jeśli bike jest wypożyczony, tzn. że nie ma aktywnej
-            //rezerwacji, czyli też nie powinno się to zdarzyć
-
-            /*if (reservedBike.State != ClassLibrary.BikeState.Working)
-                throw new HttpResponseException("Bike is blocked", 422);
-
-            if (rentalRepository.FindActiveRental(reservedBike.ID, user.ID) != null)
-                throw new HttpResponseException("Bike already rented", 422);*/
 
             var activeReservation = reservationRepository.GetActiveReservationByBike(bikeID);
             if (activeReservation == null)

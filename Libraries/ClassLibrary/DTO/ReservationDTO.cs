@@ -4,7 +4,12 @@ using System.Text;
 
 namespace ClassLibrary.DTO
 {
-    public class ReservedBikeDTO
+    /// <summary>
+    /// Według specyfikacji jest to klasa ReservedBikeDTO.
+    /// Zmienilismy nazwę, ponieważ uważamy, że jest ona zbyt podobna do BikeDTO i wprowadza w błąd.
+    /// Ta kalsa opisuje tak na prawde rezerwację.
+    /// </summary>
+    public class ReservationDTO
     {
         public string BikeID { get; set; }
         public StationDTO Station { get; set; }
