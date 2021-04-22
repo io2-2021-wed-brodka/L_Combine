@@ -22,16 +22,16 @@ jobs:
       run: dotnet build --no-restore
     - name: Test .NET
       run: dotnet test --no-build --verbosity normal
-  
+
   buildfrontend:
     name: Build Angular Frontend
     runs-on: ubuntu-latest
-    strategy: 
+    strategy:
       matrix:
         node-version: [ '12.x' ]
         build-dir: ['Frontend/Admin', 'Frontend/UserTech']
-    defaults: 
-      run: 
+    defaults:
+      run:
         working-directory: ./${{ matrix.build-dir }}
 
     steps:
@@ -43,11 +43,13 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - name: Setup Node 
+      - name: Setup Node
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install NPM
+      - name: Install packages
         run: npm install
-      - name: Buid NPM
+      - name: Buid Angular
         run: npm run build
+      - name: Test Angular
+        run: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI

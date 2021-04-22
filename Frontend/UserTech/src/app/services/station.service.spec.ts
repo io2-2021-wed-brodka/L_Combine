@@ -54,7 +54,7 @@ describe('StationService', () => {
       expect(result.bikes).toEqual(bikes.bikes);
     });
 
-    const request = httpTestingControler.expectOne(`${environment.apiUrl}/stations/${stationId}bikes/`);
+    const request = httpTestingControler.expectOne(`${environment.apiUrl}/stations/${stationId}/bikes`);
     request.flush(bikes);
     httpTestingControler.verify();
   });

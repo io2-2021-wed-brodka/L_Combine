@@ -34,7 +34,7 @@ describe('ReservedBikeDetailsComponent', () => {
   beforeEach(async () => {
     const rentBikeServiceSpy = jasmine.createSpyObj('RentBikeService', ['rentBike']);
     const notificationServiceSpy = jasmine.createSpyObj('NotificationService', ['success']);
-    const redirectServiceSpy = jasmine.createSpyObj('RedirectService', ['redirectToHome']);
+    const redirectServiceSpy = jasmine.createSpyObj('RedirectService', ['reload']);
     const reservationServiceSpy = jasmine.createSpyObj('ReservationService', ['cancelReservation']);
 
     await TestBed.configureTestingModule({
@@ -87,11 +87,11 @@ describe('ReservedBikeDetailsComponent', () => {
     expect(rentBikeService.rentBike).toHaveBeenCalledOnceWith(component.bike);
   });
 
-  it('should call #success and #redirectToHome after successful rent', () => {
+  it('should call #success and #reload after successful rent', () => {
     component.rent();
 
     expect(notificationService.success).toHaveBeenCalledTimes(1);
-    expect(redirectService.redirectToHome).toHaveBeenCalledTimes(1);
+    expect(redirectService.reload).toHaveBeenCalledTimes(1);
   });
 
   it('should call #cancelReservation with bikeId in #cancel', () => {
@@ -100,11 +100,11 @@ describe('ReservedBikeDetailsComponent', () => {
     expect(reservationService.cancelReservation).toHaveBeenCalledOnceWith(component.bike.id);
   });
 
-  it('should call #success and #redirectToHome after successful cancel', () => {
+  it('should call #success and #reload after successful cancel', () => {
     component.cancel();
 
     expect(notificationService.success).toHaveBeenCalledTimes(1);
-    expect(redirectService.redirectToHome).toHaveBeenCalledTimes(1);
+    expect(redirectService.reload).toHaveBeenCalledTimes(1);
   });
 
   it('should call #rent when clicking button with class "button-rent"', () => {

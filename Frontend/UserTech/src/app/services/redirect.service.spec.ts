@@ -1,4 +1,4 @@
-import {TestBed} from '@angular/core/testing';
+import {fakeAsync, TestBed} from '@angular/core/testing';
 
 import {RedirectService} from './redirect.service';
 import {Router} from '@angular/router';
@@ -10,7 +10,7 @@ describe('RedirectService', () => {
   let location: jasmine.SpyObj<Location>;
 
   beforeEach(() => {
-    const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    const routerSpy = jasmine.createSpyObj('Router', ['navigate', 'navigateByUrl'], {url: '/test'});
     const locationSpy = jasmine.createSpyObj('Location', ['back']);
 
     TestBed.configureTestingModule({
@@ -27,6 +27,8 @@ describe('RedirectService', () => {
     service = TestBed.inject(RedirectService);
     router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
     location = TestBed.inject(Location) as jasmine.SpyObj<Location>;
+
+    router.navigateByUrl.and.returnValue(Promise.resolve(true));
   });
 
   it('should be created', () => {
@@ -35,7 +37,7 @@ describe('RedirectService', () => {
 
   it('#redirectToHome should call router.navigate with "home"', () => {
     service.redirectToHome();
-    expect(router.navigate).toHaveBeenCalledOnceWith(['home']);
+    expect(router.navigate).toHaveBeenCalledOnceWith(['rental/home']);
   });
 
   it('#redirectToLogin should call router.navigate with "login"', () => {
@@ -47,4 +49,12 @@ describe('RedirectService', () => {
     service.goBack();
     expect(location.back).toHaveBeenCalledTimes(1);
   });
+
+  it('#reload should call router.navigateByUrl and router.navigateByUrl', fakeAsync(() => {
+    service.reload().then(() => {
+      expect(router.navigateByUrl).toHaveBeenCalledTimes(2);
+      expect(router.navigateByUrl).toHaveBeenCalledWith('/rental', {skipLocationChange: true});
+      expect(router.navigateByUrl).toHaveBeenCalledWith(router.url);
+    });
+  }));
 });

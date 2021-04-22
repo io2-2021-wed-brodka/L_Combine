@@ -1,16 +1,18 @@
 <div class="list">
   <h3 class="list-header">Stacje</h3>
-  <a *ngFor="let station of stations"
-     [class.list-item-active]="station.stationState === 'active'"
-     [class.list-item-blocked]="station.stationState === 'blocked'"
-     class="list-item"
-     [routerLink]="['../station', station.id]">
-    <div class="list-item-side-left">
-      {{station.locationName}}
-    </div>
-    <div [ngSwitch]="station.stationState" class="list-item-side-right">
-      <span *ngSwitchCase="'active'">Aktywna</span>
-      <span *ngSwitchCase="'blocked'">Zablokowana</span>
-    </div>
-  </a>
+  <div class="list-items">
+    <a *ngFor="let station of stations"
+       [class.list-item-active]="station.stationState === 'active'"
+       [class.list-item-blocked]="station.stationState === 'blocked'"
+       class="list-item"
+       [routerLink]="['../station', station.id]">
+      <div class="list-item-side-left">
+        {{station.locationName}}
+      </div>
+      <div [ngSwitch]="station.stationState" class="list-item-side-right">
+        <span *ngSwitchCase="'active'">Aktywna</span>
+        <span *ngSwitchCase="'blocked'">Zablokowana</span>
+      </div>
+    </a>
+  </div>
 </div>

@@ -3,11 +3,16 @@
 .list {
   color: $main-font-color;
   background-color: $main-background-color;
-  overflow: auto;
   font-size: 20px;
+  padding: 5px;
 
   &-header {
     text-align: center;
+  }
+
+  &-items {
+    overflow: auto;
+    max-height: 65vh;
   }
 
   &-item {
@@ -16,7 +21,11 @@
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    margin: 5px;
+    margin-top: 5px;
+
+    :nth-of-type(0) {
+      margin-top: 0;
+    }
 
     &-active {
       cursor: pointer;
