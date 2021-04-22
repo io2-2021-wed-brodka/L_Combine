@@ -1,6 +1,6 @@
 name: CI Action
 
-on: [push, pull_request]
+on: pull_request
 
 jobs:
   buidbackend:
@@ -48,7 +48,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install packages
-        run: npm install
+        run: npm ci
       - name: Buid Angular
         run: npm run build
       - name: Test Angular
