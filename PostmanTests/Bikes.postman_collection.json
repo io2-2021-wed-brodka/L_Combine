@@ -12,13 +12,13 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 422\",function(){\r",
-							"    pm.response.to.have.status(422);\r",
+							"pm.test(\"Status code is 500\",function(){\r",
+							"    pm.response.to.have.status(500);\r",
 							"});\r",
 							"\r",
 							"pm.test(\"Error message correct\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.message).to.eql(\"Bike is already rented, blocked or reserved by another user or station is blocked\");\r",
+							"    pm.expect(jsonData.message).to.eql(\"Bike already rented\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -74,16 +74,6 @@
 				}
 			],
 			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1IiwibmJmIjoxNjE4MzM0MjIzLCJleHAiOjE2MTg5MzkwMjIsImlhdCI6MTYxODMzNDIyM30.KBFIWq67tSgET5ow57b1vl3UhFXaC-sFlIa6GNJE170",
-							"type": "string"
-						}
-					]
-				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -108,7 +98,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1IiwibmJmIjoxNjE4MzM4Mzk4LCJleHAiOjE2MTg5NDMxOTgsImlhdCI6MTYxODMzODM5OH0.EZOKNLPHuVKUuA79TGXBR8IMb_YYNGUUbdTSlAYX-yU",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1Iiwicm9sZSI6IlVzZXIiLCJCbG9ja2VkIjoiRmFsc2UiLCJuYmYiOjE2MTkxMDU2MzMsImV4cCI6MTYxOTEwOTIzMywiaWF0IjoxNjE5MTA1NjMzfQ.mYp3MyEhrV4NAU1HiAZu-IDTzNjTXDidzjtqn8Egp0k",
 				"type": "string"
 			}
 		]
