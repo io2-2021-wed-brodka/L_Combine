@@ -67,7 +67,7 @@ jobs:
        run: mkdir -p testResults
      - name: Run POSTMAN collection
        run: |
-        newman run ./PostmanTests/Bikes.postman_collection.json   > testResults/runreport1.html
+        newman run ./PostmanTests/Bikes.postman_collection.json --insecure -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme > testResults/runreport1.html
      - name: Output the run Details
        uses: actions/upload-artifact@v2
        with: 
