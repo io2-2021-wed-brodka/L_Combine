@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.Services.Interfaces
 {
-    public interface IReservedBikesService
+    public interface IReservationsService
     {
-        IEnumerable<ReservationDTO> GetReservations(string userId);
-        ReservationDTO ReserveBike(string userId, string bikeId);
-        void CancelReservation(string userId, string bikeId);
+        IEnumerable<ReservationDTO> GetReservations(string userIdString);
+        ReservationDTO ReserveBike(string userIdString, string bikeIdString);
+        void CancelReservation(string userIdString, string bikeIdString);
     }
 }

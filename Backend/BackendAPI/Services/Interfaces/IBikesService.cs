@@ -8,7 +8,7 @@ namespace BackendAPI.Services.Interfaces
 {
     public interface IBikesService
     {
-        IEnumerable<BikeDTO> GetRentedBikes(string userId);
-        BikeDTO RentBike(string userId, string bikeId);
+        IEnumerable<BikeDTO> GetRentedBikes(string userIdString);
+        BikeDTO RentBike(string userIdString, string bikeIdString);
     }
 }
