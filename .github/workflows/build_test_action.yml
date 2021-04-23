@@ -67,7 +67,7 @@ jobs:
      - name: Make Directory for results
        run: mkdir -p testResults
 
-     - name: VSBuild@1
+     - task: VSBuild@1
        inputs:
         solution: '$(solution)'
         platform: '$(buildPlatform)'
