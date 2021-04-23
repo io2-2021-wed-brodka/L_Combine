@@ -4,14 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BackendAPI.Models
+namespace ClassLibrary.DTO
 {
-    public class AuthenticateRequest
+    public class AuthenticateRequestDTO
     {
-        [Required]
         public string Login { get; set; }
-
-        [Required]
         public string Password { get; set; }
     }
 }

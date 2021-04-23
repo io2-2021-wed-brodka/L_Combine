@@ -1,5 +1,4 @@
 ﻿using BackendAPI.Data;
-using BackendAPI.Repository.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using ClassLibrary.Exceptions;
 using Microsoft.AspNetCore.Mvc;
@@ -15,23 +14,14 @@ namespace BackendAPI.Controllers
     [Authorize]
     public class ValuesController : ControllerBase
     {
-        private readonly IBikeRepository bikeRepo;
-        private readonly IStationRepository stationRepo;
-        private readonly IUserRepository userRepo;
 
-        public ValuesController(IBikeRepository bikeRepo, IStationRepository stationRepo, IUserRepository userRepo)
-        {
-            this.bikeRepo = bikeRepo;
-            this.stationRepo = stationRepo;
-            this.userRepo = userRepo;
-        }
 
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return stationRepo.Get().Select(x => x.ID.ToString()).ToList();
-            //return new string[] { "value1", "value2" };
+            //return stationRepo.Get().Select(x => x.ID.ToString()).ToList();
+            return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5

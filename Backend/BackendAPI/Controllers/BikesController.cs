@@ -1,5 +1,4 @@
 ﻿using BackendAPI.Models;
-using BackendAPI.Repository.Interfaces;
 using ClassLibrary.DTO;
 using ClassLibrary.Exceptions;
 using Microsoft.AspNetCore.Authorization;

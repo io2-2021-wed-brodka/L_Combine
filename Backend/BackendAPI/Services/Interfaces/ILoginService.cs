@@ -9,5 +9,6 @@ namespace BackendAPI.Services.Interfaces
     public interface ILoginService
     {
         AuthenticateResponseDTO Login(string login, string password);
+        AuthenticateResponseDTO Register(string login, string password);
     }
 }
