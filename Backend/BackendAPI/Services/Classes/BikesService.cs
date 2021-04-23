@@ -1,5 +1,4 @@
 ﻿using BackendAPI.Data;
-using BackendAPI.Helpers.DTOFactories;
 using BackendAPI.Models;
 using BackendAPI.Services.Interfaces;
 using ClassLibrary.DTO;
@@ -15,14 +14,9 @@ namespace BackendAPI.Services.Classes
     public class BikesService : Service, IBikesService
     {
         const int PerUserBikesLimit = 4;
-        readonly DataContext dbContext;
-        readonly IBikeDTOFactory bikeDTOFactory;
 
-        public BikesService(DataContext dbContext,
-            IBikeDTOFactory bikeDTOFactory)
+        public BikesService(DataContext dbContext) : base(dbContext)
         {
-            this.dbContext = dbContext;
-            this.bikeDTOFactory = bikeDTOFactory;
         }
 
         public IEnumerable<BikeDTO> GetRentedBikes(string userIdString)
@@ -35,7 +29,7 @@ namespace BackendAPI.Services.Classes
                 .ThenInclude(b => b.BikeStation)
                 .Include(r => r.User)
                 .ToList()
-                .Select(r => bikeDTOFactory.Create(r.Bike, r.User, false));
+                .Select(r => CreateBikeDTO(r.Bike, r.User, false));
         }
 
         public BikeDTO RentBike(string userIdString, string bikeIdString)
@@ -86,7 +80,7 @@ namespace BackendAPI.Services.Classes
 
             User user = dbContext.Users.FirstOrDefault(u => u.ID == userId);
 
-            return bikeDTOFactory.Create(bike, user);
+            return CreateBikeDTO(bike, user);
         }
     }
 }

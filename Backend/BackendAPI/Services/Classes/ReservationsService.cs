@@ -1,5 +1,4 @@
 ﻿using BackendAPI.Data;
-using BackendAPI.Helpers.DTOFactories;
 using BackendAPI.Models;
 using BackendAPI.Services.Interfaces;
 using ClassLibrary.DTO;
@@ -14,14 +13,9 @@ namespace BackendAPI.Services.Classes
 {
     public class ReservationsService : Service, IReservationsService
     {
-        private readonly DataContext dbContext;
-        private readonly IReservationDTOFactory reservationDTOFactory;
 
-        public ReservationsService(DataContext dbContext,
-            IReservationDTOFactory reservationDTOFactory)
+        public ReservationsService(DataContext dbContext) : base(dbContext)
         {
-            this.dbContext = dbContext;
-            this.reservationDTOFactory = reservationDTOFactory;
         }
 
         public void CancelReservation(string userIdString, string bikeIdString)
@@ -58,7 +52,7 @@ namespace BackendAPI.Services.Classes
                 .Where(r => r.ExpireDate > DateTime.Now && r.UserID == userId)
                 .Include(r => r.BikeStation)
                 .ToList()
-                .Select(r => reservationDTOFactory.Create(r));
+                .Select(r => CreateReservationDTO(r));
         }
 
         public ReservationDTO ReserveBike(string userIdString, string bikeIdString)
@@ -98,7 +92,7 @@ namespace BackendAPI.Services.Classes
             dbContext.SaveChanges();
 
             //Mogę to wywołać, po reservation.BikeStation != null!!!!!
-            return reservationDTOFactory.Create(reservation);
+            return CreateReservationDTO(reservation);
         }
     }
 }

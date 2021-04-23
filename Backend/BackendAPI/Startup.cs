@@ -12,7 +12,6 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Http;
-using BackendAPI.Helpers.DTOFactories;
 using BackendAPI.Services.Interfaces;
 using BackendAPI.Services.Classes;
 
@@ -31,16 +30,6 @@ namespace BackendAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-
-            //services.AddScoped<IBikeRepository, BikeRepository>();
-            //services.AddScoped<IStationRepository, StationRepository>();
-            //services.AddScoped<IUserRepository, UserRepository>();
-            //services.AddScoped<IRentalRepository, RentalRepository>();
-            //services.AddScoped<IReservationRepository, ReservationRepository>();
-
-            services.AddScoped<IStationDTOFactory, StationDTOFactory>();
-            services.AddScoped<IReservationDTOFactory, ReservationDTOFactory>();
-            services.AddScoped<IBikeDTOFactory, BikeDTOFactory>();
 
             services.AddScoped<IBikesService, BikesService>();
             services.AddScoped<IStationsService, StationsService>();

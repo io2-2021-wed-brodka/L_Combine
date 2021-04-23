@@ -1,5 +1,4 @@
 ﻿using BackendAPI.Data;
-using BackendAPI.Helpers.DTOFactories;
 using BackendAPI.Models;
 using BackendAPI.Services.Interfaces;
 using ClassLibrary;
@@ -15,17 +14,9 @@ namespace BackendAPI.Services.Classes
 {
     public class StationsService : Service, IStationsService
     {
-        private readonly DataContext dbContext;
-        private readonly IBikeDTOFactory bikeDTOFactory;
-        private readonly IStationDTOFactory stationDTOFactory;
 
-        public StationsService(DataContext dbContext,
-            IBikeDTOFactory bikeDTOFactory, 
-            IStationDTOFactory stationDTOFactory)
+        public StationsService(DataContext dbContext) : base(dbContext)
         {
-            this.dbContext = dbContext;
-            this.bikeDTOFactory = bikeDTOFactory;
-            this.stationDTOFactory = stationDTOFactory;
         }
 
         public IEnumerable<StationDTO> GetActiveStations()
@@ -40,12 +31,12 @@ namespace BackendAPI.Services.Classes
                 //skończoną kwerendę. W przeciwnym razie dostaniemy
                 //błąd dotyczący wielowątkowego dostępu do bazy
                 //(fabryki DTO korzystają z bazy danych)
-                .Select(s => stationDTOFactory.Create(s));
+                .Select(s => CreateStationDTO(s));
         }
 
         public IEnumerable<StationDTO> GetAllStations()
         {
-            return dbContext.BikeStations.ToList().Select(s => stationDTOFactory.Create(s));
+            return dbContext.BikeStations.ToList().Select(s => CreateStationDTO(s));
         }
 
         public IEnumerable<BikeDTO> GetBikes(string stationIdString, string role)
@@ -64,7 +55,7 @@ namespace BackendAPI.Services.Classes
                 throw new HttpResponseException("Only tech and admin can list bikes at blocked station", 403);
 
             return station.Bikes.ToList().Select(b => 
-                bikeDTOFactory.Create(b, (from r in dbContext.Rentals.Include(r => r.User)
+                CreateBikeDTO(b, (from r in dbContext.Rentals.Include(r => r.User)
                                           where r.BikeID == b.ID && r.EndDate == null
                                           select r.User).FirstOrDefault()));
         }
@@ -79,7 +70,7 @@ namespace BackendAPI.Services.Classes
                 .FirstOrDefault(bs => bs.ID == stationId)) == null)
                 throw new HttpResponseException("Station not found", 404);
 
-            return stationDTOFactory.Create(station);
+            return CreateStationDTO(station);
         }
 
         public BikeDTO ReturnBike(string userIdString, string bikeIdString, string stationIdString)
@@ -119,7 +110,7 @@ namespace BackendAPI.Services.Classes
             //nie ma ryzyka, że BikeStation będzie nullem
             dbContext.SaveChanges();
 
-            return bikeDTOFactory.Create(bike, null, false);
+            return CreateBikeDTO(bike, null, false);
         }
     }
 }
