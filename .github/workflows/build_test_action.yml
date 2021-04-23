@@ -66,8 +66,17 @@ jobs:
         npm install -g newman-reporter-html
      - name: Make Directory for results
        run: mkdir -p testResults
+
+     - name: VSBuild@1
+       inputs:
+        solution: '$(solution)'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+        clean: true
+
      - name: Launch application
        run: dotnet run ./bin/Debug/necoreapp2.1/BackendAPI.dll
+
      - name: Run POSTMAN collection
        run: |
         newman run ./PostmanTests/Bikes.postman_collection.json --insecure -r html > testResults/runreport1.html
