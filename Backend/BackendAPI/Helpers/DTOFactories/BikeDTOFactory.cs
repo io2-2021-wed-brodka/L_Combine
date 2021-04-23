@@ -1,8 +1,10 @@
-﻿using BackendAPI.Models;
+﻿using BackendAPI.Data;
+using BackendAPI.Models;
 using BackendAPI.Repository.Interfaces;
 using ClassLibrary.DTO;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BackendAPI.Helpers.DTOFactories
@@ -16,18 +18,16 @@ namespace BackendAPI.Helpers.DTOFactories
 
     public class BikeDTOFactory: IBikeDTOFactory
     {
-        readonly IBikeRepository bikeRepo;
-        readonly IReservationRepository reservationRepo;
-        readonly IStationDTOFactory stationDTOFactory;
+        private readonly DataContext dbContext;
+        private readonly IStationDTOFactory stationDTOFactory;
 
-        public BikeDTOFactory(IBikeRepository bikeRepo,
-            IReservationRepository reservationRepo,
+        public BikeDTOFactory(DataContext dbContext,
             IStationDTOFactory stationDTOFactory)
         {
-            this.bikeRepo = bikeRepo;
-            this.reservationRepo = reservationRepo;
+            this.dbContext = dbContext;
             this.stationDTOFactory = stationDTOFactory;
         }
+
 
         //Poniżej bike powinien być różny od nulla
         public BikeDTO Create(Bike bike, User user, bool? reserved = null)
@@ -38,7 +38,9 @@ namespace BackendAPI.Helpers.DTOFactories
                 .Working)
             {
                 if (reserved == null)
-                    reserved = reservationRepo.CheckIfBikeReserved(bike.ID);
+                    reserved = dbContext.Reservations
+                                .Where(r => r.BikeID == bike.ID
+                                && r.ExpireDate >= DateTime.Now).Any();
                 if (reserved.Value)
                     status = BikeStatusDTO.Reserved;
                 else if (user != null)

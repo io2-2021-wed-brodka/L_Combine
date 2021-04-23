@@ -1,4 +1,5 @@
-﻿using BackendAPI.Models;
+﻿using BackendAPI.Data;
+using BackendAPI.Models;
 using BackendAPI.Repository.Interfaces;
 using ClassLibrary.DTO;
 using System;
@@ -15,11 +16,11 @@ namespace BackendAPI.Helpers.DTOFactories
 
     public class StationDTOFactory: IStationDTOFactory
     {
-        readonly IBikeRepository bikeRepo;
+        private readonly DataContext dbContext;
 
-        public StationDTOFactory(IBikeRepository bikeRepo)
+        public StationDTOFactory(DataContext dbContext)
         {
-            this.bikeRepo = bikeRepo;
+            this.dbContext = dbContext;
         }
 
         //Poniżej station powinna być rózna od nulla
@@ -30,7 +31,14 @@ namespace BackendAPI.Helpers.DTOFactories
             return new StationDTO()
             {
                 Id = station.ID.ToString(),
-                ActiveBikesCount = bikeRepo.GetActiveBikesCount(station.ID),
+                ActiveBikesCount = (from b in dbContext.Bikes
+                                    where b.BikeStationID == station.ID //rower stoi na stacji (w szczególności nie jest wypożyczony)
+                                    && b.State == ClassLibrary.BikeState.Working //stan roweru to working
+                                    && !(from r in dbContext.Reservations
+                                         where r.BikeID == b.ID
+                                        && r.ExpireDate >= DateTime.Now
+                                         select r).Any()  //nie ma aktywnych rezerwacji
+                                    select b).Count(),
                 Name = station.LocationName,
                 Status = status
             };

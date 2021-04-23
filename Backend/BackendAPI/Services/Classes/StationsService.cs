@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.Services.Classes
 {
-    public class StationsService : IStationsService
+    public class StationsService : Service, IStationsService
     {
         private readonly DataContext dbContext;
         private readonly IBikeDTOFactory bikeDTOFactory;
@@ -31,13 +31,21 @@ namespace BackendAPI.Services.Classes
         public IEnumerable<StationDTO> GetActiveStations()
         {
             return dbContext.BikeStations
-                .Where(bs => bs.State == ClassLibrary.BikeStationState.Working)
+                .Where(bs => bs.State == BikeStationState.Working)
+                .Select(bs => bs)
+                .ToList()
+                //Uwaga!!!!!!
+                //BARDZO WAŻNE JEST BY DO Select korzystającego
+                //z fabryk DTO przekazywać nie IQueryable a już
+                //skończoną kwerendę. W przeciwnym razie dostaniemy
+                //błąd dotyczący wielowątkowego dostępu do bazy
+                //(fabryki DTO korzystają z bazy danych)
                 .Select(s => stationDTOFactory.Create(s));
         }
 
         public IEnumerable<StationDTO> GetAllStations()
         {
-            return dbContext.BikeStations.Select(s => stationDTOFactory.Create(s));
+            return dbContext.BikeStations.ToList().Select(s => stationDTOFactory.Create(s));
         }
 
         public IEnumerable<BikeDTO> GetBikes(string stationIdString, string role)
@@ -55,31 +63,10 @@ namespace BackendAPI.Services.Classes
                 && role == Role.User)
                 throw new HttpResponseException("Only tech and admin can list bikes at blocked station", 403);
 
-            return station.Bikes.Select(b => 
+            return station.Bikes.ToList().Select(b => 
                 bikeDTOFactory.Create(b, (from r in dbContext.Rentals.Include(r => r.User)
                                           where r.BikeID == b.ID && r.EndDate == null
                                           select r.User).FirstOrDefault()));
-        }
-
-        private int ParseUserId(string id)
-        {
-            if (!int.TryParse(id, out int result))
-                throw new HttpResponseException("User not found", 404);
-            return result;
-        }
-
-        private int ParseStationId(string id)
-        {
-            if (!int.TryParse(id, out int result))
-                throw new HttpResponseException("Station not found", 404);
-            return result;
-        }
-
-        private int ParseBikeId(string id)
-        {
-            if (!int.TryParse(id, out int result))
-                throw new HttpResponseException("Bike not found", 404);
-            return result;
         }
 
         public StationDTO GetStation(string stationIdString)

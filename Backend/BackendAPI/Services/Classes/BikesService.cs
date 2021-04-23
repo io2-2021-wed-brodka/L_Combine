@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.Services.Classes
 {
-    public class BikesService : IBikesService
+    public class BikesService : Service, IBikesService
     {
         const int PerUserBikesLimit = 4;
         readonly DataContext dbContext;
@@ -25,13 +25,6 @@ namespace BackendAPI.Services.Classes
             this.bikeDTOFactory = bikeDTOFactory;
         }
 
-        private int ParseUserId(string id) 
-        {
-            if (!int.TryParse(id, out int result))
-                throw new HttpResponseException("User not found", 404);
-            return result;
-        }
-
         public IEnumerable<BikeDTO> GetRentedBikes(string userIdString)
         {
             int userId = ParseUserId(userIdString);
@@ -41,6 +34,7 @@ namespace BackendAPI.Services.Classes
                 .Include(r => r.Bike)
                 .ThenInclude(b => b.BikeStation)
                 .Include(r => r.User)
+                .ToList()
                 .Select(r => bikeDTOFactory.Create(r.Bike, r.User, false));
         }
 

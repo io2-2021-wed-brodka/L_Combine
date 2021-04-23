@@ -32,11 +32,11 @@ namespace BackendAPI
         {
             services.AddCors();
 
-            services.AddScoped<IBikeRepository, BikeRepository>();
-            services.AddScoped<IStationRepository, StationRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IRentalRepository, RentalRepository>();
-            services.AddScoped<IReservationRepository, ReservationRepository>();
+            //services.AddScoped<IBikeRepository, BikeRepository>();
+            //services.AddScoped<IStationRepository, StationRepository>();
+            //services.AddScoped<IUserRepository, UserRepository>();
+            //services.AddScoped<IRentalRepository, RentalRepository>();
+            //services.AddScoped<IReservationRepository, ReservationRepository>();
 
             services.AddScoped<IStationDTOFactory, StationDTOFactory>();
             services.AddScoped<IReservationDTOFactory, ReservationDTOFactory>();
@@ -44,6 +44,7 @@ namespace BackendAPI
 
             services.AddScoped<IBikesService, BikesService>();
             services.AddScoped<IStationsService, StationsService>();
+            services.AddScoped<IReservationsService, ReservationsService>();
 
 
             services.AddDbContextPool<DataContext>(options =>
