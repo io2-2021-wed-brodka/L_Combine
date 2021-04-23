@@ -43,6 +43,7 @@ namespace BackendAPI
             services.AddScoped<IBikeDTOFactory, BikeDTOFactory>();
 
             services.AddScoped<IBikesService, BikesService>();
+            services.AddScoped<IStationsService, StationsService>();
 
 
             services.AddDbContextPool<DataContext>(options =>

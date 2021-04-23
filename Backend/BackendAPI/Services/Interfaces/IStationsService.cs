@@ -10,7 +10,7 @@ namespace BackendAPI.Services.Interfaces
     {
         IEnumerable<StationDTO> GetAllStations();
         IEnumerable<StationDTO> GetActiveStations();
-        StationDTO GetStation();
+        StationDTO GetStation(string stationIdString);
         IEnumerable<BikeDTO> GetBikes(string stationIdString, string role);
         BikeDTO ReturnBike(string userIdString, string bikeIdString, string stationIdString);
     }

@@ -28,7 +28,7 @@ namespace BackendAPI.Services.Classes
         private int ParseUserId(string id) 
         {
             if (!int.TryParse(id, out int result))
-                throw new HttpResponseException("Invalid user id", 404);
+                throw new HttpResponseException("User not found", 404);
             return result;
         }
 
