@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 import { environment } from 'src/environments/environment';
 import { IGNORE_ERROR_INTERCEPT } from '../constants/headers';
+import { Role } from '../dto/authenticate-response-dto';
 
 import { LoginService } from './login.service';
 import { RedirectService } from './redirect.service';
@@ -22,7 +23,7 @@ describe('LoginService', () => {
         httpTestingControler = TestBed.inject(HttpTestingController);
         redirect = TestBed.inject(RedirectService) as jasmine.SpyObj<RedirectService>;
 
-        storage = {token: null};
+        storage = {admin_token: null};
         spyOn(localStorage, 'getItem').and
             .callFake((key: string)=>storage[key]);
         spyOn(localStorage, 'removeItem').and
@@ -42,35 +43,35 @@ describe('LoginService', () => {
     });
     
     it('should log in on init if there is token in the storage',()=>{
-        storage['token'] = 'token';
+        storage['admin_token'] = 'token';
         const service = TestBed.inject(LoginService);
         expect(service.isLoggedIn()).toBeTrue();
     });
 
     it('#logout should make user not logged in', ()=>{
-        storage['token'] = 'token';
+        storage['admin_token'] = 'token';
         const service = TestBed.inject(LoginService);
         service.logout();
         expect(service.isLoggedIn()).toBeFalse();
     });
 
     it('#logout should remove token from storage', ()=>{
-        storage['token'] = 'token';
+        storage['admin_token'] = 'token';
         const service = TestBed.inject(LoginService);
         service.logout();
-        expect(storage['token']).toBeFalsy();
+        expect(storage['admin_token']).toBeFalsy();
     });
 
     it('#logout should redirect to login view', ()=>{
         expect(redirect.redirectToLogin).toHaveBeenCalledTimes(0);
-        storage['token'] = 'token';
+        storage['admin_token'] = 'token';
         const service = TestBed.inject(LoginService);
         service.logout();
         expect(redirect.redirectToLogin).toHaveBeenCalledTimes(1);
     });
 
     it('#setAuthenticateHeader should add token to header', ()=>{
-        storage['token'] = 'token';
+        storage['admin_token'] = 'token';
         const service = TestBed.inject(LoginService);
         const headers = service.setAuthenticateHeader();
         expect(headers.get('Authorization')).toEqual('Bearer token');
@@ -87,7 +88,7 @@ describe('LoginService', () => {
 
         const request = httpTestingControler.expectOne(`${environment.apiUrl}/login`);
         expect(request.request.body).toEqual(loginData);
-        request.flush({token: 'token'});
+        request.flush({token: 'token', role: Role.Admin});
         httpTestingControler.verify();
     });
 
@@ -99,7 +100,7 @@ describe('LoginService', () => {
         }
         service.login(loginData).subscribe();
         const request = httpTestingControler.expectOne(`${environment.apiUrl}/login`);
-        request.flush({token: 'token'});
+        request.flush({token: 'token', role: Role.Admin});
         expect(service.isLoggedIn()).toBeTrue();
     });
 
@@ -111,7 +112,7 @@ describe('LoginService', () => {
         }
         service.login(loginData).subscribe();
         const request = httpTestingControler.expectOne(`${environment.apiUrl}/login`);
-        request.flush({token: 'token'});
-        expect(storage['token']).toEqual('token');
+        request.flush({token: 'token', role: Role.Admin});
+        expect(storage['admin_token']).toEqual('token');
     });
 });

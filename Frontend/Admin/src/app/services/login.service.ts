@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import LoginData from '../models/loginData';
-import {Router} from '@angular/router';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {environment as env} from '../../environments/environment';
-import {AuthenticateResponseDTO} from '../dto/authenticate-response-dto';
+import {AuthenticateResponseDTO, Role} from '../dto/authenticate-response-dto';
 import {tap} from 'rxjs/operators';
 import {RedirectService} from './redirect.service';
 import {IGNORE_ERROR_INTERCEPT} from '../constants/headers';
@@ -18,7 +17,7 @@ export class LoginService {
 
   constructor( private http: HttpClient,
               private redirectService: RedirectService) {
-    this.token = localStorage.getItem('token');
+    this.token = localStorage.getItem('admin_token');
   }
 
   isLoggedIn(): boolean {
@@ -34,13 +33,16 @@ export class LoginService {
 
     return this.http.post<AuthenticateResponseDTO>(this.baseUrl, authenticateRequest, {headers}).pipe(
       tap(response => {
-        this.setToken(response.token);
+        if(response.role === Role.Admin)
+          this.setToken(response.token);
+        else 
+          throw new HttpErrorResponse({status: 401})
       })
     );
   }
 
   logout(): void {
-    localStorage.removeItem('token');
+    localStorage.removeItem('admin_token');
     this.token = null;
     this.redirectService.redirectToLogin();
   }
@@ -51,6 +53,6 @@ export class LoginService {
 
   private setToken(token: string): void {
     this.token = token;
-    localStorage.setItem('token', token);
+    localStorage.setItem('admin_token', token);
   }
 }

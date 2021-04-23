@@ -2,6 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {FormsModule} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 import {of, throwError} from 'rxjs';
+import { Role } from 'src/app/dto/authenticate-response-dto';
 import {LoginService} from 'src/app/services/login.service';
 import {RedirectService} from 'src/app/services/redirect.service';
 
@@ -30,7 +31,7 @@ describe('LoginViewComponent', () => {
       if (credentials.login === 'wrong') {
         return throwError({});
       } else {
-        return of({token: 'token'});
+        return of({token: 'token', role: Role.Admin});
       }
     });
   });
