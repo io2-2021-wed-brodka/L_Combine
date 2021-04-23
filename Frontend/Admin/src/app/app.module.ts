@@ -9,12 +9,16 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
+import { MainComponent } from './components/main/main.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginViewComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    MainComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

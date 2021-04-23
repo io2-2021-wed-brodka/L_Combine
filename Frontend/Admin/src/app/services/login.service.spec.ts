@@ -115,4 +115,18 @@ describe('LoginService', () => {
         request.flush({token: 'token', role: Role.Admin});
         expect(storage['admin_token']).toEqual('token');
     });
+
+    it('#login should throw error if user is not admin', ()=>{
+        const service = TestBed.inject(LoginService);
+        const loginData = {
+            login: 'login',
+            password: 'password'
+        }
+        service.login(loginData).subscribe(
+            ()=>fail(new Error('expected to throw error')),
+            err=>expect(err).toBeTruthy()
+        );
+        const request = httpTestingControler.expectOne(`${environment.apiUrl}/login`);
+        request.flush({token: 'token', role: Role.User});
+    });
 });
