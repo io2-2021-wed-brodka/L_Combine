@@ -1,0 +1,20 @@
+<div class="list">
+  <h3 class="list-header">Reserved bikes</h3>
+  <div class="list-items">
+    <div *ngFor="let bike of reservedBikes"
+         class="list-item list-item-active"
+         (click)="selectBike(bike)">
+      <div class="list-item-side-left">
+        {{bike.id}}
+      </div>
+      <div class="list-item-side-right">
+        <div>{{bike.reservedTill?.toLocaleDateString()}}</div>
+        <div>{{bike.reservedTill?.toLocaleTimeString()}}</div>
+      </div>
+      <app-reserved-bike-details class="reserved-bike-details"
+                                 [bike]="bike"
+                                 *ngIf="bike === selectedBike"
+      ></app-reserved-bike-details>
+    </div>
+  </div>
+</div>
