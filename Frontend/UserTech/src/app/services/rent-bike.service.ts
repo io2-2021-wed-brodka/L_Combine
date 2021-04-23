@@ -1,15 +1,16 @@
 import {Injectable} from '@angular/core';
 import {Bike} from '../models/bike';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {environment as env} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import { BikeDTO } from '../dto/bike-dto';
+import {BikeDTO} from '../dto/bike-dto';
+
 @Injectable({
   providedIn: 'root'
 })
 export class RentBikeService {
   private bikeUrl = `${env.apiUrl}/bikes`;
-  private stationBikeUrl = `${env.apiUrl}/stations/bikes`;
+  private stationUrl = `${env.apiUrl}/stations`;
 
   constructor(private http: HttpClient) { }
 
@@ -24,6 +25,6 @@ export class RentBikeService {
     const returnRequest = {
       id: bikeId
     };
-    return this.http.post<BikeDTO>(`${this.stationBikeUrl}/${stationId}`, returnRequest);
+    return this.http.post<BikeDTO>(`${this.stationUrl}/${stationId}/bikes`, returnRequest);
   }
 }

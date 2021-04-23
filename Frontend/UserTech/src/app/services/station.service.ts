@@ -25,7 +25,7 @@ export class StationService {
   }
 
   getStationBikes(stationId: string): Observable<BikesDTO> {
-    const url = `${this.baseUrl}/bikes/${stationId}`;
+    const url = `${this.baseUrl}/${stationId}/bikes`;
     return this.http.get<BikesDTO>(url);
   }
 }

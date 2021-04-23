@@ -55,7 +55,6 @@ describe('RegisterComponent', () => {
 
     registerService.register.and.returnValue(of({token: 'a'}));
     notificationService.success.and.returnValue();
-    redirectService.redirectToLogin.and.returnValue();
   });
 
   it('should create', () => {
