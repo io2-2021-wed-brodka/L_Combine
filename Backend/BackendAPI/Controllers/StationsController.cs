@@ -5,6 +5,7 @@ using BackendAPI.Helpers;
 using BackendAPI.Helpers.DTOFactories;
 using BackendAPI.Models;
 using BackendAPI.Repository.Interfaces;
+using ClassLibrary;
 using ClassLibrary.DTO;
 using ClassLibrary.Exceptions;
 using Microsoft.AspNetCore.Authorization;
@@ -17,52 +18,67 @@ namespace BackendAPI.Controllers
     [ApiController]
     public class StationsController : ControllerBase
     {
-        private IStationRepository stationRepository;
-        private IBikeRepository bikeRepository;
-        private IRentalRepository rentalRepository;
-        private IReservationRepository reservationRepository;
+        readonly IStationRepository stationRepository;
+        readonly IBikeRepository bikeRepository;
+        readonly IRentalRepository rentalRepository;
+        readonly IReservationRepository reservationRepository;
+        readonly IBikeDTOFactory bikeDTOFactory;
+        readonly IStationDTOFactory stationDTOFactory;
+
+        private string RequestingUserRole => 
+            User.FindFirstValue(ClaimTypes.Role);
 
         public StationsController(
             IStationRepository stationRepository,
             IBikeRepository bikeRepository,
             IRentalRepository rentalRepository,
-            IReservationRepository reservationRepository)
+            IReservationRepository reservationRepository,
+            IBikeDTOFactory bikeDTOFactory,
+            IStationDTOFactory stationDTOFactory)
         {
             this.stationRepository = stationRepository;
             this.bikeRepository = bikeRepository;
             this.rentalRepository = rentalRepository;
             this.reservationRepository = reservationRepository;
+            this.bikeDTOFactory = bikeDTOFactory;
+            this.stationDTOFactory = stationDTOFactory;
         }
 
-        // GET: api/Stations
+        //GET: api/stations
         [HttpGet]
+        [Authorize(Roles = Role.Admin)]
         public IActionResult Get()
+        {
+            var stations = stationRepository.Get()
+                .Select(bs => stationDTOFactory.Create(bs));
+            return Ok(new { Stations = stations });
+        }
+
+        // GET: api/stations/active
+        [Route("active")]
+        [HttpGet]
+        public IActionResult GetActiveStations()
         {
             var stations = stationRepository
                 .Get(bs => bs.State == ClassLibrary.BikeStationState.Working)
-                .Select(s => new StationDTO()
-                { Id = s.ID.ToString(), Name = s.LocationName });
+                .Select(s => stationDTOFactory.Create(s));
             
             return Ok(new { Stations = stations });
         }
 
         // GET: api/Stations/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
+        [Authorize(Roles = Role.Admin + "," + Role.Tech)]
         public ActionResult<StationDTO> Get(string id)
         {
             BikeStation station;
 
-            if (!int.TryParse(id, out int stationId) || 
+            if (!int.TryParse(id, out int stationId) ||
                 (station = stationRepository.GetByID(stationId)) == null)
                 throw new HttpResponseException("Station not found", 404);
 
-            return Ok(new StationDTO()
-            {
-                Id = station.ID.ToString(),
-                Name = station.LocationName
-            }) ;
+            return Ok(stationDTOFactory.Create(station));
         }
-
 
         [HttpGet("{id}/bikes")]
         public IActionResult GetBikes(string id)
@@ -72,14 +88,13 @@ namespace BackendAPI.Controllers
             if (!int.TryParse(id, out int stationId) || 
                 (station = stationRepository.GetByID(stationId)) == null)
                 throw new HttpResponseException("Station not found", 404);
-          
-            //Poniżej dla każdego bika i odpowiadającego mu elementu bool, czy
-            //jest zarezerwowany tworzę BikeDTO
-            var bikes = Enumerable.Zip(station.Bikes,
-                reservationRepository.MapBikesToReservedList(station.Bikes),
-                (b, reserved) => BikeDTOFactory.Create(b, bikeRepository.GetUser(b), reserved));
-            //Według dokumentacji zwracamy zawsze response 200,
-            //czyli zakładamy że id stacji jest poprawne
+
+            if (station.State == BikeStationState.Blocked
+                && RequestingUserRole == Role.User)
+                throw new HttpResponseException("Only tech and admin can list bikes at blocked station", 403);
+
+            var bikes = station.Bikes.Select(b => bikeDTOFactory.Create(b, bikeRepository.GetUser(b)));
+
             return Ok(new { Bikes = bikes } );
         }
 
@@ -115,7 +130,7 @@ namespace BackendAPI.Controllers
             bikeRepository.SaveChanges();
             //Poniżej false bo bike nie jest zarezerowwany
             return new CreatedResult(bike.ID.ToString(),
-                BikeDTOFactory.Create(bike,
+                bikeDTOFactory.Create(bike,
                 bikeRepository.GetUser(bike), false));
         }
     }

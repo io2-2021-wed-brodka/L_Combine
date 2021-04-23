@@ -76,13 +76,21 @@ namespace BackendAPI.Repository.Repositories
             return GetAllActiveReservations().Where(r => r.UserID == userId).ToList();
         }
 
+        public bool CheckIfBikeReserved(int bikeId)
+        {
+            return (from r in dbContext.Reservations
+                    where r.BikeID == bikeId
+                    && r.ExpireDate >= DateTime.Now
+                    select r).Any();
+        }
+
         //Mapuje listę rowerów na listę booli oznaczających czy dany rower
         //jest zarezerwowany
-        public IList<bool> MapBikesToReservedList(IList<Bike> bikes)
-        {
-            var activeReservations = GetAllActiveReservations().Select(r => r.BikeID)
-                .ToList();
-            return bikes.Select(b => activeReservations.Contains(b.ID)).ToList();
-        }
+        //public IList<bool> MapBikesToReservedList(IList<Bike> bikes)
+        //{
+        //    var activeReservations = GetAllActiveReservations().Select(r => r.BikeID)
+        //        .ToList();
+        //    return bikes.Select(b => activeReservations.Contains(b.ID)).ToList();
+        //}
     }
 }

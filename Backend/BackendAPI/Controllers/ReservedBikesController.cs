@@ -19,20 +19,23 @@ namespace BackendAPI.Controllers
     [ApiController]
     public class ReservedBikesController : ControllerBase
     {
-        private IReservationRepository reservationRepository;
-        private IUserRepository userRepository;
-        private IBikeRepository bikeRepository;
+        readonly IReservationRepository reservationRepository;
+        readonly IUserRepository userRepository;
+        readonly IBikeRepository bikeRepository;
+        readonly IReservationDTOFactory reservationDTOFactory;
 
         private int RequestingUserID => int.Parse(
             User.FindFirstValue(ClaimTypes.NameIdentifier));
 
         public ReservedBikesController(IUserRepository userRepo, 
             IReservationRepository reservationRepo, 
-            IBikeRepository bikeRepo)
+            IBikeRepository bikeRepo,
+            IReservationDTOFactory reservationDTOFactory)
         {
             this.reservationRepository = reservationRepo;
             this.userRepository = userRepo;
             this.bikeRepository = bikeRepo;
+            this.reservationDTOFactory = reservationDTOFactory;
         }
 
         [HttpGet]
@@ -40,7 +43,7 @@ namespace BackendAPI.Controllers
         {
             var reservedBikes = reservationRepository
                 .GetActiveReservationsByUser(RequestingUserID)
-                .Select(r => ReservationDTOFactory.Create(r));
+                .Select(r => reservationDTOFactory.Create(r));
             return Ok(new { Bikes = reservedBikes });
         }
 
@@ -70,10 +73,13 @@ namespace BackendAPI.Controllers
 
             User user = userRepository.GetByID(RequestingUserID);
             Reservation reservation = new Reservation(user, reservedBike);
+
             reservationRepository.Insert(reservation);
+            //BARDZO WAŻNE! Po Insert reservation.BikeStation nie jest już null!
             reservationRepository.SaveChanges();
 
-            ReservationDTO result = ReservationDTOFactory.Create(reservation);
+            //Mogę to wywołać, po reservation.BikeStation != null!!!!!
+            ReservationDTO result = reservationDTOFactory.Create(reservation);
 
             return new CreatedResult(reservation.ID.ToString(), result);
         }

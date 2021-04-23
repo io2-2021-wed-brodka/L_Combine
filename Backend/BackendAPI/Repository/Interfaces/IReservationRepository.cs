@@ -12,6 +12,7 @@ namespace BackendAPI.Repository.Interfaces
         IList<Reservation> GetActiveReservations();
         Reservation GetActiveReservationByBike(int bikeId);
         IList<Reservation> GetActiveReservationsByUser(int UserId);
-        IList<bool> MapBikesToReservedList(IList<Bike> bikes);
+        //IList<bool> MapBikesToReservedList(IList<Bike> bikes);
+        bool CheckIfBikeReserved(int bikeId);
     }
 }

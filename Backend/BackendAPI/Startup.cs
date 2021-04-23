@@ -12,6 +12,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Http;
+using BackendAPI.Helpers.DTOFactories;
 
 namespace BackendAPI
 {
@@ -34,6 +35,10 @@ namespace BackendAPI
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRentalRepository, RentalRepository>();
             services.AddScoped<IReservationRepository, ReservationRepository>();
+
+            services.AddScoped<IStationDTOFactory, StationDTOFactory>();
+            services.AddScoped<IReservationDTOFactory, ReservationDTOFactory>();
+            services.AddScoped<IBikeDTOFactory, BikeDTOFactory>();
 
             services.AddDbContextPool<DataContext>(options =>
                 options.UseSqlServer(
@@ -92,6 +97,15 @@ namespace BackendAPI
                 {
                     context.HttpContext.Response.ContentType = "application/json";
                     await context.HttpContext.Response.WriteAsync("{\"message\":\"Unauthorized\"}");
+                }
+                //Poniżej odpowiednie przerobienie pustych responsów 403
+                //(pochodzących z atrybutu Authorize), by było zgodnie
+                //ze specyfikacją
+                else if (context.HttpContext.Response.StatusCode == 403
+                && context.HttpContext.Response.ContentType == null)
+                {
+                    context.HttpContext.Response.ContentType = "application/json";
+                    await context.HttpContext.Response.WriteAsync("{\"message\":\"Forbidden\"}");
                 }
             });
 
