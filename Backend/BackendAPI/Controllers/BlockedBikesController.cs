@@ -36,7 +36,7 @@ namespace BackendAPI.Controllers
         public IActionResult Delete(string id)
         {
             bikesService.UnblockBike(id);
-            return new NoContentResult();
+            return NoContent();
         }
     }
 }

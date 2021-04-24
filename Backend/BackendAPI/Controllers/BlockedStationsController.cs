@@ -44,7 +44,7 @@ namespace BackendAPI.Controllers
         public IActionResult UnblockStation(string id)
         {
             stationsService.UnblockStation(id);
-            return new NoContentResult();
+            return NoContent();
         }
     }
 }

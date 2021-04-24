@@ -50,7 +50,7 @@ namespace BackendAPI.Controllers
         public IActionResult DeleteStation(string id)
         {
             stationsService.DeleteStation(id);
-            return new NoContentResult();
+            return NoContent();
         }
 
         // GET: api/stations/active
