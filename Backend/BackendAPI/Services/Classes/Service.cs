@@ -60,11 +60,7 @@ namespace BackendAPI.Services.Classes
                     status = BikeStatusDTO.Reserved;
                 else if (user != null)
                 {
-                    bikeUser = new UserDTO()
-                    {
-                        Id = user.ID.ToString(),
-                        Name = user.Name
-                    };
+                    bikeUser = CreateUserDTO(user);
                     status = BikeStatusDTO.Rented;
                 }
                 else
@@ -83,6 +79,15 @@ namespace BackendAPI.Services.Classes
                 BikeStatus = status,
                 Station = station,
                 User = bikeUser
+            };
+        }
+
+        protected UserDTO CreateUserDTO(User user)
+        {
+            return new UserDTO()
+            {
+                Id = user.ID.ToString(),
+                Name = user.Name
             };
         }
 

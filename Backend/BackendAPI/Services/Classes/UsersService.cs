@@ -1,6 +1,8 @@
 ﻿using BackendAPI.Data;
+using BackendAPI.Models;
 using BackendAPI.Services.Interfaces;
 using ClassLibrary.DTO;
+using ClassLibrary.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,24 +16,50 @@ namespace BackendAPI.Services.Classes
         {
         }
 
-        public UserDTO BlockUser(string userIdString)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<UserDTO> GetAllUsers()
         {
-            throw new NotImplementedException();
+            return dbContext.Users.ToList()
+                .Select(u => CreateUserDTO(u));
         }
 
         public IEnumerable<UserDTO> GetBlockedUsers()
         {
-            throw new NotImplementedException();
+            return dbContext.Users.Where(u => u.Blocked).ToList()
+                .Select(u => CreateUserDTO(u));
+        }
+
+        public UserDTO BlockUser(string userIdString)
+        {
+            int userId = ParseUserId(userIdString);
+
+            User user;
+            if ((user = dbContext.Users
+                .FirstOrDefault(u => u.ID == userId)) == null)
+                throw new HttpResponseException("User not found", 404);
+
+            if (user.Blocked)
+                throw new HttpResponseException("User already blocked", 422);
+
+            user.Blocked = true;
+            dbContext.SaveChanges();
+
+            return CreateUserDTO(user);
         }
 
         public void UnblockUser(string userIdString)
         {
-            throw new NotImplementedException();
+            int userId = ParseUserId(userIdString);
+
+            User user;
+            if ((user = dbContext.Users
+                .FirstOrDefault(u => u.ID == userId)) == null)
+                throw new HttpResponseException("User not found", 404);
+
+            if (!user.Blocked)
+                throw new HttpResponseException("User not blocked", 422);
+
+            user.Blocked = false;
+            dbContext.SaveChanges();
         }
     }
 }
