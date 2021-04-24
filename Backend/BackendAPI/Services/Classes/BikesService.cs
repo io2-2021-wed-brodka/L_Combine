@@ -19,6 +19,17 @@ namespace BackendAPI.Services.Classes
         {
         }
 
+        public IEnumerable<BikeDTO> GetBikes()
+        {
+            return dbContext.Bikes
+                .Include(b => b.BikeStation)
+                .ToList()
+                .Select(b => CreateBikeDTO(b, 
+                (from r in dbContext.Rentals.Include(r => r.User)
+                 where r.EndDate == null && r.BikeID == b.ID
+                 select r.User).FirstOrDefault()));
+        }
+
         public IEnumerable<BikeDTO> GetRentedBikes(string userIdString)
         {
             int userId = ParseUserId(userIdString);
@@ -81,6 +92,37 @@ namespace BackendAPI.Services.Classes
             User user = dbContext.Users.FirstOrDefault(u => u.ID == userId);
 
             return CreateBikeDTO(bike, user);
+        }
+
+        public BikeDTO AddBike(string stationIdString)
+        {
+            int stationId = ParseStationId(stationIdString);
+            if (dbContext.BikeStations
+                .FirstOrDefault(bs => bs.ID == stationId) == null)
+                throw new HttpResponseException("Station not found", 404);
+            var bike = new Bike()
+            {
+                BikeStationID = stationId,
+                State = ClassLibrary.BikeState.Working,
+            };
+            dbContext.Bikes.Add(bike);
+            //W momencie SaceChanges bike ma przypisaną BikeStation
+            dbContext.SaveChanges();
+            return CreateBikeDTO(bike, null, false);
+        }
+
+        public void DeleteBike(string bikeIdString)
+        {
+            int bikeId = ParseBikeId(bikeIdString);
+
+            Bike bike;
+            if ((bike = dbContext.Bikes
+                .FirstOrDefault(b => b.ID == bikeId)) == null)
+                throw new HttpResponseException("Bike not found", 404);
+            if (bike.State != ClassLibrary.BikeState.Blocked)
+                throw new HttpResponseException("Bike not blocked", 422);
+            dbContext.Remove(bike);
+            dbContext.SaveChanges();
         }
     }
 }
