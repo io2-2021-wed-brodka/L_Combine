@@ -13,5 +13,7 @@ namespace BackendAPI.Services.Interfaces
         BikeDTO RentBike(string userIdString, string bikeIdString);
         BikeDTO AddBike(string stationIdString);
         void DeleteBike(string bikeIdString);
+        BikeDTO BlockBike(string bikeIdString);
+        void UnblockBike(string bikeIdstring);
     }
 }

@@ -58,7 +58,7 @@ namespace BackendAPI.Services.Classes
             if (bike.State != ClassLibrary.BikeState.Working)
                 throw new HttpResponseException("Bike is blocked");
 
-            if (bike.BikeStation == null)
+            if (bike.BikeStationID == null)
                 throw new HttpResponseException("Bike already rented");
 
             var reservation = dbContext.Reservations
@@ -122,6 +122,46 @@ namespace BackendAPI.Services.Classes
             if (bike.State != ClassLibrary.BikeState.Blocked)
                 throw new HttpResponseException("Bike not blocked", 422);
             dbContext.Remove(bike);
+            dbContext.SaveChanges();
+        }
+
+        public BikeDTO BlockBike(string bikeIdString)
+        {
+            int bikeId = ParseBikeId(bikeIdString);
+
+            Bike bike;
+            if ((bike = dbContext.Bikes
+                .Include(b => b.BikeStation).FirstOrDefault(b => b.ID == bikeId)) == null)
+                throw new HttpResponseException("Bike not found", 404);
+
+            if (bike.State == ClassLibrary.BikeState.Blocked)
+                throw new HttpResponseException("Bike already blocked", 422);
+
+            if (bike.BikeStationID == null)
+                throw new HttpResponseException("Bike already rented", 422);
+
+            var reservations = from r in dbContext.Reservations
+                               where r.BikeID == bikeId
+                               select r;
+            dbContext.Reservations.RemoveRange(reservations);
+            bike.State = ClassLibrary.BikeState.Blocked;
+            dbContext.SaveChanges();
+            //Bike ma przypisane BikeStation bo było Include
+            return CreateBikeDTO(bike, null, false);
+        }
+
+        public void UnblockBike(string bikeIdString)
+        {
+            int bikeId = ParseBikeId(bikeIdString);
+
+            Bike bike;
+            if ((bike = dbContext.Bikes.FirstOrDefault(b => b.ID == bikeId)) == null)
+                throw new HttpResponseException("Bike not found", 404);
+
+            if (bike.State != ClassLibrary.BikeState.Blocked)
+                throw new HttpResponseException("Bike not blocked", 422);
+
+            bike.State = ClassLibrary.BikeState.Working;
             dbContext.SaveChanges();
         }
     }
