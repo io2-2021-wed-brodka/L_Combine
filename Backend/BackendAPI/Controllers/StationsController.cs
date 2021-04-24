@@ -31,10 +31,18 @@ namespace BackendAPI.Controllers
         //GET: api/stations
         [HttpGet]
         [Authorize(Roles = Role.Admin)]
-        public IActionResult Get()
+        public IActionResult GetAllStations()
         {
             var result = stationsService.GetAllStations();
             return Ok(new { Stations = result });
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Role.Admin)]
+        public IActionResult AddStation([FromBody] NewStationDTO newStation)
+        {
+            var result = stationsService.AddStation(newStation.Name);
+            return new CreatedResult(result.Id, result);
         }
 
         // GET: api/stations/active
@@ -63,7 +71,7 @@ namespace BackendAPI.Controllers
         }
 
         [HttpPost("{id}/bikes")]
-        public ActionResult<BikeDTO> PostBike(string id, [FromBody] IdDTO bikeId)
+        public ActionResult<BikeDTO> ReturnBike(string id, [FromBody] IdDTO bikeId)
         {
             var result = stationsService.ReturnBike(UserId, bikeId.Id, id);
             //Poniżej false bo bike nie jest zarezerowwany

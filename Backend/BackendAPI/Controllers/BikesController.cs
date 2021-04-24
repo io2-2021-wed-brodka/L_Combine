@@ -48,24 +48,24 @@ namespace BackendAPI.Controllers
             return new CreatedResult("/api/bikes/rented", result);
         }
 
-        [Authorize(Roles = Role.Tech + "," + Role.Admin)]
         [HttpGet]
+        [Authorize(Roles = Role.Tech + "," + Role.Admin)]
         public IActionResult GetBikes()
         {
             var result = bikesService.GetBikes();
             return Ok(new { Bikes = result });
         }
 
-        [Authorize(Roles = Role.Admin)]
         [HttpPost]
+        [Authorize(Roles = Role.Admin)]
         public ActionResult<BikeDTO> AddBike([FromBody] NewBikeDTO arg)
         {
             var result = bikesService.AddBike(arg.StationId);
             return new CreatedResult(result.Id, result);
         }
 
-        [Authorize(Roles = Role.Admin)]
         [HttpDelete("{id}")]
+        [Authorize(Roles = Role.Admin)]
         public IActionResult DeleteBike(string id)
         {
             bikesService.DeleteBike(id);

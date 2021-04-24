@@ -23,7 +23,6 @@ namespace BackendAPI.Services.Classes
         {
             return dbContext.BikeStations
                 .Where(bs => bs.State == BikeStationState.Working)
-                .Select(bs => bs)
                 .ToList()
                 //Uwaga!!!!!!
                 //BARDZO WAŻNE JEST BY DO Select korzystającego
@@ -111,6 +110,18 @@ namespace BackendAPI.Services.Classes
             dbContext.SaveChanges();
 
             return CreateBikeDTO(bike, null, false);
+        }
+
+        public StationDTO AddStation(string name)
+        {
+            var newStation = new BikeStation()
+            {
+                LocationName = name,
+                State = BikeStationState.Working
+            };
+            dbContext.BikeStations.Add(newStation);
+            dbContext.SaveChanges();
+            return CreateStationDTO(newStation);
         }
     }
 }
