@@ -123,5 +123,22 @@ namespace BackendAPI.Services.Classes
             dbContext.SaveChanges();
             return CreateStationDTO(newStation);
         }
+
+        public void DeleteStation(string stationIdString)
+        {
+            int stationId = ParseStationId(stationIdString);
+
+            BikeStation station;
+            if ((station = dbContext.BikeStations
+                .Include(bs => bs.Bikes)
+                .FirstOrDefault(bs => bs.ID == stationId)) == null)
+                throw new HttpResponseException("Station not found", 404);
+
+            if (station.Bikes.Any())
+                throw new HttpResponseException("Station has bikes", 422);
+
+            dbContext.BikeStations.Remove(station);
+            dbContext.SaveChanges();
+        }
     }
 }

@@ -14,5 +14,6 @@ namespace BackendAPI.Services.Interfaces
         IEnumerable<BikeDTO> GetBikes(string stationIdString, string role);
         BikeDTO ReturnBike(string userIdString, string bikeIdString, string stationIdString);
         StationDTO AddStation(string name);
+        void DeleteStation(string stationIdString);
     }
 }

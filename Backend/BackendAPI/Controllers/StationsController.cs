@@ -39,10 +39,18 @@ namespace BackendAPI.Controllers
 
         [HttpPost]
         [Authorize(Roles = Role.Admin)]
-        public IActionResult AddStation([FromBody] NewStationDTO newStation)
+        public ActionResult<StationDTO> AddStation([FromBody] NewStationDTO newStation)
         {
             var result = stationsService.AddStation(newStation.Name);
             return new CreatedResult(result.Id, result);
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = Role.Admin)]
+        public IActionResult DeleteStation(string id)
+        {
+            stationsService.DeleteStation(id);
+            return new NoContentResult();
         }
 
         // GET: api/stations/active
