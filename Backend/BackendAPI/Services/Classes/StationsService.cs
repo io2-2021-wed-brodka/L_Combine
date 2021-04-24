@@ -140,5 +140,48 @@ namespace BackendAPI.Services.Classes
             dbContext.BikeStations.Remove(station);
             dbContext.SaveChanges();
         }
+
+        public IEnumerable<StationDTO> GetBlockedStations()
+        {
+            return (from bs in dbContext.BikeStations
+                    where bs.State == BikeStationState.Blocked
+                    select bs).ToList()
+                    .Select(bs => CreateStationDTO(bs));
+        }
+
+        public StationDTO BlockStation(string stationIdString)
+        {
+            int stationId = ParseStationId(stationIdString);
+
+            BikeStation station;
+            if ((station = dbContext.BikeStations
+                .FirstOrDefault(bs => bs.ID == stationId)) == null)
+                throw new HttpResponseException("Station not found", 404);
+
+            if (station.State == BikeStationState.Blocked)
+                throw new HttpResponseException("Station already blocked", 422);
+
+            station.State = BikeStationState.Blocked;
+            dbContext.SaveChanges();
+
+            return CreateStationDTO(station);
+        }
+
+        public void UnblockStation(string stationIdString)
+        {
+            int stationId = ParseStationId(stationIdString);
+
+            BikeStation station;
+            if ((station = dbContext.BikeStations
+                .FirstOrDefault(bs => bs.ID == stationId)) == null)
+                throw new HttpResponseException("Station not found", 404);
+
+            if (station.State != BikeStationState.Blocked)
+                throw new HttpResponseException("Station not blocked", 422);
+
+            station.State = BikeStationState.Working;
+            dbContext.SaveChanges();
+
+        }
     }
 }

@@ -15,5 +15,8 @@ namespace BackendAPI.Services.Interfaces
         BikeDTO ReturnBike(string userIdString, string bikeIdString, string stationIdString);
         StationDTO AddStation(string name);
         void DeleteStation(string stationIdString);
+        IEnumerable<StationDTO> GetBlockedStations();
+        StationDTO BlockStation(string stationIdString);
+        void UnblockStation(string stationIdString);
     }
 }

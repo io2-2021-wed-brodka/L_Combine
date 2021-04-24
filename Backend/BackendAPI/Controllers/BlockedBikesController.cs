@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BackendAPI.Controllers
 {
     [Route("api/bikes/blocked")]
+    [Authorize(Roles = Role.Admin + "," + Role.Tech)]
     [ApiController]
     public class BlockedBikesController : ControllerBase
     {
@@ -23,7 +24,6 @@ namespace BackendAPI.Controllers
         }
 
         // POST: api/bikes/blocked
-        [Authorize(Roles = Role.Admin + "," + Role.Tech)]
         [HttpPost]
         public ActionResult<BikeDTO> Post([FromBody] IdDTO bikeId)
         {
@@ -32,7 +32,6 @@ namespace BackendAPI.Controllers
         }
 
         // DELETE: api/bikes/blocked/5
-        [Authorize(Roles = Role.Admin + "," + Role.Tech)]
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
