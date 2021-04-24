@@ -28,7 +28,7 @@ const routes: Routes = [
         component: HomeComponent,
       },
       {
-        path: 'station/:id',
+        path: 'station/:id/:name',
         component: ListStationBikesComponent,
       },
       {

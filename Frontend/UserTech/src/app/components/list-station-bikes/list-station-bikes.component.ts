@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {StationService} from '../../services/station.service';
 import {ActivatedRoute} from '@angular/router';
 import {BikeStation} from '../../models/bikeStation';
@@ -12,7 +12,7 @@ import {RedirectService} from '../../services/redirect.service';
   styleUrls: ['./list-station-bikes.component.scss']
 })
 export class ListStationBikesComponent implements OnInit {
-  station: BikeStation | undefined;
+  stationName!: string;
   bikes: Bike[] = [];
   selectedBike: Bike | undefined;
 
@@ -28,7 +28,7 @@ export class ListStationBikesComponent implements OnInit {
 
   getStation(): void {
     const stationId = this.route.snapshot.paramMap.get('id') || '';
-    this.stationService.getStation(stationId).subscribe(station => this.station = stationFromDTO(station));
+    this.stationName = this.route.snapshot.paramMap.get('name') || '';
     this.stationService.getStationBikes(stationId).subscribe(bikes =>
       this.bikes = bikes.bikes.map<Bike>(bikeFromDTO)
     );
