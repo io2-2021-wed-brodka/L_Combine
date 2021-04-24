@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BackendAPI.Services.Interfaces;
+using ClassLibrary;
 using ClassLibrary.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +23,7 @@ namespace BackendAPI.Controllers
         }
 
         // POST: api/bikes/blocked
+        [Authorize(Roles = Role.Admin + "," + Role.Tech)]
         [HttpPost]
         public ActionResult<BikeDTO> Post([FromBody] IdDTO bikeId)
         {
@@ -29,6 +32,7 @@ namespace BackendAPI.Controllers
         }
 
         // DELETE: api/bikes/blocked/5
+        [Authorize(Roles = Role.Admin + "," + Role.Tech)]
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
