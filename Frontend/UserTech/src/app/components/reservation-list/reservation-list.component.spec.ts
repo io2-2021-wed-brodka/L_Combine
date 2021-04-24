@@ -25,8 +25,8 @@ describe('ReservationListComponent', () => {
     bikes: [
       {
         id: '1',
-        reservedAt: new Date().toLocaleString(),
-        reservedTill: new Date(Date.now() + 10000000000).toLocaleString()
+        reservedAt: new Date().toString(),
+        reservedTill: new Date(Date.now() + 10000000000).toString()
       }
     ]
   };
@@ -72,6 +72,7 @@ describe('ReservationListComponent', () => {
     fixture.detectChanges();
 
     expect(reservationService.getReservedBikes).toHaveBeenCalledTimes(1);
+    console.log(reservedBikesDTO.bikes.map(reservedBikeFromDTO))
     expect(component.reservedBikes).toEqual(reservedBikesDTO.bikes.map(reservedBikeFromDTO));
   });
 
