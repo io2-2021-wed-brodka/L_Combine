@@ -28,6 +28,8 @@ namespace BackendAPI.Services.Classes
                 .Select(u => CreateUserDTO(u));
         }
 
+
+        //[TEST]
         public UserDTO BlockUser(string userIdString)
         {
             int userId = ParseUserId(userIdString);
@@ -46,6 +48,8 @@ namespace BackendAPI.Services.Classes
             return CreateUserDTO(user);
         }
 
+
+        //[TEST]
         public void UnblockUser(string userIdString)
         {
             int userId = ParseUserId(userIdString);

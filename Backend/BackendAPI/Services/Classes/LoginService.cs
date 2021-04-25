@@ -27,6 +27,7 @@ namespace BackendAPI.Services.Classes
             this.jwtSettings = jwtSettings.Value;
         }
 
+        //[TEST]
         public AuthenticateResponseDTO Login(string login, string password)
         {
             User user;
@@ -45,6 +46,7 @@ namespace BackendAPI.Services.Classes
             return new AuthenticateResponseDTO() { Token = token, Role = user.Role.ToLower() };
         }
 
+        //[TEST]
         public AuthenticateResponseDTO Register(string login, string password)
         {
             //Sprawdz, czy podany login istnieje juz w bazie

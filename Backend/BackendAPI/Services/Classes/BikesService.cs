@@ -43,6 +43,7 @@ namespace BackendAPI.Services.Classes
                 .Select(r => CreateBikeDTO(r.Bike, r.User, false));
         }
 
+        //[TEST]
         public BikeDTO RentBike(string userIdString, string bikeIdString)
         {
             int userId = ParseUserId(userIdString);
@@ -70,7 +71,6 @@ namespace BackendAPI.Services.Classes
             if (bike.BikeStation?.State != ClassLibrary.BikeStationState.Working)
                 throw new HttpResponseException("Bike station is blocked", 422);
 
-            //Tutaj wg mnie należy dodać rodzaj odpowiedzi do specki. Na razie 406 wydaje się spełniać wymogi.
             if (dbContext.Rentals
                 .Where(r => r.UserID == userId && r.EndDate == null)
                 .Count() >= PerUserBikesLimit)
@@ -94,6 +94,7 @@ namespace BackendAPI.Services.Classes
             return CreateBikeDTO(bike, user);
         }
 
+        //[TEST]
         public BikeDTO AddBike(string stationIdString)
         {
             int stationId = ParseStationId(stationIdString);
@@ -106,11 +107,12 @@ namespace BackendAPI.Services.Classes
                 State = ClassLibrary.BikeState.Working,
             };
             dbContext.Bikes.Add(bike);
-            //W momencie SaceChanges bike ma przypisaną BikeStation
+            //W momencie SaveChanges bike ma przypisaną BikeStation
             dbContext.SaveChanges();
             return CreateBikeDTO(bike, null, false);
         }
 
+        //[TEST]
         public void DeleteBike(string bikeIdString)
         {
             int bikeId = ParseBikeId(bikeIdString);
@@ -125,6 +127,7 @@ namespace BackendAPI.Services.Classes
             dbContext.SaveChanges();
         }
 
+        //[TEST]
         public BikeDTO BlockBike(string bikeIdString)
         {
             int bikeId = ParseBikeId(bikeIdString);
@@ -150,6 +153,7 @@ namespace BackendAPI.Services.Classes
             return CreateBikeDTO(bike, null, false);
         }
 
+        //[TEST]
         public void UnblockBike(string bikeIdString)
         {
             int bikeId = ParseBikeId(bikeIdString);
