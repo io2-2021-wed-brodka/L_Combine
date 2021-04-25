@@ -1,14 +1,19 @@
+@import '../../styles/colors.scss';
+ 
 .header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  position: relative;
+  align-items:flex-start;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
   margin-bottom: 100px;
-
+  flex-direction: column;
+  background-color: $header-color;
   .logo {
     font-size: 40px;
     font-weight: bold;
-    padding-left: 1em;
+    padding: .5em 1em;
   }
 
   .notifications {
@@ -16,5 +21,33 @@
     right: 2em;
     top: 70%;
   }
+  &-row{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .navigation{
+    &-container{
+      height: 50px;
+    }
+    &-link{
+      width: 100%;
+      background-color: $main-box-color;
+      text-align: center;
+      border: 1px solid black;
+      color: $main-font-color;
+      text-decoration: none;
+      font-size: larger;
+      padding: 10px;
+      &:hover{
+        background-color: $main-box-hover-color;
+      }
+    }
+  }
+}
+
+main{
+  padding-top: 150px;
 }
 
