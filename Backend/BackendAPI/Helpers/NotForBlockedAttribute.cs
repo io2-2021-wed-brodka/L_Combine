@@ -1,5 +1,4 @@
 ﻿using BackendAPI.Models;
-using BackendAPI.Repository.Interfaces;
 using ClassLibrary.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

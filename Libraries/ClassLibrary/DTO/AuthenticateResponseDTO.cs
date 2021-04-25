@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace BackendAPI.Models
+namespace ClassLibrary.DTO
 {
-    public class AuthenticateResponse
+    public class AuthenticateResponseDTO
     {
         public string Token { get; set; }
         public string Role { get; set; }

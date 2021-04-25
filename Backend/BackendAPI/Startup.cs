@@ -5,14 +5,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using BackendAPI.Data;
-using BackendAPI.Repository.Interfaces;
-using BackendAPI.Repository.Repositories;
 using BackendAPI.Helpers;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Http;
-using BackendAPI.Helpers.DTOFactories;
+using BackendAPI.Services.Interfaces;
+using BackendAPI.Services.Classes;
 
 namespace BackendAPI
 {
@@ -30,15 +29,11 @@ namespace BackendAPI
         {
             services.AddCors();
 
-            services.AddScoped<IBikeRepository, BikeRepository>();
-            services.AddScoped<IStationRepository, StationRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IRentalRepository, RentalRepository>();
-            services.AddScoped<IReservationRepository, ReservationRepository>();
-
-            services.AddScoped<IStationDTOFactory, StationDTOFactory>();
-            services.AddScoped<IReservationDTOFactory, ReservationDTOFactory>();
-            services.AddScoped<IBikeDTOFactory, BikeDTOFactory>();
+            services.AddScoped<IBikesService, BikesService>();
+            services.AddScoped<IStationsService, StationsService>();
+            services.AddScoped<IReservationsService, ReservationsService>();
+            services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IUsersService, UsersService>();
 
             services.AddDbContextPool<DataContext>(options =>
                 options.UseSqlServer(
