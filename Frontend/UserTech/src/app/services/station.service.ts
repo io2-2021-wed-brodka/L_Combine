@@ -15,13 +15,8 @@ export class StationService {
   constructor(private http: HttpClient) {
   }
 
-  getStation(stationId: string): Observable<StationDTO> {
-    const url = `${this.baseUrl}/${stationId}`;
-    return this.http.get<StationDTO>(url);
-  }
-
   getStations(): Observable<StationsDTO> {
-    return this.http.get<StationsDTO>(this.baseUrl);
+    return this.http.get<StationsDTO>(`${this.baseUrl}/active`);
   }
 
   getStationBikes(stationId: string): Observable<BikesDTO> {

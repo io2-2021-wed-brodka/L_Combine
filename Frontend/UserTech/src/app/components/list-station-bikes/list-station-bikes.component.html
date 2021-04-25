@@ -1,6 +1,6 @@
 <div class="wrapper">
   <div class="list">
-    <h3 class="list-header">{{station?.locationName}}</h3>
+    <h3 class="list-header">{{stationName}}</h3>
     <div class="list-items">
       <div *ngFor="let bike of bikes"
            [class.list-item-active]="bike.state === 'available'"

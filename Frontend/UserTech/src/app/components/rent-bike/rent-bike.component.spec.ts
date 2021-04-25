@@ -8,6 +8,7 @@ import {RentBikeService} from 'src/app/services/rent-bike.service';
 
 import {RentBikeComponent} from './rent-bike.component';
 import {ReservationService} from '../../services/reservation.service';
+import {StationState} from '../../models/bikeStation';
 
 describe('RentBikeComponent', () => {
   let component: RentBikeComponent;
@@ -38,7 +39,12 @@ describe('RentBikeComponent', () => {
     reservation = TestBed.inject(ReservationService) as jasmine.SpyObj<ReservationService>;
 
     rentBike.rentBike.and.returnValue(of({id: 'id', bikeStatus: BikeState.Available}));
-    reservation.reserveBike.and.returnValue(of({id: 'id'}));
+    reservation.reserveBike.and.returnValue(of({
+      id: '1',
+      station: {id: '1', status: StationState.Active, name: 'a', activeBikeCount: 1},
+      reservedAt: new Date().toString(),
+      reservedTill: new Date().toString()
+    }));
   });
 
   beforeEach(() => {

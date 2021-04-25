@@ -11,6 +11,9 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
 import { MainComponent } from './components/main/main.component';
 import { HomeComponent } from './components/home/home.component';
+import { BikeViewComponent } from './components/bike-view/bike-view.component';
+import { StationViewComponent } from './components/station-view/station-view.component';
+import { UserViewComponent } from './components/user-view/user-view.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,10 @@ import { HomeComponent } from './components/home/home.component';
     LoginViewComponent,
     NotificationsComponent,
     MainComponent,
-    HomeComponent
+    HomeComponent,
+    BikeViewComponent,
+    StationViewComponent,
+    UserViewComponent
   ],
   imports: [
     BrowserModule,

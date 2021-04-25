@@ -9,6 +9,7 @@ import {reservedBikeFromDTO} from '../../utils/dto-utils';
 import {ReservedBike} from '../../models/reserved-bike';
 import {BikeState} from '../../models/bike';
 import {By} from '@angular/platform-browser';
+import {StationState} from '../../models/bikeStation';
 
 @Component({selector: 'app-reserved-bike-details', template: '<div></div>'})
 class ReservedBikeDetailsStubComponent {
@@ -25,8 +26,9 @@ describe('ReservationListComponent', () => {
     bikes: [
       {
         id: '1',
-        reservedAt: new Date().toLocaleString(),
-        reservedTill: new Date(Date.now() + 10000000000).toLocaleString()
+        station: {id: '1', status: StationState.Active, name: 'a', activeBikeCount: 1},
+        reservedAt: new Date().toString(),
+        reservedTill: new Date(Date.now() + 10000000000).toString()
       }
     ]
   };
@@ -72,6 +74,7 @@ describe('ReservationListComponent', () => {
     fixture.detectChanges();
 
     expect(reservationService.getReservedBikes).toHaveBeenCalledTimes(1);
+    console.log(reservedBikesDTO.bikes.map(reservedBikeFromDTO));
     expect(component.reservedBikes).toEqual(reservedBikesDTO.bikes.map(reservedBikeFromDTO));
   });
 

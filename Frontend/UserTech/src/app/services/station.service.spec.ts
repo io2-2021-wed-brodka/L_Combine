@@ -22,17 +22,6 @@ describe('StationService', () => {
     expect(service).toBeTruthy();
   });
 
-
-  it('#getStation should return station with given id', () => {
-    const stationId = 'id';
-    service.getStation(stationId).subscribe(result => {
-      expect(result.id).toEqual(stationId);
-    });
-
-    const request = httpTestingControler.expectOne(`${environment.apiUrl}/stations/${stationId}`);
-    request.flush({id: stationId, name: 'name'});
-    httpTestingControler.verify();
-  });
   it('#getStations should return station list from server', () => {
     const stations = {
       stations: mockStationService.stations
@@ -41,7 +30,7 @@ describe('StationService', () => {
       expect(result.stations).toEqual(stations.stations);
     });
 
-    const request = httpTestingControler.expectOne(`${environment.apiUrl}/stations`);
+    const request = httpTestingControler.expectOne(`${environment.apiUrl}/stations/active`);
     request.flush(stations);
     httpTestingControler.verify();
   });

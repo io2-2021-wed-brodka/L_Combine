@@ -21,7 +21,7 @@ describe('ListStationBikesComponent', () => {
   let fixture: ComponentFixture<ListStationBikesComponent>;
   let redirect: jasmine.SpyObj<RedirectService>;
   beforeEach(async () => {
-    const activatedRouteStub: ActivatedRouteStub = new ActivatedRouteStub({['id']: 'id1'});
+    const activatedRouteStub: ActivatedRouteStub = new ActivatedRouteStub({['id']: 'id1', ['name']: 'name1'});
     const redirectServiceSpy = jasmine.createSpyObj('RedirectService', ['goBack'])
     await TestBed.configureTestingModule({
       declarations: [ ListStationBikesComponent, RentBikeStubComponent ],
@@ -51,8 +51,8 @@ describe('ListStationBikesComponent', () => {
     expect(list.query(By.css('.rent-bike'))).toBeFalsy();
   });
   
-  it('#station should be defined on init', ()=>{
-    expect(component.station).toBeTruthy()
+  it('#stationName should be defined on init', ()=>{
+    expect(component.stationName).toBeTruthy()
   });
 
   it('#bikes should be defined on init', ()=>{
