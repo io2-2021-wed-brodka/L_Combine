@@ -162,8 +162,7 @@ namespace BackendAPI.Services.Classes
                 throw new HttpResponseException("Station already blocked", 422);
 
             var stationReservations = dbContext.Reservations
-                .Where(r => r.BikeStationID == stationId &&
-                r.ExpireDate > DateTime.Now).ToList();
+                .Where(r => r.BikeStationID == stationId).ToList();
 
             station.State = BikeStationState.Blocked;
             //Usuwamy wszystkie rezerwacje aktywne na stacji

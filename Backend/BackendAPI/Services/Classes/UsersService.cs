@@ -40,7 +40,12 @@ namespace BackendAPI.Services.Classes
             if (user.Blocked)
                 throw new HttpResponseException("User already blocked", 422);
 
+            var userReservations = dbContext.Reservations
+                .Where(r => r.UserID == userId).ToList();
+
             user.Blocked = true;
+            //Usunięcie wszystkich rezerwacji usera (w szczególności tych aktywnych)
+            dbContext.Reservations.RemoveRange(userReservations);
             dbContext.SaveChanges();
 
             return CreateUserDTO(user);
