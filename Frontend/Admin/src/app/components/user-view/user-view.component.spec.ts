@@ -1,6 +1,13 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserViewComponent } from './user-view.component';
+
+@Component({selector: 'app-list-users'})
+class UserListComponentStub{}
+
+@Component({selector: 'app-list-blocked-users'})
+class BlockedUserListComponentStub{}
 
 describe('UserViewComponent', () => {
   let component: UserViewComponent;
@@ -8,7 +15,7 @@ describe('UserViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UserViewComponent ]
+      declarations: [ UserViewComponent, UserListComponentStub, BlockedUserListComponentStub ]
     })
     .compileComponents();
   });

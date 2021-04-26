@@ -1,18 +1,20 @@
-<div class="header">
-  <div class="header-row">
-    <div class="logo">Bike Rentup - Admin Panel</div>
-    <button class="logout" (click)="logout()">Wyloguj</button>
+<div class="screen">
+  <div class="header">
+    <div class="header-row">
+      <div class="logo">Bike Rentup - Admin Panel</div>
+      <button class="logout" (click)="logout()">Wyloguj</button>
+    </div>
+    <nav class="navigation-container header-row">
+      <a class="navigation-link"
+        [routerLink]="['./stations']">Stacje</a>
+      <a class="navigation-link"
+      [routerLink]="['./bikes']">Rowery</a>
+      <a class="navigation-link"
+      [routerLink]="['./users']">Użytkownicy</a>
+    </nav>
+    <app-notifications class="notifications"></app-notifications>
   </div>
-  <nav class="navigation-container header-row">
-    <a class="navigation-link"
-      [routerLink]="['./stations']">Stacje</a>
-    <a class="navigation-link"
-    [routerLink]="['./bikes']">Rowery</a>
-    <a class="navigation-link"
-    [routerLink]="['./users']">Użytkownicy</a>
-  </nav>
-  <app-notifications class="notifications"></app-notifications>
+  <main>
+    <router-outlet></router-outlet>
+  </main>
 </div>
-<main>
-  <router-outlet></router-outlet>
-</main>

@@ -14,6 +14,10 @@ import { HomeComponent } from './components/home/home.component';
 import { BikeViewComponent } from './components/bike-view/bike-view.component';
 import { StationViewComponent } from './components/station-view/station-view.component';
 import { UserViewComponent } from './components/user-view/user-view.component';
+import { ListUsersComponent } from './components/list-users/list-users.component';
+import { BlockUserComponent } from './components/block-user/block-user.component';
+import { ListBlockedUsersComponent } from './components/list-blocked-users/list-blocked-users.component';
+import { UnblockUserComponent } from './components/unblock-user/unblock-user.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +28,11 @@ import { UserViewComponent } from './components/user-view/user-view.component';
     HomeComponent,
     BikeViewComponent,
     StationViewComponent,
-    UserViewComponent
+    UserViewComponent,
+    ListUsersComponent,
+    BlockUserComponent,
+    ListBlockedUsersComponent,
+    UnblockUserComponent
   ],
   imports: [
     BrowserModule,
