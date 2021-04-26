@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BackendAPI.ModelsConfigurations
+namespace BackendAPI.ModelsConfigurations.CommonConfiguration
 {
     public class ReservationConfiguration : IEntityTypeConfiguration<Reservation>
     {
-        public void Configure(EntityTypeBuilder<Reservation> builder)
+        public virtual void Configure(EntityTypeBuilder<Reservation> builder)
         {
             builder.ToTable("Reservations");
 

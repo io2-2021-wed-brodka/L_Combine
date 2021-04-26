@@ -12,16 +12,5 @@ namespace ServicesTests.BikesService
         [TestInitialize]
         public void PrepareService() => CreateBikeService();
 
-        [TestMethod]
-        [ExpectedException(typeof(HttpResponseException), "Bike is blocked")]
-        public void BlockedBike_Failure()
-        {
-            string userId = "1";
-            string bikeId = "5";
-
-            service.RentBike(userId, bikeId);
-
-            Assert.Fail();
-        }
     }
 }

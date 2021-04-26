@@ -15,7 +15,7 @@ namespace BackendAPI.Services.Classes
     {
         const int PerUserReservationsLimit = 3;
 
-        public ReservationsService(DataContext dbContext) : base(dbContext)
+        public ReservationsService(CommonDataContext dbContext) : base(dbContext)
         {
         }
 

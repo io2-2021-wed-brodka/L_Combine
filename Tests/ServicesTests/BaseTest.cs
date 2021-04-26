@@ -9,6 +9,12 @@ namespace ServicesTests
 {
     public class BaseTest
     {
-        protected DataContext GetContext() => DataContextFactory.TestData();
+        protected TestDataContext dbContext;
+
+        protected TestDataContext GetContext()
+        {
+            dbContext = TestDataContextFactory.TestData();
+            return dbContext;
+        }
     }
 }

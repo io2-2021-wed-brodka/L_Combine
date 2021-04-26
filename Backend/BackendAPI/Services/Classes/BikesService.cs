@@ -15,7 +15,7 @@ namespace BackendAPI.Services.Classes
     {
         const int PerUserBikesLimit = 4;
 
-        public BikesService(DataContext dbContext) : base(dbContext)
+        public BikesService(CommonDataContext dbContext) : base(dbContext)
         {
         }
 
@@ -84,7 +84,7 @@ namespace BackendAPI.Services.Classes
                 UserID = userId,
             });
             bike.BikeStationID = null;
-            //Jeśli rower był zarezerwowany to usuwsamy rezerwację
+            //Jeśli rower był zarezerwowany to usuwamy rezerwację
             if (reservation != null)
                 dbContext.Reservations.Remove(reservation);
             dbContext.SaveChanges();

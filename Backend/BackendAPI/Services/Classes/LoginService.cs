@@ -21,7 +21,7 @@ namespace BackendAPI.Services.Classes
     {
         private readonly JwtSettings jwtSettings;
 
-        public LoginService(DataContext dbContext,
+        public LoginService(CommonDataContext dbContext,
             IOptions<JwtSettings> jwtSettings) : base(dbContext)
         {
             this.jwtSettings = jwtSettings.Value;

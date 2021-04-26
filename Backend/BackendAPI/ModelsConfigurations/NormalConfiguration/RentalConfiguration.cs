@@ -6,20 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BackendAPI.ModelsConfigurations
+namespace BackendAPI.ModelsConfigurations.NormalConfiguration
 {
-    public class RentalConfiguration : IEntityTypeConfiguration<Rental>
+    public class RentalConfiguration : BackendAPI.ModelsConfigurations.CommonConfiguration.RentalConfiguration
     {
-        public void Configure(EntityTypeBuilder<Rental> builder)
+        public override void Configure(EntityTypeBuilder<Rental> builder)
         {
-            builder.ToTable("Rentals");
-
-            builder.Property(r => r.ID).ValueGeneratedOnAdd();
-
-            builder.HasOne(r => r.Bike).WithMany(b => b.Rentals)
-                .HasForeignKey(r => r.BikeID);
-            builder.HasOne(r => r.User).WithMany(u => u.Rentals)
-                .HasForeignKey(r => r.UserID);
+            base.Configure(builder);
 
             builder.HasData(
                 new Rental { ID=1, UserID=1, BikeID=1, StartDate=new DateTime(2021, 2, 20, 2, 0, 0), EndDate=new DateTime(2021, 2, 20, 2, 10, 15)},
