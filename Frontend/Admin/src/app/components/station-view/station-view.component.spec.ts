@@ -1,6 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { StationViewComponent } from './station-view.component';
+import {StationViewComponent} from './station-view.component';
+import {Component} from '@angular/core';
+
+@Component({selector: 'app-list-stations'})
+class ListStationsComponentStub{}
+
+@Component({selector: 'app-list-station-bikes'})
+class ListStationBikesComponentStub{}
 
 describe('StationViewComponent', () => {
   let component: StationViewComponent;
@@ -8,9 +15,9 @@ describe('StationViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StationViewComponent ]
+      declarations: [StationViewComponent, ListStationBikesComponentStub, ListStationsComponentStub]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

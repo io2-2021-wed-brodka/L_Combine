@@ -1,0 +1,12 @@
+<div class="list" *ngIf="station">
+  <h3 class="list-header">{{station.locationName}}</h3>
+  <div class="list-items">
+    <div *ngFor="let bike of bikes"
+         class="list-item list-item-active">
+      <div class="list-item-side-left">
+        {{bike.id}}
+      </div>
+      <div [textContent]="getBikeStateText(bike.state)" class="list-item-side-right"></div>
+    </div>
+  </div>
+</div>
