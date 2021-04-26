@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { UserStatus } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 
 import { ListUsersComponent } from './list-users.component';
@@ -18,7 +19,7 @@ describe('ListUsersComponent', () => {
     })
     .compileComponents();
     userService = TestBed.inject(UserService) as jasmine.SpyObj<UserService>;
-    userService.getUsers.and.returnValue(of({users: [{id: 'id', name: 'name'}]}));
+    userService.getUsers.and.returnValue(of([{id: 'id', username: 'name', status: UserStatus.Active}]));
   });
 
   beforeEach(() => {

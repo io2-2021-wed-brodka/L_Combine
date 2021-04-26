@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { environment } from 'src/environments/environment';
 import { UserDto } from '../dto/user-dto';
 import { UsersDto } from '../dto/users-dto';
+import { UserStatus } from '../models/user';
 
 import { UserService } from './user.service';
 
@@ -29,10 +30,31 @@ describe('UserServiceService', () => {
       name: 'name'
     }]};
     service.getUsers().subscribe(result=>
-      expect(result).toEqual(data)
+      expect(result.length).toEqual(data.users.length)
     );
-    const response = httpControler.expectOne(`${environment.apiUrl}/users`);
-    response.flush(data);
+    const responseAll = httpControler.expectOne(`${environment.apiUrl}/users`);
+    const responseBlocked = httpControler.expectOne(`${environment.apiUrl}/users/blocked`);
+    responseAll.flush(data);
+    responseBlocked.flush({users: []});
     httpControler.verify();
+  });
+  it('#getUsers should attach to user correct state', ()=>{
+      const data : UsersDto = {
+        users: [{
+        id: 'id1',
+        name: 'blocked'
+      },{
+        id: 'id2',
+        name: 'active'
+      }]};
+      service.getUsers().subscribe(result=>{
+        expect(result[0].status).toEqual(UserStatus.Blocked)
+        expect(result[1].status).toEqual(UserStatus.Active)
+      });
+      const responseAll = httpControler.expectOne(`${environment.apiUrl}/users`);
+      const responseBlocked = httpControler.expectOne(`${environment.apiUrl}/users/blocked`);
+      responseAll.flush(data);
+      responseBlocked.flush({users: [data.users[0]]});
+      httpControler.verify();
   });
 });

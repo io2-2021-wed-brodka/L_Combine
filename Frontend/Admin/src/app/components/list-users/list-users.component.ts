@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import User from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
-import { UserFromDto } from 'src/app/utils/dto-utils';
 
 @Component({
   selector: 'app-list-users',
@@ -18,7 +17,7 @@ export class ListUsersComponent implements OnInit {
   }
   getUsersList(){
     this.userService.getUsers().subscribe(data=>{
-      this.users = data.users.map(UserFromDto);
+      this.users = data;
     })
   }
 }
