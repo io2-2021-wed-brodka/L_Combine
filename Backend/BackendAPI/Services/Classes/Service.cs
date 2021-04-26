@@ -2,6 +2,7 @@
 using BackendAPI.Models;
 using ClassLibrary.DTO;
 using ClassLibrary.Exceptions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -121,6 +122,16 @@ namespace BackendAPI.Services.Classes
                 ReservedAt = reservation.ReservationDate,
                 ReservedTill = reservation.ExpireDate
             };
+        }
+
+        protected BikeDTO CreateBikeDTOWithReservedUser(Bike bike, User user, bool? reserved = null)
+        {
+            var result = CreateBikeDTO(bike, user, reserved);
+            if (result.BikeStatus == BikeStatusDTO.Reserved)
+                result.User = CreateUserDTO((from r in dbContext.Reservations.Include(r => r.User)
+                                             where r.ExpireDate > DateTime.Now
+                                             select r.User).FirstOrDefault());
+            return result;
         }
     }
 }
