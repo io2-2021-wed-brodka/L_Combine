@@ -3,11 +3,11 @@ import User from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-list-users',
-  templateUrl: './list-users.component.html',
-  styleUrls: ['./list-users.component.scss']
+  selector: 'app-list-blocked-users',
+  templateUrl: './list-blocked-users.component.html',
+  styleUrls: ['./list-blocked-users.component.scss']
 })
-export class ListUsersComponent implements OnInit {
+export class ListBlockedUsersComponent implements OnInit {
   users!: User[]
   selectedUser: User | undefined;
   constructor(private userService: UserService) { }
@@ -16,7 +16,7 @@ export class ListUsersComponent implements OnInit {
     this.getUsersList();
   }
   getUsersList(){
-    this.userService.getActiveUsers().subscribe(data=>{
+    this.userService.getBlockedUsers().subscribe(data=>{
       this.users = data;
     });
   }

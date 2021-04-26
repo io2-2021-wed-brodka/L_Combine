@@ -7,7 +7,7 @@ import { UserStatus } from '../models/user';
 
 import { UserService } from './user.service';
 
-describe('UserServiceService', () => {
+describe('UserService', () => {
   let service: UserService;
   let httpControler: HttpTestingController;
 
@@ -23,22 +23,20 @@ describe('UserServiceService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('#getUsers should fetch with correct url', ()=>{
+  it('#getActiveUsers should fetch with correct url', ()=>{
     const data : UsersDto = {
       users: [{
       id: 'id',
       name: 'name'
     }]};
-    service.getUsers().subscribe(result=>
-      expect(result.length).toEqual(data.users.length)
-    );
-    const responseAll = httpControler.expectOne(`${environment.apiUrl}/users`);
-    const responseBlocked = httpControler.expectOne(`${environment.apiUrl}/users/blocked`);
-    responseAll.flush(data);
-    responseBlocked.flush({users: []});
+    service.getActiveUsers().subscribe();
+    const requestAll = httpControler.expectOne(`${environment.apiUrl}/users`);
+    const requestBlocked = httpControler.expectOne(`${environment.apiUrl}/users/blocked`);
+    requestAll.flush(data);
+    requestBlocked.flush({users: []});
     httpControler.verify();
   });
-  it('#getUsers should attach to user correct state', ()=>{
+  it('#getActiveUsers should return only active users', ()=>{
       const data : UsersDto = {
         users: [{
         id: 'id1',
@@ -47,14 +45,51 @@ describe('UserServiceService', () => {
         id: 'id2',
         name: 'active'
       }]};
-      service.getUsers().subscribe(result=>{
-        expect(result[0].status).toEqual(UserStatus.Blocked)
-        expect(result[1].status).toEqual(UserStatus.Active)
+      service.getActiveUsers().subscribe(result=>{
+        expect(result.length).toEqual(1);
+        expect(result[0].status).toEqual(UserStatus.Active)
+        expect(result[0].id).toEqual('id2')
       });
-      const responseAll = httpControler.expectOne(`${environment.apiUrl}/users`);
-      const responseBlocked = httpControler.expectOne(`${environment.apiUrl}/users/blocked`);
-      responseAll.flush(data);
-      responseBlocked.flush({users: [data.users[0]]});
+      const requestAll = httpControler.expectOne(`${environment.apiUrl}/users`);
+      const requestBlocked = httpControler.expectOne(`${environment.apiUrl}/users/blocked`);
+      expect(requestAll.request.method).toEqual('GET');
+      expect(requestBlocked.request.method).toEqual('GET');
+      requestAll.flush(data);
+      requestBlocked.flush({users: [data.users[0]]});
       httpControler.verify();
+  });
+  it('#getBlockedUsers should fetch with correct url', ()=>{
+    service.getBlockedUsers().subscribe();
+    httpControler.expectNone(`${environment.apiUrl}/users`);
+    const requestBlocked = httpControler.expectOne(`${environment.apiUrl}/users/blocked`);
+    expect(requestBlocked.request.method).toEqual('GET');
+    requestBlocked.flush({users: []});
+    httpControler.verify();
+  });
+  it('#getBlockedUsers should return only active users', ()=>{
+      const data : UsersDto = {
+        users: [{
+        id: 'id1',
+        name: 'name'
+      }]};
+      service.getBlockedUsers().subscribe(result=>{
+        expect(result.length).toEqual(data.users.length);
+        expect(result[0].status).toEqual(UserStatus.Blocked)
+        expect(result[0].id).toEqual('id1')
+      });
+      const requestBlocked = httpControler.expectOne(`${environment.apiUrl}/users/blocked`);
+      requestBlocked.flush(data);
+      httpControler.verify();
+  });
+  it('#blockUser should fetch with correct url and body', ()=>{
+    const user = {
+      id: 'id',
+      username: 'name',
+      status: UserStatus.Active
+    }
+    service.blockUser(user).subscribe();
+    const request = httpControler.expectOne(`${environment.apiUrl}/users/blocked`);
+    expect(request.request.method).toEqual('POST');
+    expect(request.request.body?.id).toEqual(user.id)
   });
 });

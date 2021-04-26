@@ -1,3 +1,8 @@
 .list-container{
-    width: 500px
+    width: 500px;
+}
+.view-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }

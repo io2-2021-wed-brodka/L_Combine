@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {environment as env} from '../../environments/environment';
+import { UserDto } from '../dto/user-dto';
 import { UsersDto } from '../dto/users-dto';
 import User, { UserStatus } from '../models/user';
 import { UserFromDto } from '../utils/dto-utils';
@@ -14,7 +15,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getUsers(): Observable<User[]>{
+  getActiveUsers(): Observable<User[]>{
     //TODO: W trzecim sprincie przycisnąć ludzi od specki, żeby dało się to zrobić w bardziej cywilizowany sposób
     let allUsersObs = this.http.get<UsersDto>(this.baseUrl);
     let blockedUsersObs = this.http.get<UsersDto>(`${this.baseUrl}/blocked`);
@@ -25,8 +26,16 @@ export class UserService {
         return allUsers.users.map(user=>{
           const status = blockUsers.users.find(blocked=>user.id===blocked.id)? UserStatus.Blocked : UserStatus.Active;
           return UserFromDto(user, status);
-        });
+        }).filter(user=>user.status===UserStatus.Active);
       })
     )
+  }
+  getBlockedUsers(): Observable<User[]>{
+    return this.http.get<UsersDto>(`${this.baseUrl}/blocked`).pipe(
+      map(result=>result.users.map(dto=> UserFromDto(dto, UserStatus.Blocked)))
+    );
+  }
+  blockUser(user: User): Observable<UserDto>{
+    return this.http.post<UserDto>(`${this.baseUrl}/blocked`, {id: user.id});
   }
 }

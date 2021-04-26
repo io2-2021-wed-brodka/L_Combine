@@ -3,27 +3,27 @@ import { of } from 'rxjs';
 import { UserStatus } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 
-import { ListUsersComponent } from './list-users.component';
+import { ListBlockedUsersComponent } from './list-blocked-users.component';
 
-describe('ListUsersComponent', () => {
-  let component: ListUsersComponent;
-  let fixture: ComponentFixture<ListUsersComponent>;
+describe('ListBlockedUsersComponent', () => {
+  let component: ListBlockedUsersComponent;
+  let fixture: ComponentFixture<ListBlockedUsersComponent>;
   let userService: jasmine.SpyObj<UserService>;
   beforeEach(async () => {
-    const userServiceSpy = jasmine.createSpyObj('UserService', ['getActiveUsers']);
+    const userServiceSpy = jasmine.createSpyObj('UserService', ['getBlockedUsers']);
     await TestBed.configureTestingModule({
-      declarations: [ ListUsersComponent ],
+      declarations: [ ListBlockedUsersComponent ],
       providers: [
         {provide: UserService, useValue: userServiceSpy}
       ]
     })
     .compileComponents();
     userService = TestBed.inject(UserService) as jasmine.SpyObj<UserService>;
-    userService.getActiveUsers.and.returnValue(of([{id: 'id', username: 'name', status: UserStatus.Active}]));
+    userService.getBlockedUsers.and.returnValue(of([{id: 'id', username: 'name', status: UserStatus.Active}]));
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ListUsersComponent);
+    fixture = TestBed.createComponent(ListBlockedUsersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -33,7 +33,7 @@ describe('ListUsersComponent', () => {
   });
 
   it('#users should be defined on init', ()=>{
-    expect(userService.getActiveUsers).toHaveBeenCalledTimes(1);
+    expect(userService.getBlockedUsers).toHaveBeenCalledTimes(1);
     expect(component.users.length).toBeTruthy();
   });
   it('#selectUser should set #selectedUser', ()=>{
@@ -46,5 +46,4 @@ describe('ListUsersComponent', () => {
     component.selectUser(component.users[0]);
     expect(component.selectedUser).toBeUndefined();
   });
-  
 });
