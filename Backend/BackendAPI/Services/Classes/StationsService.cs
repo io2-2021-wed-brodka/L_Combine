@@ -168,7 +168,13 @@ namespace BackendAPI.Services.Classes
             if (station.State == BikeStationState.Blocked)
                 throw new HttpResponseException("Station already blocked", 422);
 
+            var stationReservations = dbContext.Reservations
+                .Where(r => r.BikeStationID == stationId).ToList();
+
             station.State = BikeStationState.Blocked;
+            //Usuwamy wszystkie rezerwacje aktywne na stacji
+            dbContext.Reservations.RemoveRange(stationReservations);
+
             dbContext.SaveChanges();
 
             return CreateStationDTO(station);

@@ -1,0 +1,8 @@
+<div class="messages">
+  <div *ngFor="let message of messages"
+       [ngClass]="{'message-error': message.type == 'Error', 'message-success': message.type == 'Success'}"
+       class="message">
+    <div class="message-text">{{message.message}}</div>
+    <div class="message-close" (click)="remove(message)">x</div>
+  </div>
+</div>

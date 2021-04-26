@@ -1,0 +1,15 @@
+.flex-container{
+  display: flex;
+  max-width: 1000px;
+  margin: auto auto;
+  justify-content: center;
+  gap: 100px;
+}
+
+.flex-item{
+  width: 400px;
+}
+
+.bikes-reserved {
+  margin-top: 2vh;
+}

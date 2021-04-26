@@ -13,6 +13,7 @@ namespace BackendAPI.Services.Classes
 {
     public class ReservationsService : Service, IReservationsService
     {
+        const int PerUserReservationsLimit = 3;
 
         public ReservationsService(DataContext dbContext) : base(dbContext)
         {
@@ -85,6 +86,12 @@ namespace BackendAPI.Services.Classes
             //Dodałem warunek niżej bardzo ważny! Czytajmy speckę uważnie!
             if (reservedBike.BikeStation.State != ClassLibrary.BikeStationState.Working)
                 throw new HttpResponseException("Bike station is blocked", 422);
+
+            var userActiveReservationsCount = dbContext.Reservations
+                                          .Where(r => r.ExpireDate > DateTime.Now && r.UserID == userId).Count();
+
+            if (userActiveReservationsCount >= PerUserReservationsLimit)
+                throw new HttpResponseException($"You have already reserved {PerUserReservationsLimit} bikes", 422);
 
             User user = dbContext.Users.FirstOrDefault(u => u.ID == userId);
             Reservation reservation = new Reservation(user, reservedBike);

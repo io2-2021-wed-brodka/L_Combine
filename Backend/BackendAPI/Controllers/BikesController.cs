@@ -52,7 +52,7 @@ namespace BackendAPI.Controllers
         [Authorize(Roles = Role.Tech + "," + Role.Admin)]
         public IActionResult GetBikes()
         {
-            var result = bikesService.GetBikes();
+            var result = bikesService.GetBikesForAdmin();
             return Ok(new { Bikes = result });
         }
 

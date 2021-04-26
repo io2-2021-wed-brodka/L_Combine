@@ -11,6 +11,7 @@ import {BikeDTO} from '../../dto/bike-dto';
 import {BikeState} from '../../models/bike';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
+import {StationState} from 'src/app/models/bikeStation';
 
 describe('ReservedBikeDetailsComponent', () => {
   let component: ReservedBikeDetailsComponent;
@@ -22,11 +23,14 @@ describe('ReservedBikeDetailsComponent', () => {
   let reservationService: jasmine.SpyObj<ReservationService>;
 
   const reservedBike: ReservedBikeDTO = {
-    id: '1'
+    id: '1',
+    station: {id: '1', status: StationState.Active, name: 'a', activeBikeCount: 1},
+    reservedAt: new Date().toString(),
+    reservedTill: new Date().toString()
   };
   const bikeDTO: BikeDTO = {
     id: '1',
-    station: {id: '1', name: 'a'},
+    station: {id: '1', name: 'a', status: StationState.Active, activeBikeCount: 1},
     bikeStatus: BikeState.Available,
     user: {id: '2', name: 'a'}
   };

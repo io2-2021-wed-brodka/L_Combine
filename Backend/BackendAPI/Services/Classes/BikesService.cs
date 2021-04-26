@@ -19,12 +19,12 @@ namespace BackendAPI.Services.Classes
         {
         }
 
-        public IEnumerable<BikeDTO> GetBikes()
+        public IEnumerable<BikeDTO> GetBikesForAdmin()
         {
             return dbContext.Bikes
                 .Include(b => b.BikeStation)
                 .ToList()
-                .Select(b => CreateBikeDTO(b, 
+                .Select(b => CreateBikeDTOWithReservedUser(b, 
                 (from r in dbContext.Rentals.Include(r => r.User)
                  where r.EndDate == null && r.BikeID == b.ID
                  select r.User).FirstOrDefault()));
