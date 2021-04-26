@@ -1,0 +1,11 @@
+<div class="list">
+    <h3>Użytkownicy</h3>
+    <div class="list-items">
+        <div 
+            *ngFor="let user of users"
+            class="list-item"
+        >
+            <div class="list-item-side-left"> {{user.username}}</div>
+        </div>
+    </div>
+</div>

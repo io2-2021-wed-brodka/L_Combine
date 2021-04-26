@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { LoginService } from 'src/app/services/login.service';
+import { RouterLinkDirectiveStub } from 'src/app/testing/RouterLinkDirectiveStub';
 
 import { MainComponent } from './main.component';
 
@@ -18,7 +19,7 @@ describe('MainComponent', () => {
   beforeEach(async () => {
     const loginServiceSpy = jasmine.createSpyObj('LoginService', ['logout']);
     await TestBed.configureTestingModule({
-      declarations: [ MainComponent, RouterOutletStub, AppNotificationsStub ],
+      declarations: [ MainComponent, RouterOutletStub, AppNotificationsStub, RouterLinkDirectiveStub ],
       providers: [
           {provide: LoginService, useValue: loginServiceSpy}
       ]
