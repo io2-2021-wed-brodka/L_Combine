@@ -86,8 +86,6 @@ namespace BackendAPI.Services.Classes
                     {
                         new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
                         new Claim(ClaimTypes.Role, user.Role),
-                        //Jeśli user jest userem zwykłym i jest zablokowany
-                        new Claim("Blocked", (user.Role == Role.User && user.Blocked).ToString())
                     }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
