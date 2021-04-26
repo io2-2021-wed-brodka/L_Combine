@@ -48,7 +48,7 @@ describe('ReturnBikeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ReturnBikeComponent);
     component = fixture.componentInstance;
-    testStation = {id: 'id', locationName: 'name', stationState: StationState.Active}
+    testStation = {id: 'id', locationName: 'name', stationState: StationState.Active, bikeCount: 1}
     fixture.detectChanges();
   });
 

@@ -1,6 +1,4 @@
 ﻿using BackendAPI.Models;
-using BackendAPI.Helpers.DTOFactories;
-using BackendAPI.Repository.Interfaces;
 using ClassLibrary.DTO;
 using ClassLibrary.Exceptions;
 using Microsoft.AspNetCore.Authorization;
@@ -11,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using BackendAPI.Services.Interfaces;
+using ClassLibrary;
 
 namespace BackendAPI.Controllers
 {
@@ -19,39 +19,22 @@ namespace BackendAPI.Controllers
     [ApiController]
     public class BikesController : ControllerBase
     {
-        private int RequestingUserID => int.Parse(
-                User.FindFirstValue(ClaimTypes.NameIdentifier));
-        private const int PerUserBikesLimit = 4;
+        private readonly IBikesService bikesService;
+        string UserId => User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        private readonly IRentalRepository rentalRepository;
-        private readonly IBikeRepository bikeRepository;
-        private readonly IUserRepository userRepository;
-        private readonly IReservationRepository reservationRepository;
-        private readonly IBikeDTOFactory bikeDTOFactory;
-
-
-        public BikesController(IRentalRepository rentalRepo, IBikeRepository bikeRepo, IUserRepository userRepo, IReservationRepository reservationRepo, IBikeDTOFactory bikeDTOFactory)
+        public BikesController(IBikesService bikesService)
         {
-            rentalRepository = rentalRepo;
-            bikeRepository = bikeRepo;
-            userRepository = userRepo;
-            reservationRepository = reservationRepo;
-            this.bikeDTOFactory = bikeDTOFactory;
+            this.bikesService = bikesService;
         }
 
         /// <summary>
         /// 
         /// </summary>
         [HttpGet("rented")]
-        public ActionResult RentedGet()
+        public ActionResult GetRentedBikes()
         {
-            int userId = RequestingUserID;
-
-            //Poniżej są wypożyczone, czyli niezarezerwowane
-            var rentedBikes = rentalRepository.FindActiveRentals(userId)
-                .Select(r => bikeDTOFactory.Create(r.Bike, r.User, false));
-
-            return Ok(new { Bikes = rentedBikes });
+            var result = bikesService.GetRentedBikes(UserId);
+            return Ok(new { Bikes = result });
         }
 
         /// <summary>
@@ -59,44 +42,34 @@ namespace BackendAPI.Controllers
         /// </summary>
         [HttpPost("rented")]
         [NotForBlocked]
-        public ActionResult<BikeDTO> RentedPost([FromBody] IdDTO rent)
+        public ActionResult<BikeDTO> RentBike([FromBody] IdDTO bike)
         {
-            Bike bike;
-            if (!int.TryParse(rent.Id, out int bikeId) ||
-                (bike = bikeRepository.GetByID(bikeId)) == null)
-                throw new HttpResponseException("Bike not found", 404);
+            BikeDTO result = bikesService.RentBike(UserId, bike.Id);
+            return new CreatedResult("/api/bikes/rented", result);
+        }
 
-            if (bike.State != ClassLibrary.BikeState.Working)
-                throw new HttpResponseException("Bike is blocked");
+        [HttpGet]
+        [Authorize(Roles = Role.Tech + "," + Role.Admin)]
+        public IActionResult GetBikes()
+        {
+            var result = bikesService.GetBikes();
+            return Ok(new { Bikes = result });
+        }
 
-            if (bike.BikeStation == null)
-                throw new HttpResponseException("Bike already rented");
+        [HttpPost]
+        [Authorize(Roles = Role.Admin)]
+        public ActionResult<BikeDTO> AddBike([FromBody] NewBikeDTO arg)
+        {
+            var result = bikesService.AddBike(arg.StationId);
+            return new CreatedResult(result.Id, result);
+        }
 
-            var reservation = reservationRepository.GetActiveReservationByBike(bike.ID);
-            if ((reservation != null && reservation.UserID != RequestingUserID))
-                throw new HttpResponseException("Bike already reserved", 422);
-
-            if (bike.BikeStation?.State != ClassLibrary.BikeStationState.Working)
-                throw new HttpResponseException("Bike station is blocked", 422);
-
-            //Tutaj wg mnie należy dodać rodzaj odpowiedzi do specki. Na razie 406 wydaje się spełniać wymogi.
-            if (rentalRepository.FindActiveRentals(RequestingUserID).Count() >= PerUserBikesLimit)
-                throw new HttpResponseException($"Cannot rent a bike. You've already rented {PerUserBikesLimit} bikes.", 422);
-
-            //Rower gotowy do wypożyczenia -> dopisanie wypożyczenia
-            rentalRepository.Insert(new Rental()
-            {
-                BikeID = bike.ID,
-                StartDate = DateTime.Now,
-                UserID = RequestingUserID,
-            });
-            bike.BikeStationID = null;
-            //Jeśli rower był zarezerwowany to usuwsamy rezerwację
-            if (reservation != null)
-                reservationRepository.Delete(reservation.ID);
-            bikeRepository.SaveChanges();
-
-            return new CreatedResult("/api/bikes/rented", bikeDTOFactory.Create(bike, userRepository.GetByID(RequestingUserID), false));
+        [HttpDelete("{id}")]
+        [Authorize(Roles = Role.Admin)]
+        public IActionResult DeleteBike(string id)
+        {
+            bikesService.DeleteBike(id);
+            return NoContent();
         }
     }
 }
