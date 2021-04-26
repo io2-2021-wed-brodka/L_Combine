@@ -38,4 +38,7 @@ export class UserService {
   blockUser(user: User): Observable<UserDto>{
     return this.http.post<UserDto>(`${this.baseUrl}/blocked`, {id: user.id});
   }
+  unblockUser(user: User): Observable<any>{
+    return this.http.delete(`${this.baseUrl}/blocked/${user.id}`);
+  }
 }

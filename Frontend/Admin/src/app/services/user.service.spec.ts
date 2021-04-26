@@ -32,6 +32,8 @@ describe('UserService', () => {
     service.getActiveUsers().subscribe();
     const requestAll = httpControler.expectOne(`${environment.apiUrl}/users`);
     const requestBlocked = httpControler.expectOne(`${environment.apiUrl}/users/blocked`);
+    expect(requestAll.request.method).toEqual('GET');
+    expect(requestBlocked.request.method).toEqual('GET');
     requestAll.flush(data);
     requestBlocked.flush({users: []});
     httpControler.verify();
@@ -52,8 +54,6 @@ describe('UserService', () => {
       });
       const requestAll = httpControler.expectOne(`${environment.apiUrl}/users`);
       const requestBlocked = httpControler.expectOne(`${environment.apiUrl}/users/blocked`);
-      expect(requestAll.request.method).toEqual('GET');
-      expect(requestBlocked.request.method).toEqual('GET');
       requestAll.flush(data);
       requestBlocked.flush({users: [data.users[0]]});
       httpControler.verify();
@@ -91,5 +91,15 @@ describe('UserService', () => {
     const request = httpControler.expectOne(`${environment.apiUrl}/users/blocked`);
     expect(request.request.method).toEqual('POST');
     expect(request.request.body?.id).toEqual(user.id)
+  });
+  it('#unblockUser should fetch with correct url and body', ()=>{
+    const user = {
+      id: 'id',
+      username: 'name',
+      status: UserStatus.Active
+    }
+    service.unblockUser(user).subscribe();
+    const request = httpControler.expectOne(`${environment.apiUrl}/users/blocked/${user.id}`);
+    expect(request.request.method).toEqual('DELETE');
   });
 });

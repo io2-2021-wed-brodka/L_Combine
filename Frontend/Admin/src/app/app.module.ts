@@ -17,6 +17,7 @@ import { UserViewComponent } from './components/user-view/user-view.component';
 import { ListUsersComponent } from './components/list-users/list-users.component';
 import { BlockUserComponent } from './components/block-user/block-user.component';
 import { ListBlockedUsersComponent } from './components/list-blocked-users/list-blocked-users.component';
+import { UnblockUserComponent } from './components/unblock-user/unblock-user.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ListBlockedUsersComponent } from './components/list-blocked-users/list-
     UserViewComponent,
     ListUsersComponent,
     BlockUserComponent,
-    ListBlockedUsersComponent
+    ListBlockedUsersComponent,
+    UnblockUserComponent
   ],
   imports: [
     BrowserModule,

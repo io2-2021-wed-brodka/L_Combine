@@ -1,15 +1,15 @@
 <div class="list">
-    <h3>Użytkownicy</h3>
+    <h3>Zablokowani użytkownicy</h3>
     <div class="list-items">
         <div 
             *ngFor="let user of users"
-            class="list-item"
+            class="list-item list-item-active"
             (click)="selectUser(user)"
         >
             <div class="list-item-side-left"> {{user.username}}</div>
-            <div class="list-item-side-right"> {{user.status}}</div>
-            <div *ngIf="user===selectedUser">
-                <!-- <app-block-user [user]="user"></app-block-user> -->
+            <div class="list-item-side-right"> {{user.id}}</div>
+            <div *ngIf="user===selectedUser" class="list-item-details">
+                <app-unblock-user [user]="user"></app-unblock-user>
             </div>
         </div>
     </div>
