@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ServicesTests.StationsService
 {
-    class ReturnStation
+    class ReturnBike
     {
     }
 }
