@@ -87,7 +87,7 @@ namespace BackendAPI.Services.Classes
             return new UserDTO()
             {
                 Id = user.ID.ToString(),
-                Name = user.Name
+                Name = user.Login
             };
         }
 
