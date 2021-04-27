@@ -16,16 +16,17 @@
     </div>
   </div>
 </div>
+
 <div class="add-station">
-  <form (ngSubmit)="addStation(name.value)">
+  <form (ngSubmit)="addStation()">
     <fieldset>
       <legend>Nowa stacja:</legend>
       <div class="add-station-content">
         <div>
           <label class="add-station-label" for="add-station-input">Nazwa stacji:</label>
-          <input name="add-station-input" #name id="add-station-input" required/>
+          <input name="add-station-input" [(ngModel)]="newStationName" #name="ngModel" id="add-station-input" required/>
         </div>
-        <button class="add-station-button">Dodaj stację</button>
+        <button type="submit" class="add-station-button" [disabled]="!name.valid">Dodaj stację</button>
       </div>
     </fieldset>
   </form>

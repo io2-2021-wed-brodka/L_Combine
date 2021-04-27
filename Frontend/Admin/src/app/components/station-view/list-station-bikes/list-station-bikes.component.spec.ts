@@ -3,12 +3,16 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {ListStationBikesComponent} from './list-station-bikes.component';
 import {StationService} from '../../../services/station.service';
 import {of} from 'rxjs';
-import {BikeState} from '../../../models/bike';
+import {Bike, BikeState} from '../../../models/bike';
 import {BikeStation, StationState} from '../../../models/bikeStation';
-import {Component, ViewChild} from '@angular/core';
+import {Component, DebugElement, ViewChild} from '@angular/core';
+import {NotificationService} from '../../../services/notification.service';
+import {BikeService} from '../../../services/bike.service';
+import {By} from '@angular/platform-browser';
+import {BikeDTO} from '../../../dto/bike-dto';
 
 @Component({
-  selector: 'test-host-component',
+  selector: 'app-test-host-component',
   template: '<div><app-list-station-bikes [station]="station"></app-list-station-bikes></div>'
 })
 class TestHostComponent {
@@ -24,7 +28,11 @@ class TestHostComponent {
 describe('ListStationBikesComponent', () => {
   let component: ListStationBikesComponent;
   let fixture: ComponentFixture<ListStationBikesComponent>;
+  let debugElement: DebugElement;
+
   let stationService: jasmine.SpyObj<StationService>;
+  let bikeService: jasmine.SpyObj<BikeService>;
+  let notificationService: jasmine.SpyObj<NotificationService>;
 
   const station: BikeStation = {
     id: 'a',
@@ -33,13 +41,27 @@ describe('ListStationBikesComponent', () => {
     bikeCount: 1
   };
 
+  const bikeDTO: BikeDTO = {id: 'b', bikeStatus: BikeState.Available};
+  const bike: Bike = {id: 'b', state: BikeState.Available};
+
   beforeEach(async () => {
+    const bikeServiceSpy = jasmine.createSpyObj('BikeService', ['addBike']);
+    const notificationServiceSpy = jasmine.createSpyObj('NotificationService', ['success']);
     const stationServiceSpy = jasmine.createSpyObj('StationService', ['getStationBikes']);
 
     await TestBed.configureTestingModule({
       declarations: [ListStationBikesComponent, TestHostComponent],
       providers: [
-        {provide: StationService, useValue: stationServiceSpy}
+        {
+          provide: StationService,
+          useValue: stationServiceSpy
+        }, {
+          provide: BikeService,
+          useValue: bikeServiceSpy
+        }, {
+          provide: NotificationService,
+          useValue: notificationServiceSpy
+        }
       ]
     }).compileComponents();
   });
@@ -47,13 +69,14 @@ describe('ListStationBikesComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ListStationBikesComponent);
     component = fixture.componentInstance;
+    debugElement = fixture.debugElement;
 
+    notificationService = TestBed.inject(NotificationService) as jasmine.SpyObj<NotificationService>;
+    bikeService = TestBed.inject(BikeService) as jasmine.SpyObj<BikeService>;
     stationService = TestBed.inject(StationService) as jasmine.SpyObj<StationService>;
-    stationService.getStationBikes.and.returnValue(of({
-      bikes: [
-        {id: 'a', bikeStatus: BikeState.Available}
-      ]
-    }));
+
+    bikeService.addBike.and.returnValue(of(bikeDTO));
+    stationService.getStationBikes.and.returnValue(of({bikes: [bikeDTO]}));
   });
 
   it('should create', () => {
@@ -90,5 +113,60 @@ describe('ListStationBikesComponent', () => {
     hostFixture.detectChanges();
 
     expect(bindComponent.ngOnChanges).toHaveBeenCalled();
+  });
+
+  it('should call #addBike in #addBike', () => {
+    component.station = station;
+    component.addBike();
+
+    expect(bikeService.addBike).toHaveBeenCalledOnceWith({stationId: station.id});
+  });
+
+  it('should call #success and #getStationBikes after successful addBike', () => {
+    component.station = station;
+    component.addBike();
+
+    expect(notificationService.success).toHaveBeenCalledTimes(1);
+    expect(stationService.getStationBikes).toHaveBeenCalledWith(station.id);
+  });
+
+  it('should call #addBike when clicking button with class "add-bike-button"', () => {
+    component.station = station;
+    fixture.detectChanges();
+
+    debugElement.query(By.css('.add-bike-button')).triggerEventHandler('click', null);
+
+    expect(bikeService.addBike).toHaveBeenCalledOnceWith({stationId: station.id});
+  });
+
+  it('#selectBike should select bike', () => {
+    expect(component.selectedBike).toBeUndefined();
+    component.selectBike(bike);
+    expect(component.selectedBike).toEqual(bike);
+  });
+
+  it('#selectBike should unselect if same selected', () => {
+    component.selectedBike = bike;
+    component.selectBike(bike);
+    expect(component.selectedBike).toBeUndefined();
+  });
+
+  it('should select bike when clicked', () => {
+    component.station = station;
+    fixture.detectChanges();
+
+    debugElement.query(By.css('.list-item')).triggerEventHandler('click', null);
+
+    expect(component.selectedBike).toEqual(component.bikes[0]);
+  });
+
+  it('should show bike-management for selected bike', () => {
+    component.station = station;
+    fixture.detectChanges();
+
+    component.selectedBike = component.bikes[0];
+    fixture.detectChanges();
+
+    expect(debugElement.query(By.css('.list-item')).children[2].classes).toEqual({'bike-management': true});
   });
 });

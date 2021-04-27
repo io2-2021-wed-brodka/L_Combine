@@ -41,7 +41,7 @@ import {ListBikesComponent} from './components/list-bikes/list-bikes.component';
     ListStationsComponent,
     ListStationBikesComponent,
     BikeManagementComponent,
-    StationManagementComponent
+    StationManagementComponent,
     UnblockUserComponent,
     ListBikesComponent
   ],

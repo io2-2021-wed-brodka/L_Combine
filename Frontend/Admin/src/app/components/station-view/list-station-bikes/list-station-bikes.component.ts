@@ -3,6 +3,8 @@ import {BikeStation} from '../../../models/bikeStation';
 import {Bike, BikeState} from '../../../models/bike';
 import {StationService} from '../../../services/station.service';
 import {bikeFromDTO} from '../../../../../../UserTech/src/app/utils/dto-utils';
+import {BikeService} from '../../../services/bike.service';
+import {NotificationService} from '../../../services/notification.service';
 
 @Component({
   selector: 'app-list-station-bikes',
@@ -14,7 +16,9 @@ export class ListStationBikesComponent implements OnInit, OnChanges {
   selectedBike?: Bike;
   bikes: Bike[] = [];
 
-  constructor(private stationService: StationService) {
+  constructor(private stationService: StationService,
+              private bikeService: BikeService,
+              private notificationService: NotificationService) {
   }
 
   ngOnInit(): void {
@@ -48,5 +52,14 @@ export class ListStationBikesComponent implements OnInit, OnChanges {
 
   selectBike(bike: Bike): void {
     this.selectedBike = (this.selectedBike === bike) ? undefined : bike;
+  }
+
+  addBike(): void {
+    if (this.station) {
+      this.bikeService.addBike({stationId: this.station.id}).subscribe(_ => {
+        this.notificationService.success(`Rower został dodany na stację ${this.station?.locationName}`);
+        this.getStationBikes();
+      });
+    }
   }
 }

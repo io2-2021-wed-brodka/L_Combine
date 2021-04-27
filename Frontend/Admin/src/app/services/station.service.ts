@@ -33,8 +33,8 @@ export class StationService {
     return this.http.delete(`${this.baseUrl}/${stationId}`);
   }
 
-  blockStation(stationId: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/blocked`, {id: stationId});
+  blockStation(stationId: string): Observable<StationDTO> {
+    return this.http.post<StationDTO>(`${this.baseUrl}/blocked`, {id: stationId});
   }
 
   unblockStation(stationId: string): Observable<any> {

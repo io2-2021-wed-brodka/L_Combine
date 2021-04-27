@@ -33,7 +33,7 @@ export class StationManagementComponent implements OnInit {
     });
   }
 
-  unlock(): void {
+  unblock(): void {
     this.stationService.unblockStation(this.station.id).subscribe(_ => {
       this.notificationService.success(`Stacja ${this.station.locationName} została odblokowana`);
       this.redirectService.reload();

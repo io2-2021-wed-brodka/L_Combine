@@ -15,6 +15,7 @@ export class ListStationsComponent implements OnInit {
   selectedStation?: BikeStation;
 
   @Output() selectedStationChanged: EventEmitter<BikeStation> = new EventEmitter<BikeStation>();
+  newStationName = '';
 
   constructor(private stationService: StationService,
               private redirectService: RedirectService,
@@ -36,8 +37,8 @@ export class ListStationsComponent implements OnInit {
     this.selectedStationChanged.emit(station);
   }
 
-  addStation(name: string): void {
-    this.stationService.addStation({name}).subscribe(station => {
+  addStation(): void {
+    this.stationService.addStation({name: this.newStationName}).subscribe(station => {
       this.notificationService.success(`Stacja ${station.name} została dodana`);
       this.redirectService.reload();
     });
