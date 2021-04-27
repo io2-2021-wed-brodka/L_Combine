@@ -27,7 +27,7 @@ namespace BackendAPI.Services.Classes
             this.jwtSettings = jwtSettings.Value;
         }
 
-        public AuthenticateResponseDTO Login(string login, string password)
+        public LoginResponseDTO Login(string login, string password)
         {
             User user;
             using (var stringHash = new StringHash())
@@ -42,10 +42,10 @@ namespace BackendAPI.Services.Classes
             // authentication successful so generate jwt token
             var token = generateJwtToken(user);
 
-            return new AuthenticateResponseDTO() { Token = token, Role = user.Role.ToLower() };
+            return new LoginResponseDTO() { Token = token, Role = user.Role.ToLower() };
         }
 
-        public AuthenticateResponseDTO Register(string login, string password)
+        public RegisterResponseDTO Register(string login, string password)
         {
             //Sprawdz, czy podany login istnieje juz w bazie
             if (dbContext.Users.Where(u => u.Login == login).Any())
@@ -70,7 +70,7 @@ namespace BackendAPI.Services.Classes
             //Zwroc token
             var token = generateJwtToken(user);
 
-            return new AuthenticateResponseDTO() { Token = token, Role = user.Role.ToLower() };
+            return new RegisterResponseDTO() { Token = token };
         }
 
         private string generateJwtToken(User user)
