@@ -1,10 +1,10 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ListStationBikesComponent} from './list-station-bikes.component';
-import {StationService} from '../../services/station.service';
+import {StationService} from '../../../services/station.service';
 import {of} from 'rxjs';
-import {BikeState} from '../../models/bike';
-import {BikeStation, StationState} from '../../models/bikeStation';
+import {BikeState} from '../../../models/bike';
+import {BikeStation, StationState} from '../../../models/bikeStation';
 import {Component, ViewChild} from '@angular/core';
 
 @Component({

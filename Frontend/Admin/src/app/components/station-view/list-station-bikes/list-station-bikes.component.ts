@@ -1,8 +1,8 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {BikeStation} from '../../models/bikeStation';
-import {Bike, BikeState} from '../../models/bike';
-import {StationService} from '../../services/station.service';
-import {bikeFromDTO} from '../../../../../UserTech/src/app/utils/dto-utils';
+import {BikeStation} from '../../../models/bikeStation';
+import {Bike, BikeState} from '../../../models/bike';
+import {StationService} from '../../../services/station.service';
+import {bikeFromDTO} from '../../../../../../UserTech/src/app/utils/dto-utils';
 
 @Component({
   selector: 'app-list-station-bikes',
@@ -10,7 +10,8 @@ import {bikeFromDTO} from '../../../../../UserTech/src/app/utils/dto-utils';
   styleUrls: ['./list-station-bikes.component.scss']
 })
 export class ListStationBikesComponent implements OnInit, OnChanges {
-  @Input() station!: BikeStation;
+  @Input() station?: BikeStation;
+  selectedBike?: Bike;
   bikes: Bike[] = [];
 
   constructor(private stationService: StationService) {
@@ -43,5 +44,9 @@ export class ListStationBikesComponent implements OnInit, OnChanges {
       case BikeState.Rented:
         return 'Wypożyczony';
     }
+  }
+
+  selectBike(bike: Bike): void {
+    this.selectedBike = (this.selectedBike === bike) ? undefined : bike;
   }
 }

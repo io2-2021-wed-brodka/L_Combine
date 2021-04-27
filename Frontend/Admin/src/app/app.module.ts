@@ -18,8 +18,10 @@ import {ListUsersComponent} from './components/list-users/list-users.component';
 import {BlockUserComponent} from './components/block-user/block-user.component';
 import {ListBlockedUsersComponent} from './components/list-blocked-users/list-blocked-users.component';
 import {UnblockUserComponent} from './components/unblock-user/unblock-user.component';
-import {ListStationsComponent} from './components/list-stations/list-stations.component';
-import {ListStationBikesComponent} from './components/list-station-bikes/list-station-bikes.component';
+import {ListStationsComponent} from './components/station-view/list-stations/list-stations.component';
+import {ListStationBikesComponent} from './components/station-view/list-station-bikes/list-station-bikes.component';
+import {BikeManagementComponent} from './components/station-view/list-station-bikes/bike-management/bike-management.component';
+import {StationManagementComponent} from './components/station-view/list-stations/station-management/station-management.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import {ListStationBikesComponent} from './components/list-station-bikes/list-st
     ListBlockedUsersComponent,
     UnblockUserComponent,
     ListStationsComponent,
-    ListStationBikesComponent
+    ListStationBikesComponent,
+    BikeManagementComponent,
+    StationManagementComponent
   ],
   imports: [
     BrowserModule,

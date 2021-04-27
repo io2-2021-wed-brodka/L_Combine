@@ -1,0 +1,18 @@
+@import "src/app/styles/list";
+
+.list {
+  margin-bottom: 10px;
+
+  .station-management {
+    flex-basis: 100%;
+  }
+}
+
+.add-station-content {
+  display: flex;
+  justify-content: space-between;
+
+  .add-station-label {
+    margin-right: 10px;
+  }
+}

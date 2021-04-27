@@ -2,9 +2,9 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ListStationsComponent} from './list-stations.component';
 import {By} from '@angular/platform-browser';
-import {StationService} from '../../services/station.service';
-import mockStationService from '../../testing/mock-services/mockStationService';
-import {BikeStation, StationState} from '../../models/bikeStation';
+import {StationService} from '../../../services/station.service';
+import mockStationService from '../../../testing/mock-services/mockStationService';
+import {BikeStation, StationState} from '../../../models/bikeStation';
 import {DebugElement} from '@angular/core';
 
 describe('ListStationsComponent', () => {
