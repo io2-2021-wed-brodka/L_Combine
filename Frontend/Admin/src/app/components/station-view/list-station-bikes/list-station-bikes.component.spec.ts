@@ -130,6 +130,12 @@ describe('ListStationBikesComponent', () => {
     expect(stationService.getStationBikes).toHaveBeenCalledWith(station.id);
   });
 
+  it('should call #getStationBikes in #onBikeModified', () => {
+    component.station = station;
+    component.onBikeModified();
+    expect(stationService.getStationBikes).toHaveBeenCalledWith(station.id);
+  });
+
   it('should call #addBike when clicking button with class "add-bike-button"', () => {
     component.station = station;
     fixture.detectChanges();
@@ -143,12 +149,6 @@ describe('ListStationBikesComponent', () => {
     expect(component.selectedBike).toBeUndefined();
     component.selectBike(bike);
     expect(component.selectedBike).toEqual(bike);
-  });
-
-  it('#selectBike should unselect if same selected', () => {
-    component.selectedBike = bike;
-    component.selectBike(bike);
-    expect(component.selectedBike).toBeUndefined();
   });
 
   it('should select bike when clicked', () => {
@@ -168,5 +168,21 @@ describe('ListStationBikesComponent', () => {
     fixture.detectChanges();
 
     expect(debugElement.query(By.css('.list-item')).children[2].classes).toEqual({'bike-management': true});
+  });
+
+  it('#getBikeStateText returns Zablokowany for blocked bike', () => {
+    expect(component.getBikeStateText(BikeState.Blocked)).toEqual('Zablokowany');
+  });
+
+  it('#getBikeStateText returns Dostępny for free bike', () => {
+    expect(component.getBikeStateText(BikeState.Available)).toEqual('Dostępny');
+  });
+
+  it('#getBikeStateText returns Zarezerwowany for reserved bike', () => {
+    expect(component.getBikeStateText(BikeState.Reserved)).toEqual('Zarezerwowany');
+  });
+
+  it('#getBikeStateText returns Wypożyczony for rented bike', () => {
+    expect(component.getBikeStateText(BikeState.Rented)).toEqual('Wypożyczony');
   });
 });

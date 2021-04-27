@@ -1,5 +1,5 @@
 <div class="management">
-  <button class="button-delete" (click)="delete()">Usuń</button>
+  <button class="button-delete" (click)="delete()" *ngIf="station.stationState === 'blocked'">Usuń</button>
   <button class="button-block" (click)="block()" *ngIf="station.stationState !== 'blocked'">Zablokuj</button>
   <button class="button-unblock" (click)="unblock()" *ngIf="station.stationState === 'blocked'">Odblokuj</button>
 </div>

@@ -42,7 +42,7 @@ export class ListStationBikesComponent implements OnInit, OnChanges {
       case BikeState.Blocked:
         return 'Zablokowany';
       case BikeState.Available:
-        return 'Wolny';
+        return 'Dostępny';
       case BikeState.Reserved:
         return 'Zarezerwowany';
       case BikeState.Rented:
@@ -51,7 +51,7 @@ export class ListStationBikesComponent implements OnInit, OnChanges {
   }
 
   selectBike(bike: Bike): void {
-    this.selectedBike = (this.selectedBike === bike) ? undefined : bike;
+    this.selectedBike = bike;
   }
 
   addBike(): void {
@@ -61,5 +61,9 @@ export class ListStationBikesComponent implements OnInit, OnChanges {
         this.getStationBikes();
       });
     }
+  }
+
+  onBikeModified(): void {
+    this.getStationBikes();
   }
 }

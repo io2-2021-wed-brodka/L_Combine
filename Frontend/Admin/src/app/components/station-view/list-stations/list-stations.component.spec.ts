@@ -100,16 +100,10 @@ describe('ListStationsComponent', () => {
     expect(component.selectedStation).toEqual(component.stations[0]);
   });
 
-  it('should set station as selected when passed in #selectStation and not already selected', () => {
+  it('should set station as selected when passed in #selectStation', () => {
     component.selectStation(component.stations[0]);
 
     expect(component.selectedStation).toEqual(component.stations[0]);
-  });
-
-  it('should unselect station when passed in #selectStation and already selected', () => {
-    component.selectedStation = component.stations[0];
-    component.selectStation(component.stations[0]);
-    expect(component.selectedStation).toBeUndefined();
   });
 
   it('should raise event when selecting station', () => {
@@ -127,12 +121,12 @@ describe('ListStationsComponent', () => {
     expect(stationService.addStation).toHaveBeenCalledOnceWith({name: 'aa'});
   });
 
-  it('should call #success and #reload after successful addStation', () => {
+  it('should call #success and #getStations after successful addStation', () => {
     component.newStationName = 'aa';
     component.addStation();
 
     expect(notificationService.success).toHaveBeenCalledTimes(1);
-    expect(redirectService.reload).toHaveBeenCalledTimes(1);
+    expect(stationService.getStations).toHaveBeenCalledTimes(2);
   });
 
   it('should show station-management for selected station', () => {
@@ -140,5 +134,10 @@ describe('ListStationsComponent', () => {
     fixture.detectChanges();
 
     expect(debugElement.query(By.css('.list-item')).children[2].classes).toEqual({'station-management': true});
+  });
+
+  it('should call #getStations in onStationModified', () => {
+    component.onStationModified();
+    expect(stationService.getStations).toHaveBeenCalledTimes(2);
   });
 });

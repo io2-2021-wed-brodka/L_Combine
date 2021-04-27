@@ -25,4 +25,12 @@ export class BikeService {
   deleteBike(bikeId: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${bikeId}`);
   }
+
+  blockBike(bikeId: string): Observable<BikeDTO> {
+    return this.http.post<BikeDTO>(`${this.baseUrl}/blocked`, {id: bikeId});
+  }
+
+  unblockBike(bikeId: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/blocked/${bikeId}`);
+  }
 }

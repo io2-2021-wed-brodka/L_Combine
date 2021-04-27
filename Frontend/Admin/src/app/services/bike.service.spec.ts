@@ -60,4 +60,26 @@ describe('BikeService', () => {
     request.flush({});
     httpTestingControler.verify();
   });
+
+  it('#blockBike should post bike to server', () => {
+    service.blockBike('a').subscribe(result =>
+      expect(result).toEqual(bikes.bikes[0])
+    );
+
+    const request = httpTestingControler.expectOne(`${environment.apiUrl}/bikes/blocked`);
+    expect(request.request.method).toEqual('POST');
+    request.flush(bikes.bikes[0]);
+    httpTestingControler.verify();
+  });
+
+  it('#unblockBike should delete bike from server', () => {
+    service.unblockBike('a').subscribe(result =>
+      expect(result).toEqual({})
+    );
+
+    const request = httpTestingControler.expectOne(`${environment.apiUrl}/bikes/blocked/a`);
+    expect(request.request.method).toEqual('DELETE');
+    request.flush({});
+    httpTestingControler.verify();
+  });
 });

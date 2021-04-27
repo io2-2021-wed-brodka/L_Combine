@@ -11,8 +11,8 @@
         <span *ngSwitchCase="'active'">Aktywna</span>
         <span *ngSwitchCase="'blocked'">Zablokowana</span>
       </div>
-      <app-station-management *ngIf="station === selectedStation" [station]="station"
-                              class="station-management"></app-station-management>
+      <app-station-management *ngIf="station === selectedStation" [station]="station" class="station-management"
+                              (stationModified)="onStationModified()"></app-station-management>
     </div>
   </div>
 </div>

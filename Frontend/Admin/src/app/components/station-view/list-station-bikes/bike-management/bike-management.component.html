@@ -1,3 +1,8 @@
 <div class="management">
-  <button class="button-delete" (click)="delete()">Usuń</button>
+  <button class="button-delete" (click)="delete()" *ngIf="bike.state === 'blocked'">Usuń</button>
+  <button class="button-block" (click)="block()"
+          *ngIf="bike.state === 'available' || bike.state === 'reserved'">
+    Zablokuj
+  </button>
+  <button class="button-unblock" (click)="unblock()" *ngIf="bike.state === 'blocked'">Odblokuj</button>
 </div>

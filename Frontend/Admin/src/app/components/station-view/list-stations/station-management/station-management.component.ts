@@ -1,8 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {BikeStation} from '../../../../models/bikeStation';
 import {StationService} from '../../../../services/station.service';
 import {NotificationService} from '../../../../services/notification.service';
-import {RedirectService} from '../../../../services/redirect.service';
 
 @Component({
   selector: 'app-station-management',
@@ -11,10 +10,10 @@ import {RedirectService} from '../../../../services/redirect.service';
 })
 export class StationManagementComponent implements OnInit {
   @Input() station!: BikeStation;
+  @Output() stationModified: EventEmitter<BikeStation> = new EventEmitter<BikeStation>();
 
   constructor(private stationService: StationService,
-              private notificationService: NotificationService,
-              private redirectService: RedirectService) { }
+              private notificationService: NotificationService) { }
 
   ngOnInit(): void {
   }
@@ -22,21 +21,21 @@ export class StationManagementComponent implements OnInit {
   delete(): void {
     this.stationService.deleteStation(this.station.id).subscribe(_ => {
       this.notificationService.success(`Stacja ${this.station.locationName} została usunięta`);
-      this.redirectService.reload();
+      this.stationModified.emit(this.station);
     });
   }
 
   block(): void {
     this.stationService.blockStation(this.station.id).subscribe(_ => {
       this.notificationService.success(`Stacja ${this.station.locationName} została zablokowana`);
-      this.redirectService.reload();
+      this.stationModified.emit(this.station);
     });
   }
 
   unblock(): void {
     this.stationService.unblockStation(this.station.id).subscribe(_ => {
       this.notificationService.success(`Stacja ${this.station.locationName} została odblokowana`);
-      this.redirectService.reload();
+      this.stationModified.emit(this.station);
     });
   }
 }

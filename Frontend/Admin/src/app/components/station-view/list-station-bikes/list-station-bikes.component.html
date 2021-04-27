@@ -9,7 +9,8 @@
           {{bike.id}}
         </div>
         <div [textContent]="getBikeStateText(bike.state)" class="list-item-side-right"></div>
-        <app-bike-management class="bike-management" *ngIf="bike === selectedBike" [bike]="bike"></app-bike-management>
+        <app-bike-management class="bike-management" *ngIf="bike === selectedBike"
+                             [bike]="bike" (bikeModified)="onBikeModified()"></app-bike-management>
       </div>
     </div>
   </div>

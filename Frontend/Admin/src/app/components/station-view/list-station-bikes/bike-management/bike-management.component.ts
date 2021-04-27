@@ -1,8 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Bike} from '../../../../models/bike';
 import {BikeService} from '../../../../services/bike.service';
 import {NotificationService} from '../../../../services/notification.service';
-import {RedirectService} from '../../../../services/redirect.service';
 
 @Component({
   selector: 'app-bike-management',
@@ -11,10 +10,10 @@ import {RedirectService} from '../../../../services/redirect.service';
 })
 export class BikeManagementComponent implements OnInit {
   @Input() bike!: Bike;
+  @Output() bikeModified: EventEmitter<Bike> = new EventEmitter<Bike>();
 
   constructor(private bikeService: BikeService,
-              private notificationService: NotificationService,
-              private redirectService: RedirectService) { }
+              private notificationService: NotificationService) { }
 
   ngOnInit(): void {
   }
@@ -22,7 +21,21 @@ export class BikeManagementComponent implements OnInit {
   delete(): void {
     this.bikeService.deleteBike(this.bike.id).subscribe(_ => {
       this.notificationService.success(`Rower został usunięty ze stacji ${this.bike.station?.locationName}`);
-      this.redirectService.reload();
+      this.bikeModified.emit(this.bike);
+    });
+  }
+
+  block(): void {
+    this.bikeService.blockBike(this.bike.id).subscribe(_ => {
+      this.notificationService.success('Rower został zablokowany');
+      this.bikeModified.emit(this.bike);
+    });
+  }
+
+  unblock(): void {
+    this.bikeService.unblockBike(this.bike.id).subscribe(_ => {
+      this.notificationService.success('Rower został odblokowany');
+      this.bikeModified.emit(this.bike);
     });
   }
 }

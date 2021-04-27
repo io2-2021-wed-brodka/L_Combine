@@ -2,10 +2,9 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {StationManagementComponent} from './station-management.component';
 import {NotificationService} from '../../../../services/notification.service';
-import {RedirectService} from '../../../../services/redirect.service';
 import {DebugElement} from '@angular/core';
 import {StationService} from '../../../../services/station.service';
-import {StationState} from '../../../../models/bikeStation';
+import {BikeStation, StationState} from '../../../../models/bikeStation';
 import {of} from 'rxjs';
 import {By} from '@angular/platform-browser';
 
@@ -14,14 +13,12 @@ describe('StationManagementComponent', () => {
   let fixture: ComponentFixture<StationManagementComponent>;
   let stationService: jasmine.SpyObj<StationService>;
   let notificationService: jasmine.SpyObj<NotificationService>;
-  let redirectService: jasmine.SpyObj<RedirectService>;
   let debugElement: DebugElement;
 
   beforeEach(async () => {
     const stationServiceSpy = jasmine.createSpyObj('StationService',
       ['deleteStation', 'blockStation', 'unblockStation']);
     const notificationServiceSpy = jasmine.createSpyObj('NotificationService', ['success']);
-    const redirectServiceSpy = jasmine.createSpyObj('RedirectService', ['reload']);
 
     await TestBed.configureTestingModule({
       declarations: [StationManagementComponent],
@@ -32,9 +29,6 @@ describe('StationManagementComponent', () => {
         }, {
           provide: NotificationService,
           useValue: notificationServiceSpy
-        }, {
-          provide: RedirectService,
-          useValue: redirectServiceSpy
         }
       ]
     }).compileComponents();
@@ -45,7 +39,6 @@ describe('StationManagementComponent', () => {
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
 
-    redirectService = TestBed.inject(RedirectService) as jasmine.SpyObj<RedirectService>;
     notificationService = TestBed.inject(NotificationService) as jasmine.SpyObj<NotificationService>;
     stationService = TestBed.inject(StationService) as jasmine.SpyObj<StationService>;
 
@@ -71,11 +64,11 @@ describe('StationManagementComponent', () => {
     expect(stationService.deleteStation).toHaveBeenCalledOnceWith('a');
   });
 
-  it('should call #success and #reload after successful delete', () => {
+  it('should call #success and #emit after successful delete', () => {
+    component.stationModified.subscribe((station: BikeStation) => expect(station).toEqual(component.station));
     component.delete();
 
     expect(notificationService.success).toHaveBeenCalledTimes(1);
-    expect(redirectService.reload).toHaveBeenCalledTimes(1);
   });
 
   it('should call #blockStation in #block', () => {
@@ -84,11 +77,11 @@ describe('StationManagementComponent', () => {
     expect(stationService.blockStation).toHaveBeenCalledOnceWith('a');
   });
 
-  it('should call #success and #reload after successful block', () => {
+  it('should call #success and #emit after successful block', () => {
+    component.stationModified.subscribe((station: BikeStation) => expect(station).toEqual(component.station));
     component.block();
 
     expect(notificationService.success).toHaveBeenCalledTimes(1);
-    expect(redirectService.reload).toHaveBeenCalledTimes(1);
   });
 
   it('should call #unblockStation in #unblock', () => {
@@ -97,14 +90,29 @@ describe('StationManagementComponent', () => {
     expect(stationService.unblockStation).toHaveBeenCalledOnceWith('a');
   });
 
-  it('should call #success and #reload after successful unblock', () => {
+  it('should call #success and #emit after successful unblock', () => {
+    component.stationModified.subscribe((station: BikeStation) => expect(station).toEqual(component.station));
     component.unblock();
 
     expect(notificationService.success).toHaveBeenCalledTimes(1);
-    expect(redirectService.reload).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show button with class "button-delete" when station is blocked', () => {
+    component.station.stationState = StationState.Blocked;
+    fixture.detectChanges();
+
+    expect(debugElement.query(By.css('.button-delete'))).toBeTruthy();
+  });
+
+  it('should not show button with class "button-delete" when station isnt blocked', () => {
+    component.station.stationState = StationState.Active;
+    fixture.detectChanges();
+
+    expect(debugElement.query(By.css('.button-delete'))).toBeFalsy();
   });
 
   it('should call #delete when clicking button with class "button-delete"', () => {
+    component.station.stationState = StationState.Blocked;
     fixture.detectChanges();
 
     debugElement.query(By.css('.button-delete')).triggerEventHandler('click', null);
