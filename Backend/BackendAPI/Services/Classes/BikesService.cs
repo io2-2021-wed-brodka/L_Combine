@@ -56,10 +56,10 @@ namespace BackendAPI.Services.Classes
                 throw new HttpResponseException("Bike not found", 404);
 
             if (bike.State != ClassLibrary.BikeState.Working)
-                throw new HttpResponseException("Bike is blocked");
+                throw new HttpResponseException("Bike is blocked", 422);
 
             if (bike.BikeStationID == null)
-                throw new HttpResponseException("Bike already rented");
+                throw new HttpResponseException("Bike already rented", 422);
 
             var reservation = dbContext.Reservations
                 .Where(r => r.BikeID == bikeId && r.ExpireDate > DateTime.Now)
