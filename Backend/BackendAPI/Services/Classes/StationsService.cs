@@ -15,7 +15,7 @@ namespace BackendAPI.Services.Classes
     public class StationsService : Service, IStationsService
     {
 
-        public StationsService(DataContext dbContext) : base(dbContext)
+        public StationsService(CommonDataContext dbContext) : base(dbContext)
         {
         }
 
@@ -38,7 +38,6 @@ namespace BackendAPI.Services.Classes
             return dbContext.BikeStations.ToList().Select(s => CreateStationDTO(s));
         }
 
-        //[TEST]
         public IEnumerable<BikeDTO> GetBikes(string stationIdString, string role)
         {
             int stationId = ParseStationId(stationIdString);
@@ -60,7 +59,6 @@ namespace BackendAPI.Services.Classes
                                           select r.User).FirstOrDefault()));
         }
 
-        //[TEST]
         public StationDTO GetStation(string stationIdString)
         {
             int stationId = ParseStationId(stationIdString);
@@ -74,7 +72,6 @@ namespace BackendAPI.Services.Classes
             return CreateStationDTO(station);
         }
 
-        //[TEST]
         public BikeDTO ReturnBike(string userIdString, string bikeIdString, string stationIdString)
         {
             int stationId = ParseStationId(stationIdString);
@@ -115,7 +112,6 @@ namespace BackendAPI.Services.Classes
             return CreateBikeDTO(bike, null, false);
         }
 
-        //[TEST]
         public StationDTO AddStation(string name)
         {
             var newStation = new BikeStation()
@@ -128,7 +124,6 @@ namespace BackendAPI.Services.Classes
             return CreateStationDTO(newStation);
         }
 
-        //[TEST]
         public void DeleteStation(string stationIdString)
         {
             int stationId = ParseStationId(stationIdString);
@@ -146,7 +141,6 @@ namespace BackendAPI.Services.Classes
             dbContext.SaveChanges();
         }
 
-        //[TEST]
         public IEnumerable<StationDTO> GetBlockedStations()
         {
             return (from bs in dbContext.BikeStations
@@ -155,7 +149,6 @@ namespace BackendAPI.Services.Classes
                     .Select(bs => CreateStationDTO(bs));
         }
 
-        //[TEST]
         public StationDTO BlockStation(string stationIdString)
         {
             int stationId = ParseStationId(stationIdString);

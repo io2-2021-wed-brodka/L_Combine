@@ -156,7 +156,6 @@ namespace BackendAPI.Services.Classes
             return CreateBikeDTO(bike, null, false);
         }
 
-        //[TEST]
         public void UnblockBike(string bikeIdString)
         {
             int bikeId = ParseBikeId(bikeIdString);
