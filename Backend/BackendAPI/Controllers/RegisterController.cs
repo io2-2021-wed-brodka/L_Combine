@@ -24,7 +24,7 @@ namespace BackendAPI.Controllers
 
         //POST api/register
         [HttpPost]
-        public ActionResult<AuthenticateResponseDTO> Post([FromBody] AuthenticateRequestDTO request)
+        public ActionResult<RegisterResponseDTO> Post([FromBody] AuthenticateRequestDTO request)
         {
             var result = loginService.Register(request.Login, request.Password);
             return Ok(result);

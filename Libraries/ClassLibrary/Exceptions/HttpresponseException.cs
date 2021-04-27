@@ -11,13 +11,13 @@ namespace ClassLibrary.Exceptions
     /// </summary>
     public class HttpResponseException : Exception
     {
-        public HttpResponseException(string message, int status = 500): base(message)
+        public HttpResponseException(string message, int status): base(message)
         {
             Status = status;
             Value = message;
         }
 
-        public int Status { get; set; } = 500;
+        public int Status { get; set; }
 
         private object val;
         public object Value

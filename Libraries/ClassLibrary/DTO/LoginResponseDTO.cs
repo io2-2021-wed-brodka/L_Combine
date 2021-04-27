@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ClassLibrary.DTO
 {
-    public class AuthenticateResponseDTO
+    public class LoginResponseDTO
     {
         public string Token { get; set; }
         public string Role { get; set; }

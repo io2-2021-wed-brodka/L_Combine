@@ -1,6 +1,7 @@
 ﻿using BackendAPI.Data;
 using BackendAPI.Models;
 using BackendAPI.Services.Interfaces;
+using ClassLibrary;
 using ClassLibrary.DTO;
 using ClassLibrary.Exceptions;
 using System;
@@ -18,13 +19,13 @@ namespace BackendAPI.Services.Classes
 
         public IEnumerable<UserDTO> GetAllUsers()
         {
-            return dbContext.Users.ToList()
-                .Select(u => CreateUserDTO(u));
+            return dbContext.Users.Where(u => u.Role == Role.User)
+                .ToList().Select(u => CreateUserDTO(u));
         }
 
         public IEnumerable<UserDTO> GetBlockedUsers()
         {
-            return dbContext.Users.Where(u => u.Blocked).ToList()
+            return dbContext.Users.Where(u => u.Blocked && u.Role == Role.User).ToList()
                 .Select(u => CreateUserDTO(u));
         }
 
@@ -36,7 +37,7 @@ namespace BackendAPI.Services.Classes
 
             User user;
             if ((user = dbContext.Users
-                .FirstOrDefault(u => u.ID == userId)) == null)
+                .FirstOrDefault(u => u.ID == userId && u.Role == Role.User)) == null)
                 throw new HttpResponseException("User not found", 404);
 
             if (user.Blocked)
@@ -61,7 +62,7 @@ namespace BackendAPI.Services.Classes
 
             User user;
             if ((user = dbContext.Users
-                .FirstOrDefault(u => u.ID == userId)) == null)
+                .FirstOrDefault(u => u.ID == userId && u.Role == Role.User)) == null)
                 throw new HttpResponseException("User not found", 404);
 
             if (!user.Blocked)
