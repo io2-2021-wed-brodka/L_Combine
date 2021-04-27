@@ -23,7 +23,7 @@ namespace BackendAPI.Controllers
         }
         //POST api/login
         [HttpPost]
-        public ActionResult<AuthenticateResponseDTO> Post([FromBody]AuthenticateRequestDTO request)
+        public ActionResult<LoginResponseDTO> Post([FromBody]AuthenticateRequestDTO request)
         {
             var result = loginService.Login(request.Login, request.Password);
 
