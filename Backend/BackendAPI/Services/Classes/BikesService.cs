@@ -93,7 +93,6 @@ namespace BackendAPI.Services.Classes
             return CreateBikeDTO(bike, user);
         }
 
-        //[TEST]
         public BikeDTO AddBike(string stationIdString)
         {
             int stationId = ParseStationId(stationIdString);
@@ -111,7 +110,6 @@ namespace BackendAPI.Services.Classes
             return CreateBikeDTO(bike, null, false);
         }
 
-        //[TEST]
         public void DeleteBike(string bikeIdString)
         {
             int bikeId = ParseBikeId(bikeIdString);
@@ -126,7 +124,6 @@ namespace BackendAPI.Services.Classes
             dbContext.SaveChanges();
         }
 
-        //[TEST]
         public BikeDTO BlockBike(string bikeIdString)
         {
             int bikeId = ParseBikeId(bikeIdString);
@@ -140,7 +137,14 @@ namespace BackendAPI.Services.Classes
                 throw new HttpResponseException("Bike already blocked", 422);
 
             if (bike.BikeStationID == null)
-                throw new HttpResponseException("Bike already rented", 422);
+                throw new HttpResponseException("Bike is rented", 422);
+
+            //KS: dodałem zabezpieczenie przed zablokowaniem zarezerwowanego roweru.
+            var reservation = dbContext.Reservations
+                .Where(r => r.BikeID == bikeId && r.ExpireDate > DateTime.Now)
+                .FirstOrDefault();
+            if (reservation != null)
+                throw new HttpResponseException("Bike is reserved", 422);
 
             var reservations = from r in dbContext.Reservations
                                where r.BikeID == bikeId

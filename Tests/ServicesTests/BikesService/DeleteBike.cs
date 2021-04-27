@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ServicesTests.BikesService
@@ -12,5 +13,47 @@ namespace ServicesTests.BikesService
         [TestInitialize]
         public void PrepareService() => CreateBikeService();
 
+        [TestMethod]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike not found")]
+        public void BikeNotFound_Failure()
+        {
+            string bikeId = "1337";
+
+            service.DeleteBike(bikeId);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike not blocked")]
+        public void DeleteWorkingBike_Failure()
+        {
+            string bikeId = "1";
+
+            service.DeleteBike(bikeId);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void DeleteBlockedBike_Success()
+        {
+            string bikeId = "5";
+
+            service.DeleteBike(bikeId);
+
+            Assert.IsTrue(dbContext.Bikes.Where(b => b.ID == int.Parse(bikeId)).Count() == 0);
+        }
+
+        [TestMethod]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike not blocked")]
+        public void DeleteServicedBike_Success()
+        {
+            string bikeId = "3";
+
+            service.DeleteBike(bikeId);
+
+            Assert.IsTrue(dbContext.Bikes.Where(b => b.ID == int.Parse(bikeId)).Count() == 0);
+        }
     }
 }
