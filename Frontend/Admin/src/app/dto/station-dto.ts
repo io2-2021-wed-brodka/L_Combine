@@ -1,4 +1,4 @@
-import { StationState } from "../models/bikeStation";
+import {StationState} from '../models/bikeStation';
 
 export interface StationDTO {
   id: string;

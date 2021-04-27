@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {environment as env} from '../../environments/environment';
-import {StationDTO} from '../dto/station-dto';
 import {StationsDTO} from '../dto/stations-dto';
 import {BikesDTO} from '../dto/bikes-dto';
 

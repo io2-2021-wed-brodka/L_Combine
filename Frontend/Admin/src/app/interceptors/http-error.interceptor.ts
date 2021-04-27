@@ -37,7 +37,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
       case 406:
       case 422:
         this.notificationService.error(error.error?.message);
-        this.redirectService.redirectToHome();
+        // this.redirectService.reload();
         break;
       default:
         this.notificationService.error('Unexpected error occurred. Try again later.');

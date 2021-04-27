@@ -35,6 +35,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         this.redirectService.redirectToHome();
         break;
       case 406:
+      case 403:
       case 422:
         this.notificationService.error(error.error?.message);
         this.redirectService.redirectToHome();
