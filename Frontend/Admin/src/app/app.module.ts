@@ -18,6 +18,7 @@ import { ListUsersComponent } from './components/list-users/list-users.component
 import { BlockUserComponent } from './components/block-user/block-user.component';
 import { ListBlockedUsersComponent } from './components/list-blocked-users/list-blocked-users.component';
 import { UnblockUserComponent } from './components/unblock-user/unblock-user.component';
+import { ListBikesComponent } from './components/list-bikes/list-bikes.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { UnblockUserComponent } from './components/unblock-user/unblock-user.com
     ListUsersComponent,
     BlockUserComponent,
     ListBlockedUsersComponent,
-    UnblockUserComponent
+    UnblockUserComponent,
+    ListBikesComponent
   ],
   imports: [
     BrowserModule,
