@@ -1,6 +1,10 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BikeViewComponent } from './bike-view.component';
+
+@Component({selector: 'app-list-bikes'})
+class ListBikesComponentStub{}
 
 describe('BikeViewComponent', () => {
   let component: BikeViewComponent;
@@ -8,7 +12,7 @@ describe('BikeViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BikeViewComponent ]
+      declarations: [ BikeViewComponent, ListBikesComponentStub ]
     })
     .compileComponents();
   });

@@ -1,11 +1,10 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
-import { environment } from 'src/environments/environment';
-import { UserDto } from '../dto/user-dto';
-import { UsersDto } from '../dto/users-dto';
-import { UserStatus } from '../models/user';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {TestBed} from '@angular/core/testing';
+import {environment} from 'src/environments/environment';
+import {UsersDTO} from '../dto/users-dto';
+import {UserStatus} from '../models/user';
 
-import { UserService } from './user.service';
+import {UserService} from './user.service';
 
 describe('UserService', () => {
   let service: UserService;
@@ -24,7 +23,7 @@ describe('UserService', () => {
   });
 
   it('#getActiveUsers should fetch with correct url', ()=>{
-    const data : UsersDto = {
+    const data : UsersDTO = {
       users: [{
       id: 'id',
       name: 'name'
@@ -39,7 +38,7 @@ describe('UserService', () => {
     httpControler.verify();
   });
   it('#getActiveUsers should return only active users', ()=>{
-      const data : UsersDto = {
+      const data : UsersDTO = {
         users: [{
         id: 'id1',
         name: 'blocked'
@@ -67,7 +66,7 @@ describe('UserService', () => {
     httpControler.verify();
   });
   it('#getBlockedUsers should return only active users', ()=>{
-      const data : UsersDto = {
+      const data : UsersDTO = {
         users: [{
         id: 'id1',
         name: 'name'
