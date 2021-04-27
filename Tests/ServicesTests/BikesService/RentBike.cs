@@ -14,7 +14,7 @@ namespace ServicesTests.BikesService
         public void PrepareService() => CreateBikeService();
 
         [TestMethod]
-        [ExpectedException(typeof(HttpResponseException), "Bike is blocked")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike is blocked")]
         public void BlockedBike_Failure()
         {
             string userId = "1";
@@ -26,7 +26,7 @@ namespace ServicesTests.BikesService
         }
 
         [TestMethod]
-        [ExpectedException(typeof(HttpResponseException), "Bike not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike not found")]
         public void BikeNotFound_Failure()
         {
             string userId = "1";
@@ -38,7 +38,7 @@ namespace ServicesTests.BikesService
         }
 
         [TestMethod]
-        [ExpectedException(typeof(HttpResponseException), "Bike already rented")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike already rented")]
         public void BikeRented_Failure()
         {
             string userId = "1";
@@ -50,13 +50,14 @@ namespace ServicesTests.BikesService
         }
 
         [TestMethod]
-        [ExpectedException(typeof(HttpResponseException), "Bike already reserved")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike already reserved")]
         public void BikeReserved_Failure()
         {
             string userId = "1";
-            string bikeId = "7";
-            string stationId = "3";
-            ReserveBike(bikeId, stationId, userId);
+            string reservedUserId = "2";
+            string bikeId = "4";
+            string stationId = "1";
+            ReserveBike(bikeId, stationId, reservedUserId);
 
             service.RentBike(userId, bikeId);
 
@@ -64,7 +65,7 @@ namespace ServicesTests.BikesService
         }
 
         [TestMethod]
-        [ExpectedException(typeof(HttpResponseException), "Bike station is blocked")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike station is blocked")]
         public void StationBlocked_Failure()
         {
             string userId = "1";
@@ -76,7 +77,7 @@ namespace ServicesTests.BikesService
         }
 
         [TestMethod]
-        [ExpectedException(typeof(HttpResponseException), "Cannot rent a bike. You've already rented 4 bikes.")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Cannot rent a bike. You've already rented 4 bikes.")]
         public void BikeLimit_Failure()
         {
             string userId = "3";

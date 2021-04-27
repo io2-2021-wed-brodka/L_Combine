@@ -43,7 +43,6 @@ namespace BackendAPI.Services.Classes
                 .Select(r => CreateBikeDTO(r.Bike, r.User, false));
         }
 
-        //[TEST]
         public BikeDTO RentBike(string userIdString, string bikeIdString)
         {
             int userId = ParseUserId(userIdString);
