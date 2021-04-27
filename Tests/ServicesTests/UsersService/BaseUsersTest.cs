@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ServicesTests.UsersService
 {
-    public class BaseUsersTest : BaseTest
+    abstract public class BaseUsersTest : BaseTest
     {
         protected BackendAPI.Services.Classes.UsersService service;
 

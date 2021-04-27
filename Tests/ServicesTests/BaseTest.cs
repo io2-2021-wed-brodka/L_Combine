@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ServicesTests
 {
-    public class BaseTest
+    abstract public class BaseTest
     {
         protected TestDataContext dbContext;
 
