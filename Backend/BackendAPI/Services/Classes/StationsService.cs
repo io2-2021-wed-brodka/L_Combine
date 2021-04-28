@@ -15,7 +15,7 @@ namespace BackendAPI.Services.Classes
     public class StationsService : Service, IStationsService
     {
 
-        public StationsService(DataContext dbContext) : base(dbContext)
+        public StationsService(CommonDataContext dbContext) : base(dbContext)
         {
         }
 
@@ -173,6 +173,7 @@ namespace BackendAPI.Services.Classes
             return CreateStationDTO(station);
         }
 
+        //[TEST]
         public void UnblockStation(string stationIdString)
         {
             int stationId = ParseStationId(stationIdString);

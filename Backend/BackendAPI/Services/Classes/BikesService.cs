@@ -15,7 +15,7 @@ namespace BackendAPI.Services.Classes
     {
         const int PerUserBikesLimit = 4;
 
-        public BikesService(DataContext dbContext) : base(dbContext)
+        public BikesService(CommonDataContext dbContext) : base(dbContext)
         {
         }
 
@@ -70,7 +70,6 @@ namespace BackendAPI.Services.Classes
             if (bike.BikeStation?.State != ClassLibrary.BikeStationState.Working)
                 throw new HttpResponseException("Bike station is blocked", 422);
 
-            //Tutaj wg mnie należy dodać rodzaj odpowiedzi do specki. Na razie 406 wydaje się spełniać wymogi.
             if (dbContext.Rentals
                 .Where(r => r.UserID == userId && r.EndDate == null)
                 .Count() >= PerUserBikesLimit)
@@ -84,7 +83,7 @@ namespace BackendAPI.Services.Classes
                 UserID = userId,
             });
             bike.BikeStationID = null;
-            //Jeśli rower był zarezerwowany to usuwsamy rezerwację
+            //Jeśli rower był zarezerwowany to usuwamy rezerwację
             if (reservation != null)
                 dbContext.Reservations.Remove(reservation);
             dbContext.SaveChanges();
@@ -106,7 +105,7 @@ namespace BackendAPI.Services.Classes
                 State = ClassLibrary.BikeState.Working,
             };
             dbContext.Bikes.Add(bike);
-            //W momencie SaceChanges bike ma przypisaną BikeStation
+            //W momencie SaveChanges bike ma przypisaną BikeStation
             dbContext.SaveChanges();
             return CreateBikeDTO(bike, null, false);
         }
@@ -138,7 +137,7 @@ namespace BackendAPI.Services.Classes
                 throw new HttpResponseException("Bike already blocked", 422);
 
             if (bike.BikeStationID == null)
-                throw new HttpResponseException("Bike already rented", 422);
+                throw new HttpResponseException("Bike is rented", 422);
 
             var reservations = from r in dbContext.Reservations
                                where r.BikeID == bikeId

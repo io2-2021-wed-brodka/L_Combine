@@ -1,6 +1,6 @@
 ﻿using BackendAPI.Models;
-using BackendAPI.ModelsConfigurations.NormalConfiguration;
 using Microsoft.EntityFrameworkCore;
+using BackendAPI.ModelsConfigurations.TestConfiguration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +8,15 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.Data
 {
-    public class DataContext : CommonDataContext
+    public class TestDataContext: CommonDataContext
     {
-        public DataContext(DbContextOptions
-            options)
-           : base(options)
+        public TestDataContext(DbContextOptions
+           options)
+          : base(options)
         {
         }
 
+       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

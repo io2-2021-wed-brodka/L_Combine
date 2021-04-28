@@ -12,9 +12,9 @@ namespace BackendAPI.Services.Classes
 {
     public abstract class Service
     {
-        protected readonly DataContext dbContext;
+        protected readonly CommonDataContext dbContext;
 
-        public Service(DataContext dbContext)
+        public Service(CommonDataContext dbContext)
         {
             this.dbContext = dbContext;
         }

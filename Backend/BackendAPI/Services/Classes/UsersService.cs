@@ -13,7 +13,7 @@ namespace BackendAPI.Services.Classes
 {
     public class UsersService : Service, IUsersService
     {
-        public UsersService(DataContext dbContext) : base(dbContext)
+        public UsersService(CommonDataContext dbContext) : base(dbContext)
         {
         }
 
@@ -29,6 +29,8 @@ namespace BackendAPI.Services.Classes
                 .Select(u => CreateUserDTO(u));
         }
 
+
+        //[TEST]
         public UserDTO BlockUser(string userIdString)
         {
             int userId = ParseUserId(userIdString);
@@ -52,6 +54,8 @@ namespace BackendAPI.Services.Classes
             return CreateUserDTO(user);
         }
 
+
+        //[TEST]
         public void UnblockUser(string userIdString)
         {
             int userId = ParseUserId(userIdString);

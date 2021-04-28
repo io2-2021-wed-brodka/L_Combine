@@ -6,18 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BackendAPI.ModelsConfigurations
+namespace BackendAPI.ModelsConfigurations.NormalConfiguration
 {
     public class BikeStationConfiguration : 
-        IEntityTypeConfiguration<BikeStation>
+        BackendAPI.ModelsConfigurations.CommonConfiguration.BikeStationConfiguration
     {
-        public void Configure(EntityTypeBuilder<BikeStation> builder)
+        public override void Configure(EntityTypeBuilder<BikeStation> builder)
         {
-            builder.ToTable("BikeStations");
-
-            builder.Property(bs => bs.LocationName).HasMaxLength(150);
-            builder.Property(bs => bs.ID).ValueGeneratedOnAdd();
-            builder.Property(bs => bs.LocationName).IsRequired();
+            base.Configure(builder);
 
             builder.HasData(
                 new BikeStation { ID = 1, LocationName = "Warszawa Targowa", State = ClassLibrary.BikeStationState.Working },

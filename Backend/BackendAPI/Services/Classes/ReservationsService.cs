@@ -15,10 +15,11 @@ namespace BackendAPI.Services.Classes
     {
         const int PerUserReservationsLimit = 3;
 
-        public ReservationsService(DataContext dbContext) : base(dbContext)
+        public ReservationsService(CommonDataContext dbContext) : base(dbContext)
         {
         }
 
+        //[TEST]
         public void CancelReservation(string userIdString, string bikeIdString)
         {
             int userId = ParseUserId(userIdString);
@@ -56,6 +57,7 @@ namespace BackendAPI.Services.Classes
                 .Select(r => CreateReservationDTO(r));
         }
 
+        //[TEST]
         public ReservationDTO ReserveBike(string userIdString, string bikeIdString)
         {
             int bikeId = ParseBikeId(bikeIdString);
