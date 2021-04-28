@@ -1,6 +1,6 @@
 <div class="container">
   <form class="form">
-    <header class="form-header">Register</header>
+    <header class="form-header">Zarejestruj</header>
 
     <div class="form-group">
       <label for="loginInput">Login</label>
@@ -12,15 +12,15 @@
              #loginInput="ngModel"
              required/>
       <div class="form-error" *ngIf="!loginInput.valid && loginInput.touched">
-        Login required!
+        Login jest wymagany!
       </div>
       <div class="form-error" *ngIf="loginInput.valid && showAccountNameTaken">
-        Login taken!
+        Login jest zajęty!
       </div>
     </div>
 
     <div class="form-group">
-      <label for="passwordInput">Password</label>
+      <label for="passwordInput">Hasło</label>
       <input type="password"
              id="passwordInput"
              name="passwordInput"
@@ -28,12 +28,12 @@
              #passwordInput="ngModel"
              required/>
       <div class="form-error" *ngIf="!passwordInput.valid && passwordInput.touched">
-        Password required!
+        Hasło jest wymagane!
       </div>
     </div>
 
     <div class="form-group">
-      <label for="repeatPasswordInput">Repeat Password</label>
+      <label for="repeatPasswordInput">Powtórz hasło</label>
       <input type="password"
              id="repeatPasswordInput"
              name="repeatPasswordInput"
@@ -42,17 +42,17 @@
              #repeatPasswordInput="ngModel"
              required/>
       <div class="form-error" *ngIf="!repeatPasswordInput.valid && repeatPasswordInput.touched">
-        Repeat password required!
+        Powtórzenie hasła jest wymagane!
       </div>
       <div class="form-error" *ngIf="repeatPasswordInput.valid && showPasswordsNotMatch">
-        Passwords do not match!
+        Hasła nie są takie same!
       </div>
     </div>
 
     <button [disabled]="(!loginInput.valid || !passwordInput.valid || !repeatPasswordInput.valid)"
             class="main-button"
             (click)="register()">
-      Register
+      Zarejestruj
     </button>
   </form>
 </div>
