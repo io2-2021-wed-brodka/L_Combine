@@ -86,5 +86,16 @@ namespace ServicesTests.ReservationsService
             service.ReserveBike("1", "4");
             Assert.Fail();
         }
+
+        [TestMethod]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "You have already reserved 3 bikes")]
+        public void ReserveBike_Reserve4Bikes()
+        {
+            var reservations = new List<int>() { 1, 2, 4, 11 };
+            foreach (var r in reservations)
+                service.ReserveBike("1", r.ToString());
+
+            Assert.Fail();
+        }
     }
 }
