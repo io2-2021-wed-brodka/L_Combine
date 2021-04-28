@@ -1,0 +1,10 @@
+@import 'src/app/styles/formStyles', 'src/app/styles/general';
+
+.container{
+  margin: 0;
+  width: 100vh;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

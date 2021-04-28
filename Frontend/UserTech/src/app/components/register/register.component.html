@@ -1,0 +1,58 @@
+<div class="container">
+  <form class="form">
+    <header class="form-header">Zarejestruj</header>
+
+    <div class="form-group">
+      <label for="loginInput">Login</label>
+      <input type="text"
+             id="loginInput"
+             name="loginInput"
+             [(ngModel)]="formData.login"
+             (ngModelChange)="loginChange()"
+             #loginInput="ngModel"
+             required/>
+      <div class="form-error" *ngIf="!loginInput.valid && loginInput.touched">
+        Login jest wymagany!
+      </div>
+      <div class="form-error" *ngIf="loginInput.valid && showAccountNameTaken">
+        Login jest zajęty!
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="passwordInput">Hasło</label>
+      <input type="password"
+             id="passwordInput"
+             name="passwordInput"
+             [(ngModel)]="formData.password"
+             #passwordInput="ngModel"
+             required/>
+      <div class="form-error" *ngIf="!passwordInput.valid && passwordInput.touched">
+        Hasło jest wymagane!
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="repeatPasswordInput">Powtórz hasło</label>
+      <input type="password"
+             id="repeatPasswordInput"
+             name="repeatPasswordInput"
+             [(ngModel)]="formData.repeatPassword"
+             (ngModelChange)="repeatPasswordChange()"
+             #repeatPasswordInput="ngModel"
+             required/>
+      <div class="form-error" *ngIf="!repeatPasswordInput.valid && repeatPasswordInput.touched">
+        Powtórzenie hasła jest wymagane!
+      </div>
+      <div class="form-error" *ngIf="repeatPasswordInput.valid && showPasswordsNotMatch">
+        Hasła nie są takie same!
+      </div>
+    </div>
+
+    <button [disabled]="(!loginInput.valid || !passwordInput.valid || !repeatPasswordInput.valid)"
+            class="main-button"
+            (click)="register()">
+      Zarejestruj
+    </button>
+  </form>
+</div>

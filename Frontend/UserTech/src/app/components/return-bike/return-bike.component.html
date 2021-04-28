@@ -1,14 +1,16 @@
 <div class="wrapper">
   <div class="list">
     <h3 class="list-header">Wybierz stację oddania</h3>
-    <div *ngFor="let station of stations"
-         (click)="returnBike(station)"
-         class="list-item list-item-active">
-      <div class="list-item-side-left">
-        {{station.locationName}}
-      </div>
-      <div class="list-item-side-right">
-        Aktywna
+    <div class="list-items">
+      <div *ngFor="let station of stations"
+           (click)="returnBike(station)"
+           class="list-item list-item-active">
+        <div class="list-item-side-left">
+          {{station.locationName}}
+        </div>
+        <div class="list-item-side-right">
+          Aktywna
+        </div>
       </div>
     </div>
   </div>

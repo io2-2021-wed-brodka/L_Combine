@@ -2,45 +2,47 @@ import {Injectable} from '@angular/core';
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-import {LoginService} from '../services/login.service';
-import {Router} from '@angular/router';
+import {NotificationService} from '../services/notification.service';
+import {RedirectService} from '../services/redirect.service';
+import {IGNORE_ERROR_INTERCEPT} from '../constants/headers';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
-  constructor(private loginService: LoginService, private router: Router) {
+  constructor(private notificationService: NotificationService,
+              private redirectService: RedirectService) {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    return next.handle(request)
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          let errorMessage;
-          let returnedError;
-          if (error.error instanceof ErrorEvent) {
-            // client-side error
-            errorMessage = `Error: ${error.error.message}`;
-            returnedError = error.error;
-          } else {
-            // server-side error
-            errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-            returnedError = error;
+    if (request.headers.has(IGNORE_ERROR_INTERCEPT)) {
+      return next.handle(request.clone({headers: request.headers.delete(IGNORE_ERROR_INTERCEPT)}));
+    }
 
-            switch (error.status){
-              // logout user if response is 401
-              case 401:
-                this.loginService.logout();
-                break;
-              case 404:
-              case 422:
-                this.router.navigate(['home']);
-            }
-          }
-          console.error(errorMessage);
-          // TODO: dodałbym komponent, który wyświetla jakąś wiadomość gdy wystąpi error na górze strony
-          // chciałbym uniknąć jawnego sprawdzania błędów kiedy nie jest to wymagane
-          return throwError(returnedError);
-        })
-      );
+    return next.handle(request).pipe(
+      catchError((error: HttpErrorResponse) => {
+        this.handleError(error);
+        return throwError(error);
+      })
+    );
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    switch (error.status) {
+      case 401:
+        this.redirectService.redirectToLogin();
+        break;
+      case 404:
+        this.redirectService.redirectToHome();
+        break;
+      case 406:
+      case 403:
+      case 422:
+        this.notificationService.error(error.error?.message);
+        this.redirectService.redirectToHome();
+        break;
+      default:
+        this.notificationService.error('Unexpected error occurred. Try again later.');
+    }
   }
 }
+

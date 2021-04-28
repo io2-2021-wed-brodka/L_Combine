@@ -14,6 +14,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="ModelsConfigurations\CommonConfiguration\" />
+    <Folder Include="ModelsConfigurations\TestConfiguration\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -35,7 +37,7 @@
     <ProjectReference Include="..\..\Libraries\ClassLibrary\ClassLibrary.csproj" />
   </ItemGroup>
 
-  <PropertyGroup>
+  <!--<PropertyGroup>
    <_OutputCopyLocation>$(SolutionDir)Output\$(Configuration)\BackendAPI\</_OutputCopyLocation>
   </PropertyGroup>
 
@@ -54,6 +56,6 @@
       <_CustomFilesToDelete Include="$(_OutputCopyLocation)**\*" />
     </ItemGroup>
     <Delete Files="@(_CustomFilesToDelete)" />
-  </Target>
+  </Target>-->
 
 </Project>

@@ -1,7 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Bike} from '../../models/bike';
-import {Router} from '@angular/router';
 import {RentBikeService} from '../../services/rent-bike.service';
+import {NotificationService} from '../../services/notification.service';
+import {RedirectService} from '../../services/redirect.service';
+import {ReservationService} from '../../services/reservation.service';
 
 @Component({
   selector: 'app-rent-bike',
@@ -12,13 +14,25 @@ export class RentBikeComponent implements OnInit {
   @Input() bike!: Bike;
 
   constructor(private rentBikeService: RentBikeService,
-              private router: Router) {
+              private notificationService: NotificationService,
+              private redirectService: RedirectService,
+              private reservationService: ReservationService) {
   }
 
   ngOnInit(): void {
   }
 
   rent(): void {
-    this.rentBikeService.rentBike(this.bike).subscribe(()=>this.router.navigate(['']));
+    this.rentBikeService.rentBike(this.bike).subscribe(_ => {
+      this.notificationService.success(`Rower został wypożyczony ze stacji ${this.bike.station?.locationName}`);
+      this.redirectService.redirectToHome();
+    });
+  }
+
+  reserve(): void {
+    this.reservationService.reserveBike(this.bike.id).subscribe(_ => {
+      this.notificationService.success(`Bike from station ${this.bike.station?.locationName} was reserved for you`);
+      this.redirectService.redirectToHome();
+    });
   }
 }

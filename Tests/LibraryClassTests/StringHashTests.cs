@@ -7,7 +7,7 @@ using System.Text;
 namespace ClassLibraryTests
 {
     [TestClass]
-    class StringHashTests
+    public class StringHashTests
     {
         [TestMethod]
         public void Sha256_GetHashTest()

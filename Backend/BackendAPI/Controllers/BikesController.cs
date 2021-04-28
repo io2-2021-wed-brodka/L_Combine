@@ -1,6 +1,4 @@
 ﻿using BackendAPI.Models;
-using BackendAPI.Helpers.DTOFactories;
-using BackendAPI.Repository.Interfaces;
 using ClassLibrary.DTO;
 using ClassLibrary.Exceptions;
 using Microsoft.AspNetCore.Authorization;
@@ -11,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using BackendAPI.Services.Interfaces;
+using ClassLibrary;
 
 namespace BackendAPI.Controllers
 {
@@ -19,90 +19,57 @@ namespace BackendAPI.Controllers
     [ApiController]
     public class BikesController : ControllerBase
     {
-        private int GetRequestingUserID => int.Parse(
-                User.FindFirstValue(ClaimTypes.NameIdentifier));
+        private readonly IBikesService bikesService;
+        string UserId => User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        private IRentalRepository rentalRepository;
-        private IBikeRepository bikeRepository;
-        private IUserRepository userRepository;
-
-        public BikesController(IRentalRepository rentalRepo, IBikeRepository bikeRepo, IUserRepository userRepo)
+        public BikesController(IBikesService bikesService)
         {
-            rentalRepository = rentalRepo;
-            bikeRepository = bikeRepo;
-            userRepository = userRepo;
+            this.bikesService = bikesService;
         }
 
         /// <summary>
         /// 
         /// </summary>
         [HttpGet("rented")]
-        public ActionResult RentedGet()
+        public ActionResult GetRentedBikes()
         {
-            int userId = GetRequestingUserID;
-
-            var rentedBikes = rentalRepository.FindActiveRentals(userId)
-                .Select(r => BikeDTOFactory.CreateBikeDTO(r.Bike, r.User));
-
-            return Ok(new { Bikes = rentedBikes });
+            var result = bikesService.GetRentedBikes(UserId);
+            return Ok(new { Bikes = result });
         }
 
         /// <summary>
         /// 
         /// </summary>
         [HttpPost("rented")]
-        public ActionResult<BikeDTO> RentedPost([FromBody] IdDTO rent)
+        [NotForBlocked]
+        public ActionResult<BikeDTO> RentBike([FromBody] IdDTO bike)
         {
-            //[BLOCKED] dopisac check na zablokowanego uzytkownika
-
-            Bike bike;
-            if (!int.TryParse(rent.Id, out int bikeId) || 
-                (bike = bikeRepository.GetByID(bikeId)) == null)
-                throw new HttpResponseException("Bike not found", 404);
-
-            if (bike.State != ClassLibrary.BikeState.Working
-                || bike.BikeStation?.State != ClassLibrary.BikeStationState.Working)
-                throw new HttpResponseException("Bike is already rented, blocked or reserved by another user or station is blocked", 422);
-
-            //Rower gotowy do wypożyczenia -> dopisanie wypożyczenia
-            rentalRepository.Insert(new Rental()
-            {
-                BikeID = bike.ID,
-                StartDate = DateTime.Now,
-                UserID = GetRequestingUserID,
-            });
-            bike.BikeStation = null;
-            bikeRepository.SaveChanges();
-
-            return new CreatedResult("/api/bikes/rented", BikeDTOFactory.CreateBikeDTO(bike, userRepository.GetByID(GetRequestingUserID)));
+            BikeDTO result = bikesService.RentBike(UserId, bike.Id);
+            return new CreatedResult("/api/bikes/rented", result);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [HttpGet("reserved")]
-        public ActionResult<string> ReservedGet()
+        [HttpGet]
+        [Authorize(Roles = Role.Tech + "," + Role.Admin)]
+        public IActionResult GetBikes()
         {
-            return BadRequest();
+            var result = bikesService.GetBikesForAdmin();
+            return Ok(new { Bikes = result });
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [HttpPost("reserved")]
-        public ActionResult<string> ReservedPost()
+        [HttpPost]
+        [Authorize(Roles = Role.Admin)]
+        public ActionResult<BikeDTO> AddBike([FromBody] NewBikeDTO arg)
         {
-            return BadRequest();
+            var result = bikesService.AddBike(arg.StationId);
+            return new CreatedResult(result.Id, result);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id">Identyfikator usuwanej rezerwacji. </param>
-        [HttpDelete("reserved/{id}")]
-        public ActionResult<string> ReservedDelete([FromRoute]string id)
+        [HttpDelete("{id}")]
+        [Authorize(Roles = Role.Admin)]
+        public IActionResult DeleteBike(string id)
         {
-            return BadRequest();
+            bikesService.DeleteBike(id);
+            return NoContent();
         }
     }
 }

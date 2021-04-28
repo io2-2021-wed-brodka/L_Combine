@@ -16,3 +16,5 @@ npm install
 ```
 ng s 
 ```
+
+Aplikacja UserTech działa pod adresem localhost:4200, a Admin pod localhost:4300.

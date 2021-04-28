@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BackendAPI.Models;
-using BackendAPI.Repository.Interfaces;
+using BackendAPI.Services.Interfaces;
+using ClassLibrary.DTO;
 using ClassLibrary.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,21 +15,19 @@ namespace BackendAPI.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private IUserRepository userRepository;
-        public LoginController(IUserRepository userRepository)
+        private readonly ILoginService loginService;
+
+        public LoginController(ILoginService loginService)
         {
-            this.userRepository = userRepository;
+            this.loginService = loginService;
         }
         //POST api/login
         [HttpPost]
-        public IActionResult Post([FromBody]AuthenticateRequest model)
+        public ActionResult<LoginResponseDTO> Post([FromBody]AuthenticateRequestDTO request)
         {
-            var response = userRepository.Authenticate(model);
+            var result = loginService.Login(request.Login, request.Password);
 
-            if (response == null)
-                throw new HttpResponseException("Bad credentials", 401);
-
-            return Ok(response);
+            return Ok(result);
         }
     }
 }

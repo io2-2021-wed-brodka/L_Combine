@@ -1,0 +1,16 @@
+<div class="list">
+    <h3>Aktywni użytkownicy</h3>
+    <div class="list-items">
+        <div 
+            *ngFor="let user of users"
+            class="list-item list-item-active"
+            (click)="selectUser(user)"
+        >
+            <div class="list-item-side-left"> {{user.username}}</div>
+            <div class="list-item-side-right"> {{user.id}}</div>
+            <div *ngIf="user===selectedUser" class="list-item-details">
+                <app-block-user [user]="user"></app-block-user>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,13 +1,17 @@
 .flex-container{
   display: flex;
   max-width: 1000px;
-  margin: 100px auto auto;
+  margin: auto auto;
   justify-content: center;
   gap: 100px;
 }
 
 .flex-item{
   width: 400px;
+}
+
+.bikes-reserved {
+  margin-top: 2vh;
 }
 
 @media (max-width: 900px) {

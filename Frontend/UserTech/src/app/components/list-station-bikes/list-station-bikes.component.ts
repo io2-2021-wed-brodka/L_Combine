@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {StationService} from '../../services/station.service';
 import {ActivatedRoute} from '@angular/router';
 import {BikeStation} from '../../models/bikeStation';
-import {Location} from '@angular/common';
 import {Bike, BikeState} from '../../models/bike';
 import {bikeFromDTO, stationFromDTO} from '../../utils/dto-utils';
+import {RedirectService} from '../../services/redirect.service';
 
 @Component({
   selector: 'app-list-station-bikes',
@@ -12,15 +12,14 @@ import {bikeFromDTO, stationFromDTO} from '../../utils/dto-utils';
   styleUrls: ['./list-station-bikes.component.scss']
 })
 export class ListStationBikesComponent implements OnInit {
-  station: BikeStation | undefined;
+  stationName!: string;
   bikes: Bike[] = [];
   selectedBike: Bike | undefined;
 
   constructor(
     private stationService: StationService,
     private route: ActivatedRoute,
-    private location: Location,
-  ) {
+    private redirectService: RedirectService) {
   }
 
   ngOnInit(): void {
@@ -29,14 +28,14 @@ export class ListStationBikesComponent implements OnInit {
 
   getStation(): void {
     const stationId = this.route.snapshot.paramMap.get('id') || '';
-    this.stationService.getStation(stationId).subscribe(station => this.station = stationFromDTO(station));
+    this.stationName = this.route.snapshot.paramMap.get('name') || '';
     this.stationService.getStationBikes(stationId).subscribe(bikes =>
       this.bikes = bikes.bikes.map<Bike>(bikeFromDTO)
     );
   }
 
   goBack(): void {
-    this.location.back();
+    this.redirectService.goBack();
   }
 
   getBikeStateText(state: BikeState): string {

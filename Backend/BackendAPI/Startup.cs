@@ -5,13 +5,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using BackendAPI.Data;
-using BackendAPI.Repository.Interfaces;
-using BackendAPI.Repository.Repositories;
 using BackendAPI.Helpers;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Http;
+using BackendAPI.Services.Interfaces;
+using BackendAPI.Services.Classes;
 
 namespace BackendAPI
 {
@@ -29,10 +29,11 @@ namespace BackendAPI
         {
             services.AddCors();
 
-            services.AddScoped<IBikeRepository, BikeRepository>();
-            services.AddScoped<IStationRepository, StationRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IRentalRepository, RentalRepository>();
+            services.AddScoped<IBikesService, BikesService>();
+            services.AddScoped<IStationsService, StationsService>();
+            services.AddScoped<IReservationsService, ReservationsService>();
+            services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IUsersService, UsersService>();
 
             services.AddDbContextPool<DataContext>(options =>
                 options.UseSqlServer(
@@ -91,6 +92,15 @@ namespace BackendAPI
                 {
                     context.HttpContext.Response.ContentType = "application/json";
                     await context.HttpContext.Response.WriteAsync("{\"message\":\"Unauthorized\"}");
+                }
+                //Poniżej odpowiednie przerobienie pustych responsów 403
+                //(pochodzących z atrybutu Authorize), by było zgodnie
+                //ze specyfikacją
+                else if (context.HttpContext.Response.StatusCode == 403
+                && context.HttpContext.Response.ContentType == null)
+                {
+                    context.HttpContext.Response.ContentType = "application/json";
+                    await context.HttpContext.Response.WriteAsync("{\"message\":\"Forbidden\"}");
                 }
             });
 

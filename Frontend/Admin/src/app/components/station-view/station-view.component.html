@@ -1,0 +1,8 @@
+<div class="view-container">
+  <div class="list-container">
+    <app-list-stations (selectedStationChanged)="station = $event"></app-list-stations>
+  </div>
+  <div class="list-container">
+    <app-list-station-bikes [station]="station"></app-list-station-bikes>
+  </div>
+</div>

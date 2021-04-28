@@ -16,6 +16,10 @@ import {HttpErrorInterceptor} from './interceptors/http-error.interceptor';
 import {HomeComponent} from './components/home/home.component';
 import {RentedBikeDetailsComponent} from './components/rented-bike-details/rented-bike-details.component';
 import {ReturnBikeComponent} from './components/return-bike/return-bike.component';
+import {NotificationsComponent} from './components/notification/notifications.component';
+import {ReservationListComponent} from './components/reservation-list/reservation-list.component';
+import {ReservedBikeDetailsComponent} from './components/reserved-bike-details/reserved-bike-details.component';
+import {RegisterComponent} from './components/register/register.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +33,10 @@ import {ReturnBikeComponent} from './components/return-bike/return-bike.componen
     HomeComponent,
     RentedBikeDetailsComponent,
     ReturnBikeComponent,
+    NotificationsComponent,
+    ReservationListComponent,
+    ReservedBikeDetailsComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

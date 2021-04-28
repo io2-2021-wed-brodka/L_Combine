@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {environment as env} from '../../environments/environment';
-import {StationDTO} from '../dto/station-dto';
 import {StationsDTO} from '../dto/stations-dto';
 import {BikesDTO} from '../dto/bikes-dto';
 
@@ -15,17 +14,12 @@ export class StationService {
   constructor(private http: HttpClient) {
   }
 
-  getStation(stationId: string): Observable<StationDTO> {
-    const url = `${this.baseUrl}/${stationId}`;
-    return this.http.get<StationDTO>(url);
-  }
-
   getStations(): Observable<StationsDTO> {
-    return this.http.get<StationsDTO>(this.baseUrl);
+    return this.http.get<StationsDTO>(`${this.baseUrl}/active`);
   }
 
   getStationBikes(stationId: string): Observable<BikesDTO> {
-    const url = `${this.baseUrl}/bikes/${stationId}`;
+    const url = `${this.baseUrl}/${stationId}/bikes`;
     return this.http.get<BikesDTO>(url);
   }
 }

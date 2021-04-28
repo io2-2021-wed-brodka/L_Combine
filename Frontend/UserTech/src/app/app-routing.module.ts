@@ -7,11 +7,16 @@ import {UserLoggedGuard} from './guards/user-logged.guard';
 import {HomeComponent} from './components/home/home.component';
 import {ReturnBikeComponent} from './components/return-bike/return-bike.component';
 import {BikeRentedGuard} from './guards/bike-rented.guard';
+import {RegisterComponent} from './components/register/register.component';
 
 const routes: Routes = [
   {
     path: 'login',
     component: LoginViewComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
   },
   {
     path: 'rental',
@@ -23,7 +28,7 @@ const routes: Routes = [
         component: HomeComponent,
       },
       {
-        path: 'station/:id',
+        path: 'station/:id/:name',
         component: ListStationBikesComponent,
       },
       {
