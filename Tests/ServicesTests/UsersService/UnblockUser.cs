@@ -31,6 +31,7 @@ namespace ServicesTests.UsersService
             int id = 500;
 
             service.UnblockUser(id.ToString());
+            Assert.Fail();
         }
 
         [TestMethod]
@@ -40,6 +41,7 @@ namespace ServicesTests.UsersService
             int id = 1;
 
             service.UnblockUser(id.ToString());
+            Assert.Fail();
         }
     }
 }

@@ -29,6 +29,7 @@ namespace ServicesTests.UsersService
         {
             int id = -1;
             service.BlockUser(id.ToString());
+            Assert.Fail();
         }
 
         [TestMethod]
@@ -38,6 +39,7 @@ namespace ServicesTests.UsersService
             int id = 1;
             service.BlockUser(id.ToString());
             service.BlockUser(id.ToString());
+            Assert.Fail();
         }
 
     }

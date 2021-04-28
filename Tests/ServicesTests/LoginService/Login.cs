@@ -26,6 +26,8 @@ namespace ServicesTests.LoginService
         public void Login_InvalidCredentials()
         {
             var result = service.Login("login1", "pass");
+
+            Assert.Fail();
         }
     }
 }

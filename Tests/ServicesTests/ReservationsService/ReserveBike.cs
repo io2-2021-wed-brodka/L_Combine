@@ -38,6 +38,7 @@ namespace ServicesTests.ReservationsService
         public void ReserveBike_InvalidBike()
         {
             service.ReserveBike("1", "123456");
+            Assert.Fail();
         }
 
         [TestMethod]
@@ -45,6 +46,7 @@ namespace ServicesTests.ReservationsService
         public void ReserveBike_BlockedBike()
         {
             service.ReserveBike("1", "5");
+            Assert.Fail();
         }
 
         [TestMethod]
@@ -52,6 +54,7 @@ namespace ServicesTests.ReservationsService
         public void ReserveBike_BlockedBikeStation()
         {
             service.ReserveBike("1", "6");
+            Assert.Fail();
         }
 
         [TestMethod]
@@ -61,6 +64,8 @@ namespace ServicesTests.ReservationsService
             service.ReserveBike("1", "4");
 
             service.ReserveBike("2", "4");
+
+            Assert.Fail();
         }
 
         [TestMethod]
@@ -79,6 +84,7 @@ namespace ServicesTests.ReservationsService
             dbContext.SaveChanges();
 
             service.ReserveBike("1", "4");
+            Assert.Fail();
         }
     }
 }

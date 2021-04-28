@@ -32,6 +32,7 @@ namespace ServicesTests.ReservationsService
         public void CancelReservation_InvalidBike()
         {
             service.CancelReservation("1", "12345");
+            Assert.Fail();
         }
 
         [TestMethod]
@@ -39,6 +40,7 @@ namespace ServicesTests.ReservationsService
         public void CancelReservation_NotReservedBike()
         {
             service.CancelReservation("1", "1");
+            Assert.Fail();
         }
 
         [TestMethod]
@@ -47,6 +49,7 @@ namespace ServicesTests.ReservationsService
         {
             service.ReserveBike("1", "1");
             service.CancelReservation("2", "1");
+            Assert.Fail();
         }
     }
 }

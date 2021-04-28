@@ -24,6 +24,8 @@ namespace ServicesTests.LoginService
         public void Register_RepeatedLogin()
         {
             var result = service.Register("login1", "pass");
+
+            Assert.Fail();
         }
     }
 }

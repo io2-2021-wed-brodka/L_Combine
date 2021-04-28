@@ -139,13 +139,6 @@ namespace BackendAPI.Services.Classes
             if (bike.BikeStationID == null)
                 throw new HttpResponseException("Bike is rented", 422);
 
-            //KS: dodałem zabezpieczenie przed zablokowaniem zarezerwowanego roweru.
-            var reservation = dbContext.Reservations
-                .Where(r => r.BikeID == bikeId && r.ExpireDate > DateTime.Now)
-                .FirstOrDefault();
-            if (reservation != null)
-                throw new HttpResponseException("Bike is reserved", 422);
-
             var reservations = from r in dbContext.Reservations
                                where r.BikeID == bikeId
                                select r;

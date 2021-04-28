@@ -47,20 +47,6 @@ namespace ServicesTests.BikesService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike is reserved")]
-        public void BlockReservedBike_Failure()
-        {
-            string bikeId = "1";
-            string userId = "1";
-            string stationId = "3";
-            ReserveBike(bikeId, stationId, userId);
-
-            service.BlockBike(bikeId);
-
-            Assert.Fail();
-        }
-
-        [TestMethod]
         public void BlockFreeBike_Success()
         {
             string bikeId = "1";
