@@ -4,6 +4,7 @@ using BackendAPI.Services.Interfaces;
 using ClassLibrary;
 using ClassLibrary.DTO;
 using ClassLibrary.Exceptions;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,12 @@ namespace BackendAPI.Services.Classes
 {
     public class UsersService : Service, IUsersService
     {
+        [ActivatorUtilitiesConstructor]
         public UsersService(DataContext dbContext) : base(dbContext)
+        {
+        }
+
+        public UsersService(TestDataContext dbContext) : base(dbContext)
         {
         }
 

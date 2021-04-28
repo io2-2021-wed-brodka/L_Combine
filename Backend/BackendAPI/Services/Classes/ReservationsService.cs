@@ -4,6 +4,7 @@ using BackendAPI.Services.Interfaces;
 using ClassLibrary.DTO;
 using ClassLibrary.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,12 @@ namespace BackendAPI.Services.Classes
     {
         const int PerUserReservationsLimit = 3;
 
-        public ReservationsService(CommonDataContext dbContext) : base(dbContext)
+        [ActivatorUtilitiesConstructor]
+        public ReservationsService(DataContext dbContext) : base(dbContext)
+        {
+        }
+
+        public ReservationsService(TestDataContext dbContext) : base(dbContext)
         {
         }
 

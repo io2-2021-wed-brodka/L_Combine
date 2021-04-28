@@ -5,6 +5,7 @@ using ClassLibrary;
 using ClassLibrary.DTO;
 using ClassLibrary.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,12 @@ namespace BackendAPI.Services.Classes
 {
     public class StationsService : Service, IStationsService
     {
+        [ActivatorUtilitiesConstructor]
+        public StationsService(DataContext dbContext) : base(dbContext)
+        {
+        }
 
-        public StationsService(CommonDataContext dbContext) : base(dbContext)
+        public StationsService(TestDataContext dbContext) : base(dbContext)
         {
         }
 

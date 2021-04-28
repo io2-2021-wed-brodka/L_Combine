@@ -5,6 +5,7 @@ using BackendAPI.Services.Interfaces;
 using ClassLibrary;
 using ClassLibrary.DTO;
 using ClassLibrary.Exceptions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -21,6 +22,7 @@ namespace BackendAPI.Services.Classes
     {
         private readonly JwtSettings jwtSettings;
 
+        [ActivatorUtilitiesConstructor]
         public LoginService(DataContext dbContext,
             IOptions<JwtSettings> jwtSettings) : base(dbContext)
         {

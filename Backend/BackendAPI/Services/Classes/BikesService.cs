@@ -4,6 +4,7 @@ using BackendAPI.Services.Interfaces;
 using ClassLibrary.DTO;
 using ClassLibrary.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace BackendAPI.Services.Classes
     {
         const int PerUserBikesLimit = 4;
 
+        [ActivatorUtilitiesConstructor]
         public BikesService(DataContext dbContext) : base(dbContext)
         {
         }
