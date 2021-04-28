@@ -15,9 +15,12 @@ namespace BackendAPI.Services.Classes
     {
         const int PerUserBikesLimit = 4;
 
-        public BikesService(CommonDataContext dbContext) : base(dbContext)
+        public BikesService(DataContext dbContext) : base(dbContext)
         {
         }
+
+        public BikesService(TestDataContext dbContext): base(dbContext)
+        { }
 
         public IEnumerable<BikeDTO> GetBikesForAdmin()
         {

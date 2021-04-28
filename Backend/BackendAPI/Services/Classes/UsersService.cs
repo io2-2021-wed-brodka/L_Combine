@@ -13,7 +13,7 @@ namespace BackendAPI.Services.Classes
 {
     public class UsersService : Service, IUsersService
     {
-        public UsersService(CommonDataContext dbContext) : base(dbContext)
+        public UsersService(DataContext dbContext) : base(dbContext)
         {
         }
 
