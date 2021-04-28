@@ -121,7 +121,7 @@ describe('RegisterComponent', () => {
 
     fixture.detectChanges();
     expect(debugElement.query(By.css('.form-error')).nativeElement.textContent.trim())
-      .toEqual('Login taken!');
+      .toEqual('Login jest zajęty!');
   });
 
   it('should show passwordsMismatch when repeatPassword valid and flag set', () => {
@@ -130,6 +130,6 @@ describe('RegisterComponent', () => {
 
     fixture.detectChanges();
     expect(debugElement.query(By.css('.form-error')).nativeElement.textContent.trim())
-      .toEqual('Passwords do not match!');
+      .toEqual('Hasła nie są takie same!');
   });
 });
