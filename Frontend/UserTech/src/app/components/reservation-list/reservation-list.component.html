@@ -1,5 +1,5 @@
 <div class="list">
-  <h3 class="list-header">Reserved bikes</h3>
+  <h3 class="list-header">Zarezerwowane rowery</h3>
   <div class="list-items">
     <div *ngFor="let bike of reservedBikes"
          class="list-item list-item-active"
@@ -8,6 +8,7 @@
         {{bike.id}}
       </div>
       <div class="list-item-side-right">
+        <div>Zarezerwowany do:</div>
         <div>{{bike.reservedTill?.toLocaleDateString()}}</div>
         <div>{{bike.reservedTill?.toLocaleTimeString()}}</div>
       </div>
