@@ -7,7 +7,7 @@ namespace ServicesTests.TechsService
 {
     public abstract class BaseTechsTest : BaseTest
     {
-        private BackendAPI.Services.Classes.TechsService service;
+        protected BackendAPI.Services.Classes.TechsService service;
 
         protected void CreateTechsService()
         {
