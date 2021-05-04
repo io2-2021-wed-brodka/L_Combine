@@ -19,7 +19,28 @@ namespace BackendAPI.Services.Classes
 
         public UserDTO AddTech(string login, string password)
         {
-            throw new NotImplementedException();
+            //Tego niżej nie precyuje specka
+            //[TODO] TODO:
+            //Dopytać ludzi od specki
+            if (dbContext.Users.Where(u => u.Login == login).Any())
+                throw new HttpResponseException("Given login already exists in database.", 409);
+
+            User tech;
+            using (StringHash stringHash = new StringHash())
+            {
+                tech = new User()
+                {
+                    Login = login,
+                    PasswordHash = stringHash.GetHash(password),
+                    Name = "ROZSZERZYC_REJESTRACJE",
+                    LastName = "ROZSZERZYC_REJESTRACJE",
+                    Role = Role.Tech
+                };
+            }
+            //Dodaj uzytkownika do bazy
+            dbContext.Add(tech);
+            dbContext.SaveChanges();
+            return CreateUserDTO(tech);
         }
 
         public void DeleteTech(string techIdString)
