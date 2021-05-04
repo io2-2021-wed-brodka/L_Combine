@@ -16,7 +16,7 @@ describe('MainComponent', () => {
   let fixture: ComponentFixture<MainComponent>;
   let login: jasmine.SpyObj<LoginService>
   beforeEach(async () => {
-    const loginServiceSpy = jasmine.createSpyObj('LoginService', ['logout']);
+    const loginServiceSpy = jasmine.createSpyObj('LoginService', ['logout','getRole']);
     await TestBed.configureTestingModule({
       declarations: [ MainComponent, RouterOutletStub, AppNotificationsStub ],
       providers: [
@@ -45,7 +45,7 @@ describe('MainComponent', () => {
 
   it('should logout on button click', ()=>{
     expect(login.logout).toHaveBeenCalledTimes(0);
-    const button = fixture.debugElement.query(By.css('button'));
+    const button = fixture.debugElement.query(By.css('.logout'));
     button.triggerEventHandler('click', null);
     expect(login.logout).toHaveBeenCalledTimes(1);
   });

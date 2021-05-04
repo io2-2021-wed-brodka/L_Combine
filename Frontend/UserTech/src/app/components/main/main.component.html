@@ -1,6 +1,7 @@
 <div class="header">
   <div class="logo">Bike Rentup</div>
   <app-notifications class="notifications"></app-notifications>
+  <button *ngIf="isTech">Panel specjalisty</button>
   <button class="logout" (click)="logout()">Wyloguj</button>
 </div>
 
