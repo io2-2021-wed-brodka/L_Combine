@@ -19,25 +19,31 @@ namespace BackendAPI.Services.Classes
             this.dbContext = dbContext;
         }
 
-        protected int ParseUserId(string id)
+        private int ParseId(string id, string name)
         {
             if (!int.TryParse(id, out int result))
-                throw new HttpResponseException("User not found", 404);
+                throw new HttpResponseException($"{name} not found", 404);
             return result;
+        }
+
+        protected int ParseUserId(string id)
+        {
+            return ParseId(id, "User");
+        }
+
+        protected int ParseTechId(string id)
+        {
+            return ParseId(id, "Tech");
         }
 
         protected int ParseStationId(string id)
         {
-            if (!int.TryParse(id, out int result))
-                throw new HttpResponseException("Station not found", 404);
-            return result;
+            return ParseId(id, "Station");
         }
 
         protected int ParseBikeId(string id)
         {
-            if (!int.TryParse(id, out int result))
-                throw new HttpResponseException("Bike not found", 404);
-            return result;
+            return ParseId(id, "Bike");
         }
 
         //Niezwykle ważna uwaga!!!! 
