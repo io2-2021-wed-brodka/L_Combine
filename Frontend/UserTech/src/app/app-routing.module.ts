@@ -9,6 +9,7 @@ import {ReturnBikeComponent} from './components/return-bike/return-bike.componen
 import {BikeRentedGuard} from './guards/bike-rented.guard';
 import {RegisterComponent} from './components/register/register.component';
 import { TechPanelComponent } from './components/tech/tech-panel/tech-panel.component';
+import { TechGuard } from './guards/tech.guard';
 
 const routes: Routes = [
   {
@@ -40,7 +41,7 @@ const routes: Routes = [
       {
         path: 'tech',
         component: TechPanelComponent,
-        canActivate: []
+        canActivate: [TechGuard]
       }
     ]
   },
