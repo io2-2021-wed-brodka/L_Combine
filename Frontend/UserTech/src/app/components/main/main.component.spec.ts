@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { Role } from 'src/app/dto/authenticate-response-dto';
 import { LoginService } from 'src/app/services/login.service';
 
 import { MainComponent } from './main.component';
@@ -25,6 +26,7 @@ describe('MainComponent', () => {
     })
     .compileComponents();
     login = TestBed.inject(LoginService) as jasmine.SpyObj<LoginService>
+    login.getRole.and.returnValue(Role.Tech);
   });
 
   beforeEach(() => {
@@ -35,6 +37,10 @@ describe('MainComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should get role on init', ()=>{
+    expect(component.isTech).toBeTrue();
   });
 
   it('#logout should call service logout function', ()=>{
