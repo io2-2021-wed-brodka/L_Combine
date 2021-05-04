@@ -40,6 +40,7 @@ namespace BackendAPI.Services.Classes
             //Dodaj uzytkownika do bazy
             dbContext.Add(tech);
             dbContext.SaveChanges();
+            //tech dostal już nowe id
             return CreateUserDTO(tech);
         }
 
