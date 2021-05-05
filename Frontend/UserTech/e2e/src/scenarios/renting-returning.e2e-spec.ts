@@ -31,6 +31,8 @@ describe('renting and returning bike', () => {
 
     expect(await homePage.getRentedBikes().count()).toEqual(rentedBikes + 1);
     expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}rental/home`);
+    expect(await homePage.getSuccessNotification().isPresent()).toBe(true);
+    expect(await homePage.getErrorNotification().isPresent()).toBe(false);
   });
 
   it('should go back from selecting return station', async () => {
@@ -53,6 +55,8 @@ describe('renting and returning bike', () => {
 
     expect(await homePage.getRentedBikes().count()).toEqual(rentedBikes - 1);
     expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}rental/home`);
+    expect(await homePage.getSuccessNotification().isPresent()).toBe(true);
+    expect(await homePage.getErrorNotification().isPresent()).toBe(false);
   });
 
   it('should not rent if 4 bikes rented', async () => {
@@ -67,6 +71,7 @@ describe('renting and returning bike', () => {
 
     expect(await homePage.getRentedBikes().count()).toEqual(4);
     expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}rental/home`);
+    expect(await homePage.getErrorNotification().isPresent()).toBe(true);
   });
 
   afterEach(async () => {

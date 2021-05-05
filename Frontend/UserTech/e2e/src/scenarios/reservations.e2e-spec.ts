@@ -24,6 +24,8 @@ describe('reservations', () => {
 
     expect(await homePage.getReservedBikes().count()).toEqual(reservedBikes + 1);
     expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}rental/home`);
+    expect(await homePage.getSuccessNotification().isPresent()).toBe(true);
+    expect(await homePage.getErrorNotification().isPresent()).toBe(false);
   });
 
   it('should rent reserved bike', async () => {
@@ -36,6 +38,8 @@ describe('reservations', () => {
 
     expect(await homePage.getReservedBikes().count()).toEqual(reservedBikes - 1);
     expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}rental/home`);
+    expect(await homePage.getSuccessNotification().isPresent()).toBe(true);
+    expect(await homePage.getErrorNotification().isPresent()).toBe(false);
   });
 
   it('should cancel reserved bike', async () => {
@@ -46,6 +50,8 @@ describe('reservations', () => {
 
     expect(await homePage.getReservedBikes().count()).toEqual(reservedBikes - 1);
     expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}rental/home`);
+    expect(await homePage.getSuccessNotification().isPresent()).toBe(true);
+    expect(await homePage.getErrorNotification().isPresent()).toBe(false);
   });
 
   it('should not reserve if 3 bikes reserved', async () => {
@@ -60,6 +66,7 @@ describe('reservations', () => {
 
     expect(await homePage.getReservedBikes().count()).toEqual(3);
     expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}rental/home`);
+    expect(await homePage.getErrorNotification().isPresent()).toBe(true);
   });
 
   afterEach(async () => {

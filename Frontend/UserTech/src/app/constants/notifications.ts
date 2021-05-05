@@ -1,1 +1,1 @@
-export const NOTIFICATION_TIMEOUT = 100;
+export const NOTIFICATION_TIMEOUT = 3000;
