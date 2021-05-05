@@ -2,11 +2,11 @@ import {browser, by, element, ElementFinder, promise} from 'protractor';
 
 export class LoginPage {
   get login(): string {
-    return 'login1';
+    return 'admin';
   }
 
   get password(): string {
-    return 'haslo';
+    return 'admin';
   }
 
   navigateToLogin(): promise.Promise<any> {
@@ -31,11 +31,5 @@ export class LoginPage {
 
   getRegisterLink(): ElementFinder {
     return element(by.css('.register'));
-  }
-
-  preformLogin(): promise.Promise<any> {
-    return this.getLoginInput().sendKeys(this.login)
-      .then(() => this.getPasswordInput().sendKeys(this.password))
-      .then(() => this.getLoginButton().click());
   }
 }

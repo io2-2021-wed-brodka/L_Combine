@@ -2,7 +2,7 @@ import {browser, by, element, ElementFinder, promise} from 'protractor';
 
 export class RegisterPage {
   get login(): string {
-    return 'login2';
+    return 'login1';
   }
 
   get password(): string {

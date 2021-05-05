@@ -44,4 +44,10 @@ describe('login screen', () => {
     expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}login`);
     expect(await loginPage.getLoginError().isPresent()).toBe(true);
   });
+
+  afterEach(async () => {
+    if (await browser.getCurrentUrl() === `${browser.baseUrl}rental/home`) {
+      // (new HomePage()).getLogoutButton().click();
+    }
+  });
 });
