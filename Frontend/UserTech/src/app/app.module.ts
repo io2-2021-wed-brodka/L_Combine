@@ -20,6 +20,7 @@ import {NotificationsComponent} from './components/notification/notifications.co
 import {ReservationListComponent} from './components/reservation-list/reservation-list.component';
 import {ReservedBikeDetailsComponent} from './components/reserved-bike-details/reserved-bike-details.component';
 import {RegisterComponent} from './components/register/register.component';
+import { TechPanelComponent } from './components/tech/tech-panel/tech-panel.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import {RegisterComponent} from './components/register/register.component';
     ReservationListComponent,
     ReservedBikeDetailsComponent,
     RegisterComponent,
+    TechPanelComponent,
   ],
   imports: [
     BrowserModule,

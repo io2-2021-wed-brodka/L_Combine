@@ -9,6 +9,7 @@ import {RedirectService} from '../../services/redirect.service';
 import {FormsModule} from '@angular/forms';
 import {HttpErrorResponse} from '@angular/common/http';
 import {By} from '@angular/platform-browser';
+import { Role } from 'src/app/dto/authenticate-response-dto';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -53,7 +54,7 @@ describe('RegisterComponent', () => {
     component.formData.password = 'b';
     component.formData.repeatPassword = 'b';
 
-    registerService.register.and.returnValue(of({token: 'a'}));
+    registerService.register.and.returnValue(of({token: 'a', role: Role.User}));
     notificationService.success.and.returnValue();
   });
 
