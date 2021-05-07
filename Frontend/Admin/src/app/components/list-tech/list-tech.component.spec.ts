@@ -1,16 +1,24 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+import { TechService } from 'src/app/services/tech.service';
 
 import { ListTechComponent } from './list-tech.component';
 
 describe('ListTechComponent', () => {
   let component: ListTechComponent;
   let fixture: ComponentFixture<ListTechComponent>;
-
+  let techService: jasmine.SpyObj<TechService>;
   beforeEach(async () => {
+    const techServiceSpy = jasmine.createSpyObj('TechService', ['getTechs']);
     await TestBed.configureTestingModule({
-      declarations: [ ListTechComponent ]
+      declarations: [ ListTechComponent ],
+      providers: [
+        {provide: TechService, useValue: techServiceSpy}
+      ]
     })
     .compileComponents();
+    techService = TestBed.inject(TechService) as jasmine.SpyObj<TechService>;
+    techService.getTechs.and.returnValue(of({techs: [{name: 'name', id: '1'}]}))
   });
 
   beforeEach(() => {
@@ -21,5 +29,19 @@ describe('ListTechComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  it('#techs should be defined on init', ()=>{
+    expect(techService.getTechs).toHaveBeenCalledTimes(1);
+    expect(component.techs.length).toBeTruthy();
+  });
+  it('#selectTech should set #selectedTech', ()=>{
+    expect(component.selectedTech).toBeUndefined();
+    component.selectTech(component.techs[0]);
+    expect(component.selectedTech).toEqual(component.techs[0]);
+  });
+  it('#selectTech should unselect on second click', ()=>{
+    component.selectTech(component.techs[0]);
+    component.selectTech(component.techs[0]);
+    expect(component.selectedTech).toBeUndefined();
   });
 });
