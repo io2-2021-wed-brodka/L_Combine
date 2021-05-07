@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-view.component.scss']
 })
 export class UserViewComponent implements OnInit {
-
+  tech: boolean = false;
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  togglePage(){
+    this.tech = !this.tech;
   }
 
 }

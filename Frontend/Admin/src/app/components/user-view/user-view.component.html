@@ -1,8 +1,14 @@
-<div class="view-container">
+<button (click)="togglePage()">{{tech? 'Użytkownicy': 'Serwisanci'}}</button>
+<div class="view-container" *ngIf="!tech">
     <div class="list-container">
         <app-list-users></app-list-users>
     </div>
     <div class="list-container">
         <app-list-blocked-users></app-list-blocked-users>
+    </div>
+</div>
+<div class="list-container" *ngIf="tech">
+    <div class="list-container">
+        <app-list-tech></app-list-tech>
     </div>
 </div>

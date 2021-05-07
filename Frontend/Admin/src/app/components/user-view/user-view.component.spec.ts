@@ -29,4 +29,16 @@ describe('UserViewComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  
+  it('tech should be false on start', ()=>{
+    expect(component.tech).toBeFalse();
+  });
+  
+  it('#togglePage should toggle #tech value', ()=>{
+    const initValue = component.tech;
+    component.togglePage();
+    expect(component.tech).toEqual(!initValue);
+    component.togglePage();
+    expect(component.tech).toEqual(initValue);
+  })
 });
