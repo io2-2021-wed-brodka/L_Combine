@@ -4,6 +4,7 @@ using BackendAPI.Services.Interfaces;
 using ClassLibrary;
 using ClassLibrary.DTO;
 using ClassLibrary.Exceptions;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,12 @@ namespace BackendAPI.Services.Classes
 {
     public class TechsService : Service, ITechsService
     {
-        public TechsService(CommonDataContext dbContext) : base(dbContext)
+        [ActivatorUtilitiesConstructor]
+        public TechsService(DataContext dbContext) : base(dbContext)
+        {
+        }
+
+        public TechsService(TestDataContext dbContext) : base(dbContext)
         {
         }
 
