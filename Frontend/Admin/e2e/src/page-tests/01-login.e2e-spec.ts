@@ -1,5 +1,6 @@
 import {LoginPage} from '../pages/login.po';
 import {browser} from 'protractor';
+import {HomePage} from '../pages/home.po';
 
 describe('login screen', () => {
   let loginPage: LoginPage;
@@ -18,12 +19,6 @@ describe('login screen', () => {
     await loginPage.getPasswordInput().sendKeys(loginPage.password);
 
     expect(await loginPage.getLoginButton().isEnabled()).toBe(true);
-  });
-
-  it('registerLink should lead to /register', async () => {
-    await loginPage.getRegisterLink().click();
-
-    expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}register`);
   });
 
   it('loginButton should navigate to main page when login successful', async () => {
@@ -47,7 +42,7 @@ describe('login screen', () => {
 
   afterEach(async () => {
     if (await browser.getCurrentUrl() === `${browser.baseUrl}rental/home`) {
-      // (new HomePage()).getLogoutButton().click();
+      (new HomePage()).getLogoutButton().click();
     }
   });
 });

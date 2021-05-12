@@ -1,4 +1,4 @@
-import {browser, by, element, ElementFinder, promise} from 'protractor';
+import {$, browser, ElementFinder, promise} from 'protractor';
 
 export class LoginPage {
   get login(): string {
@@ -14,22 +14,24 @@ export class LoginPage {
   }
 
   getLoginInput(): ElementFinder {
-    return element(by.css('#loginInput'));
+    return $('#loginInput');
   }
 
   getPasswordInput(): ElementFinder {
-    return element(by.css('#passwordInput'));
+    return $('#passwordInput');
   }
 
   getLoginButton(): ElementFinder {
-    return element(by.css('.main-button'));
+    return $('.main-button');
   }
 
   getLoginError(): ElementFinder {
-    return element(by.css('.form-error'));
+    return $('.form-error');
   }
 
-  getRegisterLink(): ElementFinder {
-    return element(by.css('.register'));
+  preformLogin(): promise.Promise<any> {
+    return this.getLoginInput().sendKeys(this.login)
+      .then(() => this.getPasswordInput().sendKeys(this.password))
+      .then(() => this.getLoginButton().click());
   }
 }
