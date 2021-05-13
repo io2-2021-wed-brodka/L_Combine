@@ -10,8 +10,9 @@
         {{station.locationName}}
       </div>
       <div [ngSwitch]="station.stationState" class="list-item-side-right">
-        <span *ngSwitchCase="'active'">Aktywna</span>
-        <span *ngSwitchCase="'blocked'">Zablokowana</span>
+        <div *ngSwitchCase="'active'">Aktywna</div>
+        <div *ngSwitchCase="'blocked'">Zablokowana</div>
+        <div>Rowerów: {{station.bikeCount}}</div>
       </div>
     </a>
   </div>
