@@ -9,7 +9,7 @@
             <div class="list-item-side-left"> {{tech.username}}</div>
             <div class="list-item-side-right"> {{tech.id}}</div>
             <div *ngIf="tech===selectedTech" class="list-item-details">
-                techDetails
+                <app-delete-tech [tech]="tech"></app-delete-tech>
             </div>
         </div>
     </div>

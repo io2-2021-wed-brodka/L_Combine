@@ -25,6 +25,7 @@ import {StationManagementComponent} from './components/station-view/list-station
 import {ListBikesComponent} from './components/list-bikes/list-bikes.component';
 import { ListTechComponent } from './components/list-tech/list-tech.component';
 import { AddTechComponent } from './components/add-tech/add-tech.component';
+import { DeleteTechComponent } from './components/delete-tech/delete-tech.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { AddTechComponent } from './components/add-tech/add-tech.component';
     UnblockUserComponent,
     ListBikesComponent,
     ListTechComponent,
-    AddTechComponent
+    AddTechComponent,
+    DeleteTechComponent
   ],
   imports: [
     BrowserModule,
