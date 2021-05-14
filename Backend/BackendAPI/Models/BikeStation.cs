@@ -15,6 +15,5 @@ namespace BackendAPI.Models
         //Właściwość potrzebna do utrzymania relacji między tabelami
         public IList<Bike> Bikes { get; set; }
         public IList<Reservation> Reservations { get; set; }
-        public int BikesLimit { get; set; }
     }
 }
