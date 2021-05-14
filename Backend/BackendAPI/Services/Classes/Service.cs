@@ -52,6 +52,23 @@ namespace BackendAPI.Services.Classes
         //IQueryable.Select(s => Create...DTO(s))
         //bo to wywali błąd z wielowątkowym dostępem do bazy danych.
         //Trzeba zrobić IQueryable.ToList().Select(s => Create...DTO(s))
+
+        protected BikeDTO CreateNotRentedNotReservedBikeDTO(Bike bike)
+        {
+            string status;
+            if (bike.State == ClassLibrary.BikeState.Working)
+                status = BikeStatusDTO.Available;
+            else
+                status = BikeStatusDTO.Blocked;
+            return new BikeDTO()
+            {
+                BikeStatus = status,
+                Id = bike.ID.ToString(),
+                Station = CreateStationDTO(bike.BikeStation),
+                User = null
+            };
+        }
+
         protected BikeDTO CreateBikeDTO(Bike bike, User user, bool? reserved = null)
         {
             string status;

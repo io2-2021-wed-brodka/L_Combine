@@ -57,23 +57,13 @@ namespace BackendAPI.Services.Classes
                 && role == Role.User)
                 throw new HttpResponseException("Only tech and admin can list bikes at blocked station", 403);
 
-            var availableBikes = dbContext.Bikes.Include(b => b.Reservations).Where(b =>
+            return dbContext.Bikes.Include(b => b.Reservations).Where(b =>
                 b.BikeStationID == stationId &&
             //Dostępne rowery na stacji to te, które są
             //Working i nie mają aktywnych rezerwacji
                 b.State == BikeState.Working &&
                 !b.Reservations.Where(r => r.ExpireDate >= DateTime.Now).Any())
-                .ToList();
-
-            return availableBikes.Select(b =>
-                new BikeDTO()
-                {
-                    Id = b.ID.ToString(),
-                    BikeStatus = BikeStatusDTO.Available,
-                    Station = CreateStationDTO(station),
-                    User = null
-                });
-
+                .ToList().Select(b => CreateNotRentedNotReservedBikeDTO(b));
         }
 
         public StationDTO GetStation(string stationIdString)
@@ -126,7 +116,7 @@ namespace BackendAPI.Services.Classes
             //nie ma ryzyka, że BikeStation będzie nullem
             dbContext.SaveChanges();
 
-            return CreateBikeDTO(bike, null, false);
+            return CreateNotRentedNotReservedBikeDTO(bike);
         }
 
         public StationDTO AddStation(string name)
