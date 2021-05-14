@@ -17,7 +17,7 @@ namespace ServicesTests.StationsService
         {
             string name = "Granda";
 
-            var station = service.AddStation(name);
+            var station = service.AddStation(name, null);
 
             Assert.IsTrue(station.Name == name);
             Assert.IsTrue(station.ActiveBikesCount == 0);
@@ -32,7 +32,7 @@ namespace ServicesTests.StationsService
         {
             string name = "Warszawa PKiN";
 
-            var station = service.AddStation(name);
+            var station = service.AddStation(name, null);
 
             Assert.IsTrue(station.Name == name);
             Assert.IsTrue(station.ActiveBikesCount == 0);

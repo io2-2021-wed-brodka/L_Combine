@@ -16,10 +16,10 @@ namespace BackendAPI.ModelsConfigurations.NormalConfiguration
             base.Configure(builder);
 
             builder.HasData(
-                new BikeStation { ID = 1, LocationName = "Warszawa Targowa", State = ClassLibrary.BikeStationState.Working },
-                new BikeStation { ID = 2, LocationName = "Warszawa Aleje Jerozolimskie", State = ClassLibrary.BikeStationState.Working },
-                new BikeStation { ID = 3, LocationName = "Warszawa PKiN", State = ClassLibrary.BikeStationState.Working },
-                new BikeStation { ID = 4, LocationName = "Warszawa Politechnika", State = ClassLibrary.BikeStationState.Working }
+                new BikeStation { ID = 1, BikesLimit = 10, LocationName = "Warszawa Targowa", State = ClassLibrary.BikeStationState.Working },
+                new BikeStation { ID = 2, BikesLimit = 10, LocationName = "Warszawa Aleje Jerozolimskie", State = ClassLibrary.BikeStationState.Working },
+                new BikeStation { ID = 3, BikesLimit = 10, LocationName = "Warszawa PKiN", State = ClassLibrary.BikeStationState.Working },
+                new BikeStation { ID = 4, BikesLimit = 10, LocationName = "Warszawa Politechnika", State = ClassLibrary.BikeStationState.Working }
                 );
 
 

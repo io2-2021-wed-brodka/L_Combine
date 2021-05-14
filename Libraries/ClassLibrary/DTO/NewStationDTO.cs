@@ -8,5 +8,6 @@ namespace ClassLibrary.DTO
     public class NewStationDTO
     {
         public string Name { get; set; }
+        public int? BikesLimit { get; set; }
     }
 }

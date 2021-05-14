@@ -15,6 +15,8 @@ namespace BackendAPI.Services.Classes
 {
     public class StationsService : Service, IStationsService
     {
+        private const int DefaultBikesLimit = 10;
+
         [ActivatorUtilitiesConstructor]
         public StationsService(DataContext dbContext) : base(dbContext)
         {
@@ -117,12 +119,13 @@ namespace BackendAPI.Services.Classes
             return CreateBikeDTO(bike, null, false);
         }
 
-        public StationDTO AddStation(string name)
+        public StationDTO AddStation(string name, int? bikesLimit)
         {
             var newStation = new BikeStation()
             {
                 LocationName = name,
-                State = BikeStationState.Working
+                State = BikeStationState.Working,
+                BikesLimit = bikesLimit ?? DefaultBikesLimit
             };
             dbContext.BikeStations.Add(newStation);
             dbContext.SaveChanges();

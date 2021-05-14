@@ -13,7 +13,7 @@ namespace BackendAPI.Services.Interfaces
         StationDTO GetStation(string stationIdString);
         IEnumerable<BikeDTO> GetBikes(string stationIdString, string role);
         BikeDTO ReturnBike(string userIdString, string bikeIdString, string stationIdString);
-        StationDTO AddStation(string name);
+        StationDTO AddStation(string name, int? bikesLimit);
         void DeleteStation(string stationIdString);
         IEnumerable<StationDTO> GetBlockedStations();
         StationDTO BlockStation(string stationIdString);
