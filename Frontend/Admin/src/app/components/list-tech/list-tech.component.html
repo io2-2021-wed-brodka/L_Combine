@@ -1,6 +1,17 @@
 <div class="list">
-    <h3>Serwisanci</h3>
+    <header>
+        <h3>Serwisanci</h3>
+        <button (click)="toggleForm()">
+            <ng-container *ngIf="!isFormVisible">
+                Dodaj serwisanta
+            </ng-container>
+            <ng-container *ngIf="isFormVisible">
+                Ukryj formularz
+            </ng-container>
+        </button>
+    </header>
     <div class="list-items">
+        <app-add-tech *ngIf="isFormVisible"></app-add-tech>
         <div 
             *ngFor="let tech of techs"
             class="list-item list-item-active"
@@ -13,5 +24,4 @@
             </div>
         </div>
     </div>
-    <app-add-tech></app-add-tech>
 </div>

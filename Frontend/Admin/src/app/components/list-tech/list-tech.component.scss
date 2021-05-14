@@ -1,1 +1,12 @@
 @import '../../styles/list.scss';
+
+.list > header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    button{
+        height: fit-content;
+        padding: 10px 2px;
+    }
+}

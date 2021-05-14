@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, UrlSegment } from '@angular/router';
 import { BikeViewComponent } from './components/bike-view/bike-view.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginViewComponent } from './components/login-view/login-view.component';
@@ -7,6 +7,7 @@ import { MainComponent } from './components/main/main.component';
 import { StationViewComponent } from './components/station-view/station-view.component';
 import { UserViewComponent } from './components/user-view/user-view.component';
 import { UserLoggedGuard } from './guards/user-logged.guard';
+import { userViewMatcher } from './utils/matchers';
 
 const routes: Routes = [
   {
@@ -31,7 +32,7 @@ const routes: Routes = [
         component: BikeViewComponent,
       },
       {
-        path: 'users',
+        matcher: userViewMatcher,
         component: UserViewComponent,
       }
     ]

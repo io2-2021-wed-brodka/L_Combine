@@ -30,6 +30,16 @@ describe('ListTechComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('#isFormVisible should by false on init', ()=>{
+    expect(component.isFormVisible).toBeFalse();
+  });
+  it('#toggleForm should toggle #isFormVisible', ()=>{
+    const initValue = component.isFormVisible;
+    component.toggleForm();
+    expect(component.isFormVisible).toEqual(!initValue);
+    component.toggleForm();
+    expect(component.isFormVisible).toEqual(initValue);
+  });
   it('#techs should be defined on init', ()=>{
     expect(techService.getTechs).toHaveBeenCalledTimes(1);
     expect(component.techs.length).toBeTruthy();

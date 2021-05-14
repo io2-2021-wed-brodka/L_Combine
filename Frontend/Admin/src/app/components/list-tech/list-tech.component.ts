@@ -9,6 +9,7 @@ import { techFromDTO } from 'src/app/utils/dto-utils';
   styleUrls: ['./list-tech.component.scss']
 })
 export class ListTechComponent implements OnInit {
+  isFormVisible: boolean = false;
   techs!: Tech[]
   selectedTech: Tech | undefined;
   constructor(private techService: TechService) { }
@@ -23,5 +24,8 @@ export class ListTechComponent implements OnInit {
   }
   selectTech(tech: Tech){
     this.selectedTech = tech===this.selectedTech? undefined : tech;
+  }
+  toggleForm(){
+    this.isFormVisible = !this.isFormVisible;
   }
 }

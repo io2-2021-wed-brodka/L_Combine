@@ -51,5 +51,11 @@
             </div>
         </div>
     </form>
-    <button (click)="addTech()">Dodaj</button>
+    <div>
+        <button 
+            [disabled]="(!loginInput.valid || !passwordInput.valid || !repeatPasswordInput.valid)"
+            (click)="addTech()">
+             Dodaj
+        </button>
+    </div>
 </div>
