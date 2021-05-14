@@ -25,6 +25,19 @@ namespace ServicesTests.StationsService
             Assert.IsTrue(station.Status == StationStatusDTO.Active);
         }
 
+        [TestMethod]
+        public void CreateUniqueName_CustomBikesLimit()
+        {
+            string name = "Granda";
+
+            var station = service.AddStation(name, 6);
+
+            Assert.IsTrue(station.Name == name);
+            Assert.IsTrue(station.ActiveBikesCount == 0);
+            Assert.IsTrue(station.BikesLimit == 6);
+            Assert.IsTrue(station.Status == StationStatusDTO.Active);
+        }
+
         /// <summary>
         /// Tak na pewno ma być, że mozna dodać stację o takiej samej nazwie?
         /// </summary>
