@@ -50,7 +50,6 @@ namespace BackendAPI.Services.Classes
             BikeStation station;
             if ((station = dbContext
                 .BikeStations
-                .Include(bs => bs.Bikes)
                 .FirstOrDefault(bs => bs.ID == stationId)) == null)
                 throw new HttpResponseException("Station not found", 404);
 
@@ -58,14 +57,23 @@ namespace BackendAPI.Services.Classes
                 && role == Role.User)
                 throw new HttpResponseException("Only tech and admin can list bikes at blocked station", 403);
 
-            var availableBikes = station.Bikes.Where(b => 
-                b.State == BikeState.Working
-                && b.Reservations)
+            var availableBikes = dbContext.Bikes.Include(b => b.Reservations).Where(b =>
+                b.BikeStationID == stationId &&
+            //Dostępne rowery na stacji to te, które są
+            //Working i nie mają aktywnych rezerwacji
+                b.State == BikeState.Working &&
+                !b.Reservations.Where(r => r.ExpireDate >= DateTime.Now).Any())
+                .ToList();
 
-            return station.Bikes.ToList().Select(b => 
-                CreateBikeDTO(b, (from r in dbContext.Rentals.Include(r => r.User)
-                                          where r.BikeID == b.ID && r.EndDate == null
-                                          select r.User).FirstOrDefault()));
+            return availableBikes.Select(b =>
+                new BikeDTO()
+                {
+                    Id = b.ID.ToString(),
+                    BikeStatus = BikeStatusDTO.Available,
+                    Station = CreateStationDTO(station),
+                    User = null
+                });
+
         }
 
         public StationDTO GetStation(string stationIdString)

@@ -9,7 +9,7 @@ using System.Text;
 namespace ServicesTests.StationsService
 {
     [TestClass]
-    public class GetBikes: BaseStationTest
+    public class GetAvailableBikes: BaseStationTest
     {
         [TestInitialize]
         public void PrepareService() => CreateStationService();
@@ -21,7 +21,7 @@ namespace ServicesTests.StationsService
             string stationId = "1337";
             string role = Role.User;
 
-            service.GetBikes(stationId, role);
+            service.GetAvailableBikes(stationId, role);
 
             Assert.Fail();
         }
@@ -33,7 +33,7 @@ namespace ServicesTests.StationsService
             string stationId = "4";
             string role = Role.User;
 
-            service.GetBikes(stationId, role);
+            service.GetAvailableBikes(stationId, role);
 
             Assert.Fail();
         }
@@ -44,7 +44,7 @@ namespace ServicesTests.StationsService
             string stationId = "4";
             string role = Role.Admin;
 
-            var bikes = service.GetBikes(stationId, role);
+            var bikes = service.GetAvailableBikes(stationId, role);
 
             Assert.IsTrue(bikes.Count() > 0);
         }
@@ -55,7 +55,7 @@ namespace ServicesTests.StationsService
             string stationId = "1";
             string role = Role.User;
 
-            var bikes = service.GetBikes(stationId, role);
+            var bikes = service.GetAvailableBikes(stationId, role);
 
             Assert.IsTrue(bikes.Count() > 0);
         }
@@ -66,7 +66,7 @@ namespace ServicesTests.StationsService
             string stationId = "1";
             string role = Role.Tech;
 
-            var bikes = service.GetBikes(stationId, role);
+            var bikes = service.GetAvailableBikes(stationId, role);
 
             Assert.IsTrue(bikes.Count() > 0);
         }
