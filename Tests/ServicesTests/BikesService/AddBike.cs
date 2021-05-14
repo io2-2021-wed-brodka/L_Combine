@@ -41,7 +41,7 @@ namespace ServicesTests.BikesService
         [ExpectedExceptionMessage(typeof(HttpResponseException), "This station cannot have more bikes")]
         public void AddBike_MoreBikesThanBikesLimit()
         {
-            string stationId = "4";
+            string stationId = "7";
             service.AddBike(stationId);
         }
     }

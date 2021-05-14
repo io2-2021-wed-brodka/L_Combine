@@ -88,7 +88,7 @@ namespace BackendAPI.Services.Classes
             BikeStation station;
             Bike bike;
             if ((station = dbContext
-                .BikeStations
+                .BikeStations.Include(bs => bs.Bikes)
                 .FirstOrDefault(bs => bs.ID == stationId)) == null)
                 throw new HttpResponseException("Station not found", 404);
 
@@ -107,6 +107,9 @@ namespace BackendAPI.Services.Classes
 
             if (rental == null)
                 throw new HttpResponseException("Bike is not rented by specific user", 422);
+
+            if (station.Bikes.Count >= station.BikesLimit)
+                throw new HttpResponseException("Bike station is already full", 422);
 
             bike.BikeStationID = stationId;
             rental.EndDate = DateTime.Now;
