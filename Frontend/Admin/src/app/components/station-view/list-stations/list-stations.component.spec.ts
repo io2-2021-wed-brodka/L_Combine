@@ -24,7 +24,7 @@ describe('ListStationsComponent', () => {
     id: 'a',
     status: StationState.Active,
     name: 'b',
-    activeBikeCount: 1
+    activeBikesCount: 1
   };
 
   beforeEach(async () => {

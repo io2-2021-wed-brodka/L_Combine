@@ -4,5 +4,5 @@ export interface StationDTO {
   id: string;
   name: string;
   status: StationState;
-  activeBikeCount: number;
+  activeBikesCount: number;
 }

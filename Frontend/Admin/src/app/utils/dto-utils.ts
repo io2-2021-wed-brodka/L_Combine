@@ -18,7 +18,7 @@ export function stationFromDTO(station: StationDTO): BikeStation {
     id: station.id,
     locationName: station.name,
     stationState: station.status,
-    bikeCount: station.activeBikeCount
+    bikeCount: station.activeBikesCount
   };
 }
 
