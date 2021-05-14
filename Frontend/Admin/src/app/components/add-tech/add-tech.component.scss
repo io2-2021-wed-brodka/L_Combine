@@ -1,0 +1,23 @@
+@import '../../styles/colors.scss';
+
+.container{
+    background-color: $main-box-color;
+    color: black;
+    margin-top: 5px;
+    .form{
+        display: grid;
+        grid-template-columns: max-content auto;
+        padding: 20px;
+        
+        input{
+            margin: 5px 10px;
+            height: 2em;
+        }
+        label{
+            margin-top: .5em;
+        }
+    }
+    button{
+        background-color: $button-color;
+    }
+}
