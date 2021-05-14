@@ -18,6 +18,7 @@ namespace BackendAPI.ModelsConfigurations.CommonConfiguration
             builder.Property(bs => bs.LocationName).HasMaxLength(150);
             builder.Property(bs => bs.ID).ValueGeneratedOnAdd();
             builder.Property(bs => bs.LocationName).IsRequired();
+            builder.Property(bs => bs.BikesLimit).HasDefaultValue(10);
         }
     }
 }
