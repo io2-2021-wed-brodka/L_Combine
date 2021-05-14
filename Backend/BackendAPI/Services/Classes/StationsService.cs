@@ -43,7 +43,7 @@ namespace BackendAPI.Services.Classes
             return dbContext.BikeStations.ToList().Select(s => CreateStationDTO(s));
         }
 
-        public IEnumerable<BikeDTO> GetBikes(string stationIdString, string role)
+        public IEnumerable<BikeDTO> GetAvailableBikes(string stationIdString, string role)
         {
             int stationId = ParseStationId(stationIdString);
 
@@ -57,6 +57,10 @@ namespace BackendAPI.Services.Classes
             if (station.State == BikeStationState.Blocked
                 && role == Role.User)
                 throw new HttpResponseException("Only tech and admin can list bikes at blocked station", 403);
+
+            var availableBikes = station.Bikes.Where(b => 
+                b.State == BikeState.Working
+                && b.Reservations)
 
             return station.Bikes.ToList().Select(b => 
                 CreateBikeDTO(b, (from r in dbContext.Rentals.Include(r => r.User)
