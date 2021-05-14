@@ -36,5 +36,13 @@ namespace ServicesTests.BikesService
             int afterCount = dbContext.BikeStations.Include(BikesService => BikesService.Bikes).Where(bs => bs.ID == int.Parse(stationId)).FirstOrDefault().Bikes.Count();
             Assert.IsTrue(startBikes + 1 == afterCount);
         }
+
+        [TestMethod]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "This station cannot have more bikes")]
+        public void AddBike_MoreBikesThanBikesLimit()
+        {
+            string stationId = "4";
+            service.AddBike(stationId);
+        }
     }
 }

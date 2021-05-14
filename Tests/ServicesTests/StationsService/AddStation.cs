@@ -21,6 +21,7 @@ namespace ServicesTests.StationsService
 
             Assert.IsTrue(station.Name == name);
             Assert.IsTrue(station.ActiveBikesCount == 0);
+            Assert.IsTrue(station.BikesLimit == 10);
             Assert.IsTrue(station.Status == StationStatusDTO.Active);
         }
 
@@ -36,6 +37,7 @@ namespace ServicesTests.StationsService
 
             Assert.IsTrue(station.Name == name);
             Assert.IsTrue(station.ActiveBikesCount == 0);
+            Assert.IsTrue(station.BikesLimit == 10);
             Assert.IsTrue(station.Status == StationStatusDTO.Active);
         }
     }

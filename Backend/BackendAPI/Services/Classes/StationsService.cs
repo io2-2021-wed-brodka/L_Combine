@@ -15,7 +15,7 @@ namespace BackendAPI.Services.Classes
 {
     public class StationsService : Service, IStationsService
     {
-        private const int DefaultBikesLimit = 10;
+        const int DefaultBikesLimit = 10;
 
         [ActivatorUtilitiesConstructor]
         public StationsService(DataContext dbContext) : base(dbContext)
