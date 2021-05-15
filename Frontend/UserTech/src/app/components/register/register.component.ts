@@ -39,7 +39,7 @@ export class RegisterComponent implements OnInit {
     };
 
     this.registerService.register(request).subscribe(_ => {
-      this.notificationService.success('Account successfully created');
+      this.notificationService.success('Konto zostało dodane');
       this.redirectService.redirectToLogin();
     }, error => {
       if (error.status === 409) {
