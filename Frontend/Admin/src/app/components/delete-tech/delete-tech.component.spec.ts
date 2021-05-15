@@ -49,11 +49,6 @@ describe('DeleteTechComponent', () => {
     component.deleteTech();
     expect(techService.deleteTech).toHaveBeenCalledWith(component.tech.id);
   });
-  it('#deleteTech should reload page', ()=>{
-    expect(redirectService.reload).toHaveBeenCalledTimes(0);
-    component.deleteTech();
-    expect(redirectService.reload).toHaveBeenCalledTimes(1);
-  });
   it('#deleteTech should send notification', ()=>{
     expect(notificationService.success).toHaveBeenCalledTimes(0);
     component.deleteTech();

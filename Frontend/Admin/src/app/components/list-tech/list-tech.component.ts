@@ -18,12 +18,13 @@ export class ListTechComponent implements OnInit {
     this.getTechsList();
   }
   getTechsList(){
+    console.log('featch');
     this.techService.getTechs().subscribe(data=>{
       this.techs = data.techs.map(techFromDTO);
     });
   }
   selectTech(tech: Tech){
-    this.selectedTech = tech===this.selectedTech? undefined : tech;
+    this.selectedTech = tech;
   }
   toggleForm(){
     this.isFormVisible = !this.isFormVisible;

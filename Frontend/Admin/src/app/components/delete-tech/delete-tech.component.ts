@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Tech from 'src/app/models/tech';
 import { NotificationService } from 'src/app/services/notification.service';
 import { RedirectService } from 'src/app/services/redirect.service';
@@ -11,7 +11,7 @@ import { TechService } from 'src/app/services/tech.service';
 })
 export class DeleteTechComponent implements OnInit {
   @Input() tech!: Tech;
-
+  @Output() techListChanged = new EventEmitter();
   constructor(
     private techService: TechService,
     private redirectService: RedirectService,
@@ -24,7 +24,7 @@ export class DeleteTechComponent implements OnInit {
   deleteTech(){
     this.techService.deleteTech(this.tech.id).subscribe(()=>{
       this.notificationService.success('Specjalista został usunięty');
-      this.redirectService.reload();
+      this.techListChanged.emit();
     });
   }
 }

@@ -43,7 +43,7 @@ describe('BlockUserComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('#blockUser should call service function              ', ()=>{
+  it('#blockUser should call service function', ()=>{
     expect(userService.blockUser).toHaveBeenCalledTimes(0);
     component.blockUser();
     expect(userService.blockUser).toHaveBeenCalledWith(component.user);

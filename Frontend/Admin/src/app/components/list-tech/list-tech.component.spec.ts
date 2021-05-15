@@ -49,9 +49,4 @@ describe('ListTechComponent', () => {
     component.selectTech(component.techs[0]);
     expect(component.selectedTech).toEqual(component.techs[0]);
   });
-  it('#selectTech should unselect on second click', ()=>{
-    component.selectTech(component.techs[0]);
-    component.selectTech(component.techs[0]);
-    expect(component.selectedTech).toBeUndefined();
-  });
 });

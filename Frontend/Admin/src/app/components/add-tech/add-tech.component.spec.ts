@@ -79,12 +79,6 @@ describe('AddTechComponent', () => {
     expect(notificationService.success).toHaveBeenCalled();
   });
 
-  it('#addTech should call #redirectService if response is success', () => {
-    component.addTech();
-
-    expect(redirectService.reload).toHaveBeenCalled();
-  });
-
   it('#addTech should call set #showAccountNameTaken if response status is 409', () => {
     techService.addTech.and.returnValue(throwError(new HttpErrorResponse({status: 409})));
     expect(component.showAccountNameTaken).toBeFalse();

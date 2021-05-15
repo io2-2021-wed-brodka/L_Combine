@@ -11,7 +11,7 @@
         </button>
     </header>
     <div class="list-items">
-        <app-add-tech *ngIf="isFormVisible"></app-add-tech>
+        <app-add-tech *ngIf="isFormVisible" (techListChanged)="getTechsList(); isFormVisible = false"></app-add-tech>
         <div 
             *ngFor="let tech of techs"
             class="list-item list-item-active"
@@ -20,7 +20,7 @@
             <div class="list-item-side-left"> {{tech.username}}</div>
             <div class="list-item-side-right"> {{tech.id}}</div>
             <div *ngIf="tech===selectedTech" class="list-item-details">
-                <app-delete-tech [tech]="tech"></app-delete-tech>
+                <app-delete-tech [tech]="tech" (techListChanged)="getTechsList()"></app-delete-tech>
             </div>
         </div>
     </div>

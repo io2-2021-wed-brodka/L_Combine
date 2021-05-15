@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NewTechDTO } from 'src/app/dto/new-tech-dto';
 import { NotificationService } from 'src/app/services/notification.service';
 import { RedirectService } from 'src/app/services/redirect.service';
@@ -10,6 +10,7 @@ import { TechService } from 'src/app/services/tech.service';
   styleUrls: ['./add-tech.component.scss']
 })
 export class AddTechComponent implements OnInit {
+  @Output() techListChanged = new EventEmitter();
   formData = {
     login: '',
     password: '',
@@ -48,7 +49,7 @@ export class AddTechComponent implements OnInit {
     
     this.techService.addTech(tech).subscribe(()=>{
       this.notificationService.success('Specjalista został dodany')
-      this.redirectService.reload();
+      this.techListChanged.emit();
     }, error => {
       if (error.status === 409) {
         this.showAccountNameTaken = true;
