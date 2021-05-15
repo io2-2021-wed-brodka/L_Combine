@@ -18,3 +18,11 @@ ng s
 ```
 
 Aplikacja UserTech działa pod adresem localhost:4200, a Admin pod localhost:4300.
+
+### Testy E2E
+
+Testy E2E frontenmdu odpalamy w odpowiednich folderach projektów poleceniem:
+```
+ng e2e 
+```
+Testy odpalamy na czystej bazie w kolejności UserTech > Admin.
