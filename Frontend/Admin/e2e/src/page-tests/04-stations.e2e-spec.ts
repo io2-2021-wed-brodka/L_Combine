@@ -3,7 +3,7 @@ import {LoginPage} from '../pages/login.po';
 import {HomePage} from '../pages/home.po';
 import {StationsPage} from '../pages/stations.po';
 
-describe('users page', () => {
+describe('stations page', () => {
   let stationsPage: StationsPage;
   let homePage: HomePage;
   let startingStationsCount: number;
