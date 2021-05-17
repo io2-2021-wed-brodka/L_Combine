@@ -21,6 +21,8 @@ import {ReservationListComponent} from './components/reservation-list/reservatio
 import {ReservedBikeDetailsComponent} from './components/reserved-bike-details/reserved-bike-details.component';
 import {RegisterComponent} from './components/register/register.component';
 import { TechPanelComponent } from './components/tech/tech-panel/tech-panel.component';
+import { ListBikesComponent } from './components/tech/list-bikes/list-bikes.component';
+import { BlockBikeComponent } from './components/tech/block-bike/block-bike.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { TechPanelComponent } from './components/tech/tech-panel/tech-panel.comp
     ReservedBikeDetailsComponent,
     RegisterComponent,
     TechPanelComponent,
+    ListBikesComponent,
+    BlockBikeComponent,
   ],
   imports: [
     BrowserModule,
