@@ -25,6 +25,10 @@ export class ListBikesComponent implements OnInit {
     return bike.state === BikeState.Blocked
   }
   
+  isBikeAvailable(bike: Bike): boolean{
+    return bike.state === BikeState.Available || bike.state === BikeState.Reserved
+  }
+  
   bikeChanged(bike: Bike){
     this.bikes.splice(this.bikes.indexOf(bike),1)
     this.listChanged.emit();
