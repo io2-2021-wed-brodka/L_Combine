@@ -1,1 +1,8 @@
-<app-list-bikes></app-list-bikes>
+<div class="view-container">
+    <div class="list-container">
+        <app-list-bikes [bikes]="unblockedBikes" [title]="'Aktywne rowery'" (listChanged)="getBikes()"></app-list-bikes>
+    </div>
+    <div class="list-container">
+        <app-list-bikes [bikes]="blockedBikes" [title]="'Zablokowane rowery'" (listChanged)="getBikes()"></app-list-bikes>
+    </div>
+</div>

@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Bike, BikeState } from 'src/app/models/bike';
 import { BikeService } from 'src/app/services/bike.service';
-import { bikeFromDTO } from 'src/app/utils/dto-utils';
 
 @Component({
   selector: 'app-list-bikes',
@@ -9,19 +8,13 @@ import { bikeFromDTO } from 'src/app/utils/dto-utils';
   styleUrls: ['./list-bikes.component.scss']
 })
 export class ListBikesComponent implements OnInit {
-  bikes!: Bike[];
+  @Input() bikes!: Bike[];
+  @Input() title!: string;
+  @Output() listChanged = new EventEmitter();
   selectedBike: Bike | undefined;
-
-  constructor(private bikeService: BikeService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.getBikes();
-  }
-
-  getBikes(){
-    this.bikeService.getAllBikes().subscribe(dto=>
-      this.bikes = dto.bikes.map(bikeFromDTO)
-    );
   }
 
   selectBike(bike: Bike): void {
@@ -30,5 +23,10 @@ export class ListBikesComponent implements OnInit {
 
   isBikeBlocked(bike: Bike): boolean{
     return bike.state === BikeState.Blocked
+  }
+  
+  bikeChanged(bike: Bike){
+    this.bikes.splice(this.bikes.indexOf(bike),1)
+    this.listChanged.emit();
   }
 }

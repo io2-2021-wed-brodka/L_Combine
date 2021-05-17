@@ -8,20 +8,11 @@ import { ListBikesComponent } from './list-bikes.component';
 describe('ListBikesComponent', () => {
   let component: ListBikesComponent;
   let fixture: ComponentFixture<ListBikesComponent>;
-  let bikeService: jasmine.SpyObj<BikeService>;
-
   beforeEach(async () => {
-    const bikeServiceSpy = jasmine.createSpyObj('BikeService', ['getAllBikes']);
     await TestBed.configureTestingModule({
-      declarations: [ ListBikesComponent ],
-      providers:[
-        {provide: BikeService, useValue: bikeServiceSpy}
-      ]
+      declarations: [ ListBikesComponent ]
     })
     .compileComponents();
-    bikeService = TestBed.inject(BikeService) as jasmine.SpyObj<BikeService>;
-    bikeService.getAllBikes.and.returnValue(of({bikes: [{id: 'id', bikeStatus: BikeState.Available}]}))
-  
   });
 
   beforeEach(() => {
@@ -34,21 +25,10 @@ describe('ListBikesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('#bikes should be defined on init', ()=>{
-    expect(component.bikes.length).toEqual(1);
-  });
-  
-  it('#getBikes should call service funtion', ()=>{
-    const callsCount = bikeService.getAllBikes.calls.count();
-    component.getBikes();
-    expect(bikeService.getAllBikes).toHaveBeenCalledTimes(callsCount + 1);
-  });
-  
   it('#selectBike should set #selectedTech', ()=>{
+    component.bikes = [{id: 'id', state: BikeState.Blocked}]
     expect(component.selectedBike).toBeUndefined();
     component.selectBike(component.bikes[0]);
     expect(component.selectedBike).toEqual(component.bikes[0]);
   });
-
-  
 });

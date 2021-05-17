@@ -4,8 +4,9 @@ import {LoginService} from './login.service';
 import {environment as env} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {BikesDTO} from '../dto/bikes-dto';
-import { Bike } from '../models/bike';
+import { Bike, BikeState } from '../models/bike';
 import { BikeDTO } from '../dto/bike-dto';
+import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
