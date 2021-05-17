@@ -23,6 +23,7 @@ import {RegisterComponent} from './components/register/register.component';
 import { TechPanelComponent } from './components/tech/tech-panel/tech-panel.component';
 import { ListBikesComponent } from './components/tech/list-bikes/list-bikes.component';
 import { BlockBikeComponent } from './components/tech/block-bike/block-bike.component';
+import { UnblockBikeComponent } from './components/tech/unblock-bike/unblock-bike.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { BlockBikeComponent } from './components/tech/block-bike/block-bike.comp
     TechPanelComponent,
     ListBikesComponent,
     BlockBikeComponent,
+    UnblockBikeComponent,
   ],
   imports: [
     BrowserModule,

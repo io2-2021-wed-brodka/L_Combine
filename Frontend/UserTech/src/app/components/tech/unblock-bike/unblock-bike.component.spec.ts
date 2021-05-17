@@ -4,20 +4,20 @@ import { BikeState } from 'src/app/models/bike';
 import { BikeService } from 'src/app/services/bike.service';
 import { NotificationService } from 'src/app/services/notification.service';
 
-import { BlockBikeComponent } from './block-bike.component';
+import { UnblockBikeComponent } from './unblock-bike.component';
 
-describe('BlockBikeComponent', () => {
-  let component: BlockBikeComponent;
-  let fixture: ComponentFixture<BlockBikeComponent>;
+describe('UnblockBikeComponent', () => {
+  let component: UnblockBikeComponent;
+  let fixture: ComponentFixture<UnblockBikeComponent>;
   let notification: jasmine.SpyObj<NotificationService>;
   let bikeService: jasmine.SpyObj<BikeService>;
   
   beforeEach(async () => {
     const notificationServiceSpy = jasmine.createSpyObj('NotificationService', ['success']);
-    const bikeServiceSpy = jasmine.createSpyObj('BikeService', ['block']);
+    const bikeServiceSpy = jasmine.createSpyObj('BikeService', ['unblock']);
     
     await TestBed.configureTestingModule({
-      declarations: [ BlockBikeComponent ],
+      declarations: [ UnblockBikeComponent ],
       providers: [
         {provide: NotificationService, useValue: notificationServiceSpy},
         {provide: BikeService, useValue: bikeServiceSpy},
@@ -26,23 +26,23 @@ describe('BlockBikeComponent', () => {
     .compileComponents();
     notification = TestBed.inject(NotificationService) as jasmine.SpyObj<NotificationService>;
     bikeService = TestBed.inject(BikeService) as jasmine.SpyObj<BikeService>;
-    bikeService.block.and.returnValue(of({id: 'id', bikeStatus: BikeState.Blocked}))
+    bikeService.unblock.and.returnValue(of({}))
   });
 
+
   beforeEach(() => {
-    fixture = TestBed.createComponent(BlockBikeComponent);
+    fixture = TestBed.createComponent(UnblockBikeComponent);
     component = fixture.componentInstance;
-    component.bike = {id: 'id', state: BikeState.Available};
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('#block should send notification on success', ()=>{
+  
+  it('#unblock should send notification on success', ()=>{
     expect(notification.success).toHaveBeenCalledTimes(0);
-    component.block();
+    component.unblock();
     expect(notification.success).toHaveBeenCalledTimes(1);
   });
 });

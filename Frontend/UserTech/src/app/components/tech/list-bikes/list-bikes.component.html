@@ -10,7 +10,8 @@
                 <div>Stan: {{bike.state}}</div>
                 <div *ngIf="bike.station">Na stacji: {{bike.station.locationName}}</div>
                 <!-- <div *ngIf="bike.user">Użytkownik: {{bike.user.username}}</div> -->
-                <app-block-bike *ngIf="bike===selectedBike"></app-block-bike>
+                <app-block-bike *ngIf="bike===selectedBike && !isBikeBlocked(bike)" [bike]="bike" (bikeChanged)="getBikes()"></app-block-bike>
+                <app-unblock-bike *ngIf="bike===selectedBike && isBikeBlocked(bike)" [bike]="bike" (bikeChanged)="getBikes()"></app-unblock-bike>
             </div>
         </div>
     </div>

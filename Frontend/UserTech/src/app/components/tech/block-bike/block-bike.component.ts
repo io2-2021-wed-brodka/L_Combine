@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Bike } from 'src/app/models/bike';
+import { Component, Input, EventEmitter, OnInit, Output } from '@angular/core';
+import { Bike, BikeState } from 'src/app/models/bike';
+import { BikeService } from 'src/app/services/bike.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-block-bike',
@@ -8,13 +10,20 @@ import { Bike } from 'src/app/models/bike';
 })
 export class BlockBikeComponent implements OnInit {
   @Input() bike!: Bike;
-  constructor() { }
+  @Output() bikeChanged = new EventEmitter();
+  constructor(
+    private bikeService: BikeService,
+    private notificationService: NotificationService
+    ) { }
 
   ngOnInit(): void {
   }
 
   block(){
-    
+    this.bikeService.block(this.bike).subscribe(()=>{
+      this.bikeChanged.emit();
+      this.notificationService.success('Rower został zablokowany');
+    });
   }
 
 }

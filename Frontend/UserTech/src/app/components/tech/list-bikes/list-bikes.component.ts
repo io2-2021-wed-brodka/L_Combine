@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Bike } from 'src/app/models/bike';
+import { Bike, BikeState } from 'src/app/models/bike';
 import { BikeService } from 'src/app/services/bike.service';
 import { bikeFromDTO } from 'src/app/utils/dto-utils';
 
@@ -25,6 +25,10 @@ export class ListBikesComponent implements OnInit {
   }
 
   selectBike(bike: Bike): void {
-    this.selectedBike = (this.selectedBike === bike || bike?.state !== 'available') ? undefined : bike;
+    this.selectedBike = bike;
+  }
+
+  isBikeBlocked(bike: Bike): boolean{
+    return bike.state === BikeState.Blocked
   }
 }
