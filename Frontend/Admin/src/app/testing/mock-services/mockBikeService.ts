@@ -11,7 +11,8 @@ export default {
       id: 'id',
       status: StationState.Active,
       name: 'a',
-      activeBikesCount: 1
+      activeBikesCount: 1,
+      bikesLimit: 10
     }
   }, {
     id: 'id2',
@@ -20,7 +21,8 @@ export default {
       id: 'id',
       status: StationState.Active,
       name: 'a',
-      activeBikesCount: 1
+      activeBikesCount: 1,
+      bikesLimit: 10
     }
   }],
 
