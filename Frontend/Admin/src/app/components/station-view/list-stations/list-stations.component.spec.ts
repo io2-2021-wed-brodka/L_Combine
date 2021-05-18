@@ -117,7 +117,6 @@ describe('ListStationsComponent', () => {
 
   it('should call #addStation in #addStation', () => {
     component.newStation = {name:'aa', bikesLimit: 10};
-    fixture.detectChanges();
     component.addStation();
 
     expect(stationService.addStation).toHaveBeenCalledOnceWith({name:'aa', bikesLimit: 10});

@@ -43,7 +43,6 @@ export class ListStationsComponent implements OnInit {
   }
 
   addStation(): void {
-    console.log(this.newStation);
     this.stationService.addStation(this.newStation).subscribe(station => {
       this.notificationService.success(`Stacja ${station.name} została dodana`);
       this.getStations();
