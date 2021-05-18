@@ -11,8 +11,11 @@
 .add-station-content {
   display: flex;
   justify-content: space-between;
-
-  .add-station-label {
-    margin-right: 10px;
+  .form-grid{
+    display: grid;
+    grid-template-columns: max-content auto;
+    *{
+      margin: 5px 10px;
+    }
   }
 }

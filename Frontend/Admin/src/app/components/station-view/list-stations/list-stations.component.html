@@ -7,9 +7,14 @@
       <div class="list-item-side-left">
         {{station.locationName}}
       </div>
-      <div [ngSwitch]="station.stationState" class="list-item-side-right">
-        <span *ngSwitchCase="'active'">Aktywna</span>
-        <span *ngSwitchCase="'blocked'">Zablokowana</span>
+      <div class="list-item-side-right">
+        <div [ngSwitch]="station.stationState">
+          <span *ngSwitchCase="'active'">Aktywna</span>
+          <span *ngSwitchCase="'blocked'">Zablokowana</span>
+        </div>
+        <div>
+          Limit rowerów: {{station.bikesLimit}}
+        </div>
       </div>
       <app-station-management *ngIf="station === selectedStation" [station]="station" class="station-management"
                               (stationModified)="onStationModified()"></app-station-management>
@@ -22,9 +27,11 @@
     <fieldset>
       <legend>Nowa stacja:</legend>
       <div class="add-station-content">
-        <div>
-          <label class="add-station-label" for="add-station-input">Nazwa stacji:</label>
-          <input name="add-station-input" [(ngModel)]="newStationName" #name="ngModel" id="add-station-input" required/>
+        <div class="form-grid">
+          <label class="add-station-label" for="station-name-input">Nazwa stacji:</label>
+          <input name="station-name-input" [(ngModel)]="newStation.name" #name="ngModel" id="add-station-input" required/>
+          <label class="add-station-label" for="station-limit-input">Limit rowerów:</label>
+          <input name="station-limit-input" [(ngModel)]="newStation.bikesLimit" ng-min="0" (ngModelChange)="bikeLimitChanged()" type="number"/>
         </div>
         <button type="submit" class="add-station-button" [disabled]="!name.valid">Dodaj stację</button>
       </div>
