@@ -25,8 +25,9 @@ namespace BackendAPI.ModelsConfigurations.TestConfiguration
                 new Bike { ID = 8,  State = ClassLibrary.BikeState.Working, BikeStationID = null },
                 new Bike { ID = 9,  State = ClassLibrary.BikeState.Working, BikeStationID = null },
                 new Bike { ID = 10, State = ClassLibrary.BikeState.Working, BikeStationID = null },
-                new Bike { ID=11, State=ClassLibrary.BikeState.Working, BikeStationID = 1},
-                new Bike { ID = 12, State = ClassLibrary.BikeState.Blocked, BikeStationID = 4 }
+                new Bike { ID = 11, State = ClassLibrary.BikeState.Working, BikeStationID = 1},
+                new Bike { ID = 12, State = ClassLibrary.BikeState.Blocked, BikeStationID = 4 },
+                new Bike { ID = 13, State = ClassLibrary.BikeState.Working, BikeStationID = 7 }
                 );
 
         }
