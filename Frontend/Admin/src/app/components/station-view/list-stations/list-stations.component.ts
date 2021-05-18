@@ -28,7 +28,10 @@ export class ListStationsComponent implements OnInit {
   }
 
   getStations(): void {
-    this.newStation.name = '';
+    this.newStation = {
+      name: '',
+      bikesLimit: undefined
+    }
     this.stationService.getStations().subscribe(stations =>
       this.stations = stations.stations.map<BikeStation>(stationFromDTO)
     );
