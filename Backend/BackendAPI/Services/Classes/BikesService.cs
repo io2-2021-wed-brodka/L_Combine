@@ -101,9 +101,12 @@ namespace BackendAPI.Services.Classes
         public BikeDTO AddBike(string stationIdString)
         {
             int stationId = ParseStationId(stationIdString);
-            if (dbContext.BikeStations
-                .FirstOrDefault(bs => bs.ID == stationId) == null)
+            BikeStation station;
+            if ((station = dbContext.BikeStations.Include(bs => bs.Bikes)
+                .FirstOrDefault(bs => bs.ID == stationId)) == null)
                 throw new HttpResponseException("Station not found", 404);
+            if (station.Bikes.Count() >= station.BikesLimit)
+                throw new HttpResponseException("This station cannot have more bikes", 422);
             var bike = new Bike()
             {
                 BikeStationID = stationId,

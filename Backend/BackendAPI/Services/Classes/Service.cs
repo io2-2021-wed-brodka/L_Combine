@@ -131,7 +131,8 @@ namespace BackendAPI.Services.Classes
                                          select r).Any()  //nie ma aktywnych rezerwacji
                                     select b).Count(),
                 Name = station.LocationName,
-                Status = status
+                Status = status,
+                BikesLimit = station.BikesLimit
             };
         }
 

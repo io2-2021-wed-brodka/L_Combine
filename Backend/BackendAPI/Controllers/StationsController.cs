@@ -41,7 +41,7 @@ namespace BackendAPI.Controllers
         [Authorize(Roles = Role.Admin)]
         public ActionResult<StationDTO> AddStation([FromBody] NewStationDTO newStation)
         {
-            var result = stationsService.AddStation(newStation.Name);
+            var result = stationsService.AddStation(newStation.Name, newStation.BikesLimit);
             return new CreatedResult(result.Id, result);
         }
 

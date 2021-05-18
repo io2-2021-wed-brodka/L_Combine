@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { BikesDTO } from '../dto/bikes-dto';
 import mockBikeService from '../testing/mock-services/mockBikeService';
 import { environment } from 'src/environments/environment';
+import { Bike, BikeState } from '../models/bike';
 
 describe('BikeService', () => {
     let service: BikeService;
@@ -33,5 +34,41 @@ describe('BikeService', () => {
         const request = httpTestingControler.expectOne(`${environment.apiUrl}/bikes/rented`)
         request.flush(bikes);
         httpTestingControler.verify();
+    });
+
+    it('#getAllBikes should return bikes from server', ()=>{
+        const bikes: BikesDTO = {
+            bikes: mockBikeService.bikes
+        }
+        service.getAllBikes().subscribe(result=>{
+            expect(result).toEqual(bikes);
+        })
+
+        const request = httpTestingControler.expectOne(`${environment.apiUrl}/bikes`)
+        request.flush(bikes);
+        httpTestingControler.verify();
+    });
+
+    it('#block should fetch to correct url', ()=>{
+        const bike: Bike = {
+            id: 'id', 
+            state: BikeState.Available
+        }
+        service.block(bike).subscribe()
+
+        const request = httpTestingControler.expectOne(`${environment.apiUrl}/bikes/blocked`)
+        expect(request.request.method).toEqual('POST');
+        expect(request.request.body?.id).toEqual(bike.id);
+    });
+
+    it('#unblock should fetch to correct url', ()=>{
+        const bike: Bike = {
+            id: 'id', 
+            state: BikeState.Available
+        }
+        service.unblock(bike).subscribe()
+
+        const request = httpTestingControler.expectOne(`${environment.apiUrl}/bikes/blocked/id`)
+        expect(request.request.method).toEqual('DELETE');
     });
 });

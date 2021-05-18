@@ -4,12 +4,15 @@ import {StationDTO} from '../dto/station-dto';
 import {BikeStation} from '../models/bikeStation';
 import {ReservedBikeDTO} from '../dto/reserved-bike-dto';
 import {ReservedBike} from '../models/reserved-bike';
+import { UserDTO } from '../dto/user-dto';
+import User from '../models/user';
 
 export function bikeFromDTO(bike: BikeDTO): Bike {
   return {
     id: bike.id,
     state: bike.bikeStatus,
     station: bike.station ? stationFromDTO(bike.station) : undefined,
+    user: bike.user? userFromDTO(bike.user): undefined 
   };
 }
 
@@ -18,7 +21,7 @@ export function stationFromDTO(station: StationDTO): BikeStation {
     id: station.id,
     locationName: station.name,
     stationState: station.status,
-    bikeCount: station.activeBikeCount
+    bikeCount: station.activeBikesCount
   };
 }
 
@@ -31,4 +34,11 @@ export function reservedBikeFromDTO(bike: ReservedBikeDTO): ReservedBike {
     reservedAt: new Date(bike.reservedAt || ''),
     reservedTill: new Date(bike.reservedTill || ''),
   };
+}
+
+export function userFromDTO(user:UserDTO): User {
+  return {
+    username: user.name,
+    id: user.id
+  }
 }

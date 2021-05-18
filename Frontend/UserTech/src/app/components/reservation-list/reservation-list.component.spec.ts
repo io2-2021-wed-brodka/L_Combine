@@ -26,7 +26,7 @@ describe('ReservationListComponent', () => {
     bikes: [
       {
         id: '1',
-        station: {id: '1', status: StationState.Active, name: 'a', activeBikeCount: 1},
+        station: {id: '1', status: StationState.Active, name: 'a', activeBikesCount: 1},
         reservedAt: new Date().toString(),
         reservedTill: new Date(Date.now() + 10000000000).toString()
       }

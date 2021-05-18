@@ -1,0 +1,61 @@
+<div class="container">
+    <header class="form-header">Dodaj specjalistę</header>
+    <form class="form">
+        <label for="name">Login</label>
+        <div>
+            <input 
+                name="name" 
+                type="text" 
+                id="loginInput" 
+                [(ngModel)]="formData.login"
+                (ngModelChange)="loginChange()"
+                #loginInput="ngModel"
+                required
+            />
+            <div class="form-error" *ngIf="!loginInput.valid && loginInput.touched">
+                Login jest wymagany!
+            </div>
+            <div class="form-error" *ngIf="loginInput.valid && showAccountNameTaken">
+                Login jest zajęty!
+            </div>
+        </div>
+        <label for="password">Hasło</label>
+        <div>
+            <input 
+                name="password" 
+                type="password" 
+                id="passwordInput"
+                [(ngModel)]="formData.password"
+                #passwordInput="ngModel"
+                required
+            />
+            <div class="form-error" *ngIf="!passwordInput.valid && passwordInput.touched">
+            Hasło jest wymagane!
+            </div>
+        </div>
+        <label for="rep">Powtórz hasło</label>
+        <div>
+            <input 
+                name="rep" 
+                type="password" 
+                id="repeatPasswordInput"
+                (ngModelChange)="repeatPasswordChange()"
+                [(ngModel)]="formData.repeatPassword"
+                #repeatPasswordInput="ngModel"
+                required/>
+            <div class="form-error" *ngIf="!repeatPasswordInput.valid && repeatPasswordInput.touched">
+              Powtórzenie hasła jest wymagane!
+            </div>
+            <div class="form-error" *ngIf="repeatPasswordInput.valid && showPasswordsNotMatch">
+              Hasła nie są takie same!
+            </div>
+        </div>
+    </form>
+    <div>
+        <button 
+            [disabled]="(!loginInput.valid || !passwordInput.valid || !repeatPasswordInput.valid)"
+            (click)="addTech()">
+             Dodaj
+        </button>
+    </div>
+</div>

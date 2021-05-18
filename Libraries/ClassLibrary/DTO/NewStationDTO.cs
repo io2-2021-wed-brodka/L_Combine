@@ -10,5 +10,6 @@ namespace ClassLibrary.DTO
     {
         [Required]
         public string Name { get; set; }
+        public int? BikesLimit { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {NotificationService} from '../../services/notification.service';
 import {Message} from '../../models/message';
 import {NOTIFICATION_TIMEOUT} from '../../constants/notifications';
@@ -11,13 +11,14 @@ import {NOTIFICATION_TIMEOUT} from '../../constants/notifications';
 export class NotificationsComponent implements OnInit {
   messages: Message[] = [];
 
-  constructor(private notificationService: NotificationService) {
+  constructor(private notificationService: NotificationService, private zone: NgZone) {
   }
 
   ngOnInit(): void {
     this.notificationService.notify().subscribe(message => {
       this.messages.push(message);
-      setTimeout(() => this.remove(message), NOTIFICATION_TIMEOUT);
+      this.zone.runOutsideAngular(() =>
+        setTimeout(() => this.zone.run(() => this.remove(message)), NOTIFICATION_TIMEOUT));
     });
   }
 

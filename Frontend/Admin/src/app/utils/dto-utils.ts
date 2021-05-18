@@ -4,6 +4,8 @@ import {StationDTO} from '../dto/station-dto';
 import {BikeStation} from '../models/bikeStation';
 import {BikeDTO} from '../dto/bike-dto';
 import {Bike} from '../models/bike';
+import Tech from '../models/tech';
+import { TechDTO } from '../dto/tech-dto';
 
 export function userFromDTO(dto: UserDTO, status: UserStatus): User {
   return {
@@ -18,7 +20,7 @@ export function stationFromDTO(station: StationDTO): BikeStation {
     id: station.id,
     locationName: station.name,
     stationState: station.status,
-    bikeCount: station.activeBikeCount
+    bikeCount: station.activeBikesCount
   };
 }
 
@@ -29,4 +31,11 @@ export function bikeFromDTO(bike: BikeDTO): Bike {
     station: bike.station ? stationFromDTO(bike.station) : undefined,
     user: bike.user ? userFromDTO(bike.user, UserStatus.Active) : undefined
   };
+}
+
+export function techFromDTO(tech: TechDTO): Tech{
+  return {
+    username: tech.name,
+    id: tech.id
+  }
 }

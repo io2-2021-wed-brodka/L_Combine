@@ -47,7 +47,7 @@ describe('StationManagementComponent', () => {
       id: 'a',
       status: StationState.Active,
       name: 'b',
-      activeBikeCount: 1
+      activeBikesCount: 1
     }));
     stationService.unblockStation.and.returnValue(of({}));
 
