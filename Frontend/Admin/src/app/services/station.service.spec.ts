@@ -1,10 +1,11 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
 import {environment} from 'src/environments/environment';
-import mockBikeService from '../testing/mock-services/mockBikeService';
 import mockStationService from '../testing/mock-services/mockStationService';
 
 import {StationService} from './station.service';
+import {BikesDTO} from '../dto/bikes-dto';
+import mockBikeService from '../testing/mock-services/mockBikeService';
 
 describe('StationService', () => {
   let service: StationService;
@@ -37,7 +38,7 @@ describe('StationService', () => {
   });
 
   it('#getStationBikes should return bike list from server', () => {
-    const bikes = {
+    const bikes: BikesDTO = {
       bikes: mockBikeService.bikes
     };
 
@@ -46,7 +47,7 @@ describe('StationService', () => {
       expect(result.bikes).toEqual(bikes.bikes);
     });
 
-    const request = httpTestingControler.expectOne(`${environment.apiUrl}/stations/${stationId}/bikes`);
+    const request = httpTestingControler.expectOne(`${environment.apiUrl}/bikes`);
     request.flush(bikes);
     httpTestingControler.verify();
   });
