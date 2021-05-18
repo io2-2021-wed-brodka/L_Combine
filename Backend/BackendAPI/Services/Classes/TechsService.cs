@@ -25,9 +25,6 @@ namespace BackendAPI.Services.Classes
 
         public UserDTO AddTech(string login, string password)
         {
-            //Tego niżej nie precyuje specka
-            //[TODO] TODO:
-            //Dopytać ludzi od specki
             if (dbContext.Users.Where(u => u.Login == login).Any())
                 throw new HttpResponseException("Given login already exists in database.", 409);
 

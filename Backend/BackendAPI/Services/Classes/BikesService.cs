@@ -95,7 +95,7 @@ namespace BackendAPI.Services.Classes
 
             User user = dbContext.Users.FirstOrDefault(u => u.ID == userId);
 
-            return CreateBikeDTO(bike, user);
+            return CreateBikeDTO(bike, user, false);
         }
 
         public BikeDTO AddBike(string stationIdString)
@@ -115,7 +115,7 @@ namespace BackendAPI.Services.Classes
             dbContext.Bikes.Add(bike);
             //W momencie SaveChanges bike ma przypisaną BikeStation
             dbContext.SaveChanges();
-            return CreateBikeDTO(bike, null, false);
+            return CreateNotRentedNotReservedBikeDTO(bike);
         }
 
         public void DeleteBike(string bikeIdString)
@@ -154,7 +154,7 @@ namespace BackendAPI.Services.Classes
             bike.State = ClassLibrary.BikeState.Blocked;
             dbContext.SaveChanges();
             //Bike ma przypisane BikeStation bo było Include
-            return CreateBikeDTO(bike, null, false);
+            return CreateNotRentedNotReservedBikeDTO(bike);
         }
 
         public void UnblockBike(string bikeIdString)

@@ -74,7 +74,7 @@ namespace BackendAPI.Controllers
         [HttpGet("{id}/bikes")]
         public IActionResult GetBikes(string id)
         {
-            var result = stationsService.GetBikes(id, UserRole);
+            var result = stationsService.GetAvailableBikes(id, UserRole);
             return Ok(new { Bikes = result } );
         }
 

@@ -9,7 +9,7 @@ using System.Text;
 namespace ServicesTests.StationsService
 {
     [TestClass]
-    public class GetBikes: BaseStationTest
+    public class GetAvailableBikes: BaseStationTest
     {
         [TestInitialize]
         public void PrepareService() => CreateStationService();
@@ -21,7 +21,7 @@ namespace ServicesTests.StationsService
             string stationId = "1337";
             string role = Role.User;
 
-            service.GetBikes(stationId, role);
+            service.GetAvailableBikes(stationId, role);
 
             Assert.Fail();
         }
@@ -33,7 +33,7 @@ namespace ServicesTests.StationsService
             string stationId = "4";
             string role = Role.User;
 
-            service.GetBikes(stationId, role);
+            service.GetAvailableBikes(stationId, role);
 
             Assert.Fail();
         }
@@ -44,9 +44,9 @@ namespace ServicesTests.StationsService
             string stationId = "4";
             string role = Role.Admin;
 
-            var bikes = service.GetBikes(stationId, role);
+            var bikes = service.GetAvailableBikes(stationId, role);
 
-            Assert.IsTrue(bikes.Count() > 0);
+            CollectionAssert.AreEqual(bikes.Select(u => u.Id).ToList(), new[] { "6" });
         }
 
         [TestMethod]
@@ -55,9 +55,30 @@ namespace ServicesTests.StationsService
             string stationId = "1";
             string role = Role.User;
 
-            var bikes = service.GetBikes(stationId, role);
+            var bikes = service.GetAvailableBikes(stationId, role);
 
-            Assert.IsTrue(bikes.Count() > 0);
+            CollectionAssert.AreEqual(bikes.Select(u => u.Id).ToList(), new[] { "4", "11" });
+        }
+
+        [TestMethod]
+        public void WorkingStation_ReservedBikeShouldNotBeAvailable()
+        {
+            string stationId = "1";
+            string role = Role.User;
+            dbContext.Reservations.Add(
+                new BackendAPI.Models.Reservation()
+                {
+                    BikeID = 4,
+                    UserID = 3,
+                    BikeStationID = 1,
+                    ReservationDate = DateTime.Now,
+                    ExpireDate = DateTime.Now.AddMinutes(30)
+                });
+            dbContext.SaveChanges();
+
+            var bikes = service.GetAvailableBikes(stationId, role);
+
+            CollectionAssert.AreEqual(bikes.Select(u => u.Id).ToList(), new[] { "11" });
         }
 
         [TestMethod]
@@ -66,9 +87,9 @@ namespace ServicesTests.StationsService
             string stationId = "1";
             string role = Role.Tech;
 
-            var bikes = service.GetBikes(stationId, role);
+            var bikes = service.GetAvailableBikes(stationId, role);
 
-            Assert.IsTrue(bikes.Count() > 0);
+            CollectionAssert.AreEqual(bikes.Select(u => u.Id).ToList(), new[] { "4", "11" });
         }
     }
 }
