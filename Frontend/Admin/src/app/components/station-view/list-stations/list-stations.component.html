@@ -31,7 +31,7 @@
           <label class="add-station-label" for="station-name-input">Nazwa stacji:</label>
           <input name="station-name-input" [(ngModel)]="newStation.name" #name="ngModel" id="add-station-input" required/>
           <label class="add-station-label" for="station-limit-input">Limit rowerów:</label>
-          <input name="station-limit-input" [(ngModel)]="newStation.bikesLimit" (change)="bikeLimitChanged" type="number"/>
+          <input name="station-limit-input" [(ngModel)]="newStation.bikesLimit" ng-min="0" (ngModelChange)="bikeLimitChanged()" type="number"/>
         </div>
         <button type="submit" class="add-station-button" [disabled]="!name.valid">Dodaj stację</button>
       </div>

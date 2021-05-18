@@ -51,7 +51,8 @@ export class ListStationsComponent implements OnInit {
     this.getStations();
   }
 
-  bikeLimitChanged(e: any): void{
-    console.log(e);
+  bikeLimitChanged(): void{
+    if(this.newStation && this.newStation.bikesLimit! < 0 )
+      this.newStation.bikesLimit = 0;
   }
 }
