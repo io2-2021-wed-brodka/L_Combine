@@ -58,7 +58,7 @@
 							"});\r",
 							"\r",
 							"pm.test(\"Response station keys\", function(){\r",
-							"    const data = new Set([ \"id\", \"status\", \"activeBikesCount\", \"name\"]);\r",
+							"    const data = new Set([ \"id\", \"status\", \"activeBikesCount\", \"name\", \"bikesLimit\"]);\r",
 							"    const responseJson = pm.response.json();\r",
 							"    if(responseJson.stations.length > 0)\r",
 							"    {\r",
