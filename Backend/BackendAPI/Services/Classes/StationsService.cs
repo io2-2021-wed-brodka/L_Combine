@@ -15,6 +15,8 @@ namespace BackendAPI.Services.Classes
 {
     public class StationsService : Service, IStationsService
     {
+        const int DefaultBikesLimit = 10;
+
         [ActivatorUtilitiesConstructor]
         public StationsService(DataContext dbContext) : base(dbContext)
         {
@@ -86,7 +88,7 @@ namespace BackendAPI.Services.Classes
             BikeStation station;
             Bike bike;
             if ((station = dbContext
-                .BikeStations
+                .BikeStations.Include(bs => bs.Bikes)
                 .FirstOrDefault(bs => bs.ID == stationId)) == null)
                 throw new HttpResponseException("Station not found", 404);
 
@@ -106,6 +108,9 @@ namespace BackendAPI.Services.Classes
             if (rental == null)
                 throw new HttpResponseException("Bike is not rented by specific user", 422);
 
+            if (station.Bikes.Count >= station.BikesLimit)
+                throw new HttpResponseException("Bike station is already full", 422);
+
             bike.BikeStationID = stationId;
             rental.EndDate = DateTime.Now;
 
@@ -117,12 +122,13 @@ namespace BackendAPI.Services.Classes
             return CreateBikeDTO(bike, null, false);
         }
 
-        public StationDTO AddStation(string name)
+        public StationDTO AddStation(string name, int? bikesLimit)
         {
             var newStation = new BikeStation()
             {
                 LocationName = name,
-                State = BikeStationState.Working
+                State = BikeStationState.Working,
+                BikesLimit = bikesLimit ?? DefaultBikesLimit
             };
             dbContext.BikeStations.Add(newStation);
             dbContext.SaveChanges();

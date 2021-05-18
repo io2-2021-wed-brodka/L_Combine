@@ -10,5 +10,6 @@ namespace ClassLibrary.DTO
         public string Name { get; set; }
         public int ActiveBikesCount { get; set; }
         public string Status { get; set; }
+        public int BikesLimit { get; set; }
     }
 }

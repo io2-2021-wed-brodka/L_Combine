@@ -77,5 +77,27 @@ namespace ServicesTests.StationsService
             Assert.IsNotNull(bike.Station);
             Assert.IsFalse(dbContext.Rentals.Any(r => r.BikeID == int.Parse(bikeId) && r.UserID == int.Parse(userId) && r.EndDate == null));
         }
+
+        [TestMethod]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike station is already full")]
+        public void ReturnBike_StationFull()
+        {
+            string stationId = "7";
+            string userId = "3";
+            string bikeId = "8";
+
+            service.ReturnBike(userId, bikeId, stationId);
+        }
+
+        [TestMethod]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike is not rented by specific user")]
+        public void ReturnBike_BikeNotRented()
+        {
+            string stationId = "5";
+            string userId = "3";
+            string bikeId = "1";
+
+            service.ReturnBike(userId, bikeId, stationId);
+        }
     }
 }

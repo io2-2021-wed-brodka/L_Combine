@@ -16,12 +16,13 @@ namespace BackendAPI.ModelsConfigurations.TestConfiguration
             base.Configure(builder);
 
             builder.HasData(
-                new BikeStation { ID = 1, LocationName = "Warszawa Targowa", State = ClassLibrary.BikeStationState.Working },
-                new BikeStation { ID = 2, LocationName = "Warszawa Aleje Jerozolimskie", State = ClassLibrary.BikeStationState.Working },
-                new BikeStation { ID = 3, LocationName = "Warszawa PKiN", State = ClassLibrary.BikeStationState.Working },
-                new BikeStation { ID = 4, LocationName = "Warszawa Politechnika", State = ClassLibrary.BikeStationState.Blocked },
-                new BikeStation { ID = 5, LocationName = "Agrykola", State = ClassLibrary.BikeStationState.Working },
-                new BikeStation { ID = 6, LocationName = "Patelnia", State = ClassLibrary.BikeStationState.Blocked }
+                new BikeStation { ID = 1, BikesLimit = 10, LocationName = "Warszawa Targowa", State = ClassLibrary.BikeStationState.Working },
+                new BikeStation { ID = 2, BikesLimit = 5, LocationName = "Warszawa Aleje Jerozolimskie", State = ClassLibrary.BikeStationState.Working },
+                new BikeStation { ID = 3, BikesLimit = 4, LocationName = "Warszawa PKiN", State = ClassLibrary.BikeStationState.Working },
+                new BikeStation { ID = 4, BikesLimit = 4, LocationName = "Warszawa Politechnika", State = ClassLibrary.BikeStationState.Blocked },
+                new BikeStation { ID = 5, BikesLimit = 10, LocationName = "Agrykola", State = ClassLibrary.BikeStationState.Working },
+                new BikeStation { ID = 6, BikesLimit = 4, LocationName = "Patelnia", State = ClassLibrary.BikeStationState.Blocked },
+                new BikeStation { ID = 7, BikesLimit = 1, LocationName = "Agrykola123", State = ClassLibrary.BikeStationState.Working }
                 );
         }
     }
