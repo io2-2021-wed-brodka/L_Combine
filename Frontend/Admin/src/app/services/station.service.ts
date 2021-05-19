@@ -6,6 +6,7 @@ import {StationsDTO} from '../dto/stations-dto';
 import {BikesDTO} from '../dto/bikes-dto';
 import {NewStationDTO} from '../dto/new-station-dto';
 import {StationDTO} from '../dto/station-dto';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +22,11 @@ export class StationService {
   }
 
   getStationBikes(stationId: string): Observable<BikesDTO> {
-    const url = `${this.baseUrl}/${stationId}/bikes`;
-    return this.http.get<BikesDTO>(url);
+    return this.http.get<BikesDTO>(`${env.apiUrl}/bikes`).pipe(
+      map(bikes => {
+        return {bikes: bikes.bikes.filter(bike => bike.station?.id === stationId)};
+      })
+    );
   }
 
   addStation(newStation: NewStationDTO): Observable<StationDTO> {
