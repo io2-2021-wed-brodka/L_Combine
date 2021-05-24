@@ -17,6 +17,16 @@ describe('renting and returning bike', () => {
     }
   });
 
+  it('should list stations', async () => {
+    expect(await homePage.getBikeStations().count()).toBeGreaterThan(0);
+  });
+
+  it('should list bikes on station', async () => {
+    await homePage.getBikeStations().get(0).click();
+
+    expect(await stationBikesPage.getStationBikes().count()).toBeGreaterThan(0);
+  });
+
   it('should go back from selecting bike from station', async () => {
     await homePage.getBikeStations().get(0).click();
     await stationBikesPage.getReturnButton().click();
@@ -33,6 +43,16 @@ describe('renting and returning bike', () => {
     expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}rental/home`);
     expect(await homePage.getSuccessNotification().isPresent()).toBe(true);
     expect(await homePage.getErrorNotification().isPresent()).toBe(false);
+  });
+
+  it('should list stations for returning bike', async () => {
+    await rentBikeFromStation(0);
+
+    const rentedBike = homePage.getRentedBikes().get(0);
+    await rentedBike.click();
+    await homePage.getRentedBikeReturnButton(rentedBike).click();
+
+    expect(await returnBikePage.getBikeStations().count()).toBeGreaterThan(0);
   });
 
   it('should go back from selecting return station', async () => {
@@ -63,7 +83,7 @@ describe('renting and returning bike', () => {
     const rentedBikes = await homePage.getRentedBikes().count();
 
     for (let i = rentedBikes; i < 4; ++i) {
-      await rentBikeFromStation(i);
+      await rentBikeFromStation(Math.floor(i / 2));
     }
     expect(await homePage.getRentedBikes().count()).toEqual(4);
 
@@ -77,7 +97,7 @@ describe('renting and returning bike', () => {
   afterEach(async () => {
     const rentedBikes = await homePage.getRentedBikes().count();
     for (let i = 0; i < rentedBikes; ++i) {
-      await returnBikeOnStation(i);
+      await returnBikeOnStation(Math.floor(i / 2));
     }
   });
 
@@ -85,7 +105,7 @@ describe('renting and returning bike', () => {
     let bike: ElementFinder;
     return homePage.getBikeStations().get(station).click()
       .then(() => {
-        bike = stationBikesPage.getStationActiveBikes().get(0);
+        bike = stationBikesPage.getStationBikes().get(0);
         bike.click();
       }).then(() => stationBikesPage.getBikeRentButton(bike).click());
   }

@@ -1,27 +1,19 @@
-import {by, element, ElementArrayFinder, ElementFinder} from 'protractor';
+import {$, $$, ElementArrayFinder, ElementFinder} from 'protractor';
 
 export class StationBikesPage {
   getStationBikes(): ElementArrayFinder {
-    return element.all(by.css('.list-item'));
-  }
-
-  getStationActiveBikes(): ElementArrayFinder {
-    return element.all(by.css('.list-item-active'));
-  }
-
-  getStationInactiveBikes(): ElementArrayFinder {
-    return element.all(by.css('.list-item:not(.list-item-active)'));
+    return $$('.list-item');
   }
 
   getBikeRentButton(bike: ElementFinder): ElementFinder {
-    return bike.element(by.css('.button-rent'));
+    return bike.$('.button-rent');
   }
 
   getBikeReserveButton(bike: ElementFinder): ElementFinder {
-    return bike.element(by.css('.button-reserve'));
+    return bike.$('.button-reserve');
   }
 
   getReturnButton(): ElementFinder {
-    return element(by.css('.button-back'));
+    return $('.button-back');
   }
 }

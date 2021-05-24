@@ -1,11 +1,11 @@
-import {by, element, ElementArrayFinder, ElementFinder} from 'protractor';
+import {$, $$, ElementArrayFinder, ElementFinder} from 'protractor';
 
 export class ReturnBikePage {
   getBikeStations(): ElementArrayFinder {
-    return element.all(by.css('.list-item'));
+    return $$('.list-item');
   }
 
   getReturnButton(): ElementFinder {
-    return element(by.css('.button-back'));
+    return $('.button-back');
   }
 }

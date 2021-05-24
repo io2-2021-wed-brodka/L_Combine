@@ -34,4 +34,10 @@ export class LoginPage {
       .then(() => this.getPasswordInput().sendKeys(this.password))
       .then(() => this.getLoginButton().click());
   }
+
+  preformCustomLogin(login: string, password: string): promise.Promise<any> {
+    return this.getLoginInput().sendKeys(login)
+      .then(() => this.getPasswordInput().sendKeys(password))
+      .then(() => this.getLoginButton().click());
+  }
 }
