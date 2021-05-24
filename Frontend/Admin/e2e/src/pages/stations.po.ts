@@ -38,7 +38,11 @@ export class StationsPage {
   }
 
   getStationStateText(stationIdx: number): promise.Promise<string> {
-    return  this.getStations().get(stationIdx).$('span').getText();
+    return this.getStations().get(stationIdx).$('.station-state span').getText();
+  }
+
+  getStationBikeLimit(stationIdx: number): promise.Promise<number> {
+    return this.getStations().get(stationIdx).$('.station-limit').getText().then(value => +(value.split(' ')[1]));
   }
 
   getAddBikeButton(): ElementFinder {
@@ -66,7 +70,11 @@ export class StationsPage {
   }
 
   getNewStationNameInput(): ElementFinder {
-    return $('#add-station-input');
+    return $('#station-name-input');
+  }
+
+  getNewStationLimitInput(): ElementFinder {
+    return $('#station-limit-input');
   }
 
   getAddStationButton(): ElementFinder {

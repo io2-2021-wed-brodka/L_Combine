@@ -44,4 +44,12 @@ export class HomePage {
   getLogoutButton(): ElementFinder {
     return element(by.css('.logout'));
   }
+
+  getUserPanelNav(): ElementFinder {
+    return element(by.cssContainingText('.navigation-link', 'Panel użytkownika'));
+  }
+
+  getTechPanelNav(): ElementFinder {
+    return element(by.cssContainingText('.navigation-link', 'Panel specjalisty'));
+  }
 }
