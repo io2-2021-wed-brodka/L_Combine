@@ -25,5 +25,6 @@ namespace BackendAPI.Models
         public bool Blocked { get; set; }
 
         public IList<Reservation> Reservations { get; set; }
+        public IList<Malfunction> Malfunctions { get; set; }
     }
 }

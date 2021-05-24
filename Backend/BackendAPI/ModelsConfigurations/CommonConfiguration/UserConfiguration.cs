@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.ModelsConfigurations.CommonConfiguration
 {
-    public class UserConfiguration : IEntityTypeConfiguration<User>
+    public abstract class UserConfiguration : IEntityTypeConfiguration<User>
     {
         public virtual void Configure(EntityTypeBuilder<User> builder)
         {

@@ -14,8 +14,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ModelsConfigurations\CommonConfiguration\" />
-    <Folder Include="ModelsConfigurations\TestConfiguration\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
