@@ -15,7 +15,7 @@ namespace BackendAPI.ModelsConfigurations.CommonConfiguration
         {
             builder.ToTable("BikeStations");
 
-            builder.Property(bs => bs.LocationName).HasMaxLength(150);
+            builder.Property(bs => bs.LocationName).HasMaxLength(300);
             builder.Property(bs => bs.ID).ValueGeneratedOnAdd();
             builder.Property(bs => bs.LocationName).IsRequired();
         }
