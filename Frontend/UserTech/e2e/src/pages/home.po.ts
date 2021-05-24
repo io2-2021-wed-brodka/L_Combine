@@ -17,6 +17,10 @@ export class HomePage {
     return element(by.css('.rent-bike')).all(by.css('.list-item'));
   }
 
+  getBikeStationAvailableBikesCount(station: ElementFinder): promise.Promise<number> {
+    return station.$('.bikes-count').getText().then(value => +(value.split(' ')[1]));
+  }
+
   getRentedBikeReturnButton(rentedBike: ElementFinder): ElementFinder {
     return rentedBike.element(by.css('.button-return'));
   }
