@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  backend:
+    build: Backend
+    ports:
+      - "8080:80"
+    depends_on:
+      - mssql
+      
+  mssql:
+    build: mssql
+    ports:
+        - "1433:1433"

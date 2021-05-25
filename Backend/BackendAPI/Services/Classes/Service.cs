@@ -62,7 +62,7 @@ namespace BackendAPI.Services.Classes
                 status = BikeStatusDTO.Blocked;
             return new BikeDTO()
             {
-                BikeStatus = status,
+                Status = status,
                 Id = bike.ID.ToString(),
                 Station = CreateStationDTO(bike.BikeStation),
                 User = null
@@ -100,7 +100,7 @@ namespace BackendAPI.Services.Classes
             return new BikeDTO()
             {
                 Id = bike.ID.ToString(),
-                BikeStatus = status,
+                Status = status,
                 Station = station,
                 User = bikeUser
             };
@@ -151,7 +151,7 @@ namespace BackendAPI.Services.Classes
         protected BikeDTO CreateBikeDTOWithReservedUser(Bike bike, User user, bool? reserved = null)
         {
             var result = CreateBikeDTO(bike, user, reserved);
-            if (result.BikeStatus == BikeStatusDTO.Reserved)
+            if (result.Status == BikeStatusDTO.Reserved)
                 result.User = CreateUserDTO((from r in dbContext.Reservations.Include(r => r.User)
                                              where r.ExpireDate > DateTime.Now
                                              select r.User).FirstOrDefault());

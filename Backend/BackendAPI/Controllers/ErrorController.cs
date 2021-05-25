@@ -13,7 +13,7 @@ namespace BackendAPI.Controllers
     /// <summary>
     /// Kontroler do obsługi wyjątków.
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ErrorController : ControllerBase
     {

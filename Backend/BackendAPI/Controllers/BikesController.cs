@@ -14,7 +14,7 @@ using ClassLibrary;
 
 namespace BackendAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [Authorize]
     [ApiController]
     public class BikesController : ControllerBase
