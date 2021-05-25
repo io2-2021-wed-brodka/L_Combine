@@ -1,21 +1,21 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
-import { BikeState } from 'src/app/models/bike';
-import { BikeService } from 'src/app/services/bike.service';
-import { NotificationService } from 'src/app/services/notification.service';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {of} from 'rxjs';
+import {BikeState} from 'src/app/models/bike';
+import {BikeService} from 'src/app/services/bike.service';
+import {NotificationService} from 'src/app/services/notification.service';
 
-import { BlockBikeComponent } from './block-bike.component';
+import {BlockBikeComponent} from './block-bike.component';
 
 describe('BlockBikeComponent', () => {
   let component: BlockBikeComponent;
   let fixture: ComponentFixture<BlockBikeComponent>;
   let notification: jasmine.SpyObj<NotificationService>;
   let bikeService: jasmine.SpyObj<BikeService>;
-  
+
   beforeEach(async () => {
     const notificationServiceSpy = jasmine.createSpyObj('NotificationService', ['success']);
     const bikeServiceSpy = jasmine.createSpyObj('BikeService', ['block']);
-    
+
     await TestBed.configureTestingModule({
       declarations: [ BlockBikeComponent ],
       providers: [
@@ -26,7 +26,7 @@ describe('BlockBikeComponent', () => {
     .compileComponents();
     notification = TestBed.inject(NotificationService) as jasmine.SpyObj<NotificationService>;
     bikeService = TestBed.inject(BikeService) as jasmine.SpyObj<BikeService>;
-    bikeService.block.and.returnValue(of({id: 'id', bikeStatus: BikeState.Blocked}))
+    bikeService.block.and.returnValue(of({id: 'id', status: BikeState.Blocked}))
   });
 
   beforeEach(() => {

@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import LoginData from '../models/loginData';
-import {Router} from '@angular/router';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment as env} from '../../environments/environment';
 import {AuthenticateResponseDTO, Role} from '../dto/authenticate-response-dto';
@@ -49,6 +48,9 @@ export class LoginService {
   }
 
   logout(): void {
+    const headers = new HttpHeaders().set(IGNORE_ERROR_INTERCEPT, 'true');
+    this.http.post<any>(`${env.apiUrl}/logout`, {}, {headers});
+
     localStorage.removeItem('token');
     localStorage.removeItem('role');
     this.token = null;

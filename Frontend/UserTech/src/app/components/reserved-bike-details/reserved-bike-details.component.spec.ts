@@ -31,7 +31,7 @@ describe('ReservedBikeDetailsComponent', () => {
   const bikeDTO: BikeDTO = {
     id: '1',
     station: {id: '1', name: 'a', status: StationState.Active, activeBikesCount: 1},
-    bikeStatus: BikeState.Available,
+    status: BikeState.Available,
     user: {id: '2', name: 'a'}
   };
 
