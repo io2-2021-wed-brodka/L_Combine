@@ -60,23 +60,11 @@ describe('register screen', () => {
   });
 
   it('registerButton should navigate when register successful', async () => {
-    await registerPage.getLoginInput().sendKeys(registerPage.login);
-    await registerPage.getPasswordInput().sendKeys(registerPage.password);
-    await registerPage.getRepeatPasswordInput().sendKeys(registerPage.password);
-    await registerPage.getRegisterButton().click();
+    registerPage = new RegisterPage();
+    await registerPage.navigateToRegister();
+
+    await registerPage.preformRegister();
 
     expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}login`);
-  });
-
-  it('registerButton should not navigate and show error if login taken', async () => {
-    expect(await registerPage.getLoginError().isPresent()).toBe(false);
-
-    await registerPage.getLoginInput().sendKeys(registerPage.login);
-    await registerPage.getPasswordInput().sendKeys(registerPage.password);
-    await registerPage.getRepeatPasswordInput().sendKeys(registerPage.password);
-    await registerPage.getRegisterButton().click();
-
-    expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}register`);
-    expect(await registerPage.getLoginError().isPresent()).toBe(true);
   });
 });

@@ -32,4 +32,10 @@ describe('home screen', () => {
 
     expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}rental/users`);
   });
+
+  it('logout button should log out', async () => {
+    await homePage.getLogoutButton().click();
+
+    expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}login`);
+  });
 });

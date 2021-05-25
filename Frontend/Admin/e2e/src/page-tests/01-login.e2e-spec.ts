@@ -22,9 +22,7 @@ describe('login screen', () => {
   });
 
   it('loginButton should navigate to main page when login successful', async () => {
-    await loginPage.getLoginInput().sendKeys(loginPage.login);
-    await loginPage.getPasswordInput().sendKeys(loginPage.password);
-    await loginPage.getLoginButton().click();
+    await loginPage.preformLogin();
 
     expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}rental/home`);
   });
@@ -32,17 +30,15 @@ describe('login screen', () => {
   it('loginButton should not navigate and show error when login unsuccessful', async () => {
     expect(await loginPage.getLoginError().isPresent()).toBe(false);
 
-    await loginPage.getLoginInput().sendKeys(loginPage.login);
-    await loginPage.getPasswordInput().sendKeys(loginPage.password + '1');
-    await loginPage.getLoginButton().click();
+    await loginPage.preformCustomLogin(loginPage.login, loginPage.password + '1');
 
     expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}login`);
     expect(await loginPage.getLoginError().isPresent()).toBe(true);
   });
 
   afterEach(async () => {
-    if (await browser.getCurrentUrl() === `${browser.baseUrl}rental/home`) {
-      (new HomePage()).getLogoutButton().click();
+    if (/\/rental/.test(await browser.getCurrentUrl())) {
+      await (new HomePage()).getLogoutButton().click();
     }
   });
 });
