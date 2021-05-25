@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BackendAPI.Controllers
 {
-    [Route("api/bikes/blocked")]
+    [Route("bikes/blocked")]
     [Authorize(Roles = Role.Admin + "," + Role.Tech)]
     [ApiController]
     public class BlockedBikesController : ControllerBase

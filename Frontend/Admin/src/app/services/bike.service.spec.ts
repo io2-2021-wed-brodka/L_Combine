@@ -13,7 +13,7 @@ describe('BikeService', () => {
   const bikes: BikesDTO = {
     bikes: [{
       id: 'id',
-      bikeStatus: BikeState.Available
+      status: BikeState.Available
     }]
   };
 

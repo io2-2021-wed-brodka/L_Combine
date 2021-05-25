@@ -42,7 +42,7 @@ describe('BikeManagementComponent', () => {
     bikeService = TestBed.inject(BikeService) as jasmine.SpyObj<BikeService>;
 
     bikeService.deleteBike.and.returnValue(of({}));
-    bikeService.blockBike.and.returnValue(of({id: 'b', bikeStatus: BikeState.Available}));
+    bikeService.blockBike.and.returnValue(of({id: 'b', status: BikeState.Available}));
     bikeService.unblockBike.and.returnValue(of({}));
 
     component.bike = {id: 'a', state: BikeState.Available};

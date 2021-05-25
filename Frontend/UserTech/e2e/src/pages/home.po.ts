@@ -1,4 +1,4 @@
-import {browser, by, element, ElementArrayFinder, ElementFinder, promise} from 'protractor';
+import {$, browser, ElementArrayFinder, ElementFinder, promise} from 'protractor';
 
 export class HomePage {
   navigateToHome(): promise.Promise<any> {
@@ -6,38 +6,38 @@ export class HomePage {
   }
 
   getRentedBikes(): ElementArrayFinder {
-    return element(by.css('.bikes-rented')).all(by.css('.list-item'));
+    return $('.bikes-rented').$$('.list-item');
   }
 
   getReservedBikes(): ElementArrayFinder {
-    return element(by.css('.bikes-reserved')).all(by.css('.list-item'));
+    return $('.bikes-reserved').$$('.list-item');
   }
 
   getBikeStations(): ElementArrayFinder {
-    return element(by.css('.rent-bike')).all(by.css('.list-item'));
+    return $('.rent-bike').$$('.list-item');
   }
 
   getRentedBikeReturnButton(rentedBike: ElementFinder): ElementFinder {
-    return rentedBike.element(by.css('.button-return'));
+    return rentedBike.$('.button-return');
   }
 
   getReservedBikeRentButton(reservedBike: ElementFinder): ElementFinder {
-    return reservedBike.element(by.css('.button-rent'));
+    return reservedBike.$('.button-rent');
   }
 
   getReservedBikeCancelButton(reservedBike: ElementFinder): ElementFinder {
-    return reservedBike.element(by.css('.button-cancel'));
+    return reservedBike.$('.button-cancel');
   }
 
   getSuccessNotification(): ElementFinder {
-    return element(by.css('.message-success'));
+    return $('.message-success');
   }
 
   getErrorNotification(): ElementFinder {
-    return element(by.css('.message-error'));
+    return $('.message-error');
   }
 
   getLogoutButton(): ElementFinder {
-    return element(by.css('.logout'));
+    return $('.logout');
   }
 }

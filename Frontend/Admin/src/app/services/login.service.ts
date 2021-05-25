@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable, throwError} from 'rxjs';
+import {Observable} from 'rxjs';
 import LoginData from '../models/loginData';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {environment as env} from '../../environments/environment';
@@ -15,7 +15,7 @@ export class LoginService {
   private baseUrl = `${env.apiUrl}/login`;
   private token: string | null;
 
-  constructor( private http: HttpClient,
+  constructor(private http: HttpClient,
               private redirectService: RedirectService) {
     this.token = localStorage.getItem('admin_token');
   }
@@ -35,13 +35,16 @@ export class LoginService {
       tap(response => {
         if(response.role === Role.Admin)
           this.setToken(response.token);
-        else 
+        else
           throw new HttpErrorResponse({status: 401})
       })
     );
   }
 
   logout(): void {
+    const headers = new HttpHeaders().set(IGNORE_ERROR_INTERCEPT, 'true');
+    this.http.post<any>(`${env.apiUrl}/logout`, {}, {headers});
+
     localStorage.removeItem('admin_token');
     this.token = null;
     this.redirectService.redirectToLogin();

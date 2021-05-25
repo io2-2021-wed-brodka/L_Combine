@@ -13,6 +13,6 @@ export default {
   },
 
   getStationBikes(stationId: string): Observable<BikesDTO> {
-    return of({bikes: mockBikeService.bikes.map(bike => ({...bike, bikeStatus: BikeState.Available}))});
+    return of({bikes: mockBikeService.bikes.map(bike => ({...bike, status: BikeState.Available}))});
   }
 }

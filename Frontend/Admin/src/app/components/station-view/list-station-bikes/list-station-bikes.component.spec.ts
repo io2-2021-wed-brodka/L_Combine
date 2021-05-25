@@ -43,7 +43,7 @@ describe('ListStationBikesComponent', () => {
     bikesLimit: 10
   };
 
-  const bikeDTO: BikeDTO = {id: 'b', bikeStatus: BikeState.Available};
+  const bikeDTO: BikeDTO = {id: 'b', status: BikeState.Available};
   const bike: Bike = {id: 'b', state: BikeState.Available};
 
   beforeEach(async () => {

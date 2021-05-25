@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BackendAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [Authorize]
     [ApiController]
     public class StationsController : ControllerBase

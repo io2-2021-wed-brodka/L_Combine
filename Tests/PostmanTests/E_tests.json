@@ -1,0 +1,541 @@
+{
+	"info": {
+		"_postman_id": "6f46a068-e1bb-4446-b178-a69b185dfa12",
+		"name": "BikesRentalAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "_first",
+			"item": [
+				{
+					"name": "Set requests order",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"postman.setNextRequest(\"GET stations\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "google.pl",
+							"host": [
+								"google",
+								"pl"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "bikes",
+			"item": [
+				{
+					"name": "rented",
+					"item": [
+						{
+							"name": "POST bikes-rented",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if(pm.collectionVariables.get(\"userRole\")===\"user\")",
+											"{",
+											"    pm.test(\"Status test\", function () {",
+											"        pm.expect(pm.response.code).to.be.greaterThan(199);",
+											"        pm.expect(pm.response.code).to.be.below(300);",
+											"    });",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"postman.setNextRequest(\"POST stations-id-bikes\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": {{bikeId}}\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bikes/rented",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bikes",
+										"rented"
+									]
+								},
+								"description": "Rents a bike"
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "stations",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "bikes",
+							"item": [
+								{
+									"name": "GET stations-id-bikes",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"if(pm.collectionVariables.get(\"userRole\")===\"user\")",
+													"{",
+													"    pm.test(\"Status test\", function () {",
+													"        pm.expect(pm.response.code).to.be.greaterThan(199);",
+													"        pm.expect(pm.response.code).to.be.below(300);",
+													"    });",
+													"",
+													"    var responseJson = pm.response.json();",
+													"    var bikes = responseJson.bikes[0];",
+													"    var bikeId = bikes.id",
+													"    pm.collectionVariables.set(\"bikeId\", bikeId);",
+													"    console.log(pm.collectionVariables.get(\"bikeId\"));",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"postman.setNextRequest(\"POST bikes-rented\");"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/stations/:id/bikes",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"stations",
+												":id",
+												"bikes"
+											],
+											"query": [
+												{
+													"key": "",
+													"value": null,
+													"disabled": true
+												}
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{station1Id}}",
+													"description": "(Required) "
+												}
+											]
+										},
+										"description": "Gets all bikes associated with station with specified id"
+									},
+									"response": []
+								},
+								{
+									"name": "POST stations-id-bikes",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"if(pm.collectionVariables.get(\"userRole\")===\"user\")",
+													"{",
+													"    pm.test(\"Status test\", function () {",
+													"        pm.expect(pm.response.code).to.be.greaterThan(199);",
+													"        pm.expect(pm.response.code).to.be.below(300);",
+													"    });",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"postman.setNextRequest(null);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"id\": {{bikeId}}\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/stations/:id/bikes",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"stations",
+												":id",
+												"bikes"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{station2Id}}",
+													"description": "(Required) "
+												}
+											]
+										},
+										"description": "Associates bike with specified station (e.g. returns rented bike to station)"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "GET stations-id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if(pm.environment.get(\"userRole\")===\"user\")\r",
+											"{\r",
+											"    pm.test(\"Status test\", function () {\r",
+											"        pm.expect(pm.response.code).to.be.greaterThan(399);\r",
+											"        pm.expect(pm.response.code).to.be.below(500);\r",
+											"    });\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/stations/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"stations",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "reprehenderit",
+											"description": "(Required) "
+										}
+									]
+								},
+								"description": "Gets station with specified id"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GET stations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if(pm.collectionVariables.get(\"userRole\")===\"user\")\r",
+									"{\r",
+									"    pm.test(\"Status test\", function () {\r",
+									"        pm.expect(pm.response.code).to.be.greaterThan(199);\r",
+									"        pm.expect(pm.response.code).to.be.below(300);\r",
+									"    });\r",
+									"\r",
+									"    var responseJson = pm.response.json();\r",
+									"    var station1 = responseJson.stations[0];\r",
+									"    var station2 = responseJson.stations[1];\r",
+									"    pm.collectionVariables.set(\"station1Id\", station1.id);\r",
+									"    pm.collectionVariables.set(\"station2Id\", station2.id);\r",
+									"    console.log(pm.collectionVariables.get(\"station1Id\"));\r",
+									"    console.log(pm.collectionVariables.get(\"station2Id\"));\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"postman.setNextRequest(\"GET stations-id-bikes\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/stations/active",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stations",
+								"active"
+							]
+						},
+						"description": "Gets all stations"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "POST login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"login\": \"test\",\n    \"password\": \"test\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "Gets valid token to authorize with other endpoints"
+			},
+			"response": []
+		},
+		{
+			"name": "POST register",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"login\": \"test\",\n    \"password\": \"test\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/register",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"register"
+					]
+				},
+				"description": "registers new unique user"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{currentAccessToken}}",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "{{${{currentAccessToken}}}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"if(0==pm.collectionVariables.get(\"setup\"))",
+					"{",
+					"    pm.collectionVariables.set(\"setup\",true);",
+					"",
+					"    const echoPostRequestUser = {",
+					"    url: pm.collectionVariables.get(\"baseUrl\")+'/register',",
+					"    method: 'POST',",
+					"    header: 'Content-Type:application/json',",
+					"    body: {",
+					"        mode: 'application/json',",
+					"        raw: JSON.stringify(",
+					"            {",
+					"                \"login\": pm.collectionVariables.get(\"login\"),",
+					"                \"password\": pm.collectionVariables.get(\"password\")",
+					"            })",
+					"    }",
+					"    };",
+					"",
+					"    const echoPostLoginUser = {",
+					"    url: pm.collectionVariables.get(\"baseUrl\")+'/login',",
+					"    method: 'POST',",
+					"    header: 'Content-Type:application/json',",
+					"    body: {",
+					"        mode: 'application/json',",
+					"        raw: JSON.stringify(",
+					"            {",
+					"                \"login\": pm.collectionVariables.get(\"login\"),",
+					"                \"password\": pm.collectionVariables.get(\"password\")",
+					"            })",
+					"    }",
+					"    };",
+					"",
+					"    pm.sendRequest(echoPostRequestUser, function (err, res) {",
+					"    console.log(err ? err : res.json());",
+					"        if (err === null) {",
+					"            var responseJson = res.json();",
+					"            pm.collectionVariables.set(\"currentAccessToken\", responseJson.token);    ",
+					"            pm.collectionVariables.set(\"userRole\", \"user\");",
+					"",
+					"",
+					"            console.log(\"Bearer \" + responseJson.token);",
+					"            console.log(pm.collectionVariables.get(\"userRole\"));",
+					"            console.log(pm.collectionVariables.get(\"currentAccessToken\"));    ",
+					"        }",
+					"    });",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://127.0.0.1:5001/api"
+		},
+		{
+			"key": "currentAccessToken",
+			"value": "cos"
+		},
+		{
+			"key": "station1Id",
+			"value": ""
+		},
+		{
+			"key": "station2Id",
+			"value": ""
+		},
+		{
+			"key": "bikeId",
+			"value": "bikeId"
+		},
+		{
+			"key": "userRole",
+			"value": "user2"
+		},
+		{
+			"key": "setup",
+			"value": "0"
+		},
+		{
+			"key": "login",
+			"value": "test"
+		},
+		{
+			"key": "password",
+			"value": "test"
+		}
+	]
+}

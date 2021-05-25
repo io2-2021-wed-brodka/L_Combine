@@ -1,9 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {StationService} from '../../services/station.service';
 import {ActivatedRoute} from '@angular/router';
-import {BikeStation} from '../../models/bikeStation';
 import {Bike, BikeState} from '../../models/bike';
-import {bikeFromDTO, stationFromDTO} from '../../utils/dto-utils';
+import {bikeFromDTO} from '../../utils/dto-utils';
 import {RedirectService} from '../../services/redirect.service';
 
 @Component({
@@ -29,8 +28,10 @@ export class ListStationBikesComponent implements OnInit {
   getStation(): void {
     const stationId = this.route.snapshot.paramMap.get('id') || '';
     this.stationName = this.route.snapshot.paramMap.get('name') || '';
-    this.stationService.getStationBikes(stationId).subscribe(bikes =>
-      this.bikes = bikes.bikes.map<Bike>(bikeFromDTO)
+    this.stationService.getStationBikes(stationId).subscribe(bikes => {
+        this.bikes = bikes.bikes.map<Bike>(bikeFromDTO);
+        console.log(this.bikes);
+      }
     );
   }
 
