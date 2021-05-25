@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.ModelsConfigurations.CommonConfiguration
 {
-    public class BikeStationConfiguration : 
+    public abstract class BikeStationConfiguration : 
         IEntityTypeConfiguration<BikeStation>
     {
         public virtual void Configure(EntityTypeBuilder<BikeStation> builder)
         {
             builder.ToTable("BikeStations");
 
-            builder.Property(bs => bs.LocationName).HasMaxLength(150);
+            builder.Property(bs => bs.LocationName).HasMaxLength(300);
             builder.Property(bs => bs.ID).ValueGeneratedOnAdd();
             builder.Property(bs => bs.LocationName).IsRequired();
         }
