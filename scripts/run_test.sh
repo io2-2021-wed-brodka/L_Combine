@@ -1,5 +1,7 @@
 #! /bin/bash
 
+set -e
+
 TEST_PATH=$1
 PROJECT_PATH=$2
 
