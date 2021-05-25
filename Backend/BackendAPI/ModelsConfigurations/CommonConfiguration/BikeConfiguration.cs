@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.ModelsConfigurations.CommonConfiguration
 {
-    public class BikeConfiguration : IEntityTypeConfiguration<Bike>
+    public abstract class BikeConfiguration : IEntityTypeConfiguration<Bike>
     {
         public virtual void Configure(EntityTypeBuilder<Bike> builder)
         {

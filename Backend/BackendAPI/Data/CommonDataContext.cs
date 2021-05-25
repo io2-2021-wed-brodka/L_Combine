@@ -20,6 +20,7 @@ namespace BackendAPI.Data
         public DbSet<BikeStation> BikeStations { get; set; }
         public DbSet<Rental> Rentals { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Malfunction> Malfunctions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

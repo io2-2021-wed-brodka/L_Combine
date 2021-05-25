@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.ModelsConfigurations.CommonConfiguration
 {
-    public class ReservationConfiguration : IEntityTypeConfiguration<Reservation>
+    public abstract class ReservationConfiguration : IEntityTypeConfiguration<Reservation>
     {
         public virtual void Configure(EntityTypeBuilder<Reservation> builder)
         {
