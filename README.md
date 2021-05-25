@@ -7,6 +7,18 @@ Aby uruchomić backend w kontenerze należy wykonać:
 ```
 docker-compose up
 ```
+Można dodać parametr `--build` przy zmianach w kodzie. Wtedy docker na pewno przebuduje kontenery i zastosuje zmiany.
+Polecenie powinno uruchomić 2 kontenery:
+- aplikacja backendu (l_combine_backend)
+- bazę danych (l_combine_mssql)
+Uruchomienie kontenerów powinno zając trochę czasu. Backend specjalnie czeka na pełne uruchomienie bazy danych.
+Aby w prosty sposób sprawdzić, czy aplikacja sdziała prawidłowo, można uruchomić polecenie z folderu głownego repozytorium
+```
+./scripts/run_test.sh Tests/PostmanTests/ Backend/BackendAPI/
+```
+Skrypt wykona testy postmanowe (pierwszy na pewno powinien przejść).
+
+---
 
 ## Fronted
 
