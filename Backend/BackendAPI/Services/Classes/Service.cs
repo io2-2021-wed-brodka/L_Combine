@@ -19,25 +19,31 @@ namespace BackendAPI.Services.Classes
             this.dbContext = dbContext;
         }
 
-        protected int ParseUserId(string id)
+        private int ParseId(string id, string name)
         {
             if (!int.TryParse(id, out int result))
-                throw new HttpResponseException("User not found", 404);
+                throw new HttpResponseException($"{name} not found", 404);
             return result;
+        }
+
+        protected int ParseUserId(string id)
+        {
+            return ParseId(id, "User");
+        }
+
+        protected int ParseTechId(string id)
+        {
+            return ParseId(id, "Tech");
         }
 
         protected int ParseStationId(string id)
         {
-            if (!int.TryParse(id, out int result))
-                throw new HttpResponseException("Station not found", 404);
-            return result;
+            return ParseId(id, "Station");
         }
 
         protected int ParseBikeId(string id)
         {
-            if (!int.TryParse(id, out int result))
-                throw new HttpResponseException("Bike not found", 404);
-            return result;
+            return ParseId(id, "Bike");
         }
 
         //Niezwykle ważna uwaga!!!! 
@@ -46,6 +52,23 @@ namespace BackendAPI.Services.Classes
         //IQueryable.Select(s => Create...DTO(s))
         //bo to wywali błąd z wielowątkowym dostępem do bazy danych.
         //Trzeba zrobić IQueryable.ToList().Select(s => Create...DTO(s))
+
+        protected BikeDTO CreateNotRentedNotReservedBikeDTO(Bike bike)
+        {
+            string status;
+            if (bike.State == ClassLibrary.BikeState.Working)
+                status = BikeStatusDTO.Available;
+            else
+                status = BikeStatusDTO.Blocked;
+            return new BikeDTO()
+            {
+                Status = status,
+                Id = bike.ID.ToString(),
+                Station = CreateStationDTO(bike.BikeStation),
+                User = null
+            };
+        }
+
         protected BikeDTO CreateBikeDTO(Bike bike, User user, bool? reserved = null)
         {
             string status;
@@ -77,7 +100,7 @@ namespace BackendAPI.Services.Classes
             return new BikeDTO()
             {
                 Id = bike.ID.ToString(),
-                BikeStatus = status,
+                Status = status,
                 Station = station,
                 User = bikeUser
             };
@@ -108,7 +131,8 @@ namespace BackendAPI.Services.Classes
                                          select r).Any()  //nie ma aktywnych rezerwacji
                                     select b).Count(),
                 Name = station.LocationName,
-                Status = status
+                Status = status,
+                BikesLimit = station.BikesLimit
             };
         }
 
@@ -127,7 +151,7 @@ namespace BackendAPI.Services.Classes
         protected BikeDTO CreateBikeDTOWithReservedUser(Bike bike, User user, bool? reserved = null)
         {
             var result = CreateBikeDTO(bike, user, reserved);
-            if (result.BikeStatus == BikeStatusDTO.Reserved)
+            if (result.Status == BikeStatusDTO.Reserved)
                 result.User = CreateUserDTO((from r in dbContext.Reservations.Include(r => r.User)
                                              where r.ExpireDate > DateTime.Now
                                              select r.User).FirstOrDefault());

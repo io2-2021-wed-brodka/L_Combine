@@ -20,6 +20,10 @@ import {NotificationsComponent} from './components/notification/notifications.co
 import {ReservationListComponent} from './components/reservation-list/reservation-list.component';
 import {ReservedBikeDetailsComponent} from './components/reserved-bike-details/reserved-bike-details.component';
 import {RegisterComponent} from './components/register/register.component';
+import { TechPanelComponent } from './components/tech/tech-panel/tech-panel.component';
+import { ListBikesComponent } from './components/tech/list-bikes/list-bikes.component';
+import { BlockBikeComponent } from './components/tech/block-bike/block-bike.component';
+import { UnblockBikeComponent } from './components/tech/unblock-bike/unblock-bike.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +41,10 @@ import {RegisterComponent} from './components/register/register.component';
     ReservationListComponent,
     ReservedBikeDetailsComponent,
     RegisterComponent,
+    TechPanelComponent,
+    ListBikesComponent,
+    BlockBikeComponent,
+    UnblockBikeComponent,
   ],
   imports: [
     BrowserModule,

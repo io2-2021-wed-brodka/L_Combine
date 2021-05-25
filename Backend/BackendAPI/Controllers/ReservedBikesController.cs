@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace BackendAPI.Controllers
 {
-    [Route("api/bikes/reserved")]
+    [Route("bikes/reserved")]
     [Authorize]
     [ApiController]
     public class ReservedBikesController : ControllerBase

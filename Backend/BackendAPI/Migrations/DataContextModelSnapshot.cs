@@ -53,6 +53,8 @@ namespace BackendAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("BikesLimit");
+
                     b.Property<string>("LocationName")
                         .IsRequired()
                         .HasMaxLength(150);
@@ -64,10 +66,10 @@ namespace BackendAPI.Migrations
                     b.ToTable("BikeStations");
 
                     b.HasData(
-                        new { ID = 1, LocationName = "Warszawa Targowa", State = 0 },
-                        new { ID = 2, LocationName = "Warszawa Aleje Jerozolimskie", State = 0 },
-                        new { ID = 3, LocationName = "Warszawa PKiN", State = 0 },
-                        new { ID = 4, LocationName = "Warszawa Politechnika", State = 0 }
+                        new { ID = 1, BikesLimit = 10, LocationName = "Warszawa Targowa", State = 0 },
+                        new { ID = 2, BikesLimit = 10, LocationName = "Warszawa Aleje Jerozolimskie", State = 0 },
+                        new { ID = 3, BikesLimit = 10, LocationName = "Warszawa PKiN", State = 0 },
+                        new { ID = 4, BikesLimit = 10, LocationName = "Warszawa Politechnika", State = 0 }
                     );
                 });
 

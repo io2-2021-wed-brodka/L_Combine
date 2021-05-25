@@ -1,0 +1,282 @@
+{
+	"info": {
+		"_postman_id": "ec3ee145-5c33-49d1-8a3b-57dace410950",
+		"name": "Use-Case-4",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseJson = pm.response.json();\r",
+							"pm.collectionVariables.set(\"token\",responseJson.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"password12\",\r\n    \"password\":\"user12\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}register",
+					"host": [
+						"{{baseUrl}}register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Stations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response number of stations\", function(){\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const activeStations = Number(pm.collectionVariables.get(\"minimumOfActiveStations\"));\r",
+							"    pm.expect(responseJson.stations.length >= activeStations).to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response station keys\", function(){\r",
+							"    const data = new Set([ \"id\", \"status\", \"activeBikesCount\", \"name\", \"bikesLimit\"]);\r",
+							"    const responseJson = pm.response.json();\r",
+							"    if(responseJson.stations.length > 0)\r",
+							"    {\r",
+							"        pm.collectionVariables.set(\"chosenStation\", responseJson.stations[0].id);\r",
+							"        pm.expect(new Set(Object.keys(responseJson.stations[0]))).to.eql(data);    \r",
+							"    }\r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response station bikes length\", function(){\r",
+							"    const responseJson = pm.response.json();\r",
+							"    if(responseJson.stations.length > 0)\r",
+							"    {\r",
+							"        const activeBikes = Number(pm.collectionVariables.get(\"minimumOfActiveBikes\"));\r",
+							"        pm.expect(responseJson.stations[0].activeBikesCount>=activeBikes).to.be.true;    \r",
+							"    }\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}stations/active",
+					"host": [
+						"{{baseUrl}}stations"
+					],
+					"path": [
+						"active"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Choose station",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}stations/{{chosenStation}}/bikes",
+					"host": [
+						"{{baseUrl}}stations"
+					],
+					"path": [
+						"{{chosenStation}}",
+						"bikes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Error - Get Stations 401",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{wrongToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}stations/active",
+					"host": [
+						"{{baseUrl}}stations"
+					],
+					"path": [
+						"active"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Error - Choose station 401",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{wrongToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}stations/{{chosenStation}}/bikes",
+					"host": [
+						"{{baseUrl}}stations"
+					],
+					"path": [
+						"{{chosenStation}}",
+						"bikes"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8080/api/"
+		},
+		{
+			"key": "minimumOfActiveBikes",
+			"value": "2"
+		},
+		{
+			"key": "minimumOfActiveStations",
+			"value": "3"
+		},
+		{
+			"key": "chosenStation",
+			"value": ""
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "wrongToken",
+			"value": "wrong"
+		}
+	]
+}

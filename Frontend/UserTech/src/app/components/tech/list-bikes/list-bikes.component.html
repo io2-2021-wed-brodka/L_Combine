@@ -1,0 +1,19 @@
+<div class="list">
+    <h3>{{title}}</h3>
+    <div class="list-items">
+        <div *ngFor="let bike of bikes"
+            class="list-item"
+            [class.list-item-active]="isBikeAvailable(bike) || isBikeBlocked(bike)"
+            (click)="selectBike(bike)"
+            >
+            <div class="list-item-side-left">{{bike.id}}</div>
+            <div class="list-item-side-right">
+                <div>Stan: {{bike.state}}</div>
+                <div *ngIf="bike.station">Na stacji: {{bike.station.locationName}}</div>
+                <div *ngIf="bike.user">Użytkownik: {{bike.user.username}}</div>
+                <app-block-bike *ngIf="bike===selectedBike && isBikeAvailable(bike)" [bike]="bike" (bikeChanged)="bikeChanged(bike)"></app-block-bike>
+                <app-unblock-bike *ngIf="bike===selectedBike && isBikeBlocked(bike)" [bike]="bike" (bikeChanged)="bikeChanged(bike)"></app-unblock-bike>
+            </div>
+        </div>
+    </div>
+</div>

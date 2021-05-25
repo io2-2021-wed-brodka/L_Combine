@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {BikeStation} from '../../../models/bikeStation';
 import {Bike, BikeState} from '../../../models/bike';
 import {StationService} from '../../../services/station.service';
-import {bikeFromDTO} from '../../../../../../UserTech/src/app/utils/dto-utils';
+import {bikeFromDTO} from 'src/app/utils/dto-utils';
 import {BikeService} from '../../../services/bike.service';
 import {NotificationService} from '../../../services/notification.service';
 

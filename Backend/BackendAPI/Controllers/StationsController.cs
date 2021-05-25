@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BackendAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [Authorize]
     [ApiController]
     public class StationsController : ControllerBase
@@ -41,7 +41,7 @@ namespace BackendAPI.Controllers
         [Authorize(Roles = Role.Admin)]
         public ActionResult<StationDTO> AddStation([FromBody] NewStationDTO newStation)
         {
-            var result = stationsService.AddStation(newStation.Name);
+            var result = stationsService.AddStation(newStation.Name, newStation.BikesLimit);
             return new CreatedResult(result.Id, result);
         }
 
@@ -74,7 +74,7 @@ namespace BackendAPI.Controllers
         [HttpGet("{id}/bikes")]
         public IActionResult GetBikes(string id)
         {
-            var result = stationsService.GetBikes(id, UserRole);
+            var result = stationsService.GetAvailableBikes(id, UserRole);
             return Ok(new { Bikes = result } );
         }
 

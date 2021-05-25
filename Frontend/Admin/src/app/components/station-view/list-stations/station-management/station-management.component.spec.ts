@@ -47,11 +47,12 @@ describe('StationManagementComponent', () => {
       id: 'a',
       status: StationState.Active,
       name: 'b',
-      activeBikeCount: 1
+      activeBikesCount: 1,
+      bikesLimit: 10
     }));
     stationService.unblockStation.and.returnValue(of({}));
 
-    component.station = {id: 'a', stationState: StationState.Active, locationName: 'b', bikeCount: 1};
+    component.station = {id: 'a', stationState: StationState.Active, locationName: 'b', bikeCount: 1, bikesLimit: 10};
   });
 
   it('should create', () => {

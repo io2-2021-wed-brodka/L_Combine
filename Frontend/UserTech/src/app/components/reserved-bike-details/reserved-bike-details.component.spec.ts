@@ -24,14 +24,14 @@ describe('ReservedBikeDetailsComponent', () => {
 
   const reservedBike: ReservedBikeDTO = {
     id: '1',
-    station: {id: '1', status: StationState.Active, name: 'a', activeBikeCount: 1},
+    station: {id: '1', status: StationState.Active, name: 'a', activeBikesCount: 1},
     reservedAt: new Date().toString(),
     reservedTill: new Date().toString()
   };
   const bikeDTO: BikeDTO = {
     id: '1',
-    station: {id: '1', name: 'a', status: StationState.Active, activeBikeCount: 1},
-    bikeStatus: BikeState.Available,
+    station: {id: '1', name: 'a', status: StationState.Active, activeBikesCount: 1},
+    status: BikeState.Available,
     user: {id: '2', name: 'a'}
   };
 

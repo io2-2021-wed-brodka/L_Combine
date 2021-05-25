@@ -6,5 +6,5 @@ export interface BikeDTO {
   id: string;
   station?: StationDTO;
   user?: UserDTO;
-  bikeStatus: BikeState;
+  status: BikeState;
 }

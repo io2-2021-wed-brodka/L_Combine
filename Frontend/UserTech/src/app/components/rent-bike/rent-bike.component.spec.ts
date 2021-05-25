@@ -38,10 +38,10 @@ describe('RentBikeComponent', () => {
     rentBike = TestBed.inject(RentBikeService) as jasmine.SpyObj<RentBikeService>;
     reservation = TestBed.inject(ReservationService) as jasmine.SpyObj<ReservationService>;
 
-    rentBike.rentBike.and.returnValue(of({id: 'id', bikeStatus: BikeState.Available}));
+    rentBike.rentBike.and.returnValue(of({id: 'id', status: BikeState.Available}));
     reservation.reserveBike.and.returnValue(of({
       id: '1',
-      station: {id: '1', status: StationState.Active, name: 'a', activeBikeCount: 1},
+      station: {id: '1', status: StationState.Active, name: 'a', activeBikesCount: 1},
       reservedAt: new Date().toString(),
       reservedTill: new Date().toString()
     }));
