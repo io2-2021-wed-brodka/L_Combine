@@ -42,10 +42,6 @@ namespace BackendAPI
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((hostingContext, config) => {
-                    config.AddJsonFile("appsettings.Docker.json", optional: false, reloadOnChange: false)
-                        .AddJsonFile("appsettings.Linux.json", optional: false, reloadOnChange: false);
-                })
                 .UseStartup<Startup>();
     }
 }
