@@ -1,4 +1,13 @@
 # L_Combine
+
+## Backend skonteneryzowany
+
+Aby uruchomić backend w kontenerze należy wykonać:
+
+```
+docker-compose up
+```
+
 ## Fronted
 
 Aby uruchomić aplikację kliencką należy:
