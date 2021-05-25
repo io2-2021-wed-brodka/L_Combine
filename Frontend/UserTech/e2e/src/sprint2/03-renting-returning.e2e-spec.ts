@@ -87,7 +87,7 @@ describe('renting and returning bike', () => {
     }
     expect(await homePage.getRentedBikes().count()).toEqual(4);
 
-    await rentBikeFromStation(3);
+    await rentBikeFromStation(2);
 
     expect(await homePage.getRentedBikes().count()).toEqual(4);
     expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}rental/home`);
