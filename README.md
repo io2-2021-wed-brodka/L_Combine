@@ -7,6 +7,7 @@ Aby uruchomić backend w kontenerze należy wykonać:
 ```
 docker-compose up
 ```
+Backend dostępny jest na porcie 8080 z protokołu HTTP (HTTPS nie wiadomo czy działa).
 Można dodać parametr `--build` przy zmianach w kodzie. Wtedy docker na pewno przebuduje kontenery i zastosuje zmiany.
 Polecenie powinno uruchomić 2 kontenery:
 - aplikacja backendu (l_combine_backend)
