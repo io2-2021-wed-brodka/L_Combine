@@ -2,7 +2,7 @@
 
 ## Backend skonteneryzowany
 
-Aby uruchomić backend w kontenerze należy wykonać:
+Aby uruchomić backend z zainicjalizowaną bazą w kontenerze należy wykonać:
 
 ```
 docker-compose up
