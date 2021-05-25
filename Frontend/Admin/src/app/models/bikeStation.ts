@@ -3,6 +3,7 @@ export interface BikeStation {
   locationName: string;
   stationState: StationState;
   bikeCount: number;
+  bikesLimit: number;
 }
 
 export enum StationState {

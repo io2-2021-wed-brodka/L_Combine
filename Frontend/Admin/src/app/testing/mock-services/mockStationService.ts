@@ -6,8 +6,8 @@ import {StationState} from 'src/app/models/bikeStation';
 import mockBikeService from './mockBikeService';
 
 export default {
-    stations: [{id: 'id1', name: 'name1', status: StationState.Active,  activeBikesCount: 1},
-        {id: 'id2', name: 'name2', status: StationState.Active, activeBikesCount: 1}],
+    stations: [{id: 'id1', name: 'name1', status: StationState.Active,  activeBikesCount: 1, bikesLimit: 10},
+        {id: 'id2', name: 'name2', status: StationState.Active, activeBikesCount: 1, bikesLimit: 10}],
     getStations(): Observable<StationsDTO> {
         return of({ stations: this.stations});
     },

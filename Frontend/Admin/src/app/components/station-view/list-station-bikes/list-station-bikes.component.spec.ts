@@ -21,7 +21,8 @@ class TestHostComponent {
     id: 'a',
     stationState: StationState.Active,
     locationName: 'a',
-    bikeCount: 1
+    bikeCount: 1,
+    bikesLimit: 10
   };
 }
 
@@ -38,7 +39,8 @@ describe('ListStationBikesComponent', () => {
     id: 'a',
     stationState: StationState.Active,
     locationName: 'a',
-    bikeCount: 1
+    bikeCount: 1,
+    bikesLimit: 10
   };
 
   const bikeDTO: BikeDTO = {id: 'b', bikeStatus: BikeState.Available};

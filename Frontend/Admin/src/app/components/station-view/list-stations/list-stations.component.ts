@@ -3,6 +3,7 @@ import {BikeStation} from '../../../models/bikeStation';
 import {stationFromDTO} from '../../../utils/dto-utils';
 import {StationService} from '../../../services/station.service';
 import {NotificationService} from '../../../services/notification.service';
+import { NewStationDTO } from 'src/app/dto/new-station-dto';
 
 @Component({
   selector: 'app-list-stations',
@@ -14,8 +15,10 @@ export class ListStationsComponent implements OnInit {
   selectedStation?: BikeStation;
 
   @Output() selectedStationChanged: EventEmitter<BikeStation> = new EventEmitter<BikeStation>();
-  newStationName = '';
-
+  newStation: NewStationDTO = {
+    name: '',
+    bikesLimit: undefined
+  }
   constructor(private stationService: StationService,
               private notificationService: NotificationService) {
   }
@@ -25,7 +28,10 @@ export class ListStationsComponent implements OnInit {
   }
 
   getStations(): void {
-    this.newStationName = '';
+    this.newStation = {
+      name: '',
+      bikesLimit: undefined
+    }
     this.stationService.getStations().subscribe(stations =>
       this.stations = stations.stations.map<BikeStation>(stationFromDTO)
     );
@@ -37,7 +43,7 @@ export class ListStationsComponent implements OnInit {
   }
 
   addStation(): void {
-    this.stationService.addStation({name: this.newStationName}).subscribe(station => {
+    this.stationService.addStation(this.newStation).subscribe(station => {
       this.notificationService.success(`Stacja ${station.name} została dodana`);
       this.getStations();
     });
@@ -45,5 +51,10 @@ export class ListStationsComponent implements OnInit {
 
   onStationModified(): void {
     this.getStations();
+  }
+
+  bikeLimitChanged(): void{
+    if(this.newStation && this.newStation.bikesLimit! < 0 )
+      this.newStation.bikesLimit = 0;
   }
 }
