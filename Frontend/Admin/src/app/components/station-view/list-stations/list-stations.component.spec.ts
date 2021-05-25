@@ -24,7 +24,8 @@ describe('ListStationsComponent', () => {
     id: 'a',
     status: StationState.Active,
     name: 'b',
-    activeBikesCount: 1
+    activeBikesCount: 1,
+    bikesLimit: 10
   };
 
   beforeEach(async () => {
@@ -76,14 +77,14 @@ describe('ListStationsComponent', () => {
   it('should inform station is active', () => {
     component.stations[0].stationState = StationState.Active;
     fixture.detectChanges();
-    const span = fixture.debugElement.query(By.css('.list-item-side-right > span'));
+    const span = fixture.debugElement.query(By.css('.list-item-side-right span'));
     expect(span.nativeElement.textContent).toContain('Aktywna');
   });
 
   it('should inform station is blocked', () => {
     component.stations[0].stationState = StationState.Blocked;
     fixture.detectChanges();
-    const span = fixture.debugElement.query(By.css('.list-item-side-right > span'));
+    const span = fixture.debugElement.query(By.css('.list-item-side-right  span'));
     expect(span.nativeElement.textContent).toContain('Zablokowana');
   });
 
@@ -115,14 +116,14 @@ describe('ListStationsComponent', () => {
   });
 
   it('should call #addStation in #addStation', () => {
-    component.newStationName = 'aa';
+    component.newStation = {name:'aa', bikesLimit: 10};
     component.addStation();
 
-    expect(stationService.addStation).toHaveBeenCalledOnceWith({name: 'aa'});
+    expect(stationService.addStation).toHaveBeenCalledOnceWith({name:'aa', bikesLimit: 10});
   });
 
   it('should call #success and #getStations after successful addStation', () => {
-    component.newStationName = 'aa';
+    component.newStation = {name:'aa', bikesLimit: 10};
     component.addStation();
 
     expect(notificationService.success).toHaveBeenCalledTimes(1);

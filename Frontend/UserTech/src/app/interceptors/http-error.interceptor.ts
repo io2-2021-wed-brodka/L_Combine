@@ -5,12 +5,15 @@ import {catchError} from 'rxjs/operators';
 import {NotificationService} from '../services/notification.service';
 import {RedirectService} from '../services/redirect.service';
 import {IGNORE_ERROR_INTERCEPT} from '../constants/headers';
+import {Router} from '@angular/router';
+import {NO_REDIRECT_422} from '../constants/http-errors';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
   constructor(private notificationService: NotificationService,
-              private redirectService: RedirectService) {
+              private redirectService: RedirectService,
+              private router: Router) {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -36,9 +39,14 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         break;
       case 406:
       case 403:
-      case 422:
         this.notificationService.error(error.error?.message);
         this.redirectService.redirectToHome();
+        break;
+      case 422:
+        this.notificationService.error(error.error?.message);
+        if (!NO_REDIRECT_422.some(reg => reg.test(this.router.url))) {
+          this.redirectService.redirectToHome();
+        }
         break;
       default:
         this.notificationService.error('Unexpected error occurred. Try again later.');
