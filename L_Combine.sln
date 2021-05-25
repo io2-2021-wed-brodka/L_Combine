@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{CB28
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackendAPI", "Backend\BackendAPI\BackendAPI.csproj", "{09B841C7-B3FE-4FC0-9466-18C7FBA914B9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassLibrary", "Libraries\ClassLibrary\ClassLibrary.csproj", "{3A292B92-C037-45CF-9B07-56C69B843BD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassLibrary", "Backend\ClassLibrary\ClassLibrary.csproj", "{3A292B92-C037-45CF-9B07-56C69B843BD5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8E50ADCE-BF9B-495C-9662-2EFDD74C8120}"
 EndProject

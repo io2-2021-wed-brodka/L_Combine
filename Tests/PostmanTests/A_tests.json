@@ -256,7 +256,7 @@
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "https://127.0.0.1:5001/api/"
+			"value": "http://127.0.0.1:8080/api/"
 		},
 		{
 			"key": "minimumOfActiveBikes",

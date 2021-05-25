@@ -17,7 +17,7 @@ function run_test () {
 for fun in `ls ${TEST_PATH}`
 do
     echo "Testing ${fun}" 
-    clean_database
+    clean_database > /dev/null
     run_test "${TEST_PATH}/${fun}"
 
     #W przypadku nieudanego testu, zwroc 1
