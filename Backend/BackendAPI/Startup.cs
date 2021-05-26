@@ -27,7 +27,7 @@ namespace BackendAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
+            //services.AddCors();
 
             services.AddScoped<IBikesService, BikesService>();
             services.AddScoped<IStationsService, StationsService>();
@@ -108,10 +108,10 @@ namespace BackendAPI
             //app.UseHttpsRedirection();
 
             // global cors policy
-            app.UseCors(x => x
+            /*app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
-                .AllowAnyHeader());
+                .AllowAnyHeader());*/
 
             app.UseAuthentication();
 
