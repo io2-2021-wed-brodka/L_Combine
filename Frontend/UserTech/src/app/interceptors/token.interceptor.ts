@@ -15,7 +15,7 @@ export class TokenInterceptor implements HttpInterceptor {
         tokenFreeReq => tokenFreeReq.urlTest.test(request.url) &&
           request.method === tokenFreeReq.method
       )) {
-      console.log('add token to ', request);
+
       request = request.clone({
         headers: this.loginService.setAuthenticateHeader(request.headers)
       });

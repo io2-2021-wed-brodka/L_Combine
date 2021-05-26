@@ -19,5 +19,6 @@ namespace BackendAPI.Models
         public IList<Rental> Rentals { get; set; }
 
         public IList<Reservation> Reservations { get; set; }
+        public IList<Malfunction> Malfunctions { get; set; }
     }
 }

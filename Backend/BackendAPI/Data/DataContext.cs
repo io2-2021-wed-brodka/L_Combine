@@ -24,6 +24,7 @@ namespace BackendAPI.Data
             modelBuilder.ApplyConfiguration(new BikeStationConfiguration());
             modelBuilder.ApplyConfiguration(new RentalConfiguration());
             modelBuilder.ApplyConfiguration(new ReservationConfiguration());
+            modelBuilder.ApplyConfiguration(new MalfunctionConfiguration());
         }
     }
 }
