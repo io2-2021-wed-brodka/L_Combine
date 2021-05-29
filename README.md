@@ -43,8 +43,19 @@ Aplikacja UserTech działa pod adresem localhost:4200, a Admin pod localhost:430
 
 ### Testy E2E
 
-Testy E2E frontenmdu odpalamy w odpowiednich folderach projektów poleceniem:
+Testy E2E frontenmdu odpalamy w folderach odpowiednich projektów poleceniem:
 ```
 ng e2e 
 ```
 Testy odpalamy na czystej bazie w kolejności UserTech > Admin.
+
+Istnieją też test suity do odpowiednich sprintów. Podajemy je jako wartość dla opcji `suite`, czyli np.
+```
+ng e2e --suite=sprint2
+```
+Dostępne suity:
+
+* UserTech:
+    * sprint2
+    
+* Admin:
