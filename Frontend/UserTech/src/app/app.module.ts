@@ -24,6 +24,7 @@ import { TechPanelComponent } from './components/tech/tech-panel/tech-panel.comp
 import { ListBikesComponent } from './components/tech/list-bikes/list-bikes.component';
 import { BlockBikeComponent } from './components/tech/block-bike/block-bike.component';
 import { UnblockBikeComponent } from './components/tech/unblock-bike/unblock-bike.component';
+import { ListMalfunctionsComponent } from './components/tech/list-malfunctions/list-malfunctions.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { UnblockBikeComponent } from './components/tech/unblock-bike/unblock-bik
     ListBikesComponent,
     BlockBikeComponent,
     UnblockBikeComponent,
+    ListMalfunctionsComponent,
   ],
   imports: [
     BrowserModule,
