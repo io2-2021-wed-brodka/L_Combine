@@ -4,6 +4,7 @@ set -e
 
 TEST_PATH=$1
 PROJECT_PATH=$2
+export ASPNETCORE_ENVIRONMENT=Production
 
 #Fukcja czyści baze i ustawia ponownie dla wybranego kontekstu
 function clean_database () {
@@ -16,8 +17,7 @@ function run_test () {
     return $?
 }
 
-cp -f ${PROJECT_PATH}/appsettings.Linux.json ${PROJECT_PATH}/appsettings.json 
-echo "Kopiowanie konfiguracji"
+
 for fun in `ls ${TEST_PATH}`
 do
     echo "Testing ${fun}" 
