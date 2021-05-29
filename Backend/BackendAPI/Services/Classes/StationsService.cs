@@ -147,6 +147,9 @@ namespace BackendAPI.Services.Classes
                 .FirstOrDefault(bs => bs.ID == stationId)) == null)
                 throw new HttpResponseException("Station not found", 404);
 
+            if (station.State != BikeStationState.Blocked)
+                throw new HttpResponseException("Station not blocked", 422);
+
             if (station.Bikes.Any())
                 throw new HttpResponseException("Station has bikes", 422);
 

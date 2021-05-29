@@ -85,7 +85,7 @@ describe('reservations', () => {
     let bike: ElementFinder;
     return homePage.getBikeStations().get(station).click()
       .then(() => {
-        bike = stationBikesPage.getStationActiveBikes().get(0);
+        bike = stationBikesPage.getStationBikes().get(0);
         bike.click();
       }).then(() => stationBikesPage.getBikeReserveButton(bike).click());
   }
