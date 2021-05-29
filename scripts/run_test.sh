@@ -16,6 +16,7 @@ function run_test () {
     return $?
 }
 
+cp -f ${PROJECT_PATH}/appsettings.Linux.json ${PROJECT_PATH}/appsettings.json 
 for fun in `ls ${TEST_PATH}`
 do
     echo "Testing ${fun}" 
