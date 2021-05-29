@@ -6,7 +6,7 @@ import {StationState} from '../../models/bikeStation';
 export default {
   bikes: [{
     id: 'id1',
-    bikeStatus: BikeState.Available,
+    status: BikeState.Available,
     station: {
       id: 'id',
       status: StationState.Active,
@@ -16,7 +16,7 @@ export default {
     }
   }, {
     id: 'id2',
-    bikeStatus: BikeState.Rented,
+    status: BikeState.Rented,
     station: {
       id: 'id',
       status: StationState.Active,

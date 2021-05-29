@@ -105,7 +105,7 @@ namespace BackendAPI
                 }
             });
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             // global cors policy
             app.UseCors(x => x

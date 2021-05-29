@@ -36,7 +36,18 @@ namespace ServicesTests.StationsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Station has bikes")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Station not blocked")]
+        public void WorkingWithoutBikes_Failure()
+        {
+            string stationId = "5";
+
+            service.DeleteStation(stationId);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Station not blocked")]
         public void WorkingWithBikes_Failure()
         {
             string stationId = "1";
@@ -50,16 +61,6 @@ namespace ServicesTests.StationsService
         public void BlockedWithoutBikes_Success()
         {
             string stationId = "6";
-
-            service.DeleteStation(stationId);
-
-            Assert.IsFalse(dbContext.BikeStations.Any(bs => bs.ID == int.Parse(stationId)));
-        }
-
-        [TestMethod]
-        public void WorkingWithoutBikes_Success()
-        {
-            string stationId = "5";
 
             service.DeleteStation(stationId);
 

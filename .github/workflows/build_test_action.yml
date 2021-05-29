@@ -30,6 +30,7 @@ jobs:
       matrix:
         node-version: [ '12.x' ]
         build-dir: ['Frontend/Admin', 'Frontend/UserTech']
+      fail-fast: false
     defaults:
       run:
         working-directory: ./${{ matrix.build-dir }}
@@ -95,6 +96,7 @@ jobs:
       matrix:
         node-version: [ '12.x' ]
         build-dir: ['Frontend/Admin', 'Frontend/UserTech']
+      fail-fast: false
     defaults:
       run:
         working-directory: ./${{ matrix.build-dir }}
