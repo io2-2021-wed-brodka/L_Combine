@@ -17,10 +17,11 @@ function run_test () {
 }
 
 cp -f ${PROJECT_PATH}/appsettings.Linux.json ${PROJECT_PATH}/appsettings.json 
+echo "Kopiowanie konfiguracji"
 for fun in `ls ${TEST_PATH}`
 do
     echo "Testing ${fun}" 
-    clean_database > /dev/null
+    clean_database #> /dev/null
     run_test "${TEST_PATH}/${fun}"
 
     #W przypadku nieudanego testu, zwroc 1
