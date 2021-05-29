@@ -75,15 +75,15 @@ jobs:
         dotnet tool install --global dotnet-ef
         dotnet tool restore
     - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
     - name: Setup Newman
       run: npm install -g newman
     - name: Wait for containers
       uses: jakejarvis/wait-action@master
       with:
-      time: '40s'
+        time: '40s'
     - name: Check running containers
       run: docker ps -a
     - name: Run Postman tests 
