@@ -77,8 +77,19 @@ describe('users page', () => {
     };
 
     const request = http.request(options, (result: IncomingMessage) => {
-      result.on('data', (_: any) => {
+      let body = '';
+
+      result.on('data', (chunk: any) => {
+        body = body + chunk;
         response = true;
+      });
+
+      result.on('end', () => {
+        console.log(body);
+      });
+
+      result.on('error', (err: Error) => {
+        console.log(err.message);
       });
     });
 
