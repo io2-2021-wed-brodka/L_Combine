@@ -2,10 +2,15 @@ import {UsersPage} from '../pages/users.po';
 import {browser, promise} from 'protractor';
 import {LoginPage} from '../pages/login.po';
 import {HomePage} from '../pages/home.po';
+import {environment} from '../../../src/environments/environment';
+import {HttpClient} from 'protractor-http-client';
 
 describe('users page', () => {
   let usersPage: UsersPage;
   let homePage: HomePage;
+
+  let blockedUsers: number;
+  let activeUsers: number;
 
   beforeEach(async () => {
     usersPage = new UsersPage();
@@ -16,12 +21,17 @@ describe('users page', () => {
       await (new LoginPage()).preformLogin();
       await usersPage.navigateToUsers();
     }
+
+    blockedUsers = await usersPage.getBlockedUsers().count();
+    activeUsers = await usersPage.getActiveUsers().count();
+
+    if (activeUsers === 0) {
+      const http = new HttpClient(environment.apiUrl);
+      await http.post('/register', {login: 'aa', password: 'aa'});
+    }
   });
 
   it('should block user', async () => {
-    const blockedUsers = await usersPage.getBlockedUsers().count();
-    const activeUsers = await usersPage.getActiveUsers().count();
-
     await blockUser();
 
     expect(await usersPage.getBlockedUsers().count()).toEqual(blockedUsers + 1);
@@ -32,20 +42,17 @@ describe('users page', () => {
 
   it('should unblock user', async () => {
     await blockUser();
-    const blockedUsers = await usersPage.getBlockedUsers().count();
-    const activeUsers = await usersPage.getActiveUsers().count();
-
     await unblockUser();
 
-    expect(await usersPage.getBlockedUsers().count()).toEqual(blockedUsers - 1);
-    expect(await usersPage.getActiveUsers().count()).toEqual(activeUsers + 1);
+    expect(await usersPage.getBlockedUsers().count()).toEqual(blockedUsers);
+    expect(await usersPage.getActiveUsers().count()).toEqual(activeUsers);
     expect(await homePage.getSuccessNotification().isPresent()).toBe(true);
     expect(await homePage.getErrorNotification().isPresent()).toBe(false);
   });
 
   afterEach(async () => {
-    const blockedUsers = await usersPage.getBlockedUsers().count();
-    for (let i = 0; i < blockedUsers; ++i) {
+    const blocked = await usersPage.getBlockedUsers().count();
+    for (let i = 0; i < blocked; ++i) {
       await unblockUser();
     }
   });
