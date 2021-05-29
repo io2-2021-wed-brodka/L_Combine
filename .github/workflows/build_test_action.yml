@@ -80,10 +80,12 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Setup Newman
       run: npm install -g newman
+    - name: Build Backend
+      run: dotnet build
     - name: Wait for containers
       uses: jakejarvis/wait-action@master
       with:
-        time: '40s'
+        time: '20s'
     - name: Check running containers
       run: docker ps -a
     - name: Run Postman tests 
