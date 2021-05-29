@@ -2,8 +2,7 @@ import {UsersPage} from '../pages/users.po';
 import {browser, promise} from 'protractor';
 import {LoginPage} from '../pages/login.po';
 import {HomePage} from '../pages/home.po';
-import {environment} from '../../../src/environments/environment';
-import {HttpClient} from 'protractor-http-client';
+import {IncomingMessage} from 'http';
 
 describe('users page', () => {
   let usersPage: UsersPage;
@@ -18,17 +17,13 @@ describe('users page', () => {
     await usersPage.navigateToUsers();
 
     if (await browser.getCurrentUrl() === `${browser.baseUrl}login`) {
+      await registerUser();
       await (new LoginPage()).preformLogin();
       await usersPage.navigateToUsers();
     }
 
     blockedUsers = await usersPage.getBlockedUsers().count();
     activeUsers = await usersPage.getActiveUsers().count();
-
-    if (activeUsers === 0) {
-      const http = new HttpClient(environment.apiUrl);
-      await http.post('/register', {login: 'aa', password: 'aa'});
-    }
   });
 
   it('should block user', async () => {
@@ -65,5 +60,31 @@ describe('users page', () => {
   function unblockUser(): promise.Promise<any> {
     const user = usersPage.getBlockedUsers().get(0);
     return user.click().then(() => usersPage.getBlockedUserUnblockButton(user).click());
+  }
+
+  function registerUser(): any {
+    let response = false;
+    const http = require('http');
+    const data = {login: 'aaa', password: 'aa'};
+    const options = {
+      port: 8080,
+      hostname: 'localhost',
+      path: '/register',
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      }
+    };
+
+    const request = http.request(options, (result: IncomingMessage) => {
+      result.on('data', (_: any) => {
+        response = true;
+      });
+    });
+
+    request.write(JSON.stringify(data));
+    request.end();
+
+    return browser.wait(() => response, 100);
   }
 });
