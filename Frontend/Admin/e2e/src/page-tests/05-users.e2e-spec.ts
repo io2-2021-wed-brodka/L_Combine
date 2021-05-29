@@ -14,10 +14,10 @@ describe('users page', () => {
   beforeEach(async () => {
     usersPage = new UsersPage();
     homePage = new HomePage();
+    await registerUser();
     await usersPage.navigateToUsers();
 
     if (await browser.getCurrentUrl() === `${browser.baseUrl}login`) {
-      await registerUser();
       await (new LoginPage()).preformLogin();
       await usersPage.navigateToUsers();
     }
@@ -65,7 +65,7 @@ describe('users page', () => {
   function registerUser(): any {
     let response = false;
     const http = require('http');
-    const data = {login: 'aaa', password: 'aa'};
+    const data = {login: 'aa', password: 'aa'};
     const options = {
       port: 8080,
       hostname: 'localhost',
@@ -77,19 +77,8 @@ describe('users page', () => {
     };
 
     const request = http.request(options, (result: IncomingMessage) => {
-      let body = '';
-
-      result.on('data', (chunk: any) => {
-        body = body + chunk;
+      result.on('data', (_: any) => {
         response = true;
-      });
-
-      result.on('end', () => {
-        console.log(body);
-      });
-
-      result.on('error', (err: Error) => {
-        console.log(err.message);
       });
     });
 
