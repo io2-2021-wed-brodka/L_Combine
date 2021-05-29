@@ -73,7 +73,6 @@ jobs:
     - name: Setup .NET EF
       run: |
         dotnet tool install --global --version 2.1 dotnet-ef
-        dotnet tool restore
     - name: Setup Node
       uses: actions/setup-node@v2
       with:
