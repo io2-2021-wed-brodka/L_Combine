@@ -6,6 +6,7 @@ COPY BackendAPI BackendAPI
 COPY ClassLibrary ClassLibrary
 COPY init.sh init.sh
 WORKDIR /app/BackendAPI
+RUN mv -f appsettings.Linux.json appsettings.json
 RUN sed -i "s/\"DefaultConnection\":.*/\"DefaultConnection\": \"Server=mssql;Database=L_Database;MultipleActiveResultSets=true;User=SA;Password=\My\!P@ssw0rd1\"/g" appsettings.json
 #RUN cat appsettings.json
 RUN dotnet tool install --global --version 2.1 dotnet-ef
