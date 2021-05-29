@@ -956,7 +956,7 @@
 									"\r",
 									"pm.test(\"Correct status\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.bikes[0].status).to.eql(\"blocked\");\r",
+									"    pm.expect(jsonData.bikes[0].status).to.eql(\"available\");\r",
 									"});\r",
 									"\r",
 									"pm.test(\"Correct user\", function () {\r",
