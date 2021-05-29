@@ -55,7 +55,7 @@ jobs:
         run: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
 
   postman-test:
-    name: Build .NET Backend
+    name: Backend Postman tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -72,25 +72,24 @@ jobs:
         dotnet-version: ${{ matrix.dotnet-version }}
     - name: Setup .NET EF
       run: |
-        dotnet tool install --global dotnet-ef
-        dotnet tool restore
+        dotnet tool install --global --version 2.1 dotnet-ef
     - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
     - name: Setup Newman
       run: npm install -g newman
     - name: Wait for containers
       uses: jakejarvis/wait-action@master
       with:
-      time: '40s'
+        time: '40s'
     - name: Check running containers
       run: docker ps -a
     - name: Run Postman tests 
       run: ./scripts/run_test.sh Tests/PostmanTests/ Backend/BackendAPI/
 
   testFrontendE2E:
-    name: Build Angular Frontend
+    name: Frontend E2E tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -120,4 +119,4 @@ jobs:
       - name: Buid Angular
         run: npm run build
       - name: Test E2E
-        run: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+        run: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
