@@ -55,7 +55,7 @@ jobs:
         run: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
 
   postman-test:
-    name: Build .NET Backend
+    name: Backend Postman tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -72,7 +72,7 @@ jobs:
         dotnet-version: ${{ matrix.dotnet-version }}
     - name: Setup .NET EF
       run: |
-        dotnet tool install --global dotnet-ef
+        dotnet tool install --global --version 2.1 dotnet-ef
         dotnet tool restore
     - name: Setup Node
       uses: actions/setup-node@v2
@@ -90,7 +90,7 @@ jobs:
       run: ./scripts/run_test.sh Tests/PostmanTests/ Backend/BackendAPI/
 
   testFrontendE2E:
-    name: Build Angular Frontend
+    name: Frontend E2E tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
