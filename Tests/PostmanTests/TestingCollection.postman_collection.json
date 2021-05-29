@@ -1312,6 +1312,76 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"pm.test(\"Status code is 422\",function(){\r",
+									"    pm.response.to.have.status(422);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}stations/{{NewStationID}}",
+							"host": [
+								"{{URL}}stations"
+							],
+							"path": [
+								"{{NewStationID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "StationsBlockStationAgain",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\",function(){\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":{{NewStationID}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}stations/blocked",
+							"host": [
+								"{{URL}}stations"
+							],
+							"path": [
+								"blocked"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "StationsDeleteAgain",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
 									"pm.test(\"Status code is 204\",function(){\r",
 									"    pm.response.to.have.status(204);\r",
 									"});\r",
