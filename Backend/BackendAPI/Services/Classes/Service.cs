@@ -157,5 +157,16 @@ namespace BackendAPI.Services.Classes
                                              select r.User).FirstOrDefault());
             return result;
         }
+
+        protected MalfunctionDTO CreateMalfunctionDTO(Malfunction malfunction)
+        {
+            return new MalfunctionDTO()
+            {
+                BikeId = malfunction.BikeID.ToString(),
+                Description = malfunction.Description,
+                Id = malfunction.ID.ToString(),
+                ReportingUserId = malfunction.ReportingUserID.ToString()
+            };
+        }
     }
 }
