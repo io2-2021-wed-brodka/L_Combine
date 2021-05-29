@@ -85,6 +85,6 @@ describe('users page', () => {
     request.write(JSON.stringify(data));
     request.end();
 
-    return browser.wait(() => response, 100);
+    return browser.wait(() => response, 2000);
   }
 });
