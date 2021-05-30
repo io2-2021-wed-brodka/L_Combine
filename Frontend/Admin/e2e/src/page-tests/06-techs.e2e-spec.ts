@@ -3,7 +3,7 @@ import {browser, promise} from 'protractor';
 import {LoginPage} from '../pages/login.po';
 import {HomePage} from '../pages/home.po';
 
-describe('users page', () => {
+describe('techs page', () => {
   let techsPage: TechsPage;
   let homePage: HomePage;
 
@@ -20,7 +20,7 @@ describe('users page', () => {
 
   it('should add tech', async () => {
     const techsCount = await techsPage.getTechs().count();
-    await addTech('aa', 'bb');
+    await addTech('xx', 'bb');
 
     expect(await techsPage.getTechs().count()).toEqual(techsCount + 1);
     expect(await homePage.getSuccessNotification().isPresent()).toBe(true);
@@ -29,7 +29,7 @@ describe('users page', () => {
 
   it('should delete tech', async () => {
     const techsCount = await techsPage.getTechs().count();
-    await addTech('aa', 'bb');
+    await addTech('xx', 'bb');
     await deleteTech(techsCount);
 
     expect(await techsPage.getTechs().count()).toEqual(techsCount);
@@ -46,8 +46,8 @@ describe('users page', () => {
 
   it('should show login error if login exists', async () => {
     expect(await techsPage.getLoginError().isPresent()).toBe(false);
-    await addTech('aa', 'bb');
-    await addTech('aa', 'bb');
+    await addTech('xx', 'bb');
+    await addTech('xx', 'bb');
 
     expect(await techsPage.getLoginError().isPresent()).toBe(true);
   });

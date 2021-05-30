@@ -6,16 +6,20 @@ import {browser, promise} from 'protractor';
 describe('block unblock bikes', () => {
   let techPage: TechPage;
   let homePage: HomePage;
+  let loginPage: LoginPage;
   let activeBikesCount: number;
   let blockedBikesCount: number;
 
   beforeEach(async () => {
     techPage = new TechPage();
     homePage = new HomePage();
+    loginPage = new LoginPage();
     await techPage.navigateToTech();
 
-    if (await browser.getCurrentUrl() === `${browser.baseUrl}login`) {
-      await (new LoginPage()).preformTechLogin();
+    if (await browser.getCurrentUrl() !== `${browser.baseUrl}rental/tech`) {
+      await homePage.getLogoutButton().click();
+      await loginPage.navigateToLogin();
+      await loginPage.preformTechLogin();
       await techPage.navigateToTech();
     }
 

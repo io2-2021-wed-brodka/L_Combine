@@ -3,7 +3,7 @@ import {StationBikesPage} from '../pages/station-bikes.po';
 import {browser} from 'protractor';
 import {LoginPage} from '../pages/login.po';
 
-describe('bikes count', () => {
+describe('bike availability', () => {
   const homePage: HomePage = new HomePage();
   const stationBikesPage: StationBikesPage = new StationBikesPage();
 
