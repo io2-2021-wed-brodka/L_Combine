@@ -2,7 +2,7 @@ import {$, $$, ElementArrayFinder, ElementFinder} from 'protractor';
 
 export class StationBikesPage {
   getStationBikes(): ElementArrayFinder {
-    return $$('.list-item');
+    return $$('.list-item-active');
   }
 
   getBikeRentButton(bike: ElementFinder): ElementFinder {

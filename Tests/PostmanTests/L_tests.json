@@ -162,7 +162,7 @@
 	"variable": [
 		{
 			"key": "URL",
-			"value": "https://localhost:5001/api/"
+			"value": "http://localhost:8080/"
 		},
 		{
 			"key": "Token",
