@@ -58,11 +58,11 @@ describe('reservations', () => {
     const reservedBikes = await homePage.getReservedBikes().count();
 
     for (let i = reservedBikes; i < 3; ++i) {
-      await reserveBikeFromStation(i);
+      await reserveBikeFromStation(Math.floor(i / 2));
     }
     expect(await homePage.getReservedBikes().count()).toEqual(3);
 
-    await reserveBikeFromStation(3);
+    await reserveBikeFromStation(2);
 
     expect(await homePage.getReservedBikes().count()).toEqual(3);
     expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}rental/home`);
