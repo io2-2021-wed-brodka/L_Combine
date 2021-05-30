@@ -48,7 +48,7 @@ namespace BackendAPI.Services.Classes
                 throw new HttpResponseException("Bad credentials", 401);
 
             // authentication successful so generate jwt token
-            var token = generateJwtToken(user);
+            var token = GenerateJwtToken(user);
 
             return new LoginResponseDTO() { Token = token, Role = user.Role.ToLower() };
         }
@@ -76,12 +76,12 @@ namespace BackendAPI.Services.Classes
             dbContext.SaveChanges();
 
             //Zwroc token
-            var token = generateJwtToken(user);
+            var token = GenerateJwtToken(user);
 
             return new RegisterResponseDTO() { Token = token };
         }
 
-        private string generateJwtToken(User user)
+        private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(jwtSettings.Secret);
