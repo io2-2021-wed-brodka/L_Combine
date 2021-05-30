@@ -10,11 +10,11 @@ export class LoginPage {
   }
 
   get techLogin(): string {
-    return 'tech';
+    return 'admin';
   }
 
   get techPassword(): string {
-    return 'tech';
+    return 'admin';
   }
 
   navigateToLogin(): promise.Promise<any> {

@@ -53,7 +53,7 @@ describe('block unblock bikes', () => {
   afterEach(async () => {
     const blocked = await techPage.getBlockedBikes().count();
     for (let i = blockedBikesCount; i < blocked; ++i){
-      unblockBike(0);
+      await unblockBike(0);
     }
   });
 
