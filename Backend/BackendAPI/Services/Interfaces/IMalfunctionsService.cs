@@ -9,5 +9,6 @@ namespace BackendAPI.Services.Interfaces
     public interface IMalfunctionsService
     {
         IEnumerable<MalfunctionDTO> GetMalfunctions();
+        MalfunctionDTO ReportMalfunction(string userIdString, string bikeIdString, string description);
     }
 }
