@@ -15,5 +15,6 @@ namespace BackendAPI.Services.Interfaces
         void DeleteBike(string bikeIdString);
         BikeDTO BlockBike(string bikeIdString);
         void UnblockBike(string bikeIdstring);
+        IEnumerable<BikeDTO> GetBlockedBikes();
     }
 }

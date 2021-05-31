@@ -23,6 +23,13 @@ namespace BackendAPI.Controllers
             this.bikesService = bikesService;
         }
 
+        [HttpGet]
+        public IActionResult GetBlockedBikes()
+        {
+            var result = bikesService.GetBlockedBikes();
+            return Ok(new { Bikes = result });
+        }
+
         // POST: api/bikes/blocked
         [HttpPost]
         public ActionResult<BikeDTO> Post([FromBody] IdDTO bikeId)
