@@ -9,6 +9,14 @@ export class LoginPage {
     return 'haslo';
   }
 
+  get techLogin(): string {
+    return 'admin';
+  }
+
+  get techPassword(): string {
+    return 'admin';
+  }
+
   navigateToLogin(): promise.Promise<any> {
     return browser.get('/login');
   }
@@ -43,5 +51,9 @@ export class LoginPage {
     return this.getLoginInput().sendKeys(login)
       .then(() => this.getPasswordInput().sendKeys(password))
       .then(() => this.getLoginButton().click());
+  }
+
+  preformTechLogin(): promise.Promise<any> {
+    return this.preformCustomLogin(this.techLogin, this.techPassword);
   }
 }

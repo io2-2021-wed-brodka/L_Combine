@@ -27,12 +27,6 @@ describe('renting and returning bike', () => {
     expect(await stationBikesPage.getStationBikes().count()).toBeGreaterThan(0);
   });
 
-  it('should go back from selecting bike from station', async () => {
-    await homePage.getBikeStations().get(0).click();
-    await stationBikesPage.getReturnButton().click();
-
-    expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}rental/home`);
-  });
 
   it('should rent bike from station', async () => {
     const rentedBikes = await homePage.getRentedBikes().count();
@@ -55,17 +49,6 @@ describe('renting and returning bike', () => {
     expect(await returnBikePage.getBikeStations().count()).toBeGreaterThan(0);
   });
 
-  it('should go back from selecting return station', async () => {
-    await rentBikeFromStation(0);
-
-    const rentedBike = homePage.getRentedBikes().get(0);
-    await rentedBike.click();
-    await homePage.getRentedBikeReturnButton(rentedBike).click();
-
-    await returnBikePage.getReturnButton().click();
-
-    expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}rental/home`);
-  });
 
   it('should return bike on station', async () => {
     await rentBikeFromStation(0);

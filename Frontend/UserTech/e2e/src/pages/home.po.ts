@@ -1,4 +1,4 @@
-import {$, browser, ElementArrayFinder, ElementFinder, promise} from 'protractor';
+import {$, browser, by, element, ElementArrayFinder, ElementFinder, promise} from 'protractor';
 
 export class HomePage {
   navigateToHome(): promise.Promise<any> {
@@ -15,6 +15,10 @@ export class HomePage {
 
   getBikeStations(): ElementArrayFinder {
     return $('.rent-bike').$$('.list-item');
+  }
+
+  getBikeStationAvailableBikesCount(station: ElementFinder): promise.Promise<number> {
+    return station.$('.bikes-count').getText().then(value => +(value.split(' ')[1]));
   }
 
   getRentedBikeReturnButton(rentedBike: ElementFinder): ElementFinder {
@@ -38,6 +42,14 @@ export class HomePage {
   }
 
   getLogoutButton(): ElementFinder {
-    return $('.logout');
+    return $('button.logout');
+  }
+
+  getUserPanelNav(): ElementFinder {
+    return element(by.cssContainingText('.navigation-link', 'Panel użytkownika'));
+  }
+
+  getTechPanelNav(): ElementFinder {
+    return element(by.cssContainingText('.navigation-link', 'Panel specjalisty'));
   }
 }

@@ -152,8 +152,34 @@ describe('stations page', () => {
     expect(await homePage.getErrorNotification().isPresent()).toBe(false);
   });
 
+  it('station should have specified limit', async () => {
+    const stationLimit = 5;
+    await createStationWithLimit('aaa', stationLimit);
+    const stationsCount = await stationsPage.getStations().count();
+
+    expect(await stationsPage.getStationBikeLimit(stationsCount - 1)).toEqual(stationLimit);
+  });
+
+  it('should fail if trying to add more bikes to station than limit', async () => {
+    const stationLimit = 1;
+    await createStationWithLimit('aaa', stationLimit);
+    const stationsCount = await stationsPage.getStations().count();
+    await stationsPage.getStations().get(stationsCount - 1).click();
+    await addBike();
+    await addBike();
+
+    expect(await homePage.getErrorNotification().isPresent()).toBe(true);
+    expect(await stationsPage.getBikes().count()).toEqual(stationLimit);
+  });
+
   function createStation(name: string): promise.Promise<any> {
     return stationsPage.getNewStationNameInput().sendKeys(name)
+      .then(() => stationsPage.getAddStationButton().click());
+  }
+
+  function createStationWithLimit(name: string, limit: number): promise.Promise<any> {
+    return stationsPage.getNewStationNameInput().sendKeys(name)
+      .then(() => stationsPage.getNewStationLimitInput().sendKeys(limit))
       .then(() => stationsPage.getAddStationButton().click());
   }
 
