@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Malfunction } from 'src/app/models/malfunction';
-import { MalfunctionService } from 'src/app/services/malfunction.service';
+import {Component, OnInit} from '@angular/core';
+import {Malfunction} from 'src/app/models/malfunction';
+import {MalfunctionService} from 'src/app/services/malfunction.service';
 
 @Component({
   selector: 'app-malfunction-panel',
@@ -10,15 +10,16 @@ import { MalfunctionService } from 'src/app/services/malfunction.service';
 export class MalfunctionPanelComponent implements OnInit {
   malfunctions!: Malfunction[];
 
-  constructor(private malfunctionService: MalfunctionService) { }
+  constructor(private malfunctionService: MalfunctionService) {
+  }
 
   ngOnInit(): void {
     this.getMalfunctions();
   }
 
-  getMalfunctions(){
-    this.malfunctionService.getMalfunctions().subscribe(dto=>{
+  getMalfunctions(): void {
+    this.malfunctionService.getMalfunctions().subscribe(dto => {
       this.malfunctions = dto.malfunctions;
-    })
+    });
   }
 }

@@ -1,0 +1,16 @@
+<div class="wrapper">
+  <form class="form" (ngSubmit)="report()">
+    <h3 class="form-header">Opisz usterkę</h3>
+    <textarea class="description" name="description" #desc="ngModel" [(ngModel)]="description" maxlength="500" required></textarea>
+    <div class="button-wrapper">
+      <button type="submit" class="button-submit" [disabled]="!desc.valid">
+        Zgłoś
+      </button>
+    </div>
+  </form>
+  <div class="buttons">
+    <button class="button-back" (click)="goBack()">
+      Powrót
+    </button>
+  </div>
+</div>

@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ListMalfunctionsComponent } from './list-malfunctions.component';
+import {ListMalfunctionsComponent} from './list-malfunctions.component';
 
 describe('ListMalfunctionsComponent', () => {
   let component: ListMalfunctionsComponent;
@@ -8,9 +8,9 @@ describe('ListMalfunctionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ListMalfunctionsComponent ]
+      declarations: [ListMalfunctionsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -23,7 +23,7 @@ describe('ListMalfunctionsComponent', () => {
         reportingUserId: 'id',
         description: 'a'
       }
-    ]
+    ];
     fixture.detectChanges();
   });
 
@@ -31,7 +31,7 @@ describe('ListMalfunctionsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('#selectMalfunction should set #selectedMalfunction', ()=>{
+  it('#selectMalfunction should set #selectedMalfunction', () => {
     expect(component.selectedMalfunction).toBeUndefined();
     component.selectMalfunction(component.malfunctions[0]);
     expect(component.selectedMalfunction).toEqual(component.malfunctions[0]);
