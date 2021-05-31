@@ -17,7 +17,6 @@ describe('block unblock bikes', () => {
     await techPage.navigateToTech();
 
     if (await browser.getCurrentUrl() !== `${browser.baseUrl}rental/tech`) {
-      await homePage.getLogoutButton().click();
       await loginPage.navigateToLogin();
       await loginPage.preformTechLogin();
       await techPage.navigateToTech();

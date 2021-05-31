@@ -25,6 +25,10 @@ export class HomePage {
     return rentedBike.$('.button-return');
   }
 
+  getRentedBikeMalfunctionButton(rentedBike: ElementFinder): ElementFinder {
+    return rentedBike.$('.button-malfunction');
+  }
+
   getReservedBikeRentButton(reservedBike: ElementFinder): ElementFinder {
     return reservedBike.$('.button-rent');
   }
