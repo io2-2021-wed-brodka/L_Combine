@@ -36,7 +36,7 @@ namespace BackendAPI.Controllers
         public ActionResult<StationDTO> BlockStation([FromBody] IdDTO stationId)
         {
             var result = stationsService.BlockStation(stationId.Id);
-            return new CreatedResult(result.Id, result);
+            return Created(result.Id, result);
         }
 
         // DELETE: api/stations/blocked/5

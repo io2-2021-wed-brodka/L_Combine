@@ -39,7 +39,7 @@ namespace BackendAPI.Controllers
         public ActionResult<ReservationDTO> AddReservation([FromBody] IdDTO bikeId)
         {
             var result = reservationsService.ReserveBike(UserId, bikeId.Id);
-            return new CreatedResult(result.Id, result);
+            return Created(result.Id, result);
         }
 
         [HttpDelete("{id}")]

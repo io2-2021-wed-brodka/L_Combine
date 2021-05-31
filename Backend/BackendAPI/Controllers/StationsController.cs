@@ -42,7 +42,7 @@ namespace BackendAPI.Controllers
         public ActionResult<StationDTO> AddStation([FromBody] NewStationDTO newStation)
         {
             var result = stationsService.AddStation(newStation.Name, newStation.BikesLimit);
-            return new CreatedResult(result.Id, result);
+            return Created(result.Id, result);
         }
 
         [HttpDelete("{id}")]
@@ -83,7 +83,7 @@ namespace BackendAPI.Controllers
         {
             var result = stationsService.ReturnBike(UserId, bikeId.Id, id);
             //Poniżej false bo bike nie jest zarezerowwany
-            return new CreatedResult(result.Id.ToString(), result);
+            return Created(result.Id.ToString(), result);
         }
     }
 }

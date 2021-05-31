@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using BackendAPI.Services.Interfaces;
 using ClassLibrary;
+using ClassLibrary.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,8 +37,11 @@ namespace BackendAPI.Controllers
 
         // POST: api/Malfunctions
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<MalfunctionDTO> ReportMalfunction([FromBody] NewMalfunctionDTO newMalfunction)
         {
+            var result = malfunctionsService.ReportMalfunction(
+                UserId, newMalfunction.Id, newMalfunction.Description);
+            return Created(result.Id, result);
         }
 
         // DELETE: api/ApiWithActions/5

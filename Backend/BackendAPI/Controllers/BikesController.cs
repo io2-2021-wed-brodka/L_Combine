@@ -45,7 +45,7 @@ namespace BackendAPI.Controllers
         public ActionResult<BikeDTO> RentBike([FromBody] IdDTO bike)
         {
             BikeDTO result = bikesService.RentBike(UserId, bike.Id);
-            return new CreatedResult("/api/bikes/rented", result);
+            return Created("/api/bikes/rented", result);
         }
 
         [HttpGet]
@@ -61,7 +61,7 @@ namespace BackendAPI.Controllers
         public ActionResult<BikeDTO> AddBike([FromBody] NewBikeDTO arg)
         {
             var result = bikesService.AddBike(arg.StationId);
-            return new CreatedResult(result.Id, result);
+            return Created(result.Id, result);
         }
 
         [HttpDelete("{id}")]

@@ -28,7 +28,7 @@ namespace BackendAPI.Controllers
         public ActionResult<BikeDTO> Post([FromBody] IdDTO bikeId)
         {
             var result = bikesService.BlockBike(bikeId.Id);
-            return new CreatedResult(result.Id, result);
+            return Created(result.Id, result);
         }
 
         // DELETE: api/bikes/blocked/5
