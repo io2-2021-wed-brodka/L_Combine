@@ -171,5 +171,12 @@ namespace BackendAPI.Services.Classes
             bike.State = ClassLibrary.BikeState.Working;
             dbContext.SaveChanges();
         }
+
+        public IEnumerable<BikeDTO> GetBlockedBikes()
+        {
+            var bikes = dbContext.Bikes.Include(b => b.BikeStation)
+                .Where(b => b.State == ClassLibrary.BikeState.Blocked).ToList();
+            return bikes.Select(b => CreateNotRentedNotReservedBikeDTO(b));
+        }
     }
 }
