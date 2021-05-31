@@ -1,5 +1,5 @@
-import { Malfunction } from "../models/malfunction";
+import {MalfunctionDTO} from './malfunction-dto';
 
-export interface MalfunctionsDTO{
-    malfunctions: Malfunction[];
+export interface MalfunctionsDTO {
+  malfunctions: MalfunctionDTO[];
 }
