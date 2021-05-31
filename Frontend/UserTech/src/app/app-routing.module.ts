@@ -10,6 +10,7 @@ import {BikeRentedGuard} from './guards/bike-rented.guard';
 import {RegisterComponent} from './components/register/register.component';
 import { TechPanelComponent } from './components/tech/tech-panel/tech-panel.component';
 import { TechGuard } from './guards/tech.guard';
+import { MalfunctionPanelComponent } from './components/malfunctions/malfunction-panel/malfunction-panel.component';
 
 const routes: Routes = [
   {
@@ -41,6 +42,11 @@ const routes: Routes = [
       {
         path: 'tech',
         component: TechPanelComponent,
+        canActivate: [TechGuard]
+      },
+      {
+        path: 'malfunctions',
+        component: MalfunctionPanelComponent,
         canActivate: [TechGuard]
       }
     ]

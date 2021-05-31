@@ -50,6 +50,11 @@
     &-side-right {
       text-align: right;
     }
+    &-details{
+      flex-basis: 100%;
+      margin: 10px;
+      font-size: smaller;
+    }
   }
 }
 

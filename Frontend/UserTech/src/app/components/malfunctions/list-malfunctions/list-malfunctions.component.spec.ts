@@ -16,10 +16,24 @@ describe('ListMalfunctionsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ListMalfunctionsComponent);
     component = fixture.componentInstance;
+    component.malfunctions = [
+      {
+        id: 'id',
+        bikeId: 'id',
+        reportingUserId: 'id',
+        description: 'a'
+      }
+    ]
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('#selectMalfunction should set #selectedMalfunction', ()=>{
+    expect(component.selectedMalfunction).toBeUndefined();
+    component.selectMalfunction(component.malfunctions[0]);
+    expect(component.selectedMalfunction).toEqual(component.malfunctions[0]);
   });
 });
