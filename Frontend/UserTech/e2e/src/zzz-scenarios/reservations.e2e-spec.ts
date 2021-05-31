@@ -84,7 +84,9 @@ describe('reservations', () => {
   function reserveBikeFromStation(station: number): promise.Promise<any> {
     let bike: ElementFinder;
     return homePage.getBikeStations().get(station).click()
-      .then(() => {
+      .then(() => browser.getCurrentUrl())
+      .then((url: string) => {
+        console.log(url);
         bike = stationBikesPage.getStationBikes().get(0);
         bike.click();
       }).then(() => stationBikesPage.getBikeReserveButton(bike).click());

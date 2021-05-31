@@ -47,7 +47,7 @@ Testy E2E frontenmdu odpalamy w folderach odpowiednich projektów poleceniem:
 ```
 ng e2e 
 ```
-Testy odpalamy na czystej bazie w kolejności UserTech > Admin.
+Testy zakłądają bazę zgodną z ustaleniami, czyli brak użytkowników i  3 stacje po 2 rowery.
 
 Istnieją też test suity do odpowiednich sprintów. Podajemy je jako wartość dla opcji `suite`, czyli np.
 ```
