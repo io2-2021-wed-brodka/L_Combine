@@ -1,0 +1,33 @@
+@import "src/app/styles/formStyles";
+
+.wrapper {
+  width: 500px;
+  margin: auto;
+
+  .form {
+    width: auto;
+    margin-bottom: 10px;
+
+    .description {
+      width: 100%;
+      box-sizing: border-box;
+      height: 20vh;
+      resize: none;
+    }
+
+    .button-wrapper {
+      display: flex;
+      justify-content: flex-end;
+
+      .button-submit {
+        width: 100px;
+        height: 30px;
+      }
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+}

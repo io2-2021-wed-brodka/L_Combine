@@ -1,8 +1,8 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
-import { environment } from 'src/environments/environment';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {TestBed} from '@angular/core/testing';
+import {environment} from 'src/environments/environment';
 
-import { MalfunctionService } from './malfunction.service';
+import {MalfunctionService} from './malfunction.service';
 
 describe('MalfunctionService', () => {
   const baseUrl = environment.apiUrl + '/malfunctions';
@@ -21,25 +21,25 @@ describe('MalfunctionService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('#getMalfunctions should fetch with correct url', ()=>{
+  it('#getMalfunctions should fetch with correct url', () => {
     service.getMalfunctions().subscribe();
 
     const request = httpControler.expectOne(baseUrl);
     expect(request.request.method).toEqual('GET');
   });
-  
-  it('#postMalfunction should fetch with correct url', ()=>{
-    service.postMalfunction({type: 't', description: 'd'}).subscribe();
+
+  it('#postMalfunction should fetch with correct url', () => {
+    service.postMalfunction({id: 'id', description: 'd'}).subscribe();
 
     const request = httpControler.expectOne(baseUrl);
     expect(request.request.method).toEqual('POST');
   });
 
-  it('#deleteMalfunction should fetch with correct url', ()=>{
+  it('#deleteMalfunction should fetch with correct url', () => {
     service.deleteMalfunction({
-      id: 'id', 
-      description: '', 
-      reportingUserId: '', 
+      id: 'id',
+      description: '',
+      reportingUserId: '',
       bikeId: ''
     }).subscribe();
 
