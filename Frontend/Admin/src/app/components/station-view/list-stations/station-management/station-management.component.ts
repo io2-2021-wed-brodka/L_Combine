@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {BikeStation} from '../../../../models/bikeStation';
 import {StationService} from '../../../../services/station.service';
 import {NotificationService} from '../../../../services/notification.service';
+import { BikeStationExtended } from 'src/app/models/bikeStationWithDetails';
 
 @Component({
   selector: 'app-station-management',
@@ -9,7 +10,7 @@ import {NotificationService} from '../../../../services/notification.service';
   styleUrls: ['./station-management.component.scss']
 })
 export class StationManagementComponent implements OnInit {
-  @Input() station!: BikeStation;
+  @Input() station!: BikeStationExtended;
   @Output() stationModified: EventEmitter<BikeStation> = new EventEmitter<BikeStation>();
 
   constructor(private stationService: StationService,

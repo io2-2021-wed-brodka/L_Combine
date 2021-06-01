@@ -13,6 +13,7 @@ import { MalfunctionsDTO } from '../dto/malfunctions-dto';
 import { MalfunctionDTO } from '../dto/malfunction-dto';
 import { BikeDTO } from '../dto/bike-dto';
 import { stationFromDTO } from '../utils/dto-utils';
+import { BikeState } from '../models/bike';
 
 @Injectable({
   providedIn: 'root'
@@ -50,15 +51,15 @@ export class StationService {
         const reseredBikeStations = bikes.bikes
           .reduce((acc, bike) =>{
             console.log('a', acc)
-            if(bike.station)
+            if(bike.station && bike.status === BikeState.Reserved)
               acc[bike.station.id] = acc[bike.station.id] + 1 || 1 
             return acc
           }, {} as  any);
 
         return stations.stations.map(station=>({
           ...stationFromDTO(station),
-          malfunctionCount: malfunctionsStation[station.id],
-          reservationCount: reseredBikeStations[station.id]
+          malfunctionCount: malfunctionsStation[station.id] || 0,
+          reservationCount: reseredBikeStations[station.id] || 0
         }));
       })
     );
