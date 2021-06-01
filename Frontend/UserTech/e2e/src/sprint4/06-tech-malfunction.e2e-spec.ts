@@ -21,6 +21,10 @@ describe('tech malfunctions', () => {
     }
   });
 
+  it('should navigate to view', async () => {
+    expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}rental/malfunctions`);
+  });
+
   it('should list malfunctions', async () => {
     const malfunctionsCount = await malfunctionsPage.getMalfunctions().count();
 

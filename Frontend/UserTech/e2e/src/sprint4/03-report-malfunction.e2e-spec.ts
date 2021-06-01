@@ -30,6 +30,7 @@ describe('report malfunction', () => {
 
   it('should send malfunction', async () => {
     await rentBikeFromStation(0);
+    await homePage.navigateToHome();
     await reportMalfunction();
 
     await newMalfunctionPage.getDescriptionTextbox().sendKeys('aa');

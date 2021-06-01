@@ -11,26 +11,7 @@ describe('home screen', () => {
 
     if (await browser.getCurrentUrl() === `${browser.baseUrl}login`) {
       await (new LoginPage()).preformLogin();
-      await homePage.navigateToHome();
     }
-  });
-
-  it('stationsNav should navigate to stations page', async () => {
-    await homePage.getStationsNav().click();
-
-    expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}rental/stations`);
-  });
-
-  it('bikesNav should navigate to bikes page', async () => {
-    await homePage.getBikesNav().click();
-
-    expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}rental/bikes`);
-  });
-
-  it('usersNav should navigate to users page', async () => {
-    await homePage.getUsersNav().click();
-
-    expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}rental/users`);
   });
 
   it('logout button should log out', async () => {

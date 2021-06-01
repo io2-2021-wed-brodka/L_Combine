@@ -43,6 +43,8 @@ describe('block unblock bikes', () => {
 
   it('should unblock bike', async () => {
     await blockBike(0);
+    await techPage.navigateToTech();
+
     await unblockBike(0);
 
     const bike = techPage.getActiveBikes().get(0);

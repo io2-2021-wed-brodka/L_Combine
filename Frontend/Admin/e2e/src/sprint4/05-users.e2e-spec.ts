@@ -19,7 +19,7 @@ describe('users page', () => {
 
     if (await browser.getCurrentUrl() === `${browser.baseUrl}login`) {
       await (new LoginPage()).preformLogin();
-      await usersPage.navigateToUsers();
+      await homePage.getUsersNav().click();
     }
 
     blockedUsers = await usersPage.getBlockedUsers().count();

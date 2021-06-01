@@ -26,8 +26,6 @@ export class HomePage {
   }
 
   getLogoutButton(): ElementFinder {
-    return $('.logout');
+    return $('button.logout');
   }
-
-
 }

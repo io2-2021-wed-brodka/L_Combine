@@ -1,4 +1,4 @@
-import {$$, browser, ElementArrayFinder, promise} from 'protractor';
+import {$, browser, ElementArrayFinder, promise} from 'protractor';
 
 export class MalfunctionsPage {
   navigateToMalfunctions(): promise.Promise<any> {
@@ -6,6 +6,6 @@ export class MalfunctionsPage {
   }
 
   getMalfunctions(): ElementArrayFinder {
-    return $$('.list-item');
+    return $('app-list-malfunctions').$$('.list-item');
   }
 }
