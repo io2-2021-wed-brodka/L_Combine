@@ -8,7 +8,6 @@ import {UserDTO} from '../dto/user-dto';
 import User from '../models/user';
 
 export function bikeFromDTO(bike: BikeDTO): Bike {
-  console.log(bike);
   return {
     id: bike.id,
     state: bike.status,
@@ -27,7 +26,6 @@ export function stationFromDTO(station: StationDTO): BikeStation {
 }
 
 export function reservedBikeFromDTO(bike: ReservedBikeDTO): ReservedBike {
-  console.log(bike.reservedAt, new Date(bike.reservedAt || ''));
   return {
     id: bike.id,
     station: bike.station ? stationFromDTO(bike.station) : undefined,

@@ -52,6 +52,7 @@ describe('renting and returning bike', () => {
 
   it('should return bike on station', async () => {
     await rentBikeFromStation(0);
+    await homePage.navigateToHome();
     const rentedBikes = await homePage.getRentedBikes().count();
 
     await returnBikeOnStation(0);
@@ -68,6 +69,7 @@ describe('renting and returning bike', () => {
     for (let i = rentedBikes; i < 4; ++i) {
       await rentBikeFromStation(Math.floor(i / 2));
     }
+    await homePage.navigateToHome();
     expect(await homePage.getRentedBikes().count()).toEqual(4);
 
     await rentBikeFromStation(2);

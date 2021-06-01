@@ -1,9 +1,9 @@
 export const HEADER_FREE_REQUESTS = [
   {
-    urlTest: /\/api\/login$/,
+    urlTest: /\/login$/,
     method: 'POST'
   }, {
-    urlTest: /\/api\/register$/,
+    urlTest: /\/register$/,
     method: 'POST'
   }
 ];

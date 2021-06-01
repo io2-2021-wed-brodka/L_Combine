@@ -2,19 +2,23 @@ import {TechsPage} from '../pages/techs.po';
 import {browser, promise} from 'protractor';
 import {LoginPage} from '../pages/login.po';
 import {HomePage} from '../pages/home.po';
+import {UsersPage} from '../pages/users.po';
 
 describe('techs page', () => {
   let techsPage: TechsPage;
   let homePage: HomePage;
+  let usersPage: UsersPage;
 
   beforeEach(async () => {
     techsPage = new TechsPage();
     homePage = new HomePage();
+    usersPage = new UsersPage();
     await techsPage.navigateToTechs();
 
     if (await browser.getCurrentUrl() === `${browser.baseUrl}login`) {
       await (new LoginPage()).preformLogin();
-      await techsPage.navigateToTechs();
+      await homePage.getUsersNav().click();
+      await usersPage.getTechsNav().click();
     }
   });
 
@@ -29,7 +33,7 @@ describe('techs page', () => {
 
   it('should delete tech', async () => {
     const techsCount = await techsPage.getTechs().count();
-    await addTech('xx', 'bb');
+    await addTech('yy', 'bb');
     await deleteTech(techsCount);
 
     expect(await techsPage.getTechs().count()).toEqual(techsCount);
@@ -46,8 +50,8 @@ describe('techs page', () => {
 
   it('should show login error if login exists', async () => {
     expect(await techsPage.getLoginError().isPresent()).toBe(false);
-    await addTech('xx', 'bb');
-    await addTech('xx', 'bb');
+    await addTech('zz', 'bb');
+    await addTech('zz', 'bb');
 
     expect(await techsPage.getLoginError().isPresent()).toBe(true);
   });

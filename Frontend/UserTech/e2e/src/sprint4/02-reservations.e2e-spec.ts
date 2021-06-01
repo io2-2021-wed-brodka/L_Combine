@@ -30,6 +30,7 @@ describe('reservations', () => {
 
   it('should rent reserved bike', async () => {
     await reserveBikeFromStation(0);
+    await homePage.navigateToHome();
     const reservedBikes = await homePage.getReservedBikes().count();
 
     const bike = homePage.getReservedBikes().get(0);
@@ -44,6 +45,7 @@ describe('reservations', () => {
 
   it('should cancel reserved bike', async () => {
     await reserveBikeFromStation(0);
+    await homePage.navigateToHome();
     const reservedBikes = await homePage.getReservedBikes().count();
 
     await cancelReservation();
@@ -60,6 +62,7 @@ describe('reservations', () => {
     for (let i = reservedBikes; i < 3; ++i) {
       await reserveBikeFromStation(Math.floor(i / 2));
     }
+    await homePage.navigateToHome();
     expect(await homePage.getReservedBikes().count()).toEqual(3);
 
     await reserveBikeFromStation(2);

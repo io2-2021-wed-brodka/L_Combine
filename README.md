@@ -56,6 +56,8 @@ ng e2e --suite=sprint2
 Dostępne suity:
 
 * UserTech:
-    * sprint2
+  * sprint2
+  * sprint4
     
 * Admin:
+  * sprint4

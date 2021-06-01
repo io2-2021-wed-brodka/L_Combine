@@ -15,7 +15,7 @@ describe('stations page', () => {
 
     if (await browser.getCurrentUrl() === `${browser.baseUrl}login`) {
       await (new LoginPage()).preformLogin();
-      await stationsPage.navigateToStations();
+      await homePage.getStationsNav().click();
     }
 
     startingStationsCount = await stationsPage.getStations().count();
@@ -70,26 +70,6 @@ describe('stations page', () => {
     expect(await stationsPage.getStations().count()).toEqual(stationsCount - 1);
     expect(await homePage.getSuccessNotification().isPresent()).toBe(true);
     expect(await homePage.getErrorNotification().isPresent()).toBe(false);
-  });
-
-  afterEach(async () => {
-    const stationsCount = await stationsPage.getStations().count();
-    for (let i = startingStationsCount; i < stationsCount; ++i) {
-      if (await stationsPage.getStationStateText(i) !== stationsPage.stationBlockedText) {
-        await blockStation(i);
-      }
-
-      const stationBikesCount = await stationsPage.getBikes().count();
-      for (let j = 0; j < stationBikesCount; ++j) {
-        if (await stationsPage.getBikeStateText() !== stationsPage.bikeBlockedText) {
-          await blockBike();
-        }
-
-        await deleteBike();
-      }
-
-      await deleteStation(i);
-    }
   });
 
   it('should add bike', async () => {
@@ -170,6 +150,26 @@ describe('stations page', () => {
 
     expect(await homePage.getErrorNotification().isPresent()).toBe(true);
     expect(await stationsPage.getBikes().count()).toEqual(stationLimit);
+  });
+
+  afterEach(async () => {
+    const stationsCount = await stationsPage.getStations().count();
+    for (let i = startingStationsCount; i < stationsCount; ++i) {
+      if (await stationsPage.getStationStateText(i) !== stationsPage.stationBlockedText) {
+        await blockStation(i);
+      }
+
+      const stationBikesCount = await stationsPage.getBikes().count();
+      for (let j = 0; j < stationBikesCount; ++j) {
+        if (await stationsPage.getBikeStateText() !== stationsPage.bikeBlockedText) {
+          await blockBike();
+        }
+
+        await deleteBike();
+      }
+
+      await deleteStation(i);
+    }
   });
 
   function createStation(name: string): promise.Promise<any> {

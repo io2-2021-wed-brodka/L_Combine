@@ -17,7 +17,6 @@ describe('block unblock bikes', () => {
     await techPage.navigateToTech();
 
     if (await browser.getCurrentUrl() !== `${browser.baseUrl}rental/tech`) {
-      await homePage.getLogoutButton().click();
       await loginPage.navigateToLogin();
       await loginPage.preformTechLogin();
       await techPage.navigateToTech();
@@ -44,6 +43,8 @@ describe('block unblock bikes', () => {
 
   it('should unblock bike', async () => {
     await blockBike(0);
+    await techPage.navigateToTech();
+
     await unblockBike(0);
 
     const bike = techPage.getActiveBikes().get(0);

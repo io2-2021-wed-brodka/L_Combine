@@ -5,6 +5,10 @@ export class UsersPage {
     return browser.get('/rental/users');
   }
 
+  getTechsNav(): ElementFinder {
+    return $('button');
+  }
+
   getActiveUsers(): ElementArrayFinder {
     return $('app-list-users').$$('.list-item');
   }

@@ -33,10 +33,12 @@ export class LoginService {
 
     return this.http.post<AuthenticateResponseDTO>(this.baseUrl, authenticateRequest, {headers}).pipe(
       tap(response => {
-        if(response.role === Role.Admin)
+        if (response.role === Role.Admin) {
           this.setToken(response.token);
-        else
-          throw new HttpErrorResponse({status: 401})
+        }
+        else {
+          throw new HttpErrorResponse({status: 401});
+        }
       })
     );
   }
