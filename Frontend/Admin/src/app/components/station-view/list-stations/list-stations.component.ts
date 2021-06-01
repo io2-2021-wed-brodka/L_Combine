@@ -4,6 +4,7 @@ import {stationFromDTO} from '../../../utils/dto-utils';
 import {StationService} from '../../../services/station.service';
 import {NotificationService} from '../../../services/notification.service';
 import { NewStationDTO } from 'src/app/dto/new-station-dto';
+import { BikeStationExtended } from 'src/app/models/BIkeServiceExtended';
 
 @Component({
   selector: 'app-list-stations',
@@ -11,7 +12,7 @@ import { NewStationDTO } from 'src/app/dto/new-station-dto';
   styleUrls: ['./list-stations.component.scss']
 })
 export class ListStationsComponent implements OnInit {
-  stations: BikeStation[] = [];
+  stations: BikeStationExtended[] = [];
   selectedStation?: BikeStation;
 
   @Output() selectedStationChanged: EventEmitter<BikeStation> = new EventEmitter<BikeStation>();
@@ -33,7 +34,7 @@ export class ListStationsComponent implements OnInit {
       bikesLimit: undefined
     }
     this.stationService.getStations().subscribe(stations =>
-      this.stations = stations.stations.map<BikeStation>(stationFromDTO)
+      this.stations = stations
     );
   }
 

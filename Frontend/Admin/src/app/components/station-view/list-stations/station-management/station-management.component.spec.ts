@@ -52,7 +52,7 @@ describe('StationManagementComponent', () => {
     }));
     stationService.unblockStation.and.returnValue(of({}));
 
-    component.station = {id: 'a', stationState: StationState.Active, locationName: 'b', bikeCount: 1, bikesLimit: 10};
+    component.station = {id: 'a', stationState: StationState.Active, locationName: 'b', bikeCount: 1, bikesLimit: 10, reservationCount: 0, malfunctionCount: 0};
   });
 
   it('should create', () => {

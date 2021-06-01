@@ -10,6 +10,7 @@ import {RedirectService} from '../../../services/redirect.service';
 import {FormsModule} from '@angular/forms';
 import {of} from 'rxjs';
 import {StationDTO} from '../../../dto/station-dto';
+import mockStationService from 'src/app/testing/mock-services/mockStationService';
 
 describe('ListStationsComponent', () => {
   let component: ListStationsComponent;
@@ -60,7 +61,7 @@ describe('ListStationsComponent', () => {
     notificationService = TestBed.inject(NotificationService) as jasmine.SpyObj<NotificationService>;
     stationService = TestBed.inject(StationService) as jasmine.SpyObj<StationService>;
 
-    stationService.getStations.and.returnValue(of({stations: [stationDTO]}));
+    stationService.getStations.and.returnValue(mockStationService.getStations());
     stationService.addStation.and.returnValue(of(stationDTO));
 
     fixture.detectChanges();

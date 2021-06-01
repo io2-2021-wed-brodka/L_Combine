@@ -13,7 +13,8 @@ export default {
       name: 'a',
       activeBikesCount: 1,
       bikesLimit: 10
-    }
+    },
+    
   }, {
     id: 'id2',
     status: BikeState.Rented,
@@ -29,4 +30,4 @@ export default {
   getRentedBikes(): Observable<BikesDTO> {
     return of({bikes: this.bikes});
   }
-};
+}
