@@ -30,7 +30,7 @@ namespace BackendAPI.Controllers
 
         //GET: api/stations
         [HttpGet]
-        [Authorize(Roles = Role.Admin)]
+        [Authorize(Roles = Role.Admin + "," + Role.Tech)]
         public IActionResult GetAllStations()
         {
             var result = stationsService.GetAllStations();
