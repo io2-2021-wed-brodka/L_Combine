@@ -4,7 +4,7 @@ import {stationFromDTO} from '../../../utils/dto-utils';
 import {StationService} from '../../../services/station.service';
 import {NotificationService} from '../../../services/notification.service';
 import { NewStationDTO } from 'src/app/dto/new-station-dto';
-import { BikeStationExtended } from 'src/app/models/bikeStationWithDetails';
+import { BikeStationExtended } from 'src/app/models/BIkeServiceExtended';
 
 @Component({
   selector: 'app-list-stations',

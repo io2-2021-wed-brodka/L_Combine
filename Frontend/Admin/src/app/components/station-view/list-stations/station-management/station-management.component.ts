@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {BikeStation} from '../../../../models/bikeStation';
 import {StationService} from '../../../../services/station.service';
 import {NotificationService} from '../../../../services/notification.service';
-import { BikeStationExtended } from 'src/app/models/bikeStationWithDetails';
+import { BikeStationExtended } from 'src/app/models/BIkeServiceExtended';
 
 @Component({
   selector: 'app-station-management',

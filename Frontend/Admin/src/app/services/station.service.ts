@@ -7,7 +7,7 @@ import {BikesDTO} from '../dto/bikes-dto';
 import {NewStationDTO} from '../dto/new-station-dto';
 import {StationDTO} from '../dto/station-dto';
 import {map} from 'rxjs/operators';
-import { BikeStationExtended } from '../models/bikeStationWithDetails';
+import { BikeStationExtended } from '../models/BIkeServiceExtended';
 import { BikeService } from './bike.service';
 import { MalfunctionsDTO } from '../dto/malfunctions-dto';
 import { MalfunctionDTO } from '../dto/malfunction-dto';
