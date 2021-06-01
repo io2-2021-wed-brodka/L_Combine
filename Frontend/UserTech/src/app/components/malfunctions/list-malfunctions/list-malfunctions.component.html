@@ -5,7 +5,7 @@
             class="list-item list-item-active"
             (click)="selectMalfunction(mal)"
             >
-            <div class="list-item-side-left">{{mal.description}}</div>
+            <div class="list-item-side-left description" >{{mal.description}}</div>
             <app-malfunction-details class="list-item-details" *ngIf="selectedMalfunction===mal" [malfunction]="mal"></app-malfunction-details>
         </div>
     </div>

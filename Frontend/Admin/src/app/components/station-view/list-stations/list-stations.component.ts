@@ -1,10 +1,9 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {BikeStation} from '../../../models/bikeStation';
-import {stationFromDTO} from '../../../utils/dto-utils';
 import {StationService} from '../../../services/station.service';
 import {NotificationService} from '../../../services/notification.service';
 import { NewStationDTO } from 'src/app/dto/new-station-dto';
-import { BikeStationExtended } from 'src/app/models/BIkeServiceExtended';
+import { BikeStationExtended } from 'src/app/models/bikeServiceExtended';
 
 @Component({
   selector: 'app-list-stations',

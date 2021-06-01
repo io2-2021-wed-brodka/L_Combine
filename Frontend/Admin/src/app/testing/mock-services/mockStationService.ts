@@ -3,7 +3,7 @@ import {BikesDTO} from 'src/app/dto/bikes-dto';
 import {StationsDTO} from 'src/app/dto/stations-dto';
 import {BikeState} from 'src/app/models/bike';
 import {StationState} from 'src/app/models/bikeStation';
-import { BikeStationExtended } from 'src/app/models/BIkeServiceExtended';
+import { BikeStationExtended } from 'src/app/models/bikeServiceExtended';
 import mockBikeService from './mockBikeService';
 
 export default {
