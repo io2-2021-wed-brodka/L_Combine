@@ -105,6 +105,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Update chrome
+        run: |
+          sudo apt update
+          sudo apt --only-upgrade install google-chrome-stable
+          
+          google-chrome --version
       - name: Build the docker-compose stack
         run: docker-compose up -d
       - name: Cache node modules
