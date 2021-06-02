@@ -6,6 +6,8 @@ import mockStationService from '../testing/mock-services/mockStationService';
 import {StationService} from './station.service';
 import {BikesDTO} from '../dto/bikes-dto';
 import mockBikeService from '../testing/mock-services/mockBikeService';
+import { StationState } from '../models/bikeStation';
+import { StationDTO } from '../dto/station-dto';
 
 describe('StationService', () => {
   let service: StationService;
@@ -23,18 +25,15 @@ describe('StationService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('#getStations should return station list from server', () => {
+  it('#getStations should fetch with correct url', () => {
     const stations = {
       stations: mockStationService.stations
     };
 
-    service.getStations().subscribe(result => {
-      expect(result.stations).toEqual(stations.stations);
-    });
+    service.getStations().subscribe();
 
     const request = httpTestingControler.expectOne(`${environment.apiUrl}/stations`);
-    request.flush(stations);
-    httpTestingControler.verify();
+    expect(request.request.method).toEqual('GET');
   });
 
   it('#getStationBikes should return bike list from server', () => {
@@ -53,7 +52,7 @@ describe('StationService', () => {
   });
 
   it('#addStation should add station to server', () => {
-    const station = mockStationService.stations[0];
+    const station = { id: 'id', status: StationState.Active, bikesLimit: 0, name: '', activeBikesCount: 0  };
 
     service.addStation({name: 'a'}).subscribe(result => {
       expect(result).toEqual(station);
@@ -77,7 +76,7 @@ describe('StationService', () => {
   });
 
   it('#blockStation should post to server', () => {
-    const station = mockStationService.stations[0];
+    const station = { id: 'id', status: StationState.Active, bikesLimit: 0, name: '', activeBikesCount: 0  };
 
     service.blockStation('a').subscribe(result => {
       expect(result).toEqual(station);

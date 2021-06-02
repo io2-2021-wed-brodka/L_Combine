@@ -65,24 +65,28 @@ describe('users page', () => {
   function registerUser(): any {
     let response = false;
     const http = require('http');
-    const data = {login: 'aa', password: 'aa'};
+    const data = JSON.stringify({login: 'aa', password: 'bb'});
     const options = {
       port: 8080,
       hostname: 'localhost',
       path: '/register',
       method: 'POST',
       headers: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        'content-length': data.length
       }
     };
 
     const request = http.request(options, (result: IncomingMessage) => {
-      result.on('data', (_: any) => {
+      result.on('data', (dd: any) => {
+        console.log(dd.toString());
         response = true;
       });
+
+      result.on('error', err => console.log(err));
     });
 
-    request.write(JSON.stringify(data));
+    request.write(data);
     request.end();
 
     return browser.wait(() => response, 2000);
