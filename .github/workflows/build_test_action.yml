@@ -107,8 +107,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: Update chrome
         run: |
-          sudo apt update
-          sudo apt --only-upgrade install google-chrome-stable
+          wget --no-verbose -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_91.0.4472.77-1_amd64.deb \
+	  && apt install -y /tmp/chrome.deb \
+	  && rm /tmp/chrome.deb
           
           google-chrome --version
       - name: Build the docker-compose stack
