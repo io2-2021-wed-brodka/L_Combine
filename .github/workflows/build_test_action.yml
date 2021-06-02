@@ -120,7 +120,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install packages
         run: npm ci
+      - name: Downgrade chrome version
+        run: ./node_modules/protractor/bin/webdriver-manager update --versions.chrome 90.0.4430.212
       - name: Buid Angular
         run: npm run build
       - name: Test E2E
-        run: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js --webdriver-update=false
+        run: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
