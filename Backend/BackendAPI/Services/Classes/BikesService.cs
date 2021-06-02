@@ -128,7 +128,11 @@ namespace BackendAPI.Services.Classes
                 throw new HttpResponseException("Bike not found", 404);
             if (bike.State != ClassLibrary.BikeState.Blocked)
                 throw new HttpResponseException("Bike not blocked", 422);
+            var malfunctions = from m in dbContext.Malfunctions
+                               where m.BikeID == bikeId
+                               select m;
             dbContext.Remove(bike);
+            dbContext.RemoveRange(malfunctions);
             dbContext.SaveChanges();
         }
 
