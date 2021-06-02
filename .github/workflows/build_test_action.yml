@@ -107,9 +107,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: Update chrome
         run: |
-          wget --no-verbose -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_91.0.4472.77-1_amd64.deb \
-	  && apt install -y /tmp/chrome.deb \
-	  && rm /tmp/chrome.deb
+          sudo wget --no-verbose -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_91.0.4472.77-1_amd64.deb
+	  sudo apt install -y /tmp/chrome.deb
+	  sudo rm /tmp/chrome.deb
           
           google-chrome --version
       - name: Build the docker-compose stack
