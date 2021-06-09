@@ -60,5 +60,15 @@ namespace BackendAPI.Services.Classes
 
             return CreateMalfunctionDTO(malfunction);
         }
+
+        public void DeleteMalfunction(string malfunctionIdString)
+        {
+            int malfunctionId = ParseMalfunctionId(malfunctionIdString);
+            Malfunction malfunction;
+            if ((malfunction = dbContext.Malfunctions.FirstOrDefault(m => m.ID == malfunctionId)) == null)
+                throw new HttpResponseException("Malfunction not found", 404);
+            dbContext.Malfunctions.Remove(malfunction);
+            dbContext.SaveChanges();
+        }
     }
 }

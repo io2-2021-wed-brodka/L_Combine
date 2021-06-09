@@ -31,6 +31,11 @@ namespace BackendAPI.Services.Classes
             return ParseId(id, "User");
         }
 
+        protected int ParseMalfunctionId(string id)
+        {
+            return ParseId(id, "Malfunction");
+        }
+
         protected int ParseTechId(string id)
         {
             return ParseId(id, "Tech");
