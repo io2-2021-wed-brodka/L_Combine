@@ -45,6 +45,7 @@ namespace BackendAPI.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
+        [Authorize(Roles = Role.Admin + "," + Role.Tech)]
         [HttpDelete("{id}")]
         public IActionResult DeleteMalfunction(string id)
         {
