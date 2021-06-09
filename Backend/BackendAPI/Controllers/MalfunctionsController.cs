@@ -45,9 +45,11 @@ namespace BackendAPI.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        [HttpDelete("{id}")]
+        public IActionResult DeleteMalfunction(string id)
+        {
+            malfunctionsService.DeleteMalfunction(id);
+            return NoContent();
+        }
     }
 }

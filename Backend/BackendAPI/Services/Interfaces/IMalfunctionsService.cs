@@ -10,5 +10,6 @@ namespace BackendAPI.Services.Interfaces
     {
         IEnumerable<MalfunctionDTO> GetMalfunctions();
         MalfunctionDTO ReportMalfunction(string userIdString, string bikeIdString, string description);
+        void DeleteMalfunction(string malfunctionIdString);
     }
 }
