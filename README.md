@@ -61,3 +61,17 @@ Dostępne suity:
     
 * Admin:
   * sprint4
+
+
+---
+
+## Deploy
+
+Uruchamianie wszystkiego na własnym serwerze zaczynamy od edycji plików `environment.prod.ts` w źródłach obu frontendów i tam ustawiamy ip własnego serwera. Następnie wywołujemy:
+
+
+```
+docker-compose up -f docker-compose-combined.yml --build
+```
+
+`docker-compose` uruchomi frontend admina na porcie 5002, a frontend usertecha na 5001.
