@@ -73,3 +73,5 @@ Uruchamianie wszystkiego na własnym serwerze zaczynamy od edycji plików `envir
 ```
 docker-compose up -f docker-compose-combined.yml --build
 ```
+
+`docker-compose` uruchomi frontend admina na porcie 5002, a frontend usertecha na 5001.
