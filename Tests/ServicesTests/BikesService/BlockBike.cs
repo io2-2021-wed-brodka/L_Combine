@@ -36,7 +36,7 @@ namespace ServicesTests.BikesService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Rower jest już wypożyczony!")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Rower jest obecnie wypożyczony!")]
         public void BlockRentedBike_Failure()
         {
             string bikeId = "7";
