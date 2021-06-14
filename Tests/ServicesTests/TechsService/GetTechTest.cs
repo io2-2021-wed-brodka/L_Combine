@@ -23,7 +23,7 @@ namespace ServicesTests.TechsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Tech not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie odnaleziono danego techa!")]
         public void GetTech_InvalidId()
         {
             int id = 120;
@@ -31,7 +31,7 @@ namespace ServicesTests.TechsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Tech not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie odnaleziono danego techa!")]
         public void GetTech_IdOfAdmin()
         {
             int id = 7;
@@ -39,7 +39,7 @@ namespace ServicesTests.TechsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Tech not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie odnaleziono danego techa!")]
         public void GetTech_IdOfUser()
         {
             int id = 1;

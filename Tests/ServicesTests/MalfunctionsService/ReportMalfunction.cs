@@ -14,7 +14,7 @@ namespace ServicesTests.MalfunctionsService
         public void PrepareService() => CreateMalfunctionsService();
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike is not rented by calling user")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Rower nie jest wypożyczony przez danego użytkownika!")]
         public void ReportMalfunction_NonRentedBike()
         {
             var userId = "1";
@@ -24,7 +24,7 @@ namespace ServicesTests.MalfunctionsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike is not rented by calling user")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Rower nie jest wypożyczony przez danego użytkownika!")]
         public void ReportMalfunction_BikeRentedByOtherUser()
         {
             var userId = "1";
@@ -34,7 +34,7 @@ namespace ServicesTests.MalfunctionsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie znaleziono takiego roweru!")]
         public void ReportMalfunction_NotNumericBikeId()
         {
             var userId = "1";
@@ -44,7 +44,7 @@ namespace ServicesTests.MalfunctionsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie znaleziono takiego roweru!")]
         public void ReportMalfunction_IvalidBikeId()
         {
             var userId = "1";

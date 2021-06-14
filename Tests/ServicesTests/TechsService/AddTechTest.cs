@@ -27,7 +27,7 @@ namespace ServicesTests.TechsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Given login already exists in database.")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Dany login istnieje już w bazie!")]
         public void AddTech_RepeatedLogin()
         {
             string login = "login1";
