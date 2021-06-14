@@ -26,7 +26,7 @@ namespace BackendAPI.Services.Classes
         public UserDTO AddTech(string login, string password)
         {
             if (dbContext.Users.Where(u => u.Login == login).Any())
-                throw new HttpResponseException("Given login already exists in database.", 409);
+                throw new HttpResponseException(ResMng.GetResource("LoginExists"), 409);
 
             User tech;
             using (StringHash stringHash = new StringHash())
@@ -54,7 +54,7 @@ namespace BackendAPI.Services.Classes
             User tech;
             if ((tech = dbContext.Users
                 .FirstOrDefault(u => u.ID == techId && u.Role == Role.Tech)) == null)
-                throw new HttpResponseException("Tech not found", 404);
+                throw new HttpResponseException(ResMng.GetResource("TechNotFound"), 404);
 
             //TODO: W przyszłości byc moze jak już będą usterki
             //to trzeba bedzie coś dopisać
@@ -76,7 +76,7 @@ namespace BackendAPI.Services.Classes
             User tech;
             if ((tech = dbContext.Users
                 .FirstOrDefault(u => u.ID == techId && u.Role == Role.Tech)) == null)
-                throw new HttpResponseException("Tech not found", 404);
+                throw new HttpResponseException(ResMng.GetResource("TechNotFound"), 404);
 
             return CreateUserDTO(tech);
         }

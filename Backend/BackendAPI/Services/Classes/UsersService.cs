@@ -44,10 +44,10 @@ namespace BackendAPI.Services.Classes
             User user;
             if ((user = dbContext.Users
                 .FirstOrDefault(u => u.ID == userId && u.Role == Role.User)) == null)
-                throw new HttpResponseException("User not found", 404);
+                throw new HttpResponseException(ResMng.GetResource("UserNotFound"), 404);
 
             if (user.Blocked)
-                throw new HttpResponseException("User already blocked", 422);
+                throw new HttpResponseException(ResMng.GetResource("UserAlreadyBlocked"), 422);
 
             var userReservations = dbContext.Reservations
                 .Where(r => r.UserID == userId).ToList();
@@ -69,10 +69,10 @@ namespace BackendAPI.Services.Classes
             User user;
             if ((user = dbContext.Users
                 .FirstOrDefault(u => u.ID == userId && u.Role == Role.User)) == null)
-                throw new HttpResponseException("User not found", 404);
+                throw new HttpResponseException(ResMng.GetResource("UserNotFound"), 404);
 
             if (!user.Blocked)
-                throw new HttpResponseException("User not blocked", 422);
+                throw new HttpResponseException(ResMng.GetResource("UserNotBlocked"), 422);
 
             user.Blocked = false;
             dbContext.SaveChanges();

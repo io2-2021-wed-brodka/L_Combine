@@ -22,7 +22,7 @@ namespace BackendAPI.Services.Classes
         private int ParseId(string id, string name)
         {
             if (!int.TryParse(id, out int result))
-                throw new HttpResponseException($"{name} not found", 404);
+                throw new HttpResponseException(string.Format(ResMng.GetResource("NameNotFound"),name), 404);
             return result;
         }
 
