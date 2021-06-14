@@ -1,7 +1,7 @@
 <div>
     <p>Zgłaszający użytkownik: {{malfunction.reportingUserId}}</p>
     <p>Identyfikator roweru: {{malfunction.bikeId}}</p>
-    <div>
+    <div class="button-container">
         <button *ngIf="isInReparation()"  (click)="repairBike()">Napraw</button>
         <span *ngIf="isRented()">Rower jest wypożyczony</span>
         <ng-container *ngIf="isWaiting()">

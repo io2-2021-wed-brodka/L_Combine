@@ -9,7 +9,9 @@ import { Malfunction } from 'src/app/models/malfunction';
 export class ListMalfunctionsComponent implements OnInit {
   @Input() malfunctions!: Malfunction[];
   @Output() listChanged = new EventEmitter(); 
+
   selectedMalfunction: Malfunction | undefined;
+  
   constructor() { }
 
   ngOnInit(): void {
