@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { forkJoin } from 'rxjs';
 import { Malfunction, MalfunctionState } from 'src/app/models/malfunction';
 import { BikeService } from 'src/app/services/bike.service';
 import { MalfunctionService } from 'src/app/services/malfunction.service';
@@ -16,25 +17,31 @@ export class MalfunctionDetailsComponent implements OnInit {
   ngOnInit(): void {
   }
   isInReparation(){
-    console.log(this.malfunction.state)
     return this.malfunction.state === MalfunctionState.InReparation;
   }
   isRented(){
-    console.log(this.malfunction.state)
     return this.malfunction.state === MalfunctionState.BikeRented;
   }
   isWaiting(){
-    console.log(this.malfunction.state)
     return this.malfunction.state === MalfunctionState.Waiting;
   }
-  deleteMalfunction(){
+  cancelMalfunction(){
     this.malfunctionService.deleteMalfunction(this.malfunction).subscribe(()=>
       this.malfunctionChanged.emit()
     );
     
   }
   acceptMalfunction(){
-    //this.bikeService.block()
-    this.malfunctionChanged.emit();
+    this.bikeService.block(this.malfunction.bikeId).subscribe(()=>
+      this.malfunctionChanged.emit()
+    );
+  }
+  repereBike(){
+    forkJoin([
+      this.bikeService.unblock(this.malfunction.bikeId),
+      this.malfunctionService.deleteMalfunction(this.malfunction)
+    ]).subscribe(()=>
+      this.malfunctionChanged.emit()
+    );
   }
 }

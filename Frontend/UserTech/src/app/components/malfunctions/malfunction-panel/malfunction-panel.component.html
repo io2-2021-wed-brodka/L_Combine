@@ -1,6 +1,6 @@
 
 <div class="view-container">
     <div class="list-container">
-        <app-list-malfunctions [malfunctions]="malfunctions" ></app-list-malfunctions>
+        <app-list-malfunctions [malfunctions]="malfunctions" (listChanged)="getMalfunctions()"></app-list-malfunctions>
     </div>
 </div>
