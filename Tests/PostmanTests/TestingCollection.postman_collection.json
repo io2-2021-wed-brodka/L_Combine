@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e4bff08c-4000-4196-93e0-a51af42a033d",
+		"_postman_id": "9107167e-a712-450d-9a5a-1b7d90eca849",
 		"name": "TestingCollection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -104,7 +104,7 @@
 									"});\r",
 									"pm.test(\"Error message correct\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.message).to.eql(\"Bike is not reserved\");\r",
+									"    pm.expect(jsonData.message).to.eql(\"Rower nie jest zarezerwowany!\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -410,7 +410,7 @@
 									"\r",
 									"pm.test(\"Error message correct\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.message).to.eql(\"Bike already rented\");\r",
+									"    pm.expect(jsonData.message).to.eql(\"Rower jest już wypożyczony!\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1014,7 +1014,7 @@
 									"\r",
 									"pm.test(\"Correct bike status\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.message).to.eql(\"Bike is not rented by specific user\");\r",
+									"    pm.expect(jsonData.message).to.eql(\"Rower nie jest wypożyczony przez żadnego użytkownika!\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1832,6 +1832,10 @@
 		{
 			"key": "NewTechID",
 			"value": "-1"
-		}
+		},
+		{
+			"key": "URL_Local",
+			"value": "http://localhost:8080/"
+		},
 	]
 }
