@@ -24,8 +24,10 @@ describe('MalfunctionService', () => {
   it('#getMalfunctions should fetch with correct url', () => {
     service.getMalfunctions().subscribe();
 
-    const request = httpControler.expectOne(baseUrl);
-    expect(request.request.method).toEqual('GET');
+    const request1 = httpControler.expectOne(baseUrl);
+    expect(request1.request.method).toEqual('GET');
+    const request2 = httpControler.expectOne(environment.apiUrl + 'bikes');
+    expect(request2.request.method).toEqual('GET');
   });
 
   it('#postMalfunction should fetch with correct url', () => {
