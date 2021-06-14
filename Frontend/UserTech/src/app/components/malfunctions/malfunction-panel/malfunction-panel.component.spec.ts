@@ -1,5 +1,6 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {of} from 'rxjs';
+import { MalfunctionState } from 'src/app/models/malfunction';
 import {MalfunctionService} from 'src/app/services/malfunction.service';
 
 import {MalfunctionPanelComponent} from './malfunction-panel.component';
@@ -18,11 +19,9 @@ describe('MalfunctionPanelComponent', () => {
     })
       .compileComponents();
     malfunctionService = TestBed.inject(MalfunctionService) as jasmine.SpyObj<MalfunctionService>;
-    malfunctionService.getMalfunctions.and.returnValue(of({
-      malfunctions: [
-        {id: 'id', reportingUserId: 'id', bikeId: 'id', description: 'd'}
-      ]
-    }));
+    malfunctionService.getMalfunctions.and.returnValue(of([
+        {id: 'id', reportingUserId: 'id', bikeId: 'id', description: 'd', state: MalfunctionState.Waiting}
+    ]));
   });
 
   beforeEach(() => {

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MalfunctionState } from 'src/app/models/malfunction';
 
 import { MalfunctionDetailsComponent } from './malfunction-details.component';
 
@@ -20,7 +21,8 @@ describe('MalfunctionDetailsComponent', () => {
       id: 'id',
       reportingUserId: 'id',
       bikeId: 'id',
-      description: 'description'
+      description: 'description',
+      state: MalfunctionState.Waiting,
     }
     fixture.detectChanges();
   });

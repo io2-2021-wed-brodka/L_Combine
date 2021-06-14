@@ -26,7 +26,7 @@ describe('MalfunctionService', () => {
 
     const request1 = httpControler.expectOne(baseUrl);
     expect(request1.request.method).toEqual('GET');
-    const request2 = httpControler.expectOne(environment.apiUrl + 'bikes');
+    const request2 = httpControler.expectOne(environment.apiUrl + '/bikes');
     expect(request2.request.method).toEqual('GET');
   });
 
