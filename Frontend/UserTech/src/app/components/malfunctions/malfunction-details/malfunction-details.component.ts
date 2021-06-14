@@ -21,29 +21,34 @@ export class MalfunctionDetailsComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
   isInReparation(){
     return this.malfunction.state === MalfunctionState.InReparation;
   }
+
   isRented(){
     return this.malfunction.state === MalfunctionState.BikeRented;
   }
+
   isWaiting(){
     return this.malfunction.state === MalfunctionState.Waiting;
   }
+
   cancelMalfunction(){
     this.malfunctionService.deleteMalfunction(this.malfunction).subscribe(()=>{
       this.malfunctionChanged.emit();
       this.notificationService.success("Usterka została anulowana");
     });
-    
   }
+
   acceptMalfunction(){
     this.bikeService.block(this.malfunction.bikeId).subscribe(()=>{
       this.malfunctionChanged.emit();
       this.notificationService.success("Rower został zablokowany do naprawy");
     });
   }
-  repereBike(){
+
+  repairBike(){
     forkJoin([
       this.bikeService.unblock(this.malfunction.bikeId),
       this.malfunctionService.deleteMalfunction(this.malfunction)
