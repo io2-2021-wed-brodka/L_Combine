@@ -20,7 +20,7 @@ export class UnblockBikeComponent implements OnInit {
   }
 
   unblock(){
-    this.bikeService.unblock(this.bike).subscribe(()=>{
+    this.bikeService.unblock(this.bike.id).subscribe(()=>{
       this.bikeChanged.emit();
       this.notificationService.success('Rower został odblokowany');
     });

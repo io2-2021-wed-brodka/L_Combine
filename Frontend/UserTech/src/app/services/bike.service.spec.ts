@@ -53,7 +53,7 @@ describe('BikeService', () => {
       id: 'id',
       state: BikeState.Available
     };
-    service.block(bike).subscribe();
+    service.block(bike.id).subscribe();
 
     const request = httpTestingControler.expectOne(`${environment.apiUrl}/bikes/blocked`);
     expect(request.request.method).toEqual('POST');
@@ -65,7 +65,7 @@ describe('BikeService', () => {
       id: 'id',
       state: BikeState.Available
     };
-    service.unblock(bike).subscribe();
+    service.unblock(bike.id).subscribe();
 
     const request = httpTestingControler.expectOne(`${environment.apiUrl}/bikes/blocked/id`);
     expect(request.request.method).toEqual('DELETE');

@@ -18,8 +18,8 @@ export class MalfunctionPanelComponent implements OnInit {
   }
 
   getMalfunctions(): void {
-    this.malfunctionService.getMalfunctions().subscribe(dto => {
-      this.malfunctions = dto.malfunctions;
+    this.malfunctionService.getMalfunctions().subscribe(mals => {
+      this.malfunctions = mals;
     });
   }
 }

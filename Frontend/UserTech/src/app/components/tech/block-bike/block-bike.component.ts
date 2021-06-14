@@ -20,7 +20,7 @@ export class BlockBikeComponent implements OnInit {
   }
 
   block(){
-    this.bikeService.block(this.bike).subscribe(()=>{
+    this.bikeService.block(this.bike.id).subscribe(()=>{
       this.bikeChanged.emit();
       this.notificationService.success('Rower został zablokowany');
     });

@@ -6,7 +6,7 @@
             (click)="selectMalfunction(mal)"
             >
             <div class="list-item-side-left description" >{{mal.description}}</div>
-            <app-malfunction-details class="list-item-details" *ngIf="selectedMalfunction===mal" [malfunction]="mal"></app-malfunction-details>
+            <app-malfunction-details class="list-item-details" *ngIf="selectedMalfunction===mal" [malfunction]="mal" (malfunctionChanged)="listChanged.emit()"></app-malfunction-details>
         </div>
     </div>
 </div>

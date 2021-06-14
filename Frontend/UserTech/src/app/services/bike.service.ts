@@ -23,11 +23,11 @@ export class BikeService {
     return this.http.get<BikesDTO>(this.baseUrl);
   }
 
-  block(bike: Bike): Observable<BikeDTO> {
-    return this.http.post<BikeDTO>(`${this.baseUrl}/blocked`, {id: bike.id});
+  block(bikeId: string): Observable<BikeDTO> {
+    return this.http.post<BikeDTO>(`${this.baseUrl}/blocked`, {id: bikeId});
   }
 
-  unblock(bike: Bike): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/blocked/${bike.id}`);
+  unblock(bikeId: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/blocked/${bikeId}`);
   }
 }
