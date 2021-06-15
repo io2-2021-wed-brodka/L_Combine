@@ -54,7 +54,7 @@ main{
 .footer {
   height: 40px;
   width: 100%;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   background-color: $header-color;
   padding: 5px 20px;
