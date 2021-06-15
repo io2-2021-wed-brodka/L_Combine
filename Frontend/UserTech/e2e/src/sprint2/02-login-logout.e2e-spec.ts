@@ -5,7 +5,7 @@ import {HomePage} from '../pages/home.po';
 describe('login screen', () => {
   let loginPage: LoginPage;
   let homePage: HomePage;
-
+  
   beforeEach(async () => {
     loginPage = new LoginPage();
     homePage = new HomePage();
