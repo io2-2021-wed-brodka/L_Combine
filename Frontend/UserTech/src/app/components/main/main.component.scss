@@ -1,5 +1,5 @@
 @import '../../styles/colors.scss';
- 
+
 .header {
   display: flex;
   align-items:flex-start;
@@ -14,6 +14,10 @@
     font-size: 40px;
     font-weight: bold;
     padding: .5em 1em;
+  }
+
+  .contact-button {
+    margin-left: 40%;
   }
 
   .notifications {

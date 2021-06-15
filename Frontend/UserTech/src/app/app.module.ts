@@ -28,6 +28,7 @@ import {ListMalfunctionsComponent} from './components/malfunctions/list-malfunct
 import {MalfunctionPanelComponent} from './components/malfunctions/malfunction-panel/malfunction-panel.component';
 import {MalfunctionDetailsComponent} from './components/malfunctions/malfunction-details/malfunction-details.component';
 import {NewMalfunctionComponent} from './components/malfunctions/new-malfunction/new-malfunction.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import {NewMalfunctionComponent} from './components/malfunctions/new-malfunction
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [
     {
