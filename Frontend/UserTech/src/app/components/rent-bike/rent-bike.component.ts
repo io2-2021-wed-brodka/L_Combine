@@ -31,7 +31,7 @@ export class RentBikeComponent implements OnInit {
 
   reserve(): void {
     this.reservationService.reserveBike(this.bike.id).subscribe(_ => {
-      this.notificationService.success(`Bike from station ${this.bike.station?.locationName} was reserved for you`);
+      this.notificationService.success(`Rower ze stacji ${this.bike.station?.locationName} został dla ciebie zarezerwowany`);
       this.redirectService.redirectToHome();
     });
   }

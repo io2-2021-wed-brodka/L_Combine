@@ -24,14 +24,14 @@ export class ReservedBikeDetailsComponent implements OnInit {
 
   rent(): void {
     this.rentBikeService.rentBike(this.bike).subscribe(_ => {
-      this.notificationService.success(`Bike rented from ${this.bike.station?.locationName}`);
+      this.notificationService.success(`Rower został wypożyczony ze stacji ${this.bike.station?.locationName}`);
       this.redirectService.reload();
     });
   }
 
   cancel(): void {
     this.reservationService.cancelReservation(this.bike.id).subscribe(_ => {
-      this.notificationService.success('Reservation was cancelled');
+      this.notificationService.success('Rezerwacja została anulowana');
       this.redirectService.reload();
     });
   }
