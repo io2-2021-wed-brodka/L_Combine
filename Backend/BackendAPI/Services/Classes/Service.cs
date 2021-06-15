@@ -28,27 +28,27 @@ namespace BackendAPI.Services.Classes
 
         protected int ParseUserId(string id)
         {
-            return ParseId(id, "User");
+            return ParseId(id, "użytkownika");
         }
 
         protected int ParseMalfunctionId(string id)
         {
-            return ParseId(id, "Malfunction");
+            return ParseId(id, "usterki");
         }
 
         protected int ParseTechId(string id)
         {
-            return ParseId(id, "Tech");
+            return ParseId(id, "techa");
         }
 
         protected int ParseStationId(string id)
         {
-            return ParseId(id, "Station");
+            return ParseId(id, "stacji");
         }
 
         protected int ParseBikeId(string id)
         {
-            return ParseId(id, "Bike");
+            return ParseId(id, "roweru");
         }
 
         //Niezwykle ważna uwaga!!!! 
