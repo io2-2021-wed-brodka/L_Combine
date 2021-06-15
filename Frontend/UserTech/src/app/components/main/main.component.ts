@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import { Role } from 'src/app/dto/authenticate-response-dto';
+import {Role} from 'src/app/dto/authenticate-response-dto';
 import {LoginService} from '../../services/login.service';
+import {FOOTER_CONSTS} from '../../constants/footer';
 
 @Component({
   selector: 'app-main',
@@ -9,6 +10,7 @@ import {LoginService} from '../../services/login.service';
 })
 export class MainComponent implements OnInit {
   isTech!: boolean;
+  phoneNumber: string = FOOTER_CONSTS.PHONE_NUMBER;
   constructor(private loginService: LoginService) {
   }
 

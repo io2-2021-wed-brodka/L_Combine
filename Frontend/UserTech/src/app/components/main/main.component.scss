@@ -1,5 +1,5 @@
 @import '../../styles/colors.scss';
- 
+
 .header {
   display: flex;
   align-items:flex-start;
@@ -49,6 +49,27 @@
 
 main{
   padding-top: 150px;
+}
+
+.footer {
+  height: 40px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background-color: $header-color;
+  padding: 5px 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  .contact {
+    font-size: 17px;
+
+    &-label {
+      font-weight: bold;
+    }
+  }
 }
 
 
