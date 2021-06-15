@@ -31,6 +31,13 @@ namespace ServicesTests.TechsService
         }
 
         [TestMethod]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie odnaleziono techa!")]
+        public void GetTech_NonNumericId()
+        {
+            service.GetTech("4a");
+        }
+
+        [TestMethod]
         [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie odnaleziono danego techa!")]
         public void GetTech_IdOfAdmin()
         {

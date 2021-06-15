@@ -1,4 +1,4 @@
-import {$, browser, ElementArrayFinder, ElementFinder, promise} from 'protractor';
+import {$, $$, browser, ElementArrayFinder, ElementFinder, promise} from 'protractor';
 
 export class StationsPage {
   get stationActiveText(): string {
@@ -79,5 +79,9 @@ export class StationsPage {
 
   getAddStationButton(): ElementFinder {
     return $('.add-station-button');
+  }
+  
+  getStationInfos(): ElementArrayFinder{
+    return $$('.info');
   }
 }

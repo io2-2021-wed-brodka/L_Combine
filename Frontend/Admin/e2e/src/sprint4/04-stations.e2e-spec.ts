@@ -21,6 +21,24 @@ describe('stations page', () => {
     startingStationsCount = await stationsPage.getStations().count();
   });
 
+  it('station info should be a number', async ()=>{
+    const station = (await stationsPage.getStations())[0];
+    await station.click();
+    const infos = await stationsPage.getStationInfos();
+    expect((await infos[0].getText()).split(': ')[1]).toMatch(/^[0-9]+$/);
+    expect((await infos[1].getText()).split(': ')[1]).toMatch(/^[0-9]+$/);
+    expect((await infos[2].getText()).split(': ')[1]).toMatch(/^[0-9]+$/);
+  });
+
+  it('station bike count info should match number of bikes on station', async ()=>{
+    const station = (await stationsPage.getStations())[0];
+    await station.click();
+    const info = await (await stationsPage.getStationInfos())[0].getText();
+    const numberOfBikesInfo = +(info.split(': ')[1]);
+    const realNumberOfBikes = (await stationsPage.getBikes()).length;
+    expect(numberOfBikesInfo).toEqual(realNumberOfBikes);
+  });
+
   it('should add station', async () => {
     const stationsCount = await stationsPage.getStations().count();
 

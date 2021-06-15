@@ -34,7 +34,7 @@ namespace ServicesTests.MalfunctionsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie odnaleziono Bike!")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie odnaleziono roweru!")]
         public void ReportMalfunction_NotNumericBikeId()
         {
             var userId = "1";

@@ -1,6 +1,7 @@
 <div class="header">
   <div class="header-row">
     <div class="logo">Bike Rentup</div>
+    <button class="contact-button" (click)="openModal(modalData)">Kontakt</button>
     <button class="logout" (click)="logout()">Wyloguj</button>
   </div>
   <nav  class="navigation-container header-row" *ngIf="isTech">
@@ -22,3 +23,16 @@
 <main>
   <router-outlet></router-outlet>
 </main>
+
+<ng-template #modalData let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Kontakt</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p><strong>Telefon:</strong></p>
+    <p>{{contactNumber}}</p>
+  </div>
+</ng-template>

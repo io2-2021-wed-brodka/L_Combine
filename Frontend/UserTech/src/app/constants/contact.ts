@@ -1,0 +1,3 @@
+export const CONTACT_CONSTS = {
+  PHONE_NUMBER: '111 222 333'
+};
