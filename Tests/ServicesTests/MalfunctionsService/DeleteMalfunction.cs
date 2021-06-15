@@ -61,7 +61,7 @@ namespace ServicesTests.MalfunctionsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie odnaleziono Malfunction!")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie odnaleziono usterki!")]
         public void DeleteMalfunction_NonNumericId()
         {
             service.DeleteMalfunction("4a");

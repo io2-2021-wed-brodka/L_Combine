@@ -33,6 +33,13 @@ namespace ServicesTests.UsersService
         }
 
         [TestMethod]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie odnaleziono użytkownika!")]
+        public void BlockUser_NonNumericId()
+        {
+            service.BlockUser("4a");
+        }
+
+        [TestMethod]
         [ExpectedExceptionMessage(typeof(HttpResponseException), "Użytkownik jest już zablokowany!")]
         public void BlockUser_AlreadyBlocked()
         {

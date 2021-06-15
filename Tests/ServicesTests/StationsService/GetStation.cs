@@ -24,6 +24,13 @@ namespace ServicesTests.StationsService
         }
 
         [TestMethod]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie odnaleziono stacji!")]
+        public void GetStation_NonNumericId()
+        {
+            service.GetStation("4a");
+        }
+
+        [TestMethod]
         public void StationExists_Success()
         {
             string stationId = "3";
