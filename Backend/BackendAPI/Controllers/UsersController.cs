@@ -44,7 +44,7 @@ namespace BackendAPI.Controllers
         public ActionResult<UserDTO> BlockUser([FromBody] IdDTO userId)
         {
             var result = usersService.BlockUser(userId.Id);
-            return new CreatedResult(result.Id, result);
+            return Created(result.Id, result);
         }
 
         // DELETE: api/blocked/5

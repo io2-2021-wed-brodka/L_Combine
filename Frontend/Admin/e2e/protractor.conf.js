@@ -12,6 +12,9 @@ exports.config = {
   specs: [
     './src/**/*.e2e-spec.ts'
   ],
+  suites: {
+    sprint4: './src/sprint4/*.e2e-spec.ts'
+  },
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {

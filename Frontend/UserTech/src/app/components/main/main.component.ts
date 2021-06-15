@@ -1,6 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import { Role } from 'src/app/dto/authenticate-response-dto';
+import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Role} from 'src/app/dto/authenticate-response-dto';
 import {LoginService} from '../../services/login.service';
+import {CONTACT_CONSTS} from '../../constants/contact';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-main',
@@ -9,7 +11,9 @@ import {LoginService} from '../../services/login.service';
 })
 export class MainComponent implements OnInit {
   isTech!: boolean;
-  constructor(private loginService: LoginService) {
+  contactNumber: string = CONTACT_CONSTS.PHONE_NUMBER;
+  constructor(private loginService: LoginService,
+              private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
@@ -19,5 +23,9 @@ export class MainComponent implements OnInit {
 
   logout(): void {
     this.loginService.logout();
+  }
+
+  openModal(modalData: TemplateRef<any>): void {
+    this.modalService.open(modalData, {ariaLabelledBy: 'modal-basic-title'});
   }
 }

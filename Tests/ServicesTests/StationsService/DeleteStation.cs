@@ -14,7 +14,7 @@ namespace ServicesTests.StationsService
         public void PrepareService() => CreateStationService();
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Station not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Stacja nie została odnaleziona!")]
         public void StationNotFound_Failure()
         {
             string stationId = "1337";
@@ -25,7 +25,7 @@ namespace ServicesTests.StationsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Station has bikes")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Stacja posiada rowery!")]
         public void BlockedWithBikes_Failure()
         {
             string stationId = "4";
@@ -36,7 +36,7 @@ namespace ServicesTests.StationsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Station not blocked")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Stacja nie jest zablokowana!")]
         public void WorkingWithoutBikes_Failure()
         {
             string stationId = "5";
@@ -47,7 +47,7 @@ namespace ServicesTests.StationsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Station not blocked")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Stacja nie jest zablokowana!")]
         public void WorkingWithBikes_Failure()
         {
             string stationId = "1";

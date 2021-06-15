@@ -58,27 +58,27 @@ namespace BackendAPI.Services.Classes
                 .Include(b => b.BikeStation)
                 .FirstOrDefault(b => b.ID == bikeId)
                 ) == null)
-                throw new HttpResponseException("Bike not found", 404);
+                throw new HttpResponseException(ResMng.GetResource("BikeNotFound"), 404);
 
             if (bike.State != ClassLibrary.BikeState.Working)
-                throw new HttpResponseException("Bike is blocked", 422);
+                throw new HttpResponseException(ResMng.GetResource("BikeIsBlocked"), 422);
 
             if (bike.BikeStationID == null)
-                throw new HttpResponseException("Bike already rented", 422);
+                throw new HttpResponseException(ResMng.GetResource("BikeAlreadyRented"), 422);
 
             var reservation = dbContext.Reservations
                 .Where(r => r.BikeID == bikeId && r.ExpireDate > DateTime.Now)
                 .FirstOrDefault();
             if ((reservation != null && reservation.UserID != userId))
-                throw new HttpResponseException("Bike already reserved", 422);
+                throw new HttpResponseException(ResMng.GetResource("BikeAlreadyReserved"), 422);
 
             if (bike.BikeStation?.State != ClassLibrary.BikeStationState.Working)
-                throw new HttpResponseException("Bike station is blocked", 422);
+                throw new HttpResponseException(ResMng.GetResource("BikeStationIsBlocked"), 422);
 
             if (dbContext.Rentals
                 .Where(r => r.UserID == userId && r.EndDate == null)
                 .Count() >= PerUserBikesLimit)
-                throw new HttpResponseException($"Cannot rent a bike. You've already rented {PerUserBikesLimit} bikes.", 422);
+                throw new HttpResponseException(string.Format(ResMng.GetResource("BikeLimitReached"),PerUserBikesLimit), 422);
 
             //Rower gotowy do wypożyczenia -> dopisanie wypożyczenia
             dbContext.Rentals.Add(new Rental()
@@ -104,9 +104,9 @@ namespace BackendAPI.Services.Classes
             BikeStation station;
             if ((station = dbContext.BikeStations.Include(bs => bs.Bikes)
                 .FirstOrDefault(bs => bs.ID == stationId)) == null)
-                throw new HttpResponseException("Station not found", 404);
+                throw new HttpResponseException(ResMng.GetResource("StationNotFound"), 404);
             if (station.Bikes.Count() >= station.BikesLimit)
-                throw new HttpResponseException("This station cannot have more bikes", 422);
+                throw new HttpResponseException(ResMng.GetResource("StationBikeLimitReached"), 422);
             var bike = new Bike()
             {
                 BikeStationID = stationId,
@@ -125,9 +125,9 @@ namespace BackendAPI.Services.Classes
             Bike bike;
             if ((bike = dbContext.Bikes
                 .FirstOrDefault(b => b.ID == bikeId)) == null)
-                throw new HttpResponseException("Bike not found", 404);
+                throw new HttpResponseException(ResMng.GetResource("BikeNotFound"), 404);
             if (bike.State != ClassLibrary.BikeState.Blocked)
-                throw new HttpResponseException("Bike not blocked", 422);
+                throw new HttpResponseException(ResMng.GetResource("BikeNotBlocked"), 422);
             dbContext.Remove(bike);
             dbContext.SaveChanges();
         }
@@ -139,13 +139,13 @@ namespace BackendAPI.Services.Classes
             Bike bike;
             if ((bike = dbContext.Bikes
                 .Include(b => b.BikeStation).FirstOrDefault(b => b.ID == bikeId)) == null)
-                throw new HttpResponseException("Bike not found", 404);
+                throw new HttpResponseException(ResMng.GetResource("BikeNotFound"), 404);
 
             if (bike.State == ClassLibrary.BikeState.Blocked)
-                throw new HttpResponseException("Bike already blocked", 422);
+                throw new HttpResponseException(ResMng.GetResource("BikeAlreadyBlocked"), 422);
 
             if (bike.BikeStationID == null)
-                throw new HttpResponseException("Bike is rented", 422);
+                throw new HttpResponseException(ResMng.GetResource("BikeCurrentlyRented"), 422);
 
             var reservations = from r in dbContext.Reservations
                                where r.BikeID == bikeId
@@ -163,13 +163,20 @@ namespace BackendAPI.Services.Classes
 
             Bike bike;
             if ((bike = dbContext.Bikes.FirstOrDefault(b => b.ID == bikeId)) == null)
-                throw new HttpResponseException("Bike not found", 404);
+                throw new HttpResponseException(ResMng.GetResource("BikeNotFound"), 404);
 
             if (bike.State != ClassLibrary.BikeState.Blocked)
-                throw new HttpResponseException("Bike not blocked", 422);
+                throw new HttpResponseException(ResMng.GetResource("BikeNotBlocked"), 422);
 
             bike.State = ClassLibrary.BikeState.Working;
             dbContext.SaveChanges();
+        }
+
+        public IEnumerable<BikeDTO> GetBlockedBikes()
+        {
+            var bikes = dbContext.Bikes.Include(b => b.BikeStation)
+                .Where(b => b.State == ClassLibrary.BikeState.Blocked).ToList();
+            return bikes.Select(b => CreateNotRentedNotReservedBikeDTO(b));
         }
     }
 }

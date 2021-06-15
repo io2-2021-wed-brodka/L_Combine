@@ -35,17 +35,17 @@ namespace BackendAPI.Services.Classes
             if ((reservedBike = dbContext
                 .Bikes
                 .FirstOrDefault(b => b.ID == bikeId)) == null)
-                throw new HttpResponseException("Bike not found", 404);
+                throw new HttpResponseException(ResMng.GetResource("BikeNotFound"), 404);
 
             var reservation = dbContext.Reservations
                 .Where(r => r.BikeID == bikeId && r.ExpireDate > DateTime.Now)
                 .FirstOrDefault();
 
             if (reservation == null)
-                throw new HttpResponseException("Bike is not reserved", 422);
+                throw new HttpResponseException(ResMng.GetResource("BikeNotReserved"), 422);
 
             if (reservation.UserID != userId)
-                throw new HttpResponseException("Bike is reserved by another user", 422);
+                throw new HttpResponseException(ResMng.GetResource("BikeReservedByAnotherUser"), 422);
 
             dbContext.Reservations.Remove(reservation);
 
@@ -74,30 +74,30 @@ namespace BackendAPI.Services.Classes
             if ((reservedBike = dbContext
                 .Bikes.Include(b => b.BikeStation)
                 .FirstOrDefault(b => b.ID == bikeId)) == null)
-                throw new HttpResponseException("Bike not found", 404);
+                throw new HttpResponseException(ResMng.GetResource("BikeNotFound"), 404);
 
             //Tu poprawiłem bardzo ważną rzecz
             if (reservedBike.BikeStation == null)
-                throw new HttpResponseException("Bike already rented", 422);
+                throw new HttpResponseException(ResMng.GetResource("BikeAlreadyRented"), 422);
 
             if (reservedBike.State != ClassLibrary.BikeState.Working)
-                throw new HttpResponseException("Bike is blocked", 422);
+                throw new HttpResponseException(ResMng.GetResource("BikeIsBlocked"), 422);
 
             bool isReserved = dbContext.Reservations
                 .Where(r => r.ExpireDate > DateTime.Now && r.BikeID == bikeId).Any();
 
             if (isReserved)
-                throw new HttpResponseException("Bike already reserved", 422);
+                throw new HttpResponseException(ResMng.GetResource("BikeAlreadyReserved"), 422);
 
             //Dodałem warunek niżej bardzo ważny! Czytajmy speckę uważnie!
             if (reservedBike.BikeStation.State != ClassLibrary.BikeStationState.Working)
-                throw new HttpResponseException("Bike station is blocked", 422);
+                throw new HttpResponseException(ResMng.GetResource("BikeStationIsBlocked"), 422);
 
             var userActiveReservationsCount = dbContext.Reservations
                                           .Where(r => r.ExpireDate > DateTime.Now && r.UserID == userId).Count();
 
             if (userActiveReservationsCount >= PerUserReservationsLimit)
-                throw new HttpResponseException($"You have already reserved {PerUserReservationsLimit} bikes", 422);
+                throw new HttpResponseException(string.Format(ResMng.GetResource("UserReservationLimit"), PerUserReservationsLimit), 422);
 
             User user = dbContext.Users.FirstOrDefault(u => u.ID == userId);
             Reservation reservation = new Reservation(user, reservedBike);

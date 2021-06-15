@@ -22,28 +22,33 @@ namespace BackendAPI.Services.Classes
         private int ParseId(string id, string name)
         {
             if (!int.TryParse(id, out int result))
-                throw new HttpResponseException($"{name} not found", 404);
+                throw new HttpResponseException(string.Format(ResMng.GetResource("NameNotFound"),name), 404);
             return result;
         }
 
         protected int ParseUserId(string id)
         {
-            return ParseId(id, "User");
+            return ParseId(id, "użytkownika");
+        }
+
+        protected int ParseMalfunctionId(string id)
+        {
+            return ParseId(id, "usterki");
         }
 
         protected int ParseTechId(string id)
         {
-            return ParseId(id, "Tech");
+            return ParseId(id, "techa");
         }
 
         protected int ParseStationId(string id)
         {
-            return ParseId(id, "Station");
+            return ParseId(id, "stacji");
         }
 
         protected int ParseBikeId(string id)
         {
-            return ParseId(id, "Bike");
+            return ParseId(id, "roweru");
         }
 
         //Niezwykle ważna uwaga!!!! 
@@ -156,6 +161,17 @@ namespace BackendAPI.Services.Classes
                                              where r.ExpireDate > DateTime.Now
                                              select r.User).FirstOrDefault());
             return result;
+        }
+
+        protected MalfunctionDTO CreateMalfunctionDTO(Malfunction malfunction)
+        {
+            return new MalfunctionDTO()
+            {
+                BikeId = malfunction.BikeID.ToString(),
+                Description = malfunction.Description,
+                Id = malfunction.ID.ToString(),
+                ReportingUserId = malfunction.ReportingUserID.ToString()
+            };
         }
     }
 }

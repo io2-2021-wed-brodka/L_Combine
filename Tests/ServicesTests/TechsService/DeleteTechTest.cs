@@ -22,7 +22,7 @@ namespace ServicesTests.TechsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Tech not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie odnaleziono danego techa!")]
         public void DeleteTech_InvalidId()
         {
             var id = 120;
@@ -32,7 +32,7 @@ namespace ServicesTests.TechsService
 
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Tech not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie odnaleziono danego techa!")]
         public void DeleteTech_IdOfAdmin()
         {
             var id = 7;
@@ -41,7 +41,7 @@ namespace ServicesTests.TechsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Tech not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie odnaleziono danego techa!")]
         public void DeleteTech_IdOfUser()
         {
             var id = 1;

@@ -15,10 +15,28 @@ describe('stations page', () => {
 
     if (await browser.getCurrentUrl() === `${browser.baseUrl}login`) {
       await (new LoginPage()).preformLogin();
-      await stationsPage.navigateToStations();
+      await homePage.getStationsNav().click();
     }
 
     startingStationsCount = await stationsPage.getStations().count();
+  });
+
+  it('station info should be a number', async ()=>{
+    const station = (await stationsPage.getStations())[0];
+    await station.click();
+    const infos = await stationsPage.getStationInfos();
+    expect((await infos[0].getText()).split(': ')[1]).toMatch(/^[0-9]+$/);
+    expect((await infos[1].getText()).split(': ')[1]).toMatch(/^[0-9]+$/);
+    expect((await infos[2].getText()).split(': ')[1]).toMatch(/^[0-9]+$/);
+  });
+
+  it('station bike count info should match number of bikes on station', async ()=>{
+    const station = (await stationsPage.getStations())[0];
+    await station.click();
+    const info = await (await stationsPage.getStationInfos())[0].getText();
+    const numberOfBikesInfo = +(info.split(': ')[1]);
+    const realNumberOfBikes = (await stationsPage.getBikes()).length;
+    expect(numberOfBikesInfo).toEqual(realNumberOfBikes);
   });
 
   it('should add station', async () => {
@@ -70,26 +88,6 @@ describe('stations page', () => {
     expect(await stationsPage.getStations().count()).toEqual(stationsCount - 1);
     expect(await homePage.getSuccessNotification().isPresent()).toBe(true);
     expect(await homePage.getErrorNotification().isPresent()).toBe(false);
-  });
-
-  afterEach(async () => {
-    const stationsCount = await stationsPage.getStations().count();
-    for (let i = startingStationsCount; i < stationsCount; ++i) {
-      if (await stationsPage.getStationStateText(i) !== stationsPage.stationBlockedText) {
-        await blockStation(i);
-      }
-
-      const stationBikesCount = await stationsPage.getBikes().count();
-      for (let j = 0; j < stationBikesCount; ++j) {
-        if (await stationsPage.getBikeStateText() !== stationsPage.bikeBlockedText) {
-          await blockBike();
-        }
-
-        await deleteBike();
-      }
-
-      await deleteStation(i);
-    }
   });
 
   it('should add bike', async () => {
@@ -152,8 +150,54 @@ describe('stations page', () => {
     expect(await homePage.getErrorNotification().isPresent()).toBe(false);
   });
 
+  it('station should have specified limit', async () => {
+    const stationLimit = 5;
+    await createStationWithLimit('aaa', stationLimit);
+    const stationsCount = await stationsPage.getStations().count();
+
+    expect(await stationsPage.getStationBikeLimit(stationsCount - 1)).toEqual(stationLimit);
+  });
+
+  it('should fail if trying to add more bikes to station than limit', async () => {
+    const stationLimit = 1;
+    await createStationWithLimit('aaa', stationLimit);
+    const stationsCount = await stationsPage.getStations().count();
+    await stationsPage.getStations().get(stationsCount - 1).click();
+    await addBike();
+    await addBike();
+
+    expect(await homePage.getErrorNotification().isPresent()).toBe(true);
+    expect(await stationsPage.getBikes().count()).toEqual(stationLimit);
+  });
+
+  afterEach(async () => {
+    const stationsCount = await stationsPage.getStations().count();
+    for (let i = startingStationsCount; i < stationsCount; ++i) {
+      if (await stationsPage.getStationStateText(i) !== stationsPage.stationBlockedText) {
+        await blockStation(i);
+      }
+
+      const stationBikesCount = await stationsPage.getBikes().count();
+      for (let j = 0; j < stationBikesCount; ++j) {
+        if (await stationsPage.getBikeStateText() !== stationsPage.bikeBlockedText) {
+          await blockBike();
+        }
+
+        await deleteBike();
+      }
+
+      await deleteStation(i);
+    }
+  });
+
   function createStation(name: string): promise.Promise<any> {
     return stationsPage.getNewStationNameInput().sendKeys(name)
+      .then(() => stationsPage.getAddStationButton().click());
+  }
+
+  function createStationWithLimit(name: string, limit: number): promise.Promise<any> {
+    return stationsPage.getNewStationNameInput().sendKeys(name)
+      .then(() => stationsPage.getNewStationLimitInput().sendKeys(limit))
       .then(() => stationsPage.getAddStationButton().click());
   }
 

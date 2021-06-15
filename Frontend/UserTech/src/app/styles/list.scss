@@ -47,8 +47,18 @@
       padding: 10px;
     }
 
+    &-side-left {
+      flex-grow: 0;
+    }
+
     &-side-right {
+      flex-grow: 1;
       text-align: right;
+    }
+    &-details{
+      flex-basis: 100%;
+      margin: 10px;
+      font-size: smaller;
     }
   }
 }

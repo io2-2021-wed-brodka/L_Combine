@@ -20,10 +20,15 @@ import {NotificationsComponent} from './components/notification/notifications.co
 import {ReservationListComponent} from './components/reservation-list/reservation-list.component';
 import {ReservedBikeDetailsComponent} from './components/reserved-bike-details/reserved-bike-details.component';
 import {RegisterComponent} from './components/register/register.component';
-import { TechPanelComponent } from './components/tech/tech-panel/tech-panel.component';
-import { ListBikesComponent } from './components/tech/list-bikes/list-bikes.component';
-import { BlockBikeComponent } from './components/tech/block-bike/block-bike.component';
-import { UnblockBikeComponent } from './components/tech/unblock-bike/unblock-bike.component';
+import {TechPanelComponent} from './components/tech/tech-panel/tech-panel.component';
+import {ListBikesComponent} from './components/tech/list-bikes/list-bikes.component';
+import {BlockBikeComponent} from './components/tech/block-bike/block-bike.component';
+import {UnblockBikeComponent} from './components/tech/unblock-bike/unblock-bike.component';
+import {ListMalfunctionsComponent} from './components/malfunctions/list-malfunctions/list-malfunctions.component';
+import {MalfunctionPanelComponent} from './components/malfunctions/malfunction-panel/malfunction-panel.component';
+import {MalfunctionDetailsComponent} from './components/malfunctions/malfunction-details/malfunction-details.component';
+import {NewMalfunctionComponent} from './components/malfunctions/new-malfunction/new-malfunction.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -45,12 +50,17 @@ import { UnblockBikeComponent } from './components/tech/unblock-bike/unblock-bik
     ListBikesComponent,
     BlockBikeComponent,
     UnblockBikeComponent,
+    ListMalfunctionsComponent,
+    MalfunctionPanelComponent,
+    MalfunctionDetailsComponent,
+    NewMalfunctionComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [
     {

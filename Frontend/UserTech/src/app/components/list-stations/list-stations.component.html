@@ -12,7 +12,7 @@
       <div [ngSwitch]="station.stationState" class="list-item-side-right">
         <div *ngSwitchCase="'active'" class="station-state">Aktywna</div>
         <div *ngSwitchCase="'blocked'" class="station-state">Zablokowana</div>
-        <div>Rowerów: {{station.bikeCount}}</div>
+        <div class="bikes-count">Rowerów: {{station.bikeCount}}</div>
       </div>
     </a>
   </div>

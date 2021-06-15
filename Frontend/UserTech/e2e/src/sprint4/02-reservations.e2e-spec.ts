@@ -30,6 +30,7 @@ describe('reservations', () => {
 
   it('should rent reserved bike', async () => {
     await reserveBikeFromStation(0);
+    await homePage.navigateToHome();
     const reservedBikes = await homePage.getReservedBikes().count();
 
     const bike = homePage.getReservedBikes().get(0);
@@ -44,6 +45,7 @@ describe('reservations', () => {
 
   it('should cancel reserved bike', async () => {
     await reserveBikeFromStation(0);
+    await homePage.navigateToHome();
     const reservedBikes = await homePage.getReservedBikes().count();
 
     await cancelReservation();
@@ -58,11 +60,12 @@ describe('reservations', () => {
     const reservedBikes = await homePage.getReservedBikes().count();
 
     for (let i = reservedBikes; i < 3; ++i) {
-      await reserveBikeFromStation(i);
+      await reserveBikeFromStation(Math.floor(i / 2));
     }
+    await homePage.navigateToHome();
     expect(await homePage.getReservedBikes().count()).toEqual(3);
 
-    await reserveBikeFromStation(3);
+    await reserveBikeFromStation(2);
 
     expect(await homePage.getReservedBikes().count()).toEqual(3);
     expect(await browser.getCurrentUrl()).toEqual(`${browser.baseUrl}rental/home`);
@@ -84,7 +87,9 @@ describe('reservations', () => {
   function reserveBikeFromStation(station: number): promise.Promise<any> {
     let bike: ElementFinder;
     return homePage.getBikeStations().get(station).click()
-      .then(() => {
+      .then(() => browser.getCurrentUrl())
+      .then((url: string) => {
+        console.log(url);
         bike = stationBikesPage.getStationBikes().get(0);
         bike.click();
       }).then(() => stationBikesPage.getBikeReserveButton(bike).click());

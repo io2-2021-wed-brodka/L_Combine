@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "482c4faf-650f-45ed-9c40-131076750963",
+		"_postman_id": "9107167e-a712-450d-9a5a-1b7d90eca849",
 		"name": "TestingCollection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -104,7 +104,7 @@
 									"});\r",
 									"pm.test(\"Error message correct\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.message).to.eql(\"Bike is not reserved\");\r",
+									"    pm.expect(jsonData.message).to.eql(\"Rower nie jest zarezerwowany!\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -326,7 +326,7 @@
 									"\r",
 									"pm.test(\"Correct bike status\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.bikeStatus).to.eql(\"rented\");\r",
+									"    pm.expect(jsonData.status).to.eql(\"rented\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -410,7 +410,7 @@
 									"\r",
 									"pm.test(\"Error message correct\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.message).to.eql(\"Bike already rented\");\r",
+									"    pm.expect(jsonData.message).to.eql(\"Rower jest już wypożyczony!\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -454,7 +454,7 @@
 									"\r",
 									"pm.test(\"Correct bike status\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.bikeStatus).to.eql(\"available\");\r",
+									"    pm.expect(jsonData.status).to.eql(\"available\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -572,7 +572,7 @@
 									"pm.test(\"Correct bike status\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.collectionVariables.set(\"NewBikeID\", jsonData.id);\r",
-									"    pm.expect(jsonData.bikeStatus).to.eql(\"available\");\r",
+									"    pm.expect(jsonData.status).to.eql(\"available\");\r",
 									"});\r",
 									"\r",
 									"pm.test(\"Correct station ID\", function () {\r",
@@ -655,7 +655,7 @@
 									"\r",
 									"pm.test(\"Correct bike status\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.bikeStatus).to.eql(\"blocked\");\r",
+									"    pm.expect(jsonData.status).to.eql(\"blocked\");\r",
 									"});\r",
 									"\r",
 									"pm.test(\"Correct station ID\", function () {\r",
@@ -735,7 +735,7 @@
 									"\r",
 									"pm.test(\"Correct bike status\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.bikeStatus).to.eql(\"blocked\");\r",
+									"    pm.expect(jsonData.status).to.eql(\"blocked\");\r",
 									"});\r",
 									"\r",
 									"pm.test(\"Correct station ID\", function () {\r",
@@ -956,7 +956,7 @@
 									"\r",
 									"pm.test(\"Correct status\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.bikes[0].bikeStatus).to.eql(\"blocked\");\r",
+									"    pm.expect(jsonData.bikes[0].status).to.eql(\"available\");\r",
 									"});\r",
 									"\r",
 									"pm.test(\"Correct user\", function () {\r",
@@ -1014,7 +1014,7 @@
 									"\r",
 									"pm.test(\"Correct bike status\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.message).to.eql(\"Bike is not rented by specific user\");\r",
+									"    pm.expect(jsonData.message).to.eql(\"Rower nie jest wypożyczony przez żadnego użytkownika!\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1059,12 +1059,12 @@
 									"\r",
 									"pm.test(\"Correct bike status\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.bikeStatus).to.eql(\"rented\");\r",
+									"    pm.expect(jsonData.status).to.eql(\"rented\");\r",
 									"});\r",
 									"\r",
 									"pm.test(\"Correct station\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.bikeStatus).to.eql(\"rented\");\r",
+									"    pm.expect(jsonData.status).to.eql(\"rented\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1113,7 +1113,7 @@
 									"\r",
 									"pm.test(\"Correct bike status\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.bikeStatus).to.eql(\"available\");\r",
+									"    pm.expect(jsonData.status).to.eql(\"available\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1312,6 +1312,76 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"pm.test(\"Status code is 422\",function(){\r",
+									"    pm.response.to.have.status(422);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}stations/{{NewStationID}}",
+							"host": [
+								"{{URL}}stations"
+							],
+							"path": [
+								"{{NewStationID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "StationsBlockStationAgain",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\",function(){\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":{{NewStationID}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}stations/blocked",
+							"host": [
+								"{{URL}}stations"
+							],
+							"path": [
+								"blocked"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "StationsDeleteAgain",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
 									"pm.test(\"Status code is 204\",function(){\r",
 									"    pm.response.to.have.status(204);\r",
 									"});\r",
@@ -1394,6 +1464,42 @@
 			"name": "Users",
 			"item": [
 				{
+					"name": "RegisterTestUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\",function(){",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"login\": \"Jan\",\n    \"password\": \"Dzban\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}register",
+							"host": [
+								"{{URL}}register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "UsersGetAllUsers",
 					"event": [
 						{
@@ -1404,10 +1510,11 @@
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Correct ID\", function () {\r",
+									"//To nie ma sensu przy wielokrotnym uruchomieniu testu\r",
+									"/*pm.test(\"Correct ID\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.users[0].id).to.eql(\"1\");\r",
-									"});\r",
+									"    pm.expect(jsonData.users[0].id).to.eql(\"2\");\r",
+									"});*/\r",
 									"\r",
 									"pm.test(\"Correct user count\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -1708,7 +1815,7 @@
 	"variable": [
 		{
 			"key": "URL",
-			"value": "https://localhost:5001/api/"
+			"value": "http://localhost:8080/"
 		},
 		{
 			"key": "Token",
@@ -1725,6 +1832,10 @@
 		{
 			"key": "NewTechID",
 			"value": "-1"
+		},
+		{
+			"key": "URL_Local",
+			"value": "http://localhost:8080/"
 		}
 	]
 }

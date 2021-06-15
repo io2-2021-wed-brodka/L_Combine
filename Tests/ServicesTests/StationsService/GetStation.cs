@@ -13,7 +13,7 @@ namespace ServicesTests.StationsService
         public void PrepareService() => CreateStationService();
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Station not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Stacja nie została odnaleziona!")]
         public void StationNotFound_Failure()
         {
             string stationId = "1337";
@@ -21,6 +21,13 @@ namespace ServicesTests.StationsService
             service.GetStation(stationId);
 
             Assert.Fail();
+        }
+
+        [TestMethod]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie odnaleziono stacji!")]
+        public void GetStation_NonNumericId()
+        {
+            service.GetStation("4a");
         }
 
         [TestMethod]

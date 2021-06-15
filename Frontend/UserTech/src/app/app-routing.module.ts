@@ -8,8 +8,10 @@ import {HomeComponent} from './components/home/home.component';
 import {ReturnBikeComponent} from './components/return-bike/return-bike.component';
 import {BikeRentedGuard} from './guards/bike-rented.guard';
 import {RegisterComponent} from './components/register/register.component';
-import { TechPanelComponent } from './components/tech/tech-panel/tech-panel.component';
-import { TechGuard } from './guards/tech.guard';
+import {TechPanelComponent} from './components/tech/tech-panel/tech-panel.component';
+import {TechGuard} from './guards/tech.guard';
+import {MalfunctionPanelComponent} from './components/malfunctions/malfunction-panel/malfunction-panel.component';
+import {NewMalfunctionComponent} from './components/malfunctions/new-malfunction/new-malfunction.component';
 
 const routes: Routes = [
   {
@@ -39,8 +41,18 @@ const routes: Routes = [
         canActivate: [BikeRentedGuard]
       },
       {
+        path: 'new-malfunction/:id',
+        component: NewMalfunctionComponent,
+        canActivate: [BikeRentedGuard]
+      },
+      {
         path: 'tech',
         component: TechPanelComponent,
+        canActivate: [TechGuard]
+      },
+      {
+        path: 'malfunctions',
+        component: MalfunctionPanelComponent,
         canActivate: [TechGuard]
       }
     ]

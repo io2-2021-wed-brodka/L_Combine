@@ -14,7 +14,7 @@ namespace ServicesTests.StationsService
         public void PrepareService() => CreateStationService();
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Station not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Stacja nie została odnaleziona!")]
         public void StationNotFound_Failure()
         {
             string stationId = "1337";
@@ -27,7 +27,7 @@ namespace ServicesTests.StationsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie znaleziono takiego roweru!")]
         public void BikeNotFound_Failure()
         {
             string stationId = "1";
@@ -40,7 +40,7 @@ namespace ServicesTests.StationsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike station is blocked")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Stacja jest zablokowana!")]
         public void StationBlocked_Failure()
         {
             string stationId = "4";
@@ -53,7 +53,7 @@ namespace ServicesTests.StationsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike is not rented by specific user")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Rower nie jest wypożyczony przez żadnego użytkownika!")]
         public void ReturnSomeoneElsesBike_Failure()
         {
             string stationId = "1";
@@ -79,7 +79,7 @@ namespace ServicesTests.StationsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike station is already full")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Stacja jest już pełna!")]
         public void ReturnBike_StationFull()
         {
             string stationId = "7";
@@ -90,7 +90,7 @@ namespace ServicesTests.StationsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike is not rented by specific user")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Rower nie jest wypożyczony przez żadnego użytkownika!")]
         public void ReturnBike_BikeNotRented()
         {
             string stationId = "5";

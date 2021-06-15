@@ -20,7 +20,7 @@ namespace ServicesTests.LoginService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Given login already exists in database.")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Dany login istnieje już w bazie!")]
         public void Register_RepeatedLogin()
         {
             var result = service.Register("login1", "pass");

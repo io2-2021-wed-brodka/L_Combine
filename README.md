@@ -13,7 +13,7 @@ Polecenie powinno uruchomić 2 kontenery:
 - aplikacja backendu (l_combine_backend)
 - bazę danych (l_combine_mssql)
 Uruchomienie kontenerów powinno zając trochę czasu. Backend specjalnie czeka na pełne uruchomienie bazy danych.
-Aby w prosty sposób sprawdzić, czy aplikacja sdziała prawidłowo, można uruchomić polecenie z folderu głownego repozytorium
+Aby w prosty sposób sprawdzić, czy aplikacja działa prawidłowo, można uruchomić polecenie z folderu głownego repozytorium
 ```
 ./scripts/run_test.sh Tests/PostmanTests/ Backend/BackendAPI/
 ```
@@ -47,7 +47,7 @@ Testy E2E frontenmdu odpalamy w folderach odpowiednich projektów poleceniem:
 ```
 ng e2e 
 ```
-Testy odpalamy na czystej bazie w kolejności UserTech > Admin.
+Testy zakłądają bazę zgodną z ustaleniami, czyli brak użytkowników i  3 stacje po 2 rowery.
 
 Istnieją też test suity do odpowiednich sprintów. Podajemy je jako wartość dla opcji `suite`, czyli np.
 ```
@@ -56,6 +56,22 @@ ng e2e --suite=sprint2
 Dostępne suity:
 
 * UserTech:
-    * sprint2
+  * sprint2
+  * sprint4
     
 * Admin:
+  * sprint4
+
+
+---
+
+## Deploy
+
+Uruchamianie wszystkiego na własnym serwerze zaczynamy od edycji plików `environment.prod.ts` w źródłach obu frontendów i tam ustawiamy ip własnego serwera. Następnie wywołujemy:
+
+
+```
+docker-compose -f docker-compose-combined.yml up --build
+```
+
+`docker-compose` uruchomi frontend admina na porcie 5002, a frontend usertecha na 5001.

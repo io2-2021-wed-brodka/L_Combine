@@ -12,3 +12,25 @@
     font-size: larger;
     font-weight: bold;
 }
+
+.list-container{
+    width: 500px;
+}
+.view-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+@media (max-width: 1000px) {
+    .view-container{
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+  
+    .flex-item{
+      max-width: 400px;
+      margin: auto 20px;
+    }
+  }

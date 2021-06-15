@@ -41,6 +41,7 @@ describe('UnblockBikeComponent', () => {
   });
   
   it('#unblock should send notification on success', ()=>{
+    component.bike = {id: 'id', state: BikeState.Blocked}
     expect(notification.success).toHaveBeenCalledTimes(0);
     component.unblock();
     expect(notification.success).toHaveBeenCalledTimes(1);

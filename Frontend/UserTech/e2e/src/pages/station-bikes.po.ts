@@ -1,8 +1,8 @@
-import {$, $$, ElementArrayFinder, ElementFinder} from 'protractor';
+import {$, ElementArrayFinder, ElementFinder} from 'protractor';
 
 export class StationBikesPage {
   getStationBikes(): ElementArrayFinder {
-    return $$('.list-item');
+    return $('app-list-station-bikes').$$('.list-item-active');
   }
 
   getBikeRentButton(bike: ElementFinder): ElementFinder {

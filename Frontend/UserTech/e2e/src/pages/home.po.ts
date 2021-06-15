@@ -17,8 +17,16 @@ export class HomePage {
     return $('.rent-bike').$$('.list-item');
   }
 
+  getBikeStationAvailableBikesCount(station: ElementFinder): promise.Promise<number> {
+    return station.$('.bikes-count').getText().then(value => +(value.split(' ')[1]));
+  }
+
   getRentedBikeReturnButton(rentedBike: ElementFinder): ElementFinder {
     return rentedBike.$('.button-return');
+  }
+
+  getRentedBikeMalfunctionButton(rentedBike: ElementFinder): ElementFinder {
+    return rentedBike.$('.button-malfunction');
   }
 
   getReservedBikeRentButton(reservedBike: ElementFinder): ElementFinder {
@@ -38,6 +46,6 @@ export class HomePage {
   }
 
   getLogoutButton(): ElementFinder {
-    return $('.logout');
+    return $('button.logout');
   }
 }

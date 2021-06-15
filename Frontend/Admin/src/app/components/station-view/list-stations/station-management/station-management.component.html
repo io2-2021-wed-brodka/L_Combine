@@ -1,3 +1,12 @@
+<div class="info">
+  Liczba rowerów: {{station.bikeCount}}
+</div>
+<div class="info">
+  Liczba usterek: {{station.malfunctionCount}}
+</div>
+<div class="info">
+  Liczba rezerwacji: {{station.reservationCount}}
+</div>
 <div class="management">
   <button class="button-delete" (click)="delete()" *ngIf="station.stationState === 'blocked'">Usuń</button>
   <button class="button-block" (click)="block()" *ngIf="station.stationState !== 'blocked'">Zablokuj</button>

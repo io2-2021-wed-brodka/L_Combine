@@ -14,7 +14,7 @@ namespace ServicesTests.BikesService
         public void PrepareService() => CreateBikeService();
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie znaleziono takiego roweru!")]
         public void BikeNotFound_Failure()
         {
             string bikeId = "1337";
@@ -25,7 +25,7 @@ namespace ServicesTests.BikesService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike already blocked")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Rower jest już zablokowany!")]
         public void BlockBlockedBike_Failure()
         {
             string bikeId = "5";
@@ -36,7 +36,7 @@ namespace ServicesTests.BikesService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike is rented")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Rower jest obecnie wypożyczony!")]
         public void BlockRentedBike_Failure()
         {
             string bikeId = "7";

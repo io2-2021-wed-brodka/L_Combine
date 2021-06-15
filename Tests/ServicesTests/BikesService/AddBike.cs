@@ -15,7 +15,7 @@ namespace ServicesTests.BikesService
         public void PrepareService() => CreateBikeService();
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Station not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Stacja nie została odnaleziona!")]
         public void StationNotFound_Failure()
         {
             string stationId = "1337";
@@ -38,7 +38,7 @@ namespace ServicesTests.BikesService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "This station cannot have more bikes")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Ta stacja nie może mieć więcej rowerów!")]
         public void AddBike_MoreBikesThanBikesLimit()
         {
             string stationId = "7";
