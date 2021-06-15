@@ -34,7 +34,7 @@ namespace ServicesTests.ReservationsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie znaleziono takiego roweru!")]
         public void ReserveBike_InvalidBike()
         {
             service.ReserveBike("1", "123456");
@@ -42,7 +42,7 @@ namespace ServicesTests.ReservationsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike is blocked")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Rower jest zablokowany!")]
         public void ReserveBike_BlockedBike()
         {
             service.ReserveBike("1", "5");
@@ -50,7 +50,7 @@ namespace ServicesTests.ReservationsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike station is blocked")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Stacja jest zablokowana!")]
         public void ReserveBike_BlockedBikeStation()
         {
             service.ReserveBike("1", "6");
@@ -58,7 +58,7 @@ namespace ServicesTests.ReservationsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike already reserved")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Rower jest już zarezerwowany!")]
         public void ReserveBike_AlreadyReserved()
         {
             service.ReserveBike("1", "4");
@@ -69,7 +69,7 @@ namespace ServicesTests.ReservationsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike already rented")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Rower jest już wypożyczony!")]
         public void ReserveBike_AlreadyRented()
         {
             dbContext.Rentals.Add(new BackendAPI.Models.Rental()
@@ -88,7 +88,7 @@ namespace ServicesTests.ReservationsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "You have already reserved 3 bikes")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Zarezerwowałeś już 3 rowerów! Nie możesz zarezerwować kolejnego!")]
         public void ReserveBike_Reserve4Bikes()
         {
             var reservations = new List<int>() { 1, 2, 4, 11 };

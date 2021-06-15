@@ -34,7 +34,7 @@ namespace BackendAPI.Services.Classes
             int bikeId = ParseBikeId(bikeIdString);
 
             if ((dbContext.Bikes.FirstOrDefault(b => b.ID == bikeId)) == null)
-                throw new HttpResponseException("Bike not found", 404);
+                throw new HttpResponseException(ResMng.GetResource("BikeNotFound"), 404);
 
             var rental =
                 (from r in dbContext.Rentals
@@ -44,7 +44,7 @@ namespace BackendAPI.Services.Classes
                  select r).FirstOrDefault();
 
             if (rental == null)
-                throw new HttpResponseException("Bike is not rented by calling user", 422);
+                throw new HttpResponseException(ResMng.GetResource("BikeNotRentedByThisUser"), 422);
 
             var malfunction = new Malfunction()
             {
@@ -66,7 +66,7 @@ namespace BackendAPI.Services.Classes
             int malfunctionId = ParseMalfunctionId(malfunctionIdString);
             Malfunction malfunction;
             if ((malfunction = dbContext.Malfunctions.FirstOrDefault(m => m.ID == malfunctionId)) == null)
-                throw new HttpResponseException("Malfunction not found", 404);
+                throw new HttpResponseException(ResMng.GetResource("MalfunctionNotFound"), 404);
             dbContext.Malfunctions.Remove(malfunction);
             dbContext.SaveChanges();
         }

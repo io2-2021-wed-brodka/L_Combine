@@ -25,7 +25,7 @@ namespace ServicesTests.UsersService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "User not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie odnaleziono danego użytkownika!")]
         public void UnblockUser_InvalidUserId()
         {
             int id = 500;
@@ -35,7 +35,7 @@ namespace ServicesTests.UsersService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "User not blocked")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Użytkownik nie jest zablokowany!")]
         public void UnblockUser_UnblockUnblocked()
         {
             int id = 1;

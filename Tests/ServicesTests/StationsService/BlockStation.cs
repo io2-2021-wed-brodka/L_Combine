@@ -15,7 +15,7 @@ namespace ServicesTests.StationsService
         public void PrepareService() => CreateStationService();
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Station not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Stacja nie została odnaleziona!")]
         public void StationNotFound_Failure()
         {
             string stationId = "1337";
@@ -26,7 +26,7 @@ namespace ServicesTests.StationsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Station already blocked")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Stacja jest już zablokowana!")]
         public void BlockedStation_Failure()
         {
             string stationId = "4";

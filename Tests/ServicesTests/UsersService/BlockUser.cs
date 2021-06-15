@@ -24,7 +24,7 @@ namespace ServicesTests.UsersService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "User not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie odnaleziono danego użytkownika!")]
         public void BlockUser_InvalidUserId()
         {
             int id = -1;
@@ -33,7 +33,7 @@ namespace ServicesTests.UsersService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "User already blocked")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Użytkownik jest już zablokowany!")]
         public void BlockUser_AlreadyBlocked()
         {
             int id = 1;

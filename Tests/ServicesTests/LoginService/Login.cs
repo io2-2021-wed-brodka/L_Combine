@@ -22,7 +22,7 @@ namespace ServicesTests.LoginService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bad credentials")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Dane uwierzytelniające błędne!")]
         public void Login_InvalidCredentials()
         {
             var result = service.Login("login1", "pass");

@@ -45,7 +45,7 @@ namespace BackendAPI.Services.Classes
             }
 
             if (user == null)
-                throw new HttpResponseException("Bad credentials", 401);
+                throw new HttpResponseException(ResMng.GetResource("BadCredentials"), 401);
 
             // authentication successful so generate jwt token
             var token = GenerateJwtToken(user);
@@ -57,7 +57,7 @@ namespace BackendAPI.Services.Classes
         {
             //Sprawdz, czy podany login istnieje juz w bazie
             if (dbContext.Users.Where(u => u.Login == login).Any())
-                throw new HttpResponseException("Given login already exists in database.", 409);
+                throw new HttpResponseException(ResMng.GetResource("LoginExists"), 409);
 
             User user;
             using (StringHash stringHash = new StringHash())
