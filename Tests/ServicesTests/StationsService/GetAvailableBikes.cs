@@ -15,7 +15,7 @@ namespace ServicesTests.StationsService
         public void PrepareService() => CreateStationService();
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Station not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Stacja nie została odnaleziona!")]
         public void StationNotFound_Failure()
         {
             string stationId = "1337";
@@ -27,7 +27,7 @@ namespace ServicesTests.StationsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Only tech and admin can list bikes at blocked station")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Tylko tech i admin może obejrzeć rowery na zablokowanej stacji!")]
         public void BlockedStation_User_Failure()
         {
             string stationId = "4";

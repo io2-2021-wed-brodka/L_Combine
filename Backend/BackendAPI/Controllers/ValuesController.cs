@@ -29,7 +29,7 @@ namespace BackendAPI.Controllers
         public ActionResult<string> Get(int id)
         {
             if (id > 10)
-                throw new HttpResponseException("Za duze id", 409);
+                throw new HttpResponseException(ResMng.GetResource("TooBigId"), 409);
             return "value";
         }
 

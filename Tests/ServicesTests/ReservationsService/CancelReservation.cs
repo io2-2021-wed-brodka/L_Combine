@@ -28,7 +28,7 @@ namespace ServicesTests.ReservationsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie znaleziono takiego roweru!")]
         public void CancelReservation_InvalidBike()
         {
             service.CancelReservation("1", "12345");
@@ -36,7 +36,7 @@ namespace ServicesTests.ReservationsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike is not reserved")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Rower nie jest zarezerwowany!")]
         public void CancelReservation_NotReservedBike()
         {
             service.CancelReservation("1", "1");
@@ -44,7 +44,7 @@ namespace ServicesTests.ReservationsService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike is reserved by another user")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Rower jest już zarezerwowany przez innego użytkownika!")]
         public void CancelReservation_ReservedByOtherUser()
         {
             service.ReserveBike("1", "1");

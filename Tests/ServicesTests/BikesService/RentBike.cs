@@ -14,7 +14,7 @@ namespace ServicesTests.BikesService
         public void PrepareService() => CreateBikeService();
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike is blocked")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Rower jest zablokowany!")]
         public void BlockedBike_Failure()
         {
             string userId = "1";
@@ -26,7 +26,7 @@ namespace ServicesTests.BikesService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike not found")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie znaleziono takiego roweru!")]
         public void BikeNotFound_Failure()
         {
             string userId = "1";
@@ -38,7 +38,7 @@ namespace ServicesTests.BikesService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike already rented")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Rower jest już wypożyczony!")]
         public void BikeRented_Failure()
         {
             string userId = "1";
@@ -50,7 +50,7 @@ namespace ServicesTests.BikesService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike already reserved")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Rower jest już zarezerwowany!")]
         public void BikeReserved_Failure()
         {
             string userId = "1";
@@ -65,7 +65,7 @@ namespace ServicesTests.BikesService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Bike station is blocked")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Stacja jest zablokowana!")]
         public void StationBlocked_Failure()
         {
             string userId = "1";
@@ -77,7 +77,7 @@ namespace ServicesTests.BikesService
         }
 
         [TestMethod]
-        [ExpectedExceptionMessage(typeof(HttpResponseException), "Cannot rent a bike. You've already rented 4 bikes.")]
+        [ExpectedExceptionMessage(typeof(HttpResponseException), "Nie możesz wypożyczyć roweru. Wypożyczyłeś już 4 rowerów!")]
         public void BikeLimit_Failure()
         {
             string userId = "3";
