@@ -1,4 +1,5 @@
-﻿using BackendAPI.Data;
+﻿using BackendAPI;
+using BackendAPI.Data;
 using BackendAPI.Models;
 using ClassLibrary;
 using ClassLibrary.Exceptions;
@@ -25,7 +26,7 @@ public class NotForBlockedAttribute: Attribute, IAuthorizationFilter
         if (user == null)
             return; //To nie powinno się zdarzyć, ale na wszelki wypadek piszę
         if (user.Role == Role.User && user.Blocked)
-            context.Result = new JsonResult(new { Message = "User has been blocked" }) { StatusCode = 403 };
+            context.Result = new JsonResult(new { Message = ResMng.GetResource("UserBlocked") }) { StatusCode = 403 };
     }
 }
 
