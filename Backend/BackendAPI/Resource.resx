@@ -198,6 +198,9 @@
   <data name="UserAlreadyBlocked" xml:space="preserve">
     <value>Użytkownik jest już zablokowany!</value>
   </data>
+  <data name="UserBlocked" xml:space="preserve">
+    <value>Użytkownik jest zablokowany!</value>
+  </data>
   <data name="UserNotBlocked" xml:space="preserve">
     <value>Użytkownik nie jest zablokowany!</value>
   </data>
